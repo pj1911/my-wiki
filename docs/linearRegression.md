@@ -1,4 +1,4 @@
-# Linear Regression — Key Points
+# Linear Regression — An brief intro
 
 ## Setup
 
