@@ -4,12 +4,32 @@ on:
     branches: [ main ]
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
-        with: { python-version: '3.x' }
-      - run: pip install mkdocs
-      - run: mkdocs gh-deploy --clean --force
+        with:
+          python-version: '3.x'
+
+      # Install MkDocs + Material (safe even if you don't use Material)
+      - name: Install MkDocs
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+
+      # Configure git identity for gh-deploy pushes
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Build & deploy to gh-pages
+      - name: Deploy with MkDocs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdocs gh-deploy --force --clean --verbose
