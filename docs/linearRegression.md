@@ -1,4 +1,4 @@
-# Linear Regression — An brief intro
+# Linear Regression — A brief intro
 
 ## Setup
 
