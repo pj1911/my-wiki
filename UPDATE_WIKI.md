@@ -8,7 +8,7 @@ source .wiki-venv/bin/activate
 # Run:
 touch docs/probability.md
 # Then open and edit docs/probability.md (in VS Code or TextEdit) with content like:
-# ----------------------------------------------------
+# open -e docs/probability.md
 # # Probability
 #
 # This page is about random variables and distributions.

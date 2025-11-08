@@ -8,6 +8,7 @@ nav:
   - Math:
       - Algebra: algebra.md
       - Calculus: calculus.md
+      - Linear Regression: linearRegression.md
   - My First Note: my-first-note.md
 
 markdown_extensions:
