@@ -11,3 +11,4 @@ $$
 A derivative example:
 
 If $f(x) = x^3$, then $f'(x) = 3x^2$.
+Here is an edit directly from github.
