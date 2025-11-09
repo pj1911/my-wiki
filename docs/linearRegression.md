@@ -1,4 +1,4 @@
-# Linear Regression — Intro2
+# Linear Regression — Intro3
 
 ## What problem are we solving?
 
