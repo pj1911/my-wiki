@@ -53,7 +53,7 @@ Each player has its own cost: \(J_G(\theta_G, \theta_D)\) for the generator and
 its own cost. The discriminator’s cost pushes it to classify correctly and the
 generator’s cost pushes it to make fake samples that the discriminator classifies as real.
 
-### Loss for Generator and Discriminator
+### Loss for generator and discriminator
 In the original GAN, the discriminator sees two kinds of examples:
 real data \(\mathbf{x} \sim p_{\text{data}}\) with label 1, and generated data
 \(G(\mathbf{z})\) with label 0. Its loss is just the usual binary
