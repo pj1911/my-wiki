@@ -1,4 +1,4 @@
-# Linear Regression — A Brief, Friendly Intro
+# Linear Regression — A Brief Intro
 
 ## What problem are we solving?
 
