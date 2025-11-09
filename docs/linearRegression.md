@@ -1,4 +1,4 @@
-# Linear Regression — A Brief Intro
+# Linear Regression — Intro
 
 ## What problem are we solving?
 
@@ -47,19 +47,21 @@ Define residuals $e_i=y_i-\hat y_i$ so that $y_i=\hat y_i+e_i$ (the error term c
 $$
 L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-w_0-w_1x_i\bigr)^2.
 $$
+
 Minimizing MSE gives the ordinary least squares (OLS) solution
 $$
 w_1^*=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
 =\frac{\sigma_{xy}}{\sigma_x^2}
 = r_{xy}\frac{\sigma_y}{\sigma_x},
 \qquad
-w_0^*=\bar y-w_1^*\bar x,
+w_0^*=\bar y-w_1^*\,\bar x.
 $$
+
 where
 $$
-\bar x=\frac{1}{n}\sum x_i,\quad
-\sigma_x^2=\frac{1}{n}\sum (x_i-\bar x)^2,\quad
-\sigma_{xy}=\frac{1}{n}\sum (x_i-\bar x)(y_i-\bar y),\quad
+\bar x=\frac{1}{n}\sum x_i,\qquad
+\sigma_x^2=\frac{1}{n}\sum (x_i-\bar x)^2,\qquad
+\sigma_{xy}=\frac{1}{n}\sum (x_i-\bar x)(y_i-\bar y),\qquad
 r_{xy}=\frac{\sigma_{xy}}{\sigma_x\sigma_y}.
 $$
 
@@ -100,8 +102,8 @@ $$
 
 Define
 $$
-S_{xx}=\sum (x_i-\bar x)^2,\quad
-S_{yy}=\sum (y_i-\bar y)^2,\quad
+S_{xx}=\sum (x_i-\bar x)^2,\qquad
+S_{yy}=\sum (y_i-\bar y)^2,\qquad
 S_{xy}=\sum (x_i-\bar x)(y_i-\bar y),
 $$
 so $w_1=S_{xy}/S_{xx}$ and $w_0=\bar y-w_1\bar x$. Substituting $w_0$ gives
@@ -142,8 +144,8 @@ $$
 
 With $d$ features per example:
 $$
-\mathbf{X}\in\mathbb{R}^{n\times d},\quad
-\mathbf{y}\in\mathbb{R}^{n},\quad
+\mathbf{X}\in\mathbb{R}^{n\times d},\qquad
+\mathbf{y}\in\mathbb{R}^{n},\qquad
 \mathbf{A}=\bigl[\mathbf{1}\ \ \mathbf{X}\bigr]\in\mathbb{R}^{n\times(d+1)}.
 $$
 Per sample:
@@ -181,7 +183,7 @@ Same solver, different design matrix.
 
 Write the loss as a quadratic:
 $$
-L(\mathbf{w})=\tfrac12\|\mathbf{y}-\mathbf{B}\mathbf{w}\|_2^2,\quad
+L(\mathbf{w})=\tfrac12\|\mathbf{y}-\mathbf{B}\mathbf{w}\|_2^2,\qquad
 \mathbf{B}\in\{\mathbf{A},\boldsymbol{\Phi}\}.
 $$
 Set the gradient to zero:
