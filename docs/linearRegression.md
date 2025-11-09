@@ -1,4 +1,4 @@
-# Linear Regression — Intro3
+# Linear Regression — Intro2
 
 ## What problem are we solving?
 
@@ -6,9 +6,9 @@ Suppose we have examples \((\mathbf{x}_i, y_i)\) where \(i = 1,...,n\), so we ha
 
 **How wrong we are:**  
 The most common way to judge our model is to check it's mean squared error (MSE), given by:
-\(
-L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-\hat y_i\bigr)^2.
-\)
+\[
+L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-\hat y_i\bigr)^2
+\]
 where, \(\hat{y_i} = f(x_i)\)
 
 
