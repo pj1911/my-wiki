@@ -29,7 +29,7 @@ Markov chain. GANs were proposed to instead generate high-quality samples in
 a *single* step, avoiding the incremental and approximate nature of
 Markov-chain sampling.
 
-## Generative Adversarial Networks
+## Generative adversarial networks
 
 GANs are built in the game-theory sense, a game between two models,
 usually neural networks. One of them, the *generator*, implicitly defines
