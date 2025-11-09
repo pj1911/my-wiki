@@ -11,6 +11,7 @@ L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-\hat y_i\bigr)^2.
 \]
 where, \(\hat{y_i} = f(x_i)\)
 
+
 ## A tiny grounding example
 
 Suppose \(x\) = study hours and \(y\) = test score for three students:
