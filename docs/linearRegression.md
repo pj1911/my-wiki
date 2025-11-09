@@ -1,15 +1,15 @@
-# Linear Regression — A Brief, Friendly Intro
+# Linear Regression — Intro
 
 ## What problem are we solving?
 
-Suppose we have examples \((\mathbf{x}_i, y_i)\) where \(i = 1,...,n\), so we have \(n\) total examples and we want to predict an output \(y\) from the input feature \(\mathbf{x}\). Let us say that we also have a model \(f(\mathbf{.})\) that makes predictions \(\hat y\) as some function of the input \(x\), giving \(\hat{y} = f(x)\). We judge our model by how close \(\hat y\) is to \(y\).
+Suppose we have examples \((\mathbf{x}_i, y_i)\) where \(i = 1,...,n\), so we have n total examples and we want to predict an output \(y\) from the input feature \(\mathbf{x}\). Let us say that we also have a model \(f(\mathbf{.})\) that makes predictions \(\hat y\) as some function of the input x, giving \(\hat{y} = f(x)\). We judge our model by how close \(\hat y\) is to \(y\).
 
 **How wrong we are:**  
-The most common way to judge our model is to check its mean squared error (MSE), given by:
+The most common way to judge our model is to check it's mean squared error (MSE), given by:
 \[
 L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-\hat y_i\bigr)^2.
 \]
-where, \(\hat{y_i} = f(x_i)\).
+where, \(\hat{y_i} = f(x_i)\)
 
 ## A tiny grounding example
 
@@ -25,11 +25,11 @@ We will use this toy set to make the formulas concrete.
 
 ## Baseline: always predict the average
 
-If we must make a constant prediction for everyone \((\hat{y_i} = f(x_i) = w_0)\), the best constant \((w_0^*)\) is the average of the training targets. We had our model's MSE as:
+If we must make a constant prediction for everyone \((\hat{y_i} =f(x_i) =w_0)\), the best constant \((w_0^*)\) is the average of the training targets, this can be proved as follows. We had our models MSE as:
 \[
 L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-w_0\bigr)^2.
 \]
-We try to minimize this MSE to find the best prediction \(w_0^*\):
+We try to minimize this MSE to find the best prediction \((w_0^*)\)
 \[
 \frac{\partial L}{\partial w_0}=0.
 \]
@@ -37,17 +37,17 @@ This gives:
 \[
 w_0^*=\bar y=\frac{1}{n}\sum_{i=1}^n y_i.
 \]
-This “do-nothing” baseline matters because any smart model should beat it, meaning the predictions should be better than this baseline model.
+This ``do-nothing'' baseline matters because any smart model should beat it, meaning the predictions should be better than this baseline model.
 
 ## Simple (one-feature) linear regression
 
-Now let the prediction depend on \(x\) instead of just being constant, so \(\hat{y_i} = f(x_i) \neq w_0\) anymore, but:
+Now let the prediction depend on \(x\) instead of just being constant, so \(\hat{y_i} =f(x_i) \neq w_0\) anymore, but:
 \[
-\hat y_i = w_0 + w_1 x_i.
+\hat y_i = w_0 + w_1 x_i
 \]
-We can then define the error for each sample \(i\) as: \(e_i = y_i-\hat y_i\). Then we can write \(y_i = \hat y_i + e_i\). This means the error term captures everything from the reality that the model cannot.
+We can then define the error for each sample i as: \(e_i = y_i-\hat y_i\). Then we can write \(y_i = \hat y_i + e_i\). This means the error term captures everything from the reality that the model cannot.
 
-**Optimal Parameters \(w_0^*\) and \(w_1^*\):**  
+**Optimal Parameters \(w_0^*\) and \( w_1^*\):**  
 We can write the MSE in this case as:
 \[
 L=\frac{1}{n}\sum_{i=1}^n \bigl(y_i-w_0-w_1x_i\bigr)^2.
@@ -60,7 +60,7 @@ w_1^*=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
 \qquad
 w_0^*=\bar y-w_1^*\bar x,
 \]
-where
+where,
 \[
 \bar x=\frac{1}{n}\sum x_i,\quad
 \sigma_x^2=\frac{1}{n}\sum (x_i-\bar x)^2,\quad
@@ -68,13 +68,12 @@ where
 r_{xy}=\frac{\sigma_{xy}}{\sigma_x\sigma_y}.
 \]
 
-### Metrics for goodness of fit
-
+**Metrics for goodness of fit**  
 We know the residuals \(e_i=y_i-\hat y_i\) with \(\hat y_i=w_0+w_1x_i\), and their (biased) variance is given by:
 \[
 \sigma_e^2=\frac{1}{n}\sum_{i=1}^n e_i^2.
 \]
-We call it *biased* because it divides by \(n\). The *unbiased* version (simple regression with intercept) is:
+We call it \emph{biased} because it divides by \(n\). The \emph{unbiased} version (simple regression with intercept) is:
 \[
 s_e^2=\frac{1}{n-2}\sum_{i=1}^n e_i^2.
 \]
@@ -121,7 +120,7 @@ Substitute \(w_1=S_{xy}/S_{xx}\) and simplify:
 = S_{yy} - 2\frac{S_{xy}^2}{S_{xx}} + \frac{S_{xy}^2}{S_{xx}}
 = S_{yy} - \frac{S_{xy}^2}{S_{xx}}.
 \]
-Divide by \(n\) to match the “population” convention used for \(\sigma_e^2\):
+Divide by \(n\) to match the ``population'' convention used for \(\sigma_e^2\):
 \[
 \sigma_e^2
 = \frac{1}{n}\sum e_i^2
@@ -139,18 +138,17 @@ R^2
 \]
 
 **How do we know if the fit is good?**
-
-- **Residual variance** \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be *small relative to the scale of \(y\)*.  
+- \textbf{Residual variance} \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be \emph{small relative to the scale of \(y\)}.  
   Rule of thumb: \(\mathrm{RMSE} \ll \text{SD}(y)=\sigma_y\) is good.
-- **\(\boldsymbol{R^2}\)** close to \(1\) means the model explains most variance.
-- **Beating the baseline**: ensure \(\sigma_e^2 < \sigma_y^2\) (equivalently \(R^2>0\)). If not, the mean-only model is better.
-- **Out-of-sample**: check test/validation \(R^2\) or RMSE. A good fit *generalizes* (train and test metrics are similar).
-- **Residual diagnostics**: residuals should look like noise (no trend vs. \(\hat y\) or \(x\), roughly constant spread, few large outliers).
-- **Adjusted \(R^2\) (for multiple \(x\))**: prefer higher adjusted \(R^2\); it penalizes unnecessary features.
+- \textbf{\(\boldsymbol{R^2}\)} close to \(1\) means the model explains most variance.
+- \textbf{Beating the baseline}: ensure \(\sigma_e^2 < \sigma_y^2\) (equivalently \(R^2>0\)). If not, the mean-only model is better.
+- \textbf{Out-of-sample}: check test/validation \(R^2\) or RMSE. A good fit \emph{generalizes} (train and test metrics are similar).
+- \textbf{Residual diagnostics}: residuals should look like noise (no trend vs.\ \(\hat y\) or \(x\), roughly constant spread, few large outliers).
+- \textbf{Adjusted \(R^2\) (for multiple \(x\))}: prefer higher adjusted \(R^2\); it penalizes unnecessary features.
 
 ## Multiple linear regression (many features)
 
-When we have multiple input features (\(d\)) per example, stack them in a matrix:
+When we have multiple input features \((d)\) per example, stack them in a matrix:
 \[
 \mathbf{X}\in\mathbb{R}^{n\times d} \quad
 \mathbf{y}\in\mathbb{R}^{n},\quad
@@ -158,17 +156,17 @@ When we have multiple input features (\(d\)) per example, stack them in a matrix
 \]
 For each sample we have:
 \[
-\hat{y_i} = w_0 + w_1x_{i,1} + \cdots + w_dx_{i,d}.
+\hat{y_i} = w_0 + w_1x_{i,1} + \cdots + w_dx_{i,d}
 \]
-Then the model can be written as:
+Then the model can be written as :
 \[
 \hat{\mathbf{y}}=\mathbf{A}\mathbf{w},
 \]
-and minimizing gives the solution \(\mathbf{w}^*\) as:
+Then minimizing gives the solution \(w^*\) as:
 \[
 \mathbf{w}^*=(\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top\mathbf{y}.
 \]
-Each coefficient now means: *change in \(y\) for a one-unit change in that feature, holding the other included features fixed.*
+Each coefficient now means: \emph{change in \(y\) for a one-unit change in that feature, holding the other included features fixed.}
 
 ## Linear basis function regression (same idea with richer inputs)
 
@@ -188,7 +186,7 @@ In matrix form,
 \]
 Again, minimizing gives:
 \[
-\mathbf{w}^*=(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}.
+\mathbf{w}^*=(\boldsymbol{\Phi}^\top\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^\top\mathbf{y}
 \]
 Same solver, just a different design matrix.
 
@@ -205,11 +203,11 @@ Setting the gradient to zero:
 \ \Rightarrow\
 \mathbf{B}^\top\mathbf{B}\,\mathbf{w}=\mathbf{B}^\top\mathbf{y}.
 \]
-That linear system *is* the normal equations above.
+That linear system \emph{is} the normal equations above.
 
 ## Quick OLS recipe (practical path)
 
-1. Gather data \((\mathbf{x}_i,y_i)_{i=1}^n\) *including an intercept column of ones*.
+1. Gather data \((\mathbf{x}_i,y_i)_{i=1}^n\) \emph{including an intercept column of ones}.
 2. Choose your features/bases \(\boldsymbol{\phi}(\cdot)\) (raw, polynomial, binned, etc.).
 3. Fit by OLS: \(\mathbf{w}^*=(\mathbf{B}^\top\mathbf{B})^{-1}\mathbf{B}^\top\mathbf{y}\) or a numeric solver (QR/SVD are more stable).
 4. Predict: \(\hat y=\langle\boldsymbol{\phi}(\mathbf{x}),\mathbf{w}^*\rangle\).
