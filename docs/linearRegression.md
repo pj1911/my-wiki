@@ -68,8 +68,7 @@ where,
 r_{xy}=\frac{\sigma_{xy}}{\sigma_x\sigma_y}.
 \]
 
-### Metrics for goodness of fit
-
+**Metrics for goodness of fit**  
 We know the residuals \(e_i=y_i-\hat y_i\) with \(\hat y_i=w_0+w_1x_i\), and their (biased) variance is given by:
 \[
 \sigma_e^2=\frac{1}{n}\sum_{i=1}^n e_i^2.
@@ -138,15 +137,14 @@ R^2
 = r_{xy}^2.
 \]
 
-### How do we know if the fit is good?
-
-- **Residual variance** \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be \emph{small relative to the scale of \(y\)}.  
+**How do we know if the fit is good?**
+- \textbf{Residual variance} \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be \emph{small relative to the scale of \(y\)}.  
   Rule of thumb: \(\mathrm{RMSE} \ll \text{SD}(y)=\sigma_y\) is good.
-- **\(\boldsymbol{R^2}\)** close to \(1\) means the model explains most variance.
-- **Beating the baseline**: ensure \(\sigma_e^2 < \sigma_y^2\) (equivalently \(R^2>0\)). If not, the mean-only model is better.
-- **Out-of-sample**: check test/validation \(R^2\) or RMSE. A good fit \emph{generalizes} (train and test metrics are similar).
-- **Residual diagnostics**: residuals should look like noise (no trend vs.\ \(\hat y\) or \(x\), roughly constant spread, few large outliers).
-- **Adjusted \(R^2\) (for multiple \(x\))**: prefer higher adjusted \(R^2\); it penalizes unnecessary features.
+- \textbf{\(\boldsymbol{R^2}\)} close to \(1\) means the model explains most variance.
+- \textbf{Beating the baseline}: ensure \(\sigma_e^2 < \sigma_y^2\) (equivalently \(R^2>0\)). If not, the mean-only model is better.
+- \textbf{Out-of-sample}: check test/validation \(R^2\) or RMSE. A good fit \emph{generalizes} (train and test metrics are similar).
+- \textbf{Residual diagnostics}: residuals should look like noise (no trend vs.\ \(\hat y\) or \(x\), roughly constant spread, few large outliers).
+- \textbf{Adjusted \(R^2\) (for multiple \(x\))}: prefer higher adjusted \(R^2\); it penalizes unnecessary features.
 
 ## Multiple linear regression (many features)
 
