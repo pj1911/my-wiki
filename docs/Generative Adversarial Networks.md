@@ -164,4 +164,4 @@ oscillate, diverge, or collapse to poor solutions rather than neatly settling
 to the nice equilibrium guaranteed in the idealized theory.
 
 ## References
-- Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., ... \& Bengio, Y. (2020). Generative adversarial networks. Communications of the ACM, 63(11), 139-144.
+- Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., ... & Bengio, Y. (2020). Generative adversarial networks. Communications of the ACM, 63(11), 139-144.
