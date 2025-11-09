@@ -91,7 +91,7 @@ $$
 \sigma_e^2=\frac{1}{n}\sum_{i=1}^n e_i^2.
 $$
 
-We call it \emph{biased} because it divides by \(n\). The \emph{unbiased} version (simple regression with intercept) is:
+We call it biased because it divides by \(n\). The unbiased version (simple regression with intercept) is:
 
 $$
 s_e^2=\frac{1}{n-2}\sum_{i=1}^n e_i^2.
@@ -175,11 +175,11 @@ $$
 
 ## How do we know if the fit is good?
 
-- **Residual variance** \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be \emph{small relative to the scale of \(y\)}.  
+- **Residual variance** \(\boldsymbol{\sigma_e^2}\) (or RMSE \(=\sqrt{\sigma_e^2}\)) should be small relative to the scale of \(y\).  
   Rule of thumb: \(\mathrm{RMSE} \ll \text{SD}(y)=\sigma_y\) is good.
 - **\(\boldsymbol{R^2}\)** close to \(1\) means the model explains most variance.
 - **Beating the baseline**: ensure \(\sigma_e^2 < \sigma_y^2\) (equivalently \(R^2>0\)). If not, the mean-only model is better.
-- **Out-of-sample**: check test/validation \(R^2\) or RMSE. A good fit \emph{generalizes} (train and test metrics are similar).
+- **Out-of-sample**: check test/validation \(R^2\) or RMSE. A good fit generalizes (train and test metrics are similar).
 - **Residual diagnostics**: residuals should look like noise (no trend vs.\ \(\hat y\) or \(x\), roughly constant spread, few large outliers).
 - **Adjusted \(R^2\) (for multiple \(x\))**: prefer higher adjusted \(R^2\); it penalizes unnecessary features.
 
@@ -211,7 +211,7 @@ $$
 \mathbf{w}^*=(\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top\mathbf{y}.
 $$
 
-Each coefficient now means: \emph{change in \(y\) for a one-unit change in that feature, holding the other included features fixed.}
+Each coefficient now means: change in \(y\) for a one-unit change in that feature, holding the other included features fixed.
 
 ## Linear basis function regression (same idea with richer inputs)
 
@@ -258,11 +258,11 @@ $$
 \mathbf{B}^\top\mathbf{B}\,\mathbf{w}=\mathbf{B}^\top\mathbf{y}.
 $$
 
-That linear system \emph{is} the normal equations above.
+That linear system is the normal equations above.
 
 ## Quick OLS recipe (practical path)
 
-1. Gather data \((\mathbf{x}_i,y_i)_{i=1}^n\) \emph{including an intercept column of ones}.
+1. Gather data \((\mathbf{x}_i,y_i)_{i=1}^n\) including an intercept column of ones.
 2. Choose your features/bases \(\boldsymbol{\phi}(\cdot)\) (raw, polynomial, binned, etc.).
 3. Fit by OLS: \(\mathbf{w}^*=(\mathbf{B}^\top\mathbf{B})^{-1}\mathbf{B}^\top\mathbf{y}\) or a numeric solver (QR/SVD are more stable).
 4. Predict: \(\hat y=\langle\boldsymbol{\phi}(\mathbf{x}),\mathbf{w}^*\rangle\).
