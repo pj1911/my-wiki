@@ -1,4 +1,5 @@
-###About Me
+#About Me
+
 Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering. Welcome to My Personal wiki page. If you are interested in understanding the math behind Machine Learning and Artificial intelligence or if you are just looking for a quick refresher on certain topics in them, stay tuned. I am uploading very simple explanations of these topics along with some new models that I come across. This page will be updated with content according to my reading habits so sometimes it'll be something that I recently read or came across other times it'll be something basic that I just did a refresher on (some of the things might not be the State-of-the-art but still new to me, so I will still try to explain them in my own simple terms). I hope you enjoy reading, cause it's going to be goooood. Here is a little bit more about myself:
 
 ---
@@ -9,7 +10,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
 
 **Recent work:** Traffic-state estimation using physics-informed deep learning on traffic datasets. Fun result: matched adaptive smoothing method level accuracy with way less compute using PIDL
 
-###Publications 
+#Publications 
 
 - **Understanding the mechanism of lane changing process and dynamics using microscopic traffic data** — we built/cleaned NGSIM data for lane changes, engineered features, and validated the patterns. (*Physica A*, 2022)  
   [paper](https://www.sciencedirect.com/science/article/pii/S0378437122000735) · [doi:10.1016/j.physa.2022.126981](https://doi.org/10.1016/j.physa.2022.126981)
