@@ -26,28 +26,28 @@ have mostly tried two fixes: (1) design models with tractable densities, or
 (2) use approximate methods to learn intractable ones. Both are hard and still
 struggle on tasks like generating realistic high-resolution images.
 
-To be concrete, sometimes we do not specify \(p_{\text{model}}(\mathbf{x}; \theta)\) directly. Instead, we introduce a **latent variable** \(\mathbf{z}\): a hidden variable that we never observe in the data but that describes how \(\mathbf{x}\) is generated. We choose a simple prior over \(\mathbf{z}\), for example \(p(\mathbf{z}) = \mathcal{N}(\mathbf{z} \mid 0, I)\), and a nonlinear generator function \(\mathbf{x} = g(\mathbf{z}, \theta)\) given by a neural network (introduced in the next section). We can then generate samples by first drawing \(\mathbf{z} \sim p(\mathbf{z})\) and then setting \(\mathbf{x} = g(\mathbf{z}, \theta)\). In this way, the distribution over \(\mathbf{x}\) is defined **implicitly**, meaning it is specified by the sampling procedure rather than by an explicit closed-form formula.
+To be concrete, sometimes we do not specify \(p_{\text{model}}(\mathbf{x}; \theta)\) directly. Instead, we introduce a latent variable \(\mathbf{z}\): a hidden variable that we never observe in the data but that describes how \(\mathbf{x}\) is generated. We choose a simple prior over \(\mathbf{z}\), for example \(p(\mathbf{z}) = \mathcal{N}(\mathbf{z} \mid 0, I)\), and a nonlinear generator function \(\mathbf{x} = g(\mathbf{z}, \theta)\) given by a neural network (introduced in the next section). We can then generate samples by first drawing \(\mathbf{z} \sim p(\mathbf{z})\) and then setting \(\mathbf{x} = g(\mathbf{z}, \theta)\). In this way, the distribution over \(\mathbf{x}\) is defined implicitly, meaning it is specified by the sampling procedure rather than by an explicit closed-form formula.
 
 The model defines a joint distribution
-\[
+$$
 p(\mathbf{x}, \mathbf{z}; \theta) = p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta).
-\]
-The marginal distribution over \(\mathbf{x}\) is obtained by **marginalizing out** the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
-\[
+$$
+The marginal distribution over \(\mathbf{x}\) is obtained by marginalizing out the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
+$$
 p_{\text{model}}(\mathbf{x}; \theta)
 = \int p(\mathbf{x}, \mathbf{z}; \theta)\, d\mathbf{z}
 = \int p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta)\, d\mathbf{z}.
-\]
+$$
 
-For a **deterministic generator**, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\mathbf{x}\) is completely determined by \(\mathbf{x} = g(\mathbf{z}, \theta)\). This means that, conditioned on \(\mathbf{z}\), all probability mass is concentrated at the point \(g(\mathbf{z}, \theta)\). In continuous space, this is written using a Dirac delta:
-\[
+For a deterministic generator, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\mathbf{x}\) is completely determined by \(\mathbf{x} = g(\mathbf{z}, \theta)\). This means that, conditioned on \(\mathbf{z}\), all probability mass is concentrated at the point \(g(\mathbf{z}, \theta)\). In continuous space, this is written using a Dirac delta:
+$$
 p(\mathbf{x} \mid \mathbf{z}; \theta) = \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big).
-\]
+$$
 Plugging this into the marginalization formula gives
-\[
+$$
 p_{\text{model}}(\mathbf{x}; \theta)
 = \int p(\mathbf{z})\, \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big)\, d\mathbf{z}.
-\]
+$$
 For a general deep nonlinear \(g\), this integral has no closed-form solution, so \(\log p_{\text{model}}(\mathbf{x}_n; \theta)\) is intractable, and we cannot directly optimize \(\theta\) using maximum likelihood.
 
 ### Fix: Learn sampling procedure directly
@@ -92,8 +92,7 @@ $$
 P(target = 1 \mid \mathbf{x}) = D(\mathbf{x}; \theta_D).
 $$
 
-Its loss is just the usual binary
-cross-entropy:
+Its loss is just the usual binary cross-entropy:
 $$
 J_D(\theta_D, \theta_G)
 = - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} \big[\log D(\mathbf{x})\big]
