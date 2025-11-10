@@ -34,13 +34,13 @@ $$
 p(\mathbf{x}, \mathbf{z}; \theta) = p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta).
 $$
 
-The marginal distribution over \(\mathbf{x}\) is obtained by **marginalizing out** the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
+The marginal distribution over \(\mathbf{x}\) is obtained by marginalizing out the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
 
 $$
 p_{\text{model}}(\mathbf{x}; \theta) = \int p(\mathbf{x}, \mathbf{z}; \theta)\, d\mathbf{z} = \int p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta)\, d\mathbf{z}.
 $$
 
-For a **deterministic generator**, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\mathbf{x}\) is completely determined by \(\mathbf{x} = g(\mathbf{z}, \theta)\). This means that, conditioned on \(\mathbf{z}\), all probability mass is concentrated at the point \(g(\mathbf{z}, \theta)\). In continuous space, this is written using a Dirac delta:
+For a deterministic generator, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\mathbf{x}\) is completely determined by \(\mathbf{x} = g(\mathbf{z}, \theta)\). This means that, conditioned on \(\mathbf{z}\), all probability mass is concentrated at the point \(g(\mathbf{z}, \theta)\). In continuous space, this is written using a Dirac delta:
 
 $$
 p(\mathbf{x} \mid \mathbf{z}; \theta) = \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big).
