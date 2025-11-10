@@ -52,7 +52,7 @@ $$
 p_{\text{model}}(\mathbf{x}; \theta) = \int p(\mathbf{z})\, \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big)\, d\mathbf{z}.
 $$
 
-For a general deep nonlinear \(g\), this integral has no closed-form solution, so \(\log p_{\text{model}}(\mathbf{x}_n; \theta)\) is intractable, and we cannot directly optimize \(\theta\) using maximum likelihood.
+For a general deep nonlinear \(g\), this integral has no closed-form solution, so \(p_{\text{model}}(\mathbf{x}_n; \theta)\) is intractable, and we cannot directly optimize \(\theta\) using maximum likelihood.
 
 
 ### Fix: Learn sampling procedure directly
