@@ -18,7 +18,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
 - **Neural operators struggle to learn complex PDEs in pedestrian mobility: Hughes model case study** — we built solid benchmarks (Godunov + Wavefront Tracking), ran a bunch of operator baselines, and shared what actually works and what doesn't. (*Artificial Intelligence for Transportation*, 2025)  
   [paper](https://www.sciencedirect.com/science/article/pii/S3050860625000055) · [doi:10.1016/j.ait.2025.100005](https://doi.org/10.1016/j.ait.2025.100005)
 
-- **Monte Carlo-Type Neural Operator for Differential Equations** — Built a lightweight, surprisingly capable way to solve the Kernel integral operator in the neural operator framework using MC. Workshop/Conference versions are out at Neurips (ML4PS) and ICMLA respectively.  [arXiv:2510.05620](https://arxiv.org/abs/2510.05620)
+- **Monte Carlo-Type Neural Operator for Differential Equations** — Built a lightweight, surprisingly capable way to solve the Kernel integral operator in the neural operator framework using MC. Workshop/Conference versions are out at Neurips 2025 (ML4PS) and ICMLA 2025 respectively.  [arXiv:2510.05620](https://arxiv.org/abs/2510.05620)
 
 - **Backpressure-based Mean-field Type Game for Scheduling in Multi-Hop Wireless Sensor Networks** — accepted to EUSIPCO 2025.  
   [arXiv:2506.03059](https://arxiv.org/abs/2506.03059)
