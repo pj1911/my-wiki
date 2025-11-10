@@ -32,6 +32,7 @@ The model defines a joint distribution
 $$
 p(\mathbf{x}, \mathbf{z}; \theta) = p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta).
 $$
+
 The marginal distribution over \(\mathbf{x}\) is obtained by marginalizing out the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
 $$
 p_{\text{model}}(\mathbf{x}; \theta)
@@ -43,11 +44,13 @@ For a deterministic generator, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\
 $$
 p(\mathbf{x} \mid \mathbf{z}; \theta) = \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big).
 $$
+
 Plugging this into the marginalization formula gives
 $$
 p_{\text{model}}(\mathbf{x}; \theta)
 = \int p(\mathbf{z})\, \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big)\, d\mathbf{z}.
 $$
+
 For a general deep nonlinear \(g\), this integral has no closed-form solution, so \(\log p_{\text{model}}(\mathbf{x}_n; \theta)\) is intractable, and we cannot directly optimize \(\theta\) using maximum likelihood.
 
 ### Fix: Learn sampling procedure directly
