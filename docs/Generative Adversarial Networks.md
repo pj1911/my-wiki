@@ -1,6 +1,6 @@
 # Generative Adversarial Networks
 
-## Generative modeling problem
+### Generative modeling problem
 
 The generative modeling problem (GMP) is the task of learning a probability distribution from data so that we can generate new, realistic samples that look like they came from the real dataset. GANs are a kind of AI algorithm that are designed to solve GMPs. They are especially famous for how good they are at creating realistic, high-resolution images.
 
