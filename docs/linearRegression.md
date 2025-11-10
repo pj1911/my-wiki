@@ -205,13 +205,51 @@ $$
 \hat{\mathbf{y}}=\mathbf{A}\mathbf{w},
 $$
 
-Then minimizing gives the solution \(w^*\) as:
+Then we want \( \mathbf{w}^* \) that minimizes squared error between \(\hat{\mathbf{y}}=\mathbf{A}\mathbf{w}\) and \(\mathbf{y}\).
 
 $$
-\mathbf{w}^*=(\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top\mathbf{y}.
+L(\mathbf{w}) 
+= \|\hat{\mathbf{y}}-\mathbf{y}\|_2^2
+= \|\mathbf{A}\mathbf{w}-\mathbf{y}\|_2^2
+= (\mathbf{A}\mathbf{w}-\mathbf{y})^\top(\mathbf{A}\mathbf{w}-\mathbf{y}).
 $$
 
-Each coefficient now means: change in \(y\) for a one-unit change in that feature, holding the other included features fixed.
+$$
+L(\mathbf{w})
+= \mathbf{w}^\top\mathbf{A}^\top\mathbf{A}\mathbf{w}
+- 2\,\mathbf{y}^\top\mathbf{A}\mathbf{w}
++ \mathbf{y}^\top\mathbf{y}.
+$$
+
+Using matrix calculus identities:
+
+- \(\nabla_{\mathbf{w}}\,\mathbf{w}^\top\mathbf{B}\mathbf{w} = (\mathbf{B}+\mathbf{B}^\top)\mathbf{w}\), so with \(\mathbf{B}=\mathbf{A}^\top\mathbf{A}\) (symmetric) we get \(2\mathbf{A}^\top\mathbf{A}\mathbf{w}\).
+- \(\nabla_{\mathbf{w}}\,\mathbf{c}^\top\mathbf{w} = \mathbf{c}\).
+
+We get:
+
+$$
+\nabla_{\mathbf{w}} L(\mathbf{w})
+= 2\mathbf{A}^\top\mathbf{A}\mathbf{w}
+- 2\mathbf{A}^\top\mathbf{y}.
+$$
+
+Set the gradient to zero and solve for \(\mathbf{w}\):
+
+$$
+2\mathbf{A}^\top\mathbf{A}\mathbf{w}
+- 2\mathbf{A}^\top\mathbf{y} = \mathbf{0}
+\quad\Longrightarrow\quad
+\mathbf{A}^\top\mathbf{A}\mathbf{w}
+= \mathbf{A}^\top\mathbf{y}.
+$$
+
+If \(\mathbf{A}^\top\mathbf{A}\) is invertible:
+
+$$
+\mathbf{w}^*
+= (\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top\mathbf{y}.
+$$
 
 ## Linear basis function regression (same idea with richer inputs)
 
