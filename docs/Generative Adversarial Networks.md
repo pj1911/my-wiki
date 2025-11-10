@@ -127,7 +127,8 @@ J_G^{\text{minimax}}(\theta_G, \theta_D)
   \big[\log\big(1 - D(G(\mathbf{z}))\big)\big],
 $$
 
-which gives very small gradients when \(D(G(\mathbf{z}))\) is close to 0.
+By minimizing \(\log(1 - D(G(\mathbf{z})))\), the generator effectively tries to make \(D(G(\mathbf{z}))\) large (so its fakes look real). However, early in training we typically have \(D(G(\mathbf{z})) \approx 0\). In this regime the sigmoid in \(D\) is saturated, so \(\partial D(G(\mathbf{z}))/\partial \theta_G \approx 0\), and the gradient of \(\log(1 - D(G(\mathbf{z})))\) with respect to \(\theta_G\) is very small. As a result, the generator receives almost no learning signal.
+
 
 In NS-GAN, we “flip the labels’’ for the generator: it acts as if its fake
 samples were real and tries to push \(D(G(\mathbf{z}))\) toward 1. Its loss is
