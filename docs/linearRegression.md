@@ -260,7 +260,7 @@ $$
 
 That linear system is the normal equations above.
 
-##Computing OLS solution
+## Computing OLS solution
 
 How long does it take to compute
 
