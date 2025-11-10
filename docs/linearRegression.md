@@ -209,8 +209,8 @@ We want \( \mathbf{w}^* \) that minimizes squared error between \(\hat{\mathbf{y
 
 $$
 L(\mathbf{w}) 
-= \|\|\hat{\mathbf{y}}-\mathbf{y}\|\|_2^2
-= \|\|\mathbf{A}\mathbf{w}-\mathbf{y}\|\|_2^2
+= \|\hat{\mathbf{y}}-\mathbf{y}\|_2^2
+= \|\mathbf{A}\mathbf{w}-\mathbf{y}\|_2^2
 = (\mathbf{A}\mathbf{w}-\mathbf{y})^\top(\mathbf{A}\mathbf{w}-\mathbf{y}).
 $$
 
