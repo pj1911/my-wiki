@@ -1,4 +1,4 @@
-# Generative Adversarial networks
+# Generative Adversarial Networks
 
 ## Generative modeling problem
 
