@@ -68,7 +68,7 @@ Markov-chain sampling.
 
 GANs are built in the game-theory sense, a game between two models,
 usually neural networks, which are trained jointly and where the second network (discriminator)
-provides a training signal to update the weights of the generator. The *generator*, implicitly defines \(p_{\text{model}}(\mathbf{x})\). In general, it cannot compute this density as we saw, but
+provides a training signal to update the weights of the generator. The *generator*, implicitly defines \(p_{\text{model}}(\mathbf{x})\). In general, it cannot compute this density as we saw in the previous section, but
 it *can* draw samples from it. The generator starts from a simple prior \(p(\mathbf{z})\) over a latent vector \(\mathbf{z}\) (for example, a multivariate Gaussian or a uniform distribution
 over a hypercube). A sample \(\mathbf{z} \sim p(\mathbf{z})\) is just noise. The
 generator is a function \(G(\mathbf{z}; \theta_G)\) that learns to transform this
