@@ -10,7 +10,13 @@ Generative modeling is an unsupervised approach where we observe samples \(\math
 parametric form \(p_{\text{model}}(\mathbf{x}; \theta)\) and fit \(\theta\) so
 \(p_{\text{model}}\) resembles \(p_{\text{data}}\), typically by maximum
 likelihood, i.e., minimizing
-\(\mathrm{KL}\big(p_{\text{data}} \,\|\, p_{\text{model}}\big)\).
+\(\mathrm{KL}\big(p_{\text{data}} \,\|\, p_{\text{model}}\big)\). 
+
+In many applications, we are interested in conditional generative models of the form
+\(p(\mathbf{x} \mid \mathbf{c}, \mathbf{w})\), where \(\mathbf{c}\) is a vector of
+conditioning variables. For instance, in a generative model for animal images,
+\(\mathbf{c}\) can indicate which animal we want, such as a cat or a dog, so the
+model generates images that matches the chosen class.
 
 ### Common issues
 Explicit density models work nicely in classic statistics, where we use simple
@@ -19,6 +25,30 @@ use complex neural networks, and their exact density can be intractable. People
 have mostly tried two fixes: (1) design models with tractable densities, or
 (2) use approximate methods to learn intractable ones. Both are hard and still
 struggle on tasks like generating realistic high-resolution images.
+
+To be concrete, sometimes we do not specify \(p_{\text{model}}(\mathbf{x}; \theta)\) directly. Instead, we introduce a **latent variable** \(\mathbf{z}\): a hidden variable that we never observe in the data but that describes how \(\mathbf{x}\) is generated. We choose a simple prior over \(\mathbf{z}\), for example \(p(\mathbf{z}) = \mathcal{N}(\mathbf{z} \mid 0, I)\), and a nonlinear generator function \(\mathbf{x} = g(\mathbf{z}, \theta)\) given by a neural network (introduced in the next section). We can then generate samples by first drawing \(\mathbf{z} \sim p(\mathbf{z})\) and then setting \(\mathbf{x} = g(\mathbf{z}, \theta)\). In this way, the distribution over \(\mathbf{x}\) is defined **implicitly**, meaning it is specified by the sampling procedure rather than by an explicit closed-form formula.
+
+The model defines a joint distribution
+\[
+p(\mathbf{x}, \mathbf{z}; \theta) = p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta).
+\]
+The marginal distribution over \(\mathbf{x}\) is obtained by **marginalizing out** the latent variable \(\mathbf{z}\) and using the continuous version of the law of total probability:
+\[
+p_{\text{model}}(\mathbf{x}; \theta)
+= \int p(\mathbf{x}, \mathbf{z}; \theta)\, d\mathbf{z}
+= \int p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta)\, d\mathbf{z}.
+\]
+
+For a **deterministic generator**, once \(\mathbf{z}\) and \(\theta\) are fixed, \(\mathbf{x}\) is completely determined by \(\mathbf{x} = g(\mathbf{z}, \theta)\). This means that, conditioned on \(\mathbf{z}\), all probability mass is concentrated at the point \(g(\mathbf{z}, \theta)\). In continuous space, this is written using a Dirac delta:
+\[
+p(\mathbf{x} \mid \mathbf{z}; \theta) = \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big).
+\]
+Plugging this into the marginalization formula gives
+\[
+p_{\text{model}}(\mathbf{x}; \theta)
+= \int p(\mathbf{z})\, \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big)\, d\mathbf{z}.
+\]
+For a general deep nonlinear \(g\), this integral has no closed-form solution, so \(\log p_{\text{model}}(\mathbf{x}_n; \theta)\) is intractable, and we cannot directly optimize \(\theta\) using maximum likelihood.
 
 ### Fix: Learn sampling procedure directly
 An alternative to these explicit density models is to skip the tractable density entirely and learn only a
@@ -32,16 +62,15 @@ Markov-chain sampling.
 ## Generative adversarial networks
 
 GANs are built in the game-theory sense, a game between two models,
-usually neural networks. One of them, the *generator*, implicitly defines
-\(p_{\text{model}}(\mathbf{x})\). In general, it cannot compute this density, but
-it *can* draw samples from it. The generator starts from a simple prior \(p(\mathbf{z})\) over a latent vector
-\(\mathbf{z}\) (for example, a multivariate Gaussian or a uniform distribution
+usually neural networks, which are trained jointly and where the second network (discriminator)
+provides a training signal to update the weights of the generator. The *generator*, implicitly defines \(p_{\text{model}}(\mathbf{x})\). In general, it cannot compute this density as we saw, but
+it *can* draw samples from it. The generator starts from a simple prior \(p(\mathbf{z})\) over a latent vector \(\mathbf{z}\) (for example, a multivariate Gaussian or a uniform distribution
 over a hypercube). A sample \(\mathbf{z} \sim p(\mathbf{z})\) is just noise. The
 generator is a function \(G(\mathbf{z}; \theta_G)\) that learns to transform this
 noise into realistic samples, with \(\theta_G\) representing its learnable
 parameters or “strategy’’ in the game.
 
-The other player is the *discriminator*. It looks at a sample
+The other player, the *discriminator*, looks at a sample
 \(\mathbf{x}\) and outputs a score \(D(\mathbf{x}; \theta_D)\) estimating whether
 \(\mathbf{x}\) is real (from the training data) or fake (from
 \(p_{\text{model}}\), via the generator). In the original GAN, this score is the
@@ -51,19 +80,26 @@ equally often.
 Each player has its own cost: \(J_G(\theta_G, \theta_D)\) for the generator and
 \(J_D(\theta_G, \theta_D)\) for the discriminator, and each tries to minimize
 its own cost. The discriminator’s cost pushes it to classify correctly and the
-generator’s cost pushes it to make fake samples that the discriminator classifies as real.
+generator’s cost pushes it to make fake samples that the discriminator classifies as real working against each other, hence the name 'Adversarial'.
 
 ### Loss for generator and discriminator
 In the original GAN, the discriminator sees two kinds of examples:
 real data \(\mathbf{x} \sim p_{\text{data}}\) with label 1, and generated data
-\(G(\mathbf{z})\) with label 0. Its loss is just the usual binary
-cross-entropy:
+\(G(\mathbf{z})\) with label 0.
 
+We interpret the discriminator output as the probability that a data point \(\mathbf{x}\) is real:
+$$
+P(target = 1 \mid \mathbf{x}) = D(\mathbf{x}; \theta_D).
+$$
+
+Its loss is just the usual binary
+cross-entropy:
 $$
 J_D(\theta_D, \theta_G)
 = - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} \big[\log D(\mathbf{x})\big]
   - \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})} \big[\log \big(1 - D(G(\mathbf{z}))\big)\big].
 $$
+
 
 The first term says “real samples should have \(D(\mathbf{x})\) close to 1,”
 and the second says “fake samples should have \(D(G(\mathbf{z}))\) close to 0.”
