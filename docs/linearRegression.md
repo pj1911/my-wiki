@@ -260,6 +260,28 @@ $$
 
 That linear system is the normal equations above.
 
+##Computing OLS solution
+
+How long does it take to compute
+
+$$
+w^* = (\Phi^T \Phi)^{-1} \Phi^T y
+$$
+
+where \(\Phi\) is an \(n \times d\) matrix?  
+Runtime of a “naive” solution using “standard” matrix multiplication is given by:
+
+$$
+\begin{aligned}
+& O(d^2 n) \text{ to multiply } \Phi^T \Phi \\
+& O(d n) \text{ to multiply } \Phi^T y \\
+& O(d^3) \text{ to compute the inverse of } \Phi^T \Phi 
+   \text{ (Note: in practice, we can do it a bit faster.)}
+\end{aligned}
+$$
+
+Since \(n\) is generally much larger than \(d\), the first term dominates and the runtime is \(O(d^2 n)\).
+
 ## Quick OLS recipe (practical path)
 
 1. Gather data \((\mathbf{x}_i,y_i)_{i=1}^n\) including an intercept column of ones.
