@@ -93,11 +93,13 @@ real data \(\mathbf{x} \sim p_{\text{data}}\) with label 1, and generated data
 \(G(\mathbf{z})\) with label 0.
 
 We interpret the discriminator output as the probability that a data point \(\mathbf{x}\) is real:
+
 $$
 P(target = 1 \mid \mathbf{x}) = D(\mathbf{x}; \theta_D).
 $$
 
 Its loss is just the usual binary cross-entropy:
+
 $$
 J_D(\theta_D, \theta_G)
 = - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} \big[\log D(\mathbf{x})\big]
