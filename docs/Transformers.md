@@ -1,0 +1,322 @@
+# Transformers
+
+## Introduction
+Transformers are a major breakthrough in deep learning. They use attention as a way for the network to give different weights to different inputs, where those weights are determined by the inputs themselves. This lets transformers naturally capture useful patterns in sequences and other kinds of data. They’re called transformers because they take a set of vectors in one space and turn them into a new set of vectors (with the same size) in another space. This new space is designed such that it holds a richer internal representation that makes it easier to solve downstream tasks.
+
+One big strength of transformers is that transfer learning works really well with them. We can first train a transformer on a huge amount of data, then fine-tune that same model for many different tasks. When a large model like this can be adapted to lots of tasks, we call it a foundation model.
+
+Transformers can also be trained in a self-supervised way on unlabeled data, which is perfect for language, since there’s so much text available on the internet and elsewhere. The scaling hypothesis says that if we just make the model bigger (more parameters) and train it on more data, we get much better performance even without changing the architecture. Transformers also run very efficiently on GPUs, which support massive parallel processing, so we can train huge language models with around a trillion parameters in a reasonable time. Now we will go through the different components of the Transformer architecture:
+
+## Attention
+The core idea behind transformers is attention. It was first created to improve RNNs for machine translation but later, it was shown that we could remove recurrence entirely and rely only on attention, getting much better results. Today, attention-based transformers have largely replaced RNNs in almost all applications. For example, consider the following sentences:
+- The baseball player gripped the bat.
+- A small animal that hangs upside-down might be a bat.
+
+Here the word “bat” has different meanings in the two sentences. However, this can be detected only by looking at the context provided by the other words in the sequence. We also see that some words are more important than others in determining the interpretation of “bat.” In the first sentence, the words “baseball player” and “gripped” strongly indicate that “bat” refers to a piece of sports equipment, whereas in the second sentence, the words “small animal” and “hangs upside-down” indicate that “bat” refers to a flying mammal. Thus, to determine the appropriate interpretation of “bat,” a neural network processing such a sentence should attend to—i.e., rely more heavily on these specific words from the rest of the sequence. 
+
+In a standard neural network, each input affects the output based on its weight, and once the network is trained, these weights stay fixed. But based on the above examples, we want the model to focus on different words in different positions for each new input. Attention makes this possible by using weights that change depending on the specific input data.
+
+In natural language processing we will see that word embeddings map each word to a vector in an embedding space. These vectors are then used as inputs to neural networks. The embeddings capture basic meaning: words with similar meanings end up close together in this space. A key point is that each word always maps to the same vector (for example, “bat” always has one fixed embedding even when the context is different, like in our example above). Meanwhile, a transformer can be seen as a more powerful kind of embedding. It maps each word’s vector to a new vector that depends on the other words in the sequence. That means the word “bat” can end up in different places depending on the sentence: near “baseball” or near “animal”.
+
+### Transformer Processing
+
+In a transformer, the input is a set of vectors \(\{x_n\}\) of dimensionality \(D\),
+for \(n = 1, \dots, N\). Each vector is called a *token*. A token might
+correspond to:
+- a word in a sentence,
+- a patch in an image
+
+The individual components \(x_{ni}\) of each token are called *features*. A key advantage of transformers is that we do not need to design a different
+neural network architecture for each data type. Instead, we simply convert the
+different kinds of data into a shared set of tokens and feed them into the same
+model.
+
+### Notations
+We stack the token vectors for one sequence into a data matrix \(\mathbf{X}\) of shape \(\mathbf{N} \times \mathbf{D}\), where each row (\(x_n^T\)) is a token with \(\mathbf{D}\) columns or features. In real tasks, we have many such sequences (for example, many text passages, 
+with each word represented as one token). 
+
+A fundamental building block of the transformer is the *transformer layer*, a function that takes \(\mathbf{X}\) as input 
+and outputs a new matrix \(\tilde{\mathbf{X}}\) of the same size:
+
+$$
+\tilde{\mathbf{X}} = \mathrm{TransformerLayer}[\mathbf{X}] \, .
+$$
+
+By stacking several transformer layers, we obtain a deep network that can learn 
+rich internal representations. Each transformer layer has its own weights and 
+biases, which are learned using gradient descent with an appropriate cost function.
+
+A single transformer layer has two stages. The first stage implements the attention mechanism, which, for each feature column, forms a weighted sum over all tokens (rows), thereby mixing information between the token vectors. The second stage then acts on each row 
+independently and further transforms the features within each token vector.
+
+### Attention Coefficients
+Suppose we have a set of input token vectors (rows)
+
+$$
+\mathbf{x}_1, \dots, \mathbf{x}_N
+$$
+
+and we want to map them to a new set of output vectors
+
+$$
+\mathbf{y}_1, \dots, \mathbf{y}_N
+$$
+
+in a new embedding space that captures richer semantic structure.
+
+For any particular output vector \(\mathbf{y}_n\), we want it to depend not only on
+its corresponding input \(\mathbf{x}_n\) but on all input token vectors (rows)
+\(\mathbf{x}_1, \dots, \mathbf{x}_N\). A simple way to achieve this is to define
+\(\mathbf{y}_n\) as a weighted sum of the inputs:
+
+$$
+\mathbf{y}_n = \sum_{m=1}^{N} a_{nm}\,\mathbf{x}_m,
+$$
+
+where the coefficients \(a_{nm}\) are called *attention weights*.
+
+We require these coefficients to satisfy
+
+$$
+a_{nm} \ge 0 \quad \text{for all } m
+$$
+
+and
+
+$$
+\sum_{m=1}^{N} a_{nm} = 1.
+$$
+
+These constraints ensure that the weights form a partition of unity, so that
+each coefficient lies in the range \(0 \le a_{nm} \le 1\). Thus, each output
+vector \(\mathbf{y}_n\) is a convex combination (a weighted average) of the input
+vectors, with some inputs receiving larger weights than others as we wanted.
+
+Note that we have a different set of coefficients \(\{a_{n1}, \dots, a_{nN}\}\)
+for each output index \(n\), and the above constraints apply separately for each
+\(n\). The coefficients \(a_{nm}\) depend on the input data, later we will see how
+we compute them in practice.
+
+### Self Attention
+We wish to determine the coefficients \(a_{nm}\) used in
+
+$$
+\mathbf{y}_n = \sum_{m=1}^{N} a_{nm}\,\mathbf{x}_m.
+$$
+
+**Query--Key--Value analogy.**  
+In information retrieval (e.g.\ a movie streaming service), each movie is
+described by an attribute vector called a *key*, while the movie file
+itself is a *value*.  
+A user specifies their preferences as a *query* vector.  
+The system compares the query with all keys, finds the best match, and returns
+the corresponding value.  
+Focusing on a single best-matching movie would be called *hard attention*.
+
+In transformers we use *soft attention*: instead of returning a single
+value, we compute continuous weights that tell us how strongly each value
+should influence the output. This keeps the whole mapping differentiable, so it
+can be trained by gradient descent.
+
+**Applying this to tokens.**  
+For each input token we start from its embedding \(\mathbf{x}_n\), but we use
+*three* conceptually different copies of it (in this simple version we set
+\(\mathbf{q}_n = \mathbf{k}_n = \mathbf{v}_n = \mathbf{x}_n\) for all \(n\)).
+- **Value** \(\mathbf{v}_n\) *(movie file)*: the actual content to return or mix into the output.
+- **Key** \(\mathbf{k}_n\) *(movie's attribute profile)*: a summary describing that movie (genre, actors, length) used for matching.
+- **Query** \(\mathbf{q}_n\) *(user's wish list of attributes)*: what the output position is looking for and this is compared against all keys.
+
+To decide how much the output at position \(n\) should attend to token \(m\), we
+measure the similarity between the corresponding query and key vectors.  A
+simple similarity measure is the dot product
+
+$$
+\mathbf{x}_n^\top \mathbf{x}_m.
+$$
+
+**Attention weights via softmax.**  
+To enforce the constraints
+
+$$
+a_{nm} \ge 0, \qquad
+\sum_{m=1}^{N} a_{nm} = 1 \quad \text{for each fixed } n,
+$$
+
+we define the attention weights by a softmax over \(m\):
+
+$$
+a_{nm}
+= \frac{\exp\big(\mathbf{x}_n^\top \mathbf{x}_m\big)}
+       {\sum_{m'=1}^{N} \exp\big(\mathbf{x}_n^\top \mathbf{x}_{m'}\big)}.
+$$
+
+Thus, for each \(n\), the row \((a_{n1},\dots,a_{nN})\) forms a set of
+non-negative coefficients that sum to one, assigning larger weights to inputs
+whose keys are more similar to the query.
+
+**Matrix form and self-attention.**  
+Let \(\mathbf{X} \in \mathbb{R}^{N \times D}\) be the input matrix whose \(n\)-th
+row is \(\mathbf{x}_n\), and let \(\mathbf{Y} \in \mathbb{R}^{N \times D}\) be the
+output matrix whose \(n\)-th row is \(\mathbf{y}_n\).  
+We first compute all pairwise dot products:
+
+$$
+\mathbf{L} = \mathbf{X}\mathbf{X}^\top \in \mathbb{R}^{N \times N}.
+$$
+
+We then apply the softmax row-wise to obtain the attention matrix
+
+$$
+\mathbf{A} = \mathrm{Softmax}[\mathbf{X}\mathbf{X}^\top],
+$$
+
+and finally compute the outputs as
+
+$$
+\mathbf{Y} = \mathbf{A}\mathbf{X}
+           = \mathrm{Softmax}[\mathbf{X}\mathbf{X}^\top]\,\mathbf{X}.
+$$
+
+Because the queries, keys, and values are all derived from the same sequence
+\(\mathbf{X}\), this mechanism is known as *self-attention*, and since the
+similarity is given by a dot product, it is specifically *dot-product
+self-attention*.
+
+### Network Parameters
+
+We currently have two problems:
+- Vanilla self-attention contains no trainable parameters
+- Treat all feature values within a token equally in determining the attention coefficients.
+
+Introducing a single projection (learnable weight matrix) \(\mathbf{U}\in\mathbb{R}^{D\times D}\),
+
+$$
+\tilde{\mathbf{X}}=\mathbf{X}\mathbf{U},\qquad
+\mathbf{Y}=\mathrm{Softmax}\!\big[\mathbf{X}\mathbf{U}\mathbf{U}^\top\mathbf{X}^\top\big]\;\mathbf{X}\mathbf{U},
+$$
+
+adds learnability but yields a symmetric score matrix
+\(\mathbf{X}\mathbf{U}\mathbf{U}^\top\mathbf{X}^\top\) and ties the value and
+similarity parameters.
+
+To obtain a more flexible, asymmetric mechanism (for example, bat should be strongly associated with animal but animal should not be strongly associated with bat as there are different kinds of animals), therefore, we use independent projections
+for queries, keys, and values:
+
+$$
+\mathbf{Q}=\mathbf{X}\mathbf{W}^{(q)},\quad
+\mathbf{K}=\mathbf{X}\mathbf{W}^{(k)},\quad
+\mathbf{V}=\mathbf{X}\mathbf{W}^{(v)},
+$$
+
+with \(\mathbf{W}^{(q)},\mathbf{W}^{(k)}\in\mathbb{R}^{D\times D_k}\) and
+\(\mathbf{W}^{(v)}\in\mathbb{R}^{D\times D_v}\) (typically \(D_k=D\), \(D_v=D\) as this helps to stack multiple Transformer layers on top of each other).
+The resulting dot-product self-attention is
+
+$$
+\mathbf{Y}=\mathrm{Softmax}\!\big[\mathbf{Q}\mathbf{K}^\top\big]\;\mathbf{V},
+$$
+
+with \(\mathbf{Q}\mathbf{K}^{T}\in\mathbb{R}^{N\times N}\) and \(\mathbf{Y}\in\mathbb{R}^{N\times D_v}\), which is trainable, reweighs features, and supports asymmetric token
+relationships.
+
+**Bias absorption.**  
+Add a column of ones to the data and a row for biases to the weights, so that
+
+$$
+XW + \mathbf{1} b^\top
+= \underbrace{\big[\,X\;\;\mathbf{1}\,\big]}_{X_{\text{aug}}}
+\underbrace{\begin{bmatrix} W \\ b^\top \end{bmatrix}}_{W_{\text{aug}}}.
+$$
+
+Hence, biases can be treated as implicit via augmentation.
+
+**Fixed vs data dependent weights - Simple NN vs Transformer**  
+For a simple NN let a single input vector be
+
+$$
+\mathbf{x}\in\mathbb{R}^{D_{\text{in}}}
+\quad\text{and the layer have } D_{\text{out}} \text{ output units.}
+$$
+
+The layer has a weight matrix \(W\in\mathbb{R}^{D_{\text{in}}\times D_{\text{out}}}\).
+The output is
+
+$$
+\mathbf{y}=\mathbf{x}W \quad(\text{or } \mathbf{y}=\mathbf{x}W).
+$$
+
+Component-wise, for each output unit \(n\in\{1,\dots,D_{\text{out}}\}\),
+
+$$
+y_n=\sum_{m=1}^{D_{\text{in}}} x_m\,W_{m n}.
+$$
+
+So each output unit is a *weighted sum* of *all* input features. But these weights \(W_{mn}\) are fix for all inputs.
+
+**Transformers data dependent weights.**  
+In the standard layer above, once training is done, the weights \(W_{mn}\) are
+*fixed*. For any new input \(\mathbf{x}\), the contribution of input feature
+\(m\) to output \(n\) is always \(x_m\,W_{mn}\).
+
+In *attention*, by contrast, the mixing coefficients are computed from the
+*current input*. With queries, keys, and values
+\(\,Q=XW^{(q)},\,K=XW^{(k)},\,V=XW^{(v)}\). Therefore, Q,K and V will be different for different inputs.
+
+$$
+Y = \underbrace{\mathrm{Softmax}\!\big(QK^\top\big)}_{\displaystyle A(X)}
+\,V,
+\qquad
+\mathbf{y}_n=\sum_{m=1}^{N} a_{nm}(X)\,\mathbf{v}_m,
+$$
+
+and the “weights” \(a_{nm}(X)\) depend on the present data (via a softmax over
+dot products).Thus, the contribution from token \(m\) to output \(n\) can be nearly zero for one input and large for another a behavior that a standard fixed-weight layer cannot achieve.
+
+### Scaled self attention
+
+**Issue.** Softmax gradients shrink when its inputs (logits) are large in
+magnitude (saturation). In dot-product attention the logits are
+\(\ell_{ij}=\mathbf{q}_i^\top\mathbf{k}_j\), which can grow with vector
+dimension.
+
+**Why do they grow?** Assume (as a scale reference) that query/key
+components are independent with mean \(0\) and variance \(1\):
+\(\mathbf{q}=(q_1,\dots,q_{D_k})\), \(\mathbf{k}=(k_1,\dots,k_{D_k})\).
+Then
+
+$$
+\mathbf{q}^\top\mathbf{k}=\sum_{t=1}^{D_k} q_t k_t,
+\qquad
+\mathbb{E}[q_t k_t]=0,\quad
+\mathrm{Var}(q_t k_t)=\mathbb{E}[q_t^2]\mathbb{E}[k_t^2]=1\cdot 1=1,
+$$
+
+so by independence,
+
+$$
+\mathrm{Var}(\mathbf{q}^\top\mathbf{k})
+=\sum_{t=1}^{D_k}\mathrm{Var}(q_t k_t)=D_k,
+$$
+
+and the typical magnitude (std.\ dev.) is \(\sqrt{D_k}\). Larger \(D_k\) therefore
+pushes logits to larger scales, sharpening the softmax and shrinking gradients.
+
+**Fix.** Normalize logits by their standard deviation:
+
+$$
+\tilde{\ell}_{ij}=\frac{\mathbf{q}_i^\top\mathbf{k}_j}{\sqrt{D_k}},
+$$
+
+which makes \(\mathrm{Var}(\tilde{\ell}_{ij})\approx 1\) under the reference
+assumption, keeping softmax in a stable range.
+
+**Result.** The attention layer is
+
+$$
+\mathbf{Y}
+=\mathrm{Softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{D_k}}\right)\mathbf{V}.
+$$
+
+This is *scaled* dot-product self-attention. (Even when the independence/variance
+assumptions are only approximate, this scaling acts like a principled temperature
+that stabilizes training.)
