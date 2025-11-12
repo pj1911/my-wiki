@@ -105,7 +105,7 @@ $$
 $$
 
 **Query--Key--Value analogy.**  
-In information retrieval (e.g.\ a movie streaming service), each movie is
+In information retrieval (e.g. a movie streaming service), each movie is
 described by an attribute vector called a *key*, while the movie file
 itself is a *value*.  
 A user specifies their preferences as a *query* vector.  
@@ -298,7 +298,7 @@ $$
 =\sum_{t=1}^{D_k}\mathrm{Var}(q_t k_t)=D_k,
 $$
 
-and the typical magnitude (std.\ dev.) is \(\sqrt{D_k}\). Larger \(D_k\) therefore
+and the typical magnitude (std. dev.) is \(\sqrt{D_k}\). Larger \(D_k\) therefore
 pushes logits to larger scales, sharpening the softmax and shrinking gradients.
 
 **Fix.** Normalize logits by their standard deviation:
@@ -320,3 +320,6 @@ $$
 This is *scaled* dot-product self-attention. (Even when the independence/variance
 assumptions are only approximate, this scaling acts like a principled temperature
 that stabilizes training.)
+
+## References
+- Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
