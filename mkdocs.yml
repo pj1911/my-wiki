@@ -8,7 +8,7 @@ nav:
   - Machine Learning:
       - Linear Regression: linearRegression.md
       - Generative Adversarial Networks: Generative Adversarial Networks.md
-      - Transformers: Transformers.md
+      - Transformers-1: Transformers-1.md
 
 markdown_extensions:
   - admonition
