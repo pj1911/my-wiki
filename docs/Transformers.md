@@ -18,7 +18,7 @@ In a standard neural network, each input affects the output based on its weight,
 
 In natural language processing we will see that word embeddings map each word to a vector in an embedding space. These vectors are then used as inputs to neural networks. The embeddings capture basic meaning: words with similar meanings end up close together in this space. A key point is that each word always maps to the same vector (for example, “bat” always has one fixed embedding even when the context is different, like in our example above). Meanwhile, a transformer can be seen as a more powerful kind of embedding. It maps each word’s vector to a new vector that depends on the other words in the sequence. That means the word “bat” can end up in different places depending on the sentence: near “baseball” or near “animal”.
 
-### Transformer Processing
+### Transformer processing
 
 In a transformer, the input is a set of vectors \(\{x_n\}\) of dimensionality \(D\),
 for \(n = 1, \dots, N\). Each vector is called a *token*. A token might
@@ -49,7 +49,7 @@ biases, which are learned using gradient descent with an appropriate cost functi
 A single transformer layer has two stages. The first stage implements the attention mechanism, which, for each feature column, forms a weighted sum over all tokens (rows), thereby mixing information between the token vectors. The second stage then acts on each row 
 independently and further transforms the features within each token vector.
 
-### Attention Coefficients
+### Attention coefficients
 Suppose we have a set of input token vectors (rows)
 
 $$
@@ -97,14 +97,14 @@ for each output index \(n\), and the above constraints apply separately for each
 \(n\). The coefficients \(a_{nm}\) depend on the input data, later we will see how
 we compute them in practice.
 
-### Self Attention
+### Self attention
 We wish to determine the coefficients \(a_{nm}\) used in
 
 $$
 \mathbf{y}_n = \sum_{m=1}^{N} a_{nm}\,\mathbf{x}_m.
 $$
 
-**Query--Key--Value analogy.**  
+**Query, Key and Value analogy.**  
 In information retrieval (e.g. a movie streaming service), each movie is
 described by an attribute vector called a *key*, while the movie file
 itself is a *value*.  
@@ -182,7 +182,7 @@ Because the queries, keys, and values are all derived from the same sequence
 similarity is given by a dot product, it is specifically *dot-product
 self-attention*.
 
-### Network Parameters
+### Network parameters
 
 We currently have two problems:
 - Vanilla self-attention contains no trainable parameters
@@ -208,7 +208,7 @@ $$
 \mathbf{V}=\mathbf{X}\mathbf{W}^{(v)},
 $$
 
-with \(\mathbf{W}^{(q)},\mathbf{W}^{(k)}\in\mathbb{R}^{D\times D_k}\) and
+with linear trasnformations \(\mathbf{W}^{(q)},\mathbf{W}^{(k)}\in\mathbb{R}^{D\times D_k}\) and
 \(\mathbf{W}^{(v)}\in\mathbb{R}^{D\times D_v}\) (typically \(D_k=D\), \(D_v=D\) as this helps to stack multiple Transformer layers on top of each other).
 The resulting dot-product self-attention is
 
@@ -230,7 +230,7 @@ $$
 
 Hence, biases can be treated as implicit via augmentation.
 
-**Fixed vs data dependent weights - Simple NN vs Transformer**  
+**Fixed vs data dependent weights - Simple NN vs Transformer.**  
 For a simple NN let a single input vector be
 
 $$
@@ -400,12 +400,81 @@ $$
 \text{(collapsed)}\;\; \tilde W^{(v)}_h.
 $$
 
-**This non-uniqueness is the “redundancy”:** we keep two matrices even
+**This non-uniqueness is the redundancy.** we keep two matrices even
 though one combined matrix suffices to represent exactly the same function.
 
 Why keep \(W^{(o)}\) in practice? It standardizes the output width \(D\),
 keeps per-head value sizes \(D_v\) small, and matches common implementations, 
 but representationally, only the product \(W^{(v)}_h W^{(o)}_h\) matters.
+
+### Transformer layers
+
+The input tokens have the shape:  \((X\in\mathbb{R}^{N\times D})\) (where rows are the tokens).
+
+**Multi-head attention (MHA).** For heads \((h=1,\dots,H)\),
+
+$$
+Q_h=XW^{(q)}_h,\quad K_h=XW^{(k)}_h,\quad V_h=XW^{(v)}_h,
+$$
+
+$$
+H_h=\mathrm{Softmax}\!\Big(\tfrac{Q_h K_h^\top}{\sqrt{D_k}}\Big)\,V_h\in\mathbb{R}^{N\times D_v}.
+$$
+
+Concatenate and project:
+
+$$
+\mathrm{MHA}(X)=\mathrm{Concat}[H_1,\dots,H_H]\;W^{(o)},\qquad
+W^{(o)}\in\mathbb{R}^{H D_v\times D}.
+$$
+
+The output from MHA layer has the same shape as its input of \((N \times D)\) enabling residuals. MHA gives data-dependent mixing between tokens and helps
+learn \emph{different} relations (e.g., syntax vs.\ semantics) in parallel.
+
+**Residual + LayerNorm (two variants).**
+Residuals preserve the input signal and enable deep stacks. In addition to this, pre/post
+norm improve optimization stability (pre-norm is common for very deep models).
+
+*Post-norm:*
+
+$$
+Z=\mathrm{LayerNorm}\big(\mathrm{MHA}(X)+X\big).
+$$
+
+*Pre-norm:*
+
+$$
+Z=X+\mathrm{MHA}(\mathrm{LayerNorm}(X)).
+$$
+
+**Position-wise MLP (shared across tokens).**
+MHA outputs lie in the span of inputs due to linear mixing, the MLP adds nonlinearity and feature-wise transformation per token, boosting expressiveness. A two-layer example with activation \(\phi\) can be denoted as:
+
+$$
+\mathrm{MLP}(U)=\phi(UW_1+b_1)\,W_2+b_2,\quad
+W_1\in\mathbb{R}^{D\times D_{\mathrm{ff}}},\;\;W_2\in\mathbb{R}^{D_{\mathrm{ff}}\times D}.
+$$
+
+**Block output (two variants).**
+
+*Post-norm:*
+
+$$
+\tilde X=\mathrm{LayerNorm}\big(\mathrm{MLP}(Z)+Z\big).
+$$
+
+*Pre-norm:*
+
+$$
+\tilde X=Z+\mathrm{MLP}(\mathrm{LayerNorm}(Z)).
+$$
+
+Layer normalization is generally used in both sublayers (MHA and MLP) to normalize per token to reduce covariate shift and to keep activations in a
+well-scaled regime to keep the training process steady.
+
+**Stacking.** Repeat the block \(L\) times to form a
+deep transformer. Note that all mappings preserve shape \(N\times D\), enabling residuals.
+
 
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
