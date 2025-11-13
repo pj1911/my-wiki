@@ -497,9 +497,11 @@ Where, FLOPs mean Floating-point Operations.
 
 **1) Linear projections to \(Q,K,V\).**  
 For each head \(h\):
+
 $$
-Q_h=XW^{(q)}_h,\quad K_h=XW^{(k)}_h,\quad V_h=XW^{(v)}_h,
+Q_h=XW^{(q)}_h,\quad K_h=XW^{(k)}_h,\quad V_h=XW^{(v)}_h.
 $$
+
 with \(W^{(q)}_h,W^{(k)}_h\in\mathbb{R}^{D\times d_k}\), \(W^{(v)}_h\in\mathbb{R}^{D\times d_v}\).
 
 $$
@@ -517,6 +519,7 @@ $$
 
 **2) Attention scores (scaled dot products).**  
 For each head:
+
 $$
 S_h=\frac{Q_h K_h^\top}{\sqrt{d_k}}\in\mathbb{R}^{N\times N}.
 $$
@@ -526,6 +529,7 @@ $$
 $$
 
 Softmax over rows:
+
 $$
 A_h=\mathrm{Softmax}(S_h)\in\mathbb{R}^{N\times N},\qquad
 \text{FLOPs: }O(N^2), \qquad  \text{ parameters } = 0.
@@ -535,6 +539,7 @@ Total (all heads): \(H N^2 d_k\) for \(QK^\top\) and \(O(H N^2)\) for softmax.
 
 **3) Mix values.**  
 For each head:
+
 $$
 H_h=A_h V_h\in\mathbb{R}^{N\times d_v},\qquad
 \text{FLOPs: }N^2 d_v = \frac{N^2D}{H}
@@ -545,11 +550,13 @@ Total (all heads): \(H N^2 d_v\).
 
 **4) Concatenate and output projection.**  
 Concatenate \(H_h\) along features:
+
 $$
 H=\mathrm{Concat}[H_1,\dots,H_H]\in\mathbb{R}^{N\times (H d_v)}.
 $$
 
 Project to width \(D\):
+
 $$
 Y_{\text{attn}}=H W^{(o)},\quad W^{(o)}\in\mathbb{R}^{H d_v\times D}.
 $$
@@ -561,6 +568,7 @@ $$
 
 **Common setting \(d_k=d_v=D/H\).**  
 Then
+
 $$
 \begin{aligned}
 \text{Parameters (MHA)} &= D(2H\cdot \tfrac{D}{H} + H\cdot \tfrac{D}{H}) + 0 + 0 + (H\tfrac{D}{H})D
@@ -579,6 +587,7 @@ $$
 
 **Layer normalization**  
 Given an input token (row) \(x \in \mathbb{R}^D\), LayerNorm computes
+
 $$
 \mu = \frac{1}{D} \sum_{i=1}^D x_i, 
 \qquad
@@ -590,23 +599,28 @@ $$
 y_i = \gamma_i \hat{x}_i + \beta_i,
 \quad i = 1,\dots,D,
 $$
+
 where \(\gamma, \beta \in \mathbb{R}^D\) are learnable scale and bias.
 
 For a batch of \(N\) tokens (matrix \(X \in \mathbb{R}^{N \times D}\)):
 
-- FLOPs (forward pass): 
+- FLOPs (forward pass):
+- 
   $$
   \text{FLOPs} \approx c \, N D
   $$
+  
   for a small constant \(c\) (mean/var + normalize + scale/shift).
 
 - Parameters per LayerNorm:
+- 
   $$
   \text{parameters} = 2D \quad (\gamma,\beta).
   $$
 
 **Position-wise MLP (shared across tokens)**  
 Two-layer MLP with hidden width \(D_{\text{ff}}\):
+
 $$
 \mathrm{MLP}(U)=\phi(UW_1+b_1)\,W_2+b_2,\quad
 W_1\in\mathbb{R}^{D\times D_{\text{ff}}},\;W_2\in\mathbb{R}^{D_{\text{ff}}\times D}.
@@ -627,6 +641,7 @@ and \(\text{FLOPs}=2c N D^2\).
 
 **Block totals (one transformer block, pre-/post-norm similar)**  
 Ignoring small \(ND\) terms from residuals/LayerNorm:
+
 $$
 \boxed{
 \text{FLOPs} \;\approx\; \underbrace{2 N^2 D}_{\text{attention mixes}}
