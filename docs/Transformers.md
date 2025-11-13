@@ -429,7 +429,7 @@ W^{(o)}\in\mathbb{R}^{H D_v\times D}.
 $$
 
 The output from MHA layer has the same shape as its input of \((N \times D)\) enabling residuals. MHA gives data-dependent mixing between tokens and helps
-learn \emph{different} relations (e.g., syntax vs.\ semantics) in parallel.
+learn different relations (e.g., syntax vs. semantics) in parallel.
 
 **Residual + LayerNorm (two variants).**
 Residuals preserve the input signal and enable deep stacks. In addition to this, pre/post
@@ -475,6 +475,183 @@ well-scaled regime to keep the training process steady.
 **Stacking.** Repeat the block \(L\) times to form a
 deep transformer. Note that all mappings preserve shape \(N\times D\), enabling residuals.
 
+### Computational complexity
+
+**Setup.** Input \(X\in\mathbb{R}^{N\times D}\) (rows = tokens with \(D\) features).
+A transformer block outputs the same shape \(N\times D\) as its input.
+We use \(H\) heads and for each head key/query/value widths (features) are \(d_k,d_k,d_v\) (typically
+\(d_k=d_v=D/H\)).
+
+**Baseline: fully connected on flattened sequence**  
+Flatten \(X\) to a vector in \(\mathbb{R}^{ND}\) and map to \(\mathbb{R}^{ND}\) with weight matrix
+\(W\in\mathbb{R}^{ND\times ND}\).
+
+$$
+\text{parameters}= \text{elements in the weight matrix = }N^2D^2,\qquad
+\text{ FLOPs }\approx  2\,N^2D^2.
+$$
+
+Where, FLOPs mean Floating-point Operations.
+
+**Multi-head self-attention (MHA)**
+
+**1) Linear projections to \(Q,K,V\).**  
+For each head \(h\):
+$$
+Q_h=XW^{(q)}_h,\quad K_h=XW^{(k)}_h,\quad V_h=XW^{(v)}_h,
+$$
+with \(W^{(q)}_h,W^{(k)}_h\in\mathbb{R}^{D\times d_k}\), \(W^{(v)}_h\in\mathbb{R}^{D\times d_v}\).
+
+$$
+\begin{aligned}
+\text{Shapes: }& Q_h,K_h\in\mathbb{R}^{N\times d_k},\; V_h\in\mathbb{R}^{N\times d_v}.\\
+\text{FLOPs: }& \underbrace{N D d_k}_{XW^{(q)}_h}+\underbrace{N D d_k}_{XW^{(k)}_h}
++\underbrace{N D d_v}_{XW^{(v)}_h}\;\text{ per head}.\\
+&\Rightarrow\;\text{Total FLOPs (all \(H\) heads)}=N D\,(2H d_k + H d_v) = 3ND^2.
+\end{aligned}
+$$
+
+$$
+\text{parameters (projections)}=D(2H d_k + H d_v) = 3D^2.
+$$
+
+**2) Attention scores (scaled dot products).**  
+For each head:
+$$
+S_h=\frac{Q_h K_h^\top}{\sqrt{d_k}}\in\mathbb{R}^{N\times N}.
+$$
+
+$$
+\text{FLOPs: }N^2 d_k \text{ (matrix multiply)}\quad (\text{the divide by }\sqrt{d_k}\text{ is }O(N^2)).
+$$
+
+Softmax over rows:
+$$
+A_h=\mathrm{Softmax}(S_h)\in\mathbb{R}^{N\times N},\qquad
+\text{FLOPs: }O(N^2), \qquad  \text{ parameters } = 0.
+$$
+
+Total (all heads): \(H N^2 d_k\) for \(QK^\top\) and \(O(H N^2)\) for softmax.
+
+**3) Mix values.**  
+For each head:
+$$
+H_h=A_h V_h\in\mathbb{R}^{N\times d_v},\qquad
+\text{FLOPs: }N^2 d_v = \frac{N^2D}{H}
+ \text{ (matrix multiply)}, \qquad \text{parameters}=0
+$$
+
+Total (all heads): \(H N^2 d_v\).
+
+**4) Concatenate and output projection.**  
+Concatenate \(H_h\) along features:
+$$
+H=\mathrm{Concat}[H_1,\dots,H_H]\in\mathbb{R}^{N\times (H d_v)}.
+$$
+
+Project to width \(D\):
+$$
+Y_{\text{attn}}=H W^{(o)},\quad W^{(o)}\in\mathbb{R}^{H d_v\times D}.
+$$
+
+$$
+\text{FLOPs: }N\,(H d_v)\,D,\qquad
+\text{parameters (output proj)}=(H d_v)D.
+$$
+
+**Common setting \(d_k=d_v=D/H\).**  
+Then
+$$
+\begin{aligned}
+\text{Parameters (MHA)} &= D(2H\cdot \tfrac{D}{H} + H\cdot \tfrac{D}{H}) + 0 + 0 + (H\tfrac{D}{H})D
+= 4D^2,\\
+\text{FLOPs (MHA)} &=
+\underbrace{N D (2H d_k + H d_v)}_{=\,3ND^2}
++\underbrace{H N^2 d_k}_{=\,N^2 D}
++\underbrace{H N^2 d_v}_{=\,N^2 D}
++\underbrace{N(H d_v)D}_{=\,N D^2}\\
+&= \boxed{2N^2 D + 4 N D^2}\quad(\text{softmax adds }O(N^2)).
+\end{aligned}
+$$
+
+**Residual adds**  
+\(X+Y_{\text{attn}}\): elementwise add, \(\;\text{FLOPs}=N D, \qquad \#\text{parmas} = 0 \)
+
+**Layer normalization**  
+Given an input token (row) \(x \in \mathbb{R}^D\), LayerNorm computes
+$$
+\mu = \frac{1}{D} \sum_{i=1}^D x_i, 
+\qquad
+\sigma^2 = \frac{1}{D} \sum_{i=1}^D (x_i - \mu)^2,
+$$
+$$
+\hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \varepsilon}},
+\qquad \text{final output is given by: }
+y_i = \gamma_i \hat{x}_i + \beta_i,
+\quad i = 1,\dots,D,
+$$
+where \(\gamma, \beta \in \mathbb{R}^D\) are learnable scale and bias.
+
+For a batch of \(N\) tokens (matrix \(X \in \mathbb{R}^{N \times D}\)):
+
+- FLOPs (forward pass): 
+  $$
+  \text{FLOPs} \approx c \, N D
+  $$
+  for a small constant \(c\) (mean/var + normalize + scale/shift).
+
+- Parameters per LayerNorm:
+  $$
+  \text{parameters} = 2D \quad (\gamma,\beta).
+  $$
+
+**Position-wise MLP (shared across tokens)**  
+Two-layer MLP with hidden width \(D_{\text{ff}}\):
+$$
+\mathrm{MLP}(U)=\phi(UW_1+b_1)\,W_2+b_2,\quad
+W_1\in\mathbb{R}^{D\times D_{\text{ff}}},\;W_2\in\mathbb{R}^{D_{\text{ff}}\times D}.
+$$
+
+$$
+\text{parameters for }W_1, W_2, b_1, b_2 = D D_{\text{ff}} + D_{\text{ff}} D + D_{\text{ff}} + D
+\approx 2 D D_{\text{ff}}.
+$$
+
+**FLOPs.** The two matrix multiplications dominate:
+\(\;UW_1: (N\times D)(D\times D_{\text{ff}})\) and \((\cdot)W_2: (N\times D_{\text{ff}})(D_{\text{ff}}\times D)\),
+each costing \(\approx  N D D_{\text{ff}}\) FLOPs, so in total
+\(\text{FLOPs} \approx 2 N D D_{\text{ff}}\).
+
+Common choice \(D_{\text{ff}}=cD\) (e.g.\ \(c{=}4\)) gives \(\text{parameters}\approx 2c D^2\)
+and \(\text{FLOPs}=2c N D^2\).
+
+**Block totals (one transformer block, pre-/post-norm similar)**  
+Ignoring small \(ND\) terms from residuals/LayerNorm:
+$$
+\boxed{
+\text{FLOPs} \;\approx\; \underbrace{2 N^2 D}_{\text{attention mixes}}
+\;+\; \underbrace{4 N D^2}_{\text{QKV+out proj}}
+\;+\; \underbrace{2c N D^2}_{\text{MLP}}
+}
+$$
+
+$$
+\text{FLOPs} \;\approx\; 2 N^2 D \;+\; (4+2c)\,N D^2.
+$$
+
+$$
+\boxed{
+\text{parameters} \;\approx\; \underbrace{4 D^2}_{\text{MHA}}
+\;+\; \underbrace{2c D^2}_{\text{MLP}}
+\;+\; \underbrace{4D}_{\text{two LayerNorms}}
+}
+$$
+
+**When does which term dominate?**  
+Attention dominates for long sequences (\(N\gg D\)) since it scales as \(N^2 D\).
+The MLP dominates for wide models (\(D\gg N\)) since it scales as \(N D^2\).
+Compared to a dense \(\mathbb{R}^{ND}\!\to\!\mathbb{R}^{ND}\) layer
+(\(\Theta(N^2D^2)\) params/FLOPs), a transformer block is vastly more efficient.
 
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
