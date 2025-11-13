@@ -313,13 +313,87 @@ assumption, keeping softmax in a stable range.
 **Result.** The attention layer is
 
 $$
-\mathbf{Y}
+\mathbf{Y} = Attention(\mathbf{Q},\mathbf{K},\mathbf{V})
 =\mathrm{Softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{D_k}}\right)\mathbf{V}.
 $$
 
 This is *scaled* dot-product self-attention. (Even when the independence/variance
 assumptions are only approximate, this scaling acts like a principled temperature
 that stabilizes training.)
+
+### Multi head attention
+A single head can average out distinct patterns. Therefore, we use \(H\) parallel heads with separate
+parameters to attend to different patterns for example in NLP it can be tenses, vocabulary, etc.
+
+**Setup.** Let \(X\!\in\!\mathbb{R}^{N\times D}\).
+Each head \(h\in\{1,\dots,H\}\) has its own:
+$$
+Q_h = X W^{(q)}_h,\qquad
+K_h = X W^{(k)}_h,\qquad
+V_h = X W^{(v)}_h,
+$$
+with \(W^{(q)}_h,W^{(k)}_h\!\in\!\mathbb{R}^{D\times D_k}\) and
+\(W^{(v)}_h\!\in\!\mathbb{R}^{D\times D_v}\).
+
+**Per-head attention (scaled).**
+$$
+\mathbf{H}_h \;=Attention(\mathbf{Q_h}, \mathbf{K_h},\mathbf{V_h})=\; Softmax\!\left(\frac{Q_h K_h^\top}{\sqrt{D_k}}\right) V_h
+\;\in\;\mathbb{R}^{N\times D_v}.
+$$
+
+**Combine heads.** Concatenate along features to get shape \((N \times HD_v)\) and project:
+$$
+Y(X) \;=\; Concat\,[H_1,\dots,H_H]\; W^{(o)},\qquad
+W^{(o)} \in \mathbb{R}^{H D_v \times D }\text{ is a trainable linear matrix: },
+$$
+so \(Y\in\mathbb{R}^{N\times D}\) matches the input width.
+A common choice is \(D_k=D_v=D/H\), making the concatenated matrix \(N\times D\).
+
+**Why there is “redundancy”.**
+It is due to the reparameterization on the **value path**.
+We know for each head,
+$$
+H_h=Softmax\!\Big(\tfrac{Q_h K_h^\top}{\sqrt{D_k}}\Big)\;V_h,
+\qquad
+V_h = X W^{(v)}_h,
+$$
+and the final combine is
+$$
+Y=Concat[H_1,\dots,H_H]\;W^{(o)}.
+$$
+We can write \(W^{(o)}=\big[(W^{(o)}_1)^\top\;\cdots\;(W^{(o)}_H)^\top\big]^\top\).
+Then
+$$
+Y=\sum_{h=1}^H H_h\,W^{(o)}_h
+  =\sum_{h=1}^H Softmax\!\Big(\tfrac{Q_h K_h^\top}{\sqrt{D_k}}\Big)\;\underbrace{(X W^{(v)}_h W^{(o)}_h)}_{X\,\tilde W^{(v)}_h}.
+$$
+Then we can define \(\tilde W^{(v)}_h := W^{(v)}_h W^{(o)}_h\). The layer becomes
+$$
+Y=\sum_{h=1}^H Softmax\!\Big(\tfrac{Q_h K_h^\top}{\sqrt{D_k}}\Big)\;X\,\tilde W^{(v)}_h,
+$$
+with \emph{no explicit \(W^{(o)}\)}.
+
+Therefore the two consecutive linear maps on \(V\) (first \(W^{(v)}_h\),
+then the head’s block \(W^{(o)}_h\)) can always be merged into a single matrix
+\(\tilde W^{(v)}_h\). Since the attention weights use only \(Q\) and \(K\), the value path is purely
+linear per head: \(V_h W^{(o)}_h = X\,W^{(v)}_h W^{(o)}_h\).
+Thus we can \emph{collapse} the two matrices into one
+\(\tilde W^{(v)}_h := W^{(v)}_h W^{(o)}_h\).
+This gives two equivalent parameterizations:
+$$
+\text{(separate)}\;\; (W^{(v)}_h,\,W^{(o)}_h)
+\quad\longleftrightarrow\quad
+\text{(collapsed)}\;\; \tilde W^{(v)}_h.
+$$
+\textbf{This non-uniqueness is the “redundancy”:} we keep two matrices even
+though one combined matrix suffices to represent exactly the same function.
+
+
+
+\emph{Why keep \(W^{(o)}\) in practice?} It standardizes the output width \(D\),
+keeps per-head value sizes \(D_v\) small, and matches common implementations, 
+but representationally, only the product \(W^{(v)}_h W^{(o)}_h\) matters.
+
 
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
