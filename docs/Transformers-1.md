@@ -635,7 +635,7 @@ $$
 each costing \(\approx  N D D_{\text{ff}}\) FLOPs, so in total
 \(\text{FLOPs} \approx 2 N D D_{\text{ff}}\).
 
-Common choice \(D_{\text{ff}}=cD\) (e.g.\ \(c{=}4\)) gives \(\text{parameters}\approx 2c D^2\)
+Common choice \(D_{\text{ff}}=cD\) (e.g.\(c{=}4\)) gives \(\text{parameters}\approx 2c D^2\)
 and \(\text{FLOPs}=2c N D^2\).
 
 **Block totals (one transformer block, pre-/post-norm similar)**  
