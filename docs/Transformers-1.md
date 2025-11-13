@@ -602,18 +602,16 @@ $$
 
 where \(\gamma, \beta \in \mathbb{R}^D\) are learnable scale and bias.
 
-For a batch of \(N\) tokens (matrix \(X \in \mathbb{R}^{N \times D}\)):
+For a batch of \(N\) tokens (matrix \(X \in \mathbb{R}^{N \times D}\)), FLOPs (in forward pass):
 
-- FLOPs (forward pass):
-- 
   $$
   \text{FLOPs} \approx c \, N D
   $$
   
   for a small constant \(c\) (mean/var + normalize + scale/shift).
 
-- Parameters per LayerNorm:
-- 
+Parameters per LayerNorm:
+  
   $$
   \text{parameters} = 2D \quad (\gamma,\beta).
   $$
