@@ -604,17 +604,17 @@ where \(\gamma, \beta \in \mathbb{R}^D\) are learnable scale and bias.
 
 For a batch of \(N\) tokens (matrix \(X \in \mathbb{R}^{N \times D}\)), FLOPs (in forward pass):
 
-  $$
-  \text{FLOPs} \approx c \, N D
-  $$
-  
-  for a small constant \(c\) (mean/var + normalize + scale/shift).
+$$
+\text{FLOPs} \approx c \, N D
+$$
+
+for a small constant \(c\) (mean/var + normalize + scale/shift).
 
 Parameters per LayerNorm:
-  
-  $$
-  \text{parameters} = 2D \quad (\gamma,\beta).
-  $$
+
+$$
+\text{parameters} = 2D \quad (\gamma,\beta).
+$$
 
 **Position-wise MLP (shared across tokens)**  
 Two-layer MLP with hidden width \(D_{\text{ff}}\):
