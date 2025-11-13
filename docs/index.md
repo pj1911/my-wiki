@@ -8,7 +8,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
 
 **Where I’ve been:** I’m doing my ph.d. in transportation systems at nyu tandon (’23–’27-ish). Before that I did my masters at Indian Institute of technology Kanpur and Bachelors at Gbpiet pauri. Lots of civil/transport roots, now very ML-heavy.
 
-**Recent work:** Traffic-state estimation using physics-informed deep learning on traffic datasets. Fun result: matched adaptive smoothing method level accuracy with way less compute using PIDL.
+**Recent work:** Solving PDEs with Neural Operators, showing when they work and when they don't and proposing our own Neural Operator models that outperforms SOTA models. Traffic-state estimation using physics-informed deep learning on traffic datasets. Fun result: matched adaptive smoothing method level accuracy with way less compute using PIDL.
 
 #Publications 
 
