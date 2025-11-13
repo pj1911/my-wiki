@@ -354,8 +354,8 @@ $$
 so \(Y\in\mathbb{R}^{N\times D}\) matches the input width.
 A common choice is \(D_k=D_v=D/H\), making the concatenated matrix \(N\times D\).
 
-**Why there is “redundancy”.**
-It is due to the reparameterization on the **value path**.
+**Redundancy observed.**
+It is due to the reparameterization on the value path.
 We know for each head,
 
 $$
@@ -384,13 +384,13 @@ $$
 Y=\sum_{h=1}^H \mathrm{Softmax}\!\Big(\tfrac{Q_h K_h^\top}{\sqrt{D_k}}\Big)\;X\,\tilde W^{(v)}_h,
 $$
 
-with \emph{no explicit \(W^{(o)}\)}.
+with no explicit \(W^{(o)}\).
 
 Therefore the two consecutive linear maps on \(V\) (first \(W^{(v)}_h\),
 then the head’s block \(W^{(o)}_h\)) can always be merged into a single matrix
 \(\tilde W^{(v)}_h\). Since the attention weights use only \(Q\) and \(K\), the value path is purely
 linear per head: \(V_h W^{(o)}_h = X\,W^{(v)}_h W^{(o)}_h\).
-Thus we can \emph{collapse} the two matrices into one
+Thus we can collapse the two matrices into one
 \(\tilde W^{(v)}_h := W^{(v)}_h W^{(o)}_h\).
 This gives two equivalent parameterizations:
 
@@ -403,7 +403,7 @@ $$
 **This non-uniqueness is the “redundancy”:** we keep two matrices even
 though one combined matrix suffices to represent exactly the same function.
 
-\emph{Why keep \(W^{(o)}\) in practice?} It standardizes the output width \(D\),
+Why keep \(W^{(o)}\) in practice? It standardizes the output width \(D\),
 keeps per-head value sizes \(D_v\) small, and matches common implementations, 
 but representationally, only the product \(W^{(v)}_h W^{(o)}_h\) matters.
 
