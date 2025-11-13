@@ -593,6 +593,7 @@ $$
 \qquad
 \sigma^2 = \frac{1}{D} \sum_{i=1}^D (x_i - \mu)^2,
 $$
+
 $$
 \hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \varepsilon}},
 \qquad \text{final output is given by: }
