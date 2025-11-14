@@ -673,7 +673,7 @@ Compared to a dense \(\mathbb{R}^{ND}\!\to\!\mathbb{R}^{ND}\) layer
 Transformers have a really cool property, since it shares \((W_h^{(q)},W_h^{(k)},W_h^{(v)})\) across input tokens and applies the
 same computations to every row of \(X\in\mathbb{R}^{N\times D}\).  
 This makes permuting the input rows results in the same permutation of the rows of the output matrix (permutation equivariance). Since parameters are shared across inputs, it gives two major benefits to the network, firstly it makes the computation parallel, and secondly it makes long range dependencies just as effective as the short range ones. This is because the same weight matrices (for attention, feed-forward layers, etc.) are shared across all tokens in the sequence, the model doesn’t need different parameters for each position or word. This means every token can be run through the same computations at the same time, letting GPUs/TPUs process all tokens in parallel instead of one after another. But for sequences (language, etc.), order matters, so we need to inject
-positional information into the data.
+positional information into the data. Since we want to keep the two nice properties of our attention layers discussed above, we’d rather encode token order directly in the input representations, instead of baking it into the network architecture itself.
 
 **Additive positional encoding.**  
 Associate each position \(n\) with a vector \(r_n\in\mathbb{R}^{D}\) as each token has \(D\) dimensional features and add it to the
