@@ -690,7 +690,7 @@ The simplest example for this is \(r_n=\{1,2,3,\cdots\}\). But in this case the 
 
 **Design goals.**  
 A good positional code should be: (i) unique per position, (ii) bounded,
-(iii) generalize to longer sequences, and (iv) support \emph{relative} offsets.
+(iii) generalize to longer sequences, and (iv) support relative offsets.
 Therefore, a good example of it can be positional encoding between (0,1).
 
 **Learned Encoding**  
