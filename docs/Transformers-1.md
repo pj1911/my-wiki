@@ -667,5 +667,34 @@ The MLP dominates for wide models (\(D\gg N\)) since it scales as \(N D^2\).
 Compared to a dense \(\mathbb{R}^{ND}\!\to\!\mathbb{R}^{ND}\) layer
 (\(\Theta(N^2D^2)\) params/FLOPs), a transformer block is vastly more efficient.
 
+### Positional encoding
+
+**Why we need it.**  
+Transformers have a really cool property, since it shares \((W_h^{(q)},W_h^{(k)},W_h^{(v)})\) across input tokens and applies the
+same computations to every row of \(X\in\mathbb{R}^{N\times D}\).  
+This makes permuting the input rows results in the same permutation of the rows of the output matrix (permutation equivariance). Since parameters are shared across inputs, it gives two major benefits to the network, firstly it makes the computation parallel, and secondly it makes long range dependencies just as effective as the short range ones. This is because the same weight matrices (for attention, feed-forward layers, etc.) are shared across all tokens in the sequence, the model doesn’t need different parameters for each position or word. This means every token can be run through the same computations at the same time, letting GPUs/TPUs process all tokens in parallel instead of one after another. But for sequences (language, etc.), order matters, so we need to inject
+positional information into the data.
+
+**Additive positional encoding.**  
+Associate each position \(n\) with a vector \(r_n\in\mathbb{R}^{D}\) as each token has \(D\) dimensional features and add it to the
+token embedding \(x_n\):
+
+$$
+\tilde x_n = x_n + r_n \quad(=\text{row } n \text{ of } \tilde X).
+$$
+
+This might seem counter-intuitive, as this might mess up the input vector, but in reality this works really well. As in high-dimensional spaces, two unrelated vectors are almost orthogonal, so the model can keep token identity and position information relatively separate even when they’re added. Residual connections across layers help preserve this position information as it flows through the network. And because the layers are mostly linear, using addition of token and position embeddings behaves a lot like concatenating them and then applying a linear layer (add then linear is a special case of concatenation then linear where the bigger weight matrix is a concatenation of two same smaller weight matrices). This also preserves the model’s width \(D\) (concatenation would increase cost).
+
+**Example**  
+The simplest example for this is \(r_n=\{1,2,3,\cdots\}\). But in this case the magnitude can get very high and start corrupting the input. In addition, it may not generalize well to new input sequences that are longer than samples in training dataset.
+
+**Design goals.**  
+A good positional code should be: (i) unique per position, (ii) bounded,
+(iii) generalize to longer sequences, and (iv) support \emph{relative} offsets.
+Therefore, a good example of it can be positional encoding between (0,1).
+
+**Learned Encoding**  
+Another common way to add position information is with learned positional encodings. Here, each position in the sequence gets its own trainable vector, learned together with the rest of the model instead of being hand-designed. Because these position vectors are not shared across positions, permuting the tokens changes their positions and thus breaks permutation invariance, which is exactly what we want from a positional encoding. But the downside is that this scheme doesn’t naturally generalize to positions beyond those seen in training, meaning newer positions just have untrained embeddings. So, learned positional encoding are mainly a good fit when sequence lengths stay roughly the same during training and inference.
+
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
