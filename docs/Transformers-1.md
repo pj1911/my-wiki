@@ -9,6 +9,7 @@ Transformers can also be trained in a self-supervised way on unlabeled data, whi
 
 ## Attention
 The core idea behind transformers is attention. It was first created to improve RNNs for machine translation but later, it was shown that we could remove recurrence entirely and rely only on attention, getting much better results. Today, attention-based transformers have largely replaced RNNs in almost all applications. For example, consider the following sentences:
+
 - The baseball player gripped the bat.
 - A small animal that hangs upside-down might be a bat.
 
@@ -22,9 +23,7 @@ In natural language processing we will see that word embeddings map each word to
 
 In a transformer, the input is a set of vectors \(\{x_n\}\) of dimensionality \(D\),
 for \(n = 1, \dots, N\). Each vector is called a *token*. A token might
-correspond to:
-- a word in a sentence,
-- a patch in an image
+correspond to a word in a sentence or a patch in an image.
 
 The individual components \(x_{ni}\) of each token are called *features*. A key advantage of transformers is that we do not need to design a different
 neural network architecture for each data type. Instead, we simply convert the
