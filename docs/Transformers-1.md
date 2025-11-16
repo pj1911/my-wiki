@@ -122,6 +122,7 @@ can be trained by gradient descent.
 For each input token we start from its embedding \(\mathbf{x}_n\), but we use
 *three* conceptually different copies of it (in this simple version we set
 \(\mathbf{q}_n = \mathbf{k}_n = \mathbf{v}_n = \mathbf{x}_n\) for all \(n\)).
+
 - **Value** \(\mathbf{v}_n\) *(movie file)*: the actual content to return or mix into the output.
 - **Key** \(\mathbf{k}_n\) *(movie's attribute profile)*: a summary describing that movie (genre, actors, length) used for matching.
 - **Query** \(\mathbf{q}_n\) *(user's wish list of attributes)*: what the output position is looking for and this is compared against all keys.
