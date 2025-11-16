@@ -24,7 +24,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
   [arXiv:2506.03059](https://arxiv.org/abs/2506.03059)
 
 
-**Tools I reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims. i’m a “keep it simple, measure it, ship it” person.
+**Tools I reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims. I’m a “keep it simple, measure it, ship it” person.
 
 
 **Say Hi / Follow along:**  
