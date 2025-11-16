@@ -4,7 +4,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
 
 ---
 
-**What i’m into right now:** Neural operators, physics-informed deep learning, and spatiotemporal ML. I like taking mathy ideas and making them useful for real mobility problems like traffic + pedestrian flow, trajectory prediction, and sim + RL for autonomy.
+**What I’m into right now:** Neural operators, physics-informed deep learning, and spatiotemporal ML. I like taking mathy ideas and making them useful for real mobility problems like traffic + pedestrian flow, trajectory prediction, and sim + RL for autonomy.
 
 **Where I’ve been:** I’m doing my ph.d. in transportation systems at nyu tandon (’23–’27-ish). Before that I did my masters at Indian Institute of technology Kanpur and Bachelors at Gbpiet pauri. Lots of civil/transport roots, now very ML-heavy.
 
@@ -24,7 +24,7 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
   [arXiv:2506.03059](https://arxiv.org/abs/2506.03059)
 
 
-**Tools i reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims. i’m a “keep it simple, measure it, ship it” person.
+**Tools I reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims. i’m a “keep it simple, measure it, ship it” person.
 
 
 **Say Hi / Follow along:**  
