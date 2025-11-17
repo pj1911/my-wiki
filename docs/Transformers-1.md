@@ -1,4 +1,4 @@
-# Transformers
+# Transformers - Introduction
 
 ## Introduction
 Transformers are a major breakthrough in deep learning. They use attention as a way for the network to give different weights to different inputs, where those weights are determined by the inputs themselves. This lets transformers naturally capture useful patterns in sequences and other kinds of data. They’re called transformers because they take a set of vectors in one space and turn them into a new set of vectors (with the same size) in another space. This new space is designed such that it holds a richer internal representation that makes it easier to solve downstream tasks.
