@@ -507,8 +507,10 @@ with \(W^{(q)}_h,W^{(k)}_h\in\mathbb{R}^{D\times d_k}\), \(W^{(v)}_h\in\mathbb{R
 $$
 \begin{aligned}
 \text{Shapes: }& Q_h,K_h\in\mathbb{R}^{N\times d_k},\; V_h\in\mathbb{R}^{N\times d_v}.\\
+
 \text{FLOPs: }& \underbrace{N D d_k}_{XW^{(q)}_h}+\underbrace{N D d_k}_{XW^{(k)}_h}
 +\underbrace{N D d_v}_{XW^{(v)}_h}\;\text{ per head}.\\
+
 &\Rightarrow\;\text{Total FLOPs (all \(H\) heads)}=N D\,(2H d_k + H d_v) = 3ND^2.
 \end{aligned}
 $$
@@ -532,12 +534,12 @@ Softmax over rows:
 
 $$
 A_h=\mathrm{Softmax}(S_h)\in\mathbb{R}^{N\times N},\qquad
-\text{FLOPs: }O(N^2), \qquad  \text{ parameters } = 0.
+\text{FLOPs: }O(N^2).
 $$
 
-Total (all heads): \(H N^2 d_k\) for \(QK^\top\) and \(O(H N^2)\) for softmax.
+Total FLOPs (all heads): \(H N^2 d_k\) for \(QK^\top\) and \(O(H N^2)\) for softmax and parameters = 0.
 
-**3) Mix values.**  
+**3) Value mixing.**  
 For each head:
 
 $$
@@ -545,8 +547,6 @@ H_h=A_h V_h\in\mathbb{R}^{N\times d_v},\qquad
 \text{FLOPs: }N^2 d_v = \frac{N^2D}{H}
  \text{ (matrix multiply)}, \qquad \text{parameters}=0
 $$
-
-Total (all heads): \(H N^2 d_v\).
 
 **4) Concatenate and output projection.**  
 Concatenate \(H_h\) along features:
