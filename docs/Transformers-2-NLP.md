@@ -1231,7 +1231,7 @@ $$
 z_t = f_{\text{enc}}(z_{t-1}, e_t), \qquad t = 1,\ldots,T,
 $$
 
-where \(f_{\text{enc}}\) is the RNN cell (e.g.\ a simple RNN, LSTM, or GRU).
+where \(f_{\text{enc}}\) is the RNN cell (e.g. a simple RNN, LSTM, or GRU).
 During this phase:
 
 - *inputs*: \((z_{t-1}, e_t)\),
