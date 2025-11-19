@@ -383,8 +383,7 @@ distribution (ignoring the order). Then
 
 $$
 p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
-= \prod_{n=1}^N p(\mathbf{x}_n).
-\tag{12.28}
+= \prod_{n=1}^N p(\mathbf{x}_n)
 $$
 
 The distribution \(p(\mathbf{x})\) is the same for all positions or tokens and can be
@@ -400,16 +399,14 @@ words are independent, but that each class has its own distribution. Thus
 
 $$
 p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)
-= \prod_{n=1}^N p(\mathbf{x}_n \mid C_k).
-\tag{12.29}
+= \prod_{n=1}^N p(\mathbf{x}_n \mid C_k)
 $$
 
 With prior class probabilities \(p(C_k)\), the posterior for a new sequence is
 
 $$
 p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
-\propto p(C_k) \prod_{n=1}^N p(\mathbf{x}_n \mid C_k).
-\tag{12.30}
+\propto p(C_k) \prod_{n=1}^N p(\mathbf{x}_n \mid C_k)
 $$
 
 Both the class-conditional distributions \(p(\mathbf{x}\mid C_k)\) and the priors
