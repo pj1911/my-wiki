@@ -328,3 +328,99 @@ treated as an adaptive layer that is learned during end-to-end training of the
 whole system. In the adaptive case, the embedding layer can be initialized with
 random weights or with a standard pre-trained embedding matrix.
 
+## Tokenization
+
+A fixed dictionary of whole words has problems. It cannot handle unseen or
+misspelled words, and it ignores punctuation and other character sequences such
+as computer code.
+
+A pure character-level approach fixes these issues by defining the dictionary as
+all characters: upper- and lower-case letters, digits, punctuation, and white-space
+symbols such as spaces and tabs. But this approach throws away explicit word
+structure. The neural network must then learn words from raw characters, and the
+sequence becomes much longer, increasing computation.
+
+We can combine the advantages of word- and character-level views by adding a
+pre-processing step called *tokenization*. This converts the original string of
+words and punctuation symbols into a string of *tokens*. Tokens are short
+character sequences. They may be complete common words, fragments of longer
+words, or even individual characters, which can be combined to represent rare
+words. Tokenization naturally handles punctuation,
+computer code, and other symbol sequences. It can also extend to other modalities
+such as images. Variants of the same word can share tokens: for example,
+'cook', 'cooks', 'cooked', 'cooking', and 'cooker' can all include the token
+'cook', so their representations are related.
+
+There are many tokenization methods. One important example is byte pair
+encoding (BPE), originally used for data compression and adapted to text by
+merging characters instead of bytes. The
+procedure is:
+
+1. Start with a token list that contains all individual characters.
+2. In a large text corpus, find the most frequent adjacent pair of tokens.
+3. Replace each occurrence of this pair with a new, single token.
+4. To avoid merging across word boundaries, do not create a new token from
+   a pair if the second token begins with a white-space character.
+5. Repeat the merge steps
+
+Initially, the number of tokens in the vocabulary equals the number of distinct
+characters, which is small. As merges are applied, the vocabulary size grows.
+If we continue long enough, the tokens approach whole words. In practice, we
+fix a maximum vocabulary size in advance as a compromise between character-
+level and word-level representations and stop the algorithm when this size is
+reached.
+
+In most deep learning applications to natural language, input text is first mapped
+to a tokenized sequence. However, for the rest of this chapter we will use
+word-level representations because they make the main ideas easier to present.
+
+## Bag of words
+
+The task is to calculate the likelihood (probability) of a specific sequence of words occurring. We now model the joint distribution \(p(\mathbf{x}_1,\ldots,\mathbf{x}_N)\) of this
+ordered sequence of vectors (words/ token in our case). The simplest
+assumption is that all words are drawn independently from the same
+distribution (ignoring the order). Then
+
+$$
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \prod_{n=1}^N p(\mathbf{x}_n).
+\tag{12.28}
+$$
+
+The distribution \(p(\mathbf{x})\) is the same for all positions or tokens and can be
+represented as a table of probabilities over the dictionary of words or tokens where each word or token has a fixed probability independent of its position.
+The maximum-likelihood estimate simply sets each table entry equal to the
+fraction of times that word occurs in the training set. This is called a
+bag of words model because it ignores word order completely.
+
+We can use the bag-of-words idea to build a simple text classifier. For
+instance, in sentiment analysis a review is classified as positive or negative.
+The naive Bayes classifier assumes that, within each class \(C_k\), the
+words are independent, but that each class has its own distribution. Thus
+
+$$
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)
+= \prod_{n=1}^N p(\mathbf{x}_n \mid C_k).
+\tag{12.29}
+$$
+
+With prior class probabilities \(p(C_k)\), the posterior for a new sequence is
+
+$$
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+\propto p(C_k) \prod_{n=1}^N p(\mathbf{x}_n \mid C_k).
+\tag{12.30}
+$$
+
+Both the class-conditional distributions \(p(\mathbf{x}\mid C_k)\) and the priors
+\(p(C_k)\) can be estimated from training frequencies. For a new sequence, we
+multiply the corresponding table entries to obtain posterior scores. If a word
+appears in the test set but never appeared in the training set for a given
+class, then its estimated probability for that class is zero, and the whole
+product becomes zero. To avoid this, the probability tables are usually
+smoothed after training by adding a small amount of probability
+uniformly across all entries so that no entry is exactly zero.
+
+
+## References
+- Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
