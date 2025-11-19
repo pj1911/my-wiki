@@ -455,7 +455,7 @@ $$
 Each conditional \(p(\mathbf{x}_n \mid \mathbf{x}_1,\ldots,\mathbf{x}_{n-1})\) could
 be stored as a table whose entries are estimated from frequency counts in the
 training corpus. But the size of these tables grows exponentially with the
-sequence length, so this direct approach is not feasible.
+sequence length, so this direct approach is not feasible. Let us try to prove this in the following setup.
 
 **Setup**
 
@@ -473,12 +473,10 @@ $$
 
 We want to store each conditional \(p(x_n \mid x_1,\ldots,x_{n-1})\) in a table.
 Here we are counting how many model parameters (independent
-probability values) are needed to specify this conditional distribution.
-
-Consider a specific position \(n\) and let us count how big that parameter table
+probability values) are needed to specify this conditional distribution. Consider a specific position \(n\) and let us count how big that parameter table
 must be.
 
-**1. Counting possible histories \((x_1,\ldots,x_{n-1})\)**
+**1. Counting possible histories \((x_1,\ldots,x_{n-1})\).**
 
 A *history* for position \(n\) is any concrete sequence of values
 
@@ -520,18 +518,18 @@ If we wrote this as a row in a table, that row would contain exactly these \(K\)
 numbers. These numbers are exactly the parameters that define the model’s
 behaviour for this history.
 
-**3. Why only \(K-1\) *free* parameters per history?**
+**3. \(K-1\) free parameters per history.**
 
 For each fixed history \(h\), the \(K\) probabilities must obey:
 
-1. *Non-negativity*:
+ *(i) Non-negativity:*
 
 $$
 0 \le p(x_n = k \mid h) \le 1
 \qquad \text{for all } k=1,\ldots,K.
 $$
 
-2. *Normalization*:
+*(ii) Normalization:*
 
 $$
 \sum_{k=1}^K p(x_n = k \mid h) = 1.
@@ -549,7 +547,7 @@ So although there are \(K\) numbers in the row, only \(K-1\) of them can be chos
 independently. We say the distribution for this history has \(K-1\) free
 parameters.
 
-**4. Total number of parameters for the table at step \(n\)**
+**4. Total number of parameters for the table at step \(n\).**
 
 - Number of distinct histories \(h\) of length \(n-1\): \(K^{n-1}\).
 - Free parameters for each history’s row: \(K-1\)
@@ -568,7 +566,7 @@ This quantity grows proportionally to \(K^{n-1}\), which increases
 raw tables quickly becomes infeasible for realistic vocabulary sizes \(K\) and
 sequence lengths \(n\).
 
-**Total size up to length \(N\)**
+**5. Total size up to length \(N\).**
 
 To model all positions \(n=1,\ldots,N\), we need all these tables:
 
@@ -668,7 +666,9 @@ $$
 p(x_{1:N}, z_{1:N}) = p(z_1, x_1, z_2, x_2, \dots, z_N, x_N).
 $$
 
-**1. Chain rule**
+This can be done in the following steps:
+
+**1. Chain rule.**
 
 Apply the chain rule in the time order:
 
@@ -685,25 +685,25 @@ p(x_{1:N}, z_{1:N})
 \end{aligned}
 $$
 
-**2. HMM assumptions**
+**2. HMM assumptions.**
 
 An HMM imposes two conditional independence assumptions:
 
-1. **Markov property for hidden states**
+(i) Markov property for hidden states
 
 $$
 p(z_n \mid z_{1:n-1}, x_{1:n-1}) = p(z_n \mid z_{n-1})
 \quad\text{for } n \ge 2.
 $$
 
-2. **Emission depends only on current state**
+(ii) Emission depends only on current state
 
 $$
 p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n)
 \quad\text{for } n \ge 1.
 $$
 
-**3. Simplify each factor**
+**3. Simplify each factor.**
 
 Apply these to the chain rule factors:
 
@@ -734,7 +734,7 @@ $$
 p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n).
 $$
 
-**4. Collect all terms**
+**4. Collect all terms.**
 
 Replacing every factor in the chain rule by its simplified HMM form gives
 
@@ -756,19 +756,19 @@ $$
 
 Operationally, the model generates a sequence as follows:
 
-1. Sample the first hidden state
+(i) Sample the first hidden state
 
 $$
 z_1 \sim p(z_1).
 $$
 
-2. Emit the first word from this state
+(ii) Emit the first word from this state
 
 $$
 x_1 \sim p(x_1 \mid z_1).
 $$
 
-3. For each later position \(n=2,\dots,N\):
+(iii) For each later position \(n=2,\dots,N\):
 
 $$
 \begin{aligned}
@@ -806,14 +806,14 @@ p(x_n \mid x_{1:n-1})
 = \sum_{z_n} p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
 $$
 
-**1: By definition of conditional probability.**
+**1. By definition of conditional probability.**
 
 $$
 p(x_n \mid x_{1:n-1})
 = \frac{p(x_n, x_{1:n-1})}{p(x_{1:n-1})}.
 $$
 
-**2: Insert the hidden variable by marginalization.**
+**2. Insert the hidden variable by marginalization.**
 
 The joint probability of \((x_n, x_{1:n-1})\) can be written by summing over all
 possible values of the hidden state \(z_n\) (from law of total probability):
@@ -846,7 +846,7 @@ p(x_n \mid x_{1:n-1})
 = \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}).
 $$
 
-**3: Apply the product rule to the conditional joint.**
+**3. Apply the product rule to the conditional joint.**
 
 For any random variables \(A,B,C\),
 
@@ -982,7 +982,7 @@ so to complete the update we need an explicit expression for the
 *predictive* distribution \(p(z_t \mid x_{1:t-1})\) in terms of quantities
 at time \(t-1\). This is where the Markov structure of the HMM enters.
 
-**Step 1: Start from the definition of the predictive term.**
+**(i) Start from the definition of the predictive term.**
 
 By definition of conditional probability,
 
@@ -991,7 +991,7 @@ p(z_t \mid x_{1:t-1})
 = \frac{p(z_t, x_{1:t-1})}{p(x_{1:t-1})}.
 $$
 
-**Step 2: Introduce \(z_{t-1}\) by marginalization.**
+**(ii) Introduce \(z_{t-1}\) by marginalization.**
 
 Use the law of total probability on the joint:
 
@@ -1023,7 +1023,7 @@ p(z_t \mid x_{1:t-1})
 = \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}).
 $$
 
-**Step 3: Apply the product rule inside the sum.**
+**(iii) Apply the product rule inside the sum.**
 
 For any variables \(A,B,C\),
 
@@ -1103,7 +1103,7 @@ seeing \(x_t\).
 
 It is often useful to view this update at time \(t+1\) as two steps:
 
-1. **Prediction (from \(t\) to \(t+1\)):**
+(i) **Prediction (from \(t\) to \(t+1\)):**
 
 $$
 \tilde{p}(z_{t+1} \mid x_{1:t})
@@ -1112,7 +1112,7 @@ $$
 
    which uses only the transition probabilities and the previous belief.
 
-2. **Correction (using \(x_{t+1}\)):**
+(ii) **Correction (using \(x_{t+1}\)):**
 
 $$
 p(z_{t+1} \mid x_{1:t+1})
