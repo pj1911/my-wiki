@@ -31,18 +31,18 @@ and the overall error is the sum of the error terms for all samples.
 
 There are two variants. In *continuous bag of words* (CBOW), the target to
 be predicted is the middle word, and the remaining *context* words are the
-inputs, so the network is trained to ``fill in the blank''. In the
+inputs, so the network is trained to 'fill in the blank'. In the
 *skip-gram* model, the roles are reversed: the centre word is the input and
 the context words are the targets.
 
 This training can be viewed as *self-supervised* learning. The data is a
 large corpus of unlabelled text, from which many small windows of word
 sequences are sampled at random. The labels come from the text itself by
-``masking'' the word whose value the network should predict. After training, the embedding matrix \(\mathbf{E}\) is obtained from the network
+masking the word whose value the network should predict. After training, the embedding matrix \(\mathbf{E}\) is obtained from the network
 weights: it is the transpose of the second-layer weight matrix for the CBOW
 model, and the first-layer weight matrix for the skip-gram model. Here is a compact derivation for both CBOW and skip-gram.
 
-**Why the embedding matrix equals those weight matrices**
+**Embedding matrix in CBOW and Skip gram**
 
 **Setup**
 
