@@ -441,6 +441,701 @@ product becomes zero. To avoid this, the probability tables are usually
 smoothed after training by adding a small amount of probability
 uniformly across all entries so that no entry is exactly zero.
 
+## Autoregressive models
+
+A major limitation of the bag-of-words model is that it ignores word order. To
+include order we use an *autoregressive* factorization. Without loss of
+generality we can write the joint distribution over a sequence as
+
+$$
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \prod_{n=1}^N p(\mathbf{x}_n \mid \mathbf{x}_1,\ldots,\mathbf{x}_{n-1})
+$$
+
+Each conditional \(p(\mathbf{x}_n \mid \mathbf{x}_1,\ldots,\mathbf{x}_{n-1})\) could
+be stored as a table whose entries are estimated from frequency counts in the
+training corpus. But the size of these tables grows exponentially with the
+sequence length, so this direct approach is not feasible.
+
+**Setup**
+
+Assume a vocabulary of size \(K\) (number of distinct words or tokens), a sequence length \(N\) and each \(x_i\) being a discrete random variable taking one of these \(K\) values:
+
+$$
+x_i \in \{1,2,\ldots,K\}.
+$$
+
+The full autoregressive factorization is
+
+$$
+p(x_1,\ldots,x_N) = \prod_{n=1}^N p(x_n \mid x_1,\ldots,x_{n-1}).
+$$
+
+We want to store each conditional \(p(x_n \mid x_1,\ldots,x_{n-1})\) in a table.
+Here we are counting how many model parameters (independent
+probability values) are needed to specify this conditional distribution.
+
+Consider a specific position \(n\) and let us count how big that parameter table
+must be.
+
+**1. Counting possible histories \((x_1,\ldots,x_{n-1})\)**
+
+A *history* for position \(n\) is any concrete sequence of values
+
+$$
+h = (x_1,\ldots,x_{n-1})
+  = (i_1,\ldots,i_{n-1}),
+$$
+
+where each \(i_j\) is one of \(\{1,\ldots,K\}\) token.
+
+$$
+\{\text{number of possible histories of length } n-1\}
+= \underbrace{K \times K \times \cdots \times K}_{n-1 \text{ factors}}
+= K^{n-1}.
+$$
+
+**2. What is stored for one fixed history?**
+
+Take one specific history
+
+$$
+h = (x_1=i_1,\ldots,x_{n-1}=i_{n-1}).
+$$
+
+For this history we need the conditional distribution of \(x_n\):
+
+$$
+p(x_n \mid h).
+$$
+
+The variable \(x_n\) can again be any of the \(K\) vocabulary items. So we must
+store \(K\) probabilities, one for each possible value of \(x_n\):
+
+$$
+p(x_n = 1 \mid h),\; p(x_n = 2 \mid h),\;\ldots,\; p(x_n = K \mid h).
+$$
+
+If we wrote this as a row in a table, that row would contain exactly these \(K\)
+numbers. These numbers are exactly the parameters that define the model’s
+behaviour for this history.
+
+**3. Why only \(K-1\) *free* parameters per history?**
+
+For each fixed history \(h\), the \(K\) probabilities must obey:
+
+1. *Non-negativity*:
+
+$$
+0 \le p(x_n = k \mid h) \le 1
+\qquad \text{for all } k=1,\ldots,K.
+$$
+
+2. *Normalization*:
+
+$$
+\sum_{k=1}^K p(x_n = k \mid h) = 1.
+$$
+
+The normalization constraint removes one degree of freedom. Once we choose
+any \(K-1\) of the probabilities, the last one is forced to make the sum 1:
+
+$$
+p(x_n = K \mid h)
+= 1 - \sum_{k=1}^{K-1} p(x_n = k \mid h).
+$$
+
+So although there are \(K\) numbers in the row, only \(K-1\) of them can be chosen
+independently. We say the distribution for this history has \(K-1\) free
+parameters.
+
+**4. Total number of parameters for the table at step \(n\)**
+
+- Number of distinct histories \(h\) of length \(n-1\): \(K^{n-1}\).
+- Free parameters for each history’s row: \(K-1\)
+
+Therefore, the total number of free parameters needed to specify the whole
+conditional table is
+
+$$
+\underbrace{K^{n-1}}_{\text{rows (histories)}} \times
+\underbrace{(K-1)}_{\text{free params per row}}
+= (K-1)K^{n-1}.
+$$
+
+This quantity grows proportionally to \(K^{n-1}\), which increases
+*exponentially* as \(n\) increases. That is why storing these conditionals as
+raw tables quickly becomes infeasible for realistic vocabulary sizes \(K\) and
+sequence lengths \(n\).
+
+**Total size up to length \(N\)**
+
+To model all positions \(n=1,\ldots,N\), we need all these tables:
+
+$$
+\text{total parameters}
+= \sum_{n=1}^N (K-1)K^{n-1}
+= (K-1)\frac{K^{N}-1}{K-1}
+= K^{N}-1.
+$$
+
+So the total number of table entries is on the order of \(K^{N}\), which grows
+exponentially with the sequence length \(N\). Hence representing the
+autoregressive model directly with probability tables is infeasible for realistic
+\(K\) and \(N\).
+
+### n-gram
+
+We simplify the model by assuming that the conditional for step \(n\) depends
+only on the last \(L\) observations. For example, if \(L=2\) then
+
+$$
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= p(\mathbf{x}_1)p(\mathbf{x}_2 \mid \mathbf{x}_1)
+  \prod_{n=3}^N p(\mathbf{x}_n \mid \mathbf{x}_{n-1},\mathbf{x}_{n-2})
+$$
+
+The conditional distributions \(p(\mathbf{x}_n \mid
+\mathbf{x}_{n-1},\mathbf{x}_{n-2})\) are shared across all positions and can be
+represented as tables whose entries are estimated from statistics of successive
+triplets of words in a corpus. The case with \(L=1\) is a *bi-gram* model, which depends on pairs of adjacent
+words. The case \(L=2\) is a *tri-gram* model, involving triplets. More
+generally these are called *\(n\)-gram* models.
+
+All the models in this section can be run *generatively* to create text.
+For example, given the first two words we can sample the third from
+\(p(\mathbf{x}_n \mid \mathbf{x}_{n-1},\mathbf{x}_{n-2})\), then use the second
+and third words to sample the fourth, and so on. The resulting text will
+usually be incoherent, because each word depends only on a short context. Good
+text models must capture long-range dependencies in language. Simply increasing
+\(L\) is not practical, because the size of the probability tables grows
+exponentially in \(L\), making models beyond tri-grams prohibitively expensive.
+Nevertheless, the autoregressive factorization will remain central when we move
+to modern language models based on deep neural networks, such as transformers.
+
+One way to extend the effective context for language, without the exponential
+number of parameters of \(n\)-gram tables, is to add *latent* (hidden)
+variables and use a *hidden Markov model* (HMM).
+
+### HMM for a word sequence (n-gram)
+
+Consider a sequence of \(N\) words (or tokens)
+
+$$
+x_1, x_2, \dots, x_N.
+$$
+
+For each *position* \(n\) in the sequence we introduce a hidden state \(z_n \in \{ z_1, z_2, \dots, z_N\}\), which can take one of \(S\) discrete values (for example, \(S\) different latent
+“topics’’ or parts of speech such as noun, verb, adjective), and an observed
+word \(x_n\) that takes one of \(K\) vocabulary values. The model defines:
+
+- **Initial state distribution \(p(z_1)\).**  
+  This is a categorical distribution over the \(S\) possible values of
+  \(z_1\), so it is a length-\(S\) vector:
+
+$$
+p(z_1)
+= \big(p(z_1=1),\dots,p(z_1=S)\big), \quad
+\sum_{s=1}^S p(z_1=s)=1.
+$$
+
+- **Transition distribution \(p(z_n \mid z_{n-1})\).**  
+  For each previous state \(i \in \{1,\dots,S\}\) we need a full
+  distribution over the next state \(j \in \{1,\dots,S\}\). Thus we have
+  \(S\) rows (one per \(i\)) and \(S\) columns (one per \(j\)):
+
+$$
+p(z_n \mid z_{n-1})
+= \big[p(z_n=j \mid z_{n-1}=i)\big]_{i,j=1}^S,
+$$
+
+  an \(S \times S\) matrix whose each row sums to 1.
+
+- **Emission distribution \(p(x_n \mid z_n)\).**  
+  For each hidden state \(s\) we need a distribution over all \(K\) words
+  \(k \in \{1,\dots,K\}\). So we have \(S\) rows and \(K\) columns:
+
+$$
+p(x_n \mid z_n)
+= \big[p(x_n=k \mid z_n=s)\big]_{s=1,\dots,S;\;k=1,\dots,K},
+$$
+
+  an \(S \times K\) matrix whose each row sums to 1.
+
+Now, we want the joint distribution over all hidden states and observations:
+
+$$
+p(x_{1:N}, z_{1:N}) = p(z_1, x_1, z_2, x_2, \dots, z_N, x_N).
+$$
+
+**1. Chain rule**
+
+Apply the chain rule in the time order:
+
+$$
+\begin{aligned}
+p(x_{1:N}, z_{1:N})
+&= p(z_1)\,
+   p(x_1 \mid z_1)\,
+   p(z_2 \mid z_1, x_1)\,
+   p(x_2 \mid z_1, x_1, z_2)\,\cdots \\
+&\quad \cdots\,
+   p(z_N \mid z_{1:N-1}, x_{1:N-1})\,
+   p(x_N \mid z_{1:N}, x_{1:N-1}).
+\end{aligned}
+$$
+
+**2. HMM assumptions**
+
+An HMM imposes two conditional independence assumptions:
+
+1. **Markov property for hidden states**
+
+$$
+p(z_n \mid z_{1:n-1}, x_{1:n-1}) = p(z_n \mid z_{n-1})
+\quad\text{for } n \ge 2.
+$$
+
+2. **Emission depends only on current state**
+
+$$
+p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n)
+\quad\text{for } n \ge 1.
+$$
+
+**3. Simplify each factor**
+
+Apply these to the chain rule factors:
+
+- For \(n=1\):
+
+$$
+p(z_1) \quad\text{(unchanged)}, \qquad
+p(x_1 \mid z_1) \quad\text{(already of the form } p(x_1 \mid z_1)\text{)}.
+$$
+
+- For \(n=2\):
+
+$$
+p(z_2 \mid z_1, x_1) = p(z_2 \mid z_1),
+$$
+
+$$
+p(x_2 \mid z_1, x_1, z_2) = p(x_2 \mid z_2).
+$$
+
+- In general, for \(n = 2,\dots,N\):
+
+$$
+p(z_n \mid z_{1:n-1}, x_{1:n-1}) = p(z_n \mid z_{n-1}),
+$$
+
+$$
+p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n).
+$$
+
+**4. Collect all terms**
+
+Replacing every factor in the chain rule by its simplified HMM form gives
+
+$$
+\begin{aligned}
+p(x_{1:N}, z_{1:N})
+&= p(z_1)\, p(x_1 \mid z_1)\,
+   \prod_{n=2}^N p(z_n \mid z_{n-1})\, p(x_n \mid z_n) \\
+&= p(z_1)\,\Bigg[\prod_{n=2}^N p(z_n \mid z_{n-1})\Bigg]\,
+           \Bigg[\prod_{n=1}^N p(x_n \mid z_n)\Bigg].
+\end{aligned}
+$$
+
+$$
+p(x_{1:N}, z_{1:N})
+= p(z_1)\,\prod_{n=2}^N p(z_n \mid z_{n-1})\,
+  \prod_{n=1}^N p(x_n \mid z_n).
+$$
+
+Operationally, the model generates a sequence as follows:
+
+1. Sample the first hidden state
+
+$$
+z_1 \sim p(z_1).
+$$
+
+2. Emit the first word from this state
+
+$$
+x_1 \sim p(x_1 \mid z_1).
+$$
+
+3. For each later position \(n=2,\dots,N\):
+
+$$
+\begin{aligned}
+  z_n &\sim p(z_n \mid z_{n-1}) && \text{(move to a new hidden state)}\\
+  x_n &\sim p(x_n \mid z_n)     && \text{(emit the next word).}
+\end{aligned}
+$$
+
+This step-by-step process corresponds exactly to the factorization
+
+$$
+p(x_{1:N}, z_{1:N})
+= p(z_1)\,\prod_{n=2}^N p(z_n \mid z_{n-1})\,
+  \prod_{n=1}^N p(x_n \mid z_n).
+$$
+
+Since \(p(z_1)\) has \(O(S)\) parameters, the \(S \times S\) transition matrix \(p(z_n \mid z_{n-1})\) has \(O(S^2)\)
+parameters, and the \(S \times K\) emission matrix \(p(x_n \mid z_n)\) has \(O(SK)\) parameters, the total number of learnable parameters scales as
+
+$$
+O(S^2 + SK),
+$$
+
+which depends only on the number of states \(S\) and vocabulary size \(K\), but
+*not* on the sequence length \(N\). In this way an HMM can model long
+sequences without the \(O(K^L)\) parameter blow-up of an \(L\)-gram table.
+
+**Long-range dependencies.**
+
+We want to see how \(x_n\) can depend on *all* earlier words in an HMM.
+
+$$
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+$$
+
+**1: By definition of conditional probability.**
+
+$$
+p(x_n \mid x_{1:n-1})
+= \frac{p(x_n, x_{1:n-1})}{p(x_{1:n-1})}.
+$$
+
+**2: Insert the hidden variable by marginalization.**
+
+The joint probability of \((x_n, x_{1:n-1})\) can be written by summing over all
+possible values of the hidden state \(z_n\) (from law of total probability):
+
+$$
+p(x_n, x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n, x_{1:n-1}).
+$$
+
+Substitute this into the conditional:
+
+$$
+p(x_n \mid x_{1:n-1})
+= \frac{1}{p(x_{1:n-1})}
+  \sum_{z_n} p(x_n, z_n, x_{1:n-1}).
+$$
+
+Now divide inside the sum:
+
+$$
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} \frac{p(x_n, z_n, x_{1:n-1})}{p(x_{1:n-1})}
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}).
+$$
+
+This gives:
+
+$$
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}).
+$$
+
+**3: Apply the product rule to the conditional joint.**
+
+For any random variables \(A,B,C\),
+
+$$
+p(A,B \mid C) = p(A \mid B,C)\,p(B \mid C).
+$$
+
+This is just the chain rule applied to the conditional distribution given \(C\):
+
+$$
+p(A,B,C)
+= p(A \mid B,C)\,p(B \mid C)\,p(C),
+$$
+
+and dividing both sides by \(p(C)\) gives the conditional form.
+
+Now take
+
+$$
+A = x_n,\quad B = z_n,\quad C = x_{1:n-1}.
+$$
+
+Then
+
+$$
+p(x_n, z_n \mid x_{1:n-1})
+= p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+$$
+
+Substitute this into the previous sum:
+
+$$
+\begin{aligned}
+p(x_n \mid x_{1:n-1})
+&= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}) \\
+&= \sum_{z_n} p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+\end{aligned}
+$$
+
+By the HMM emission assumption, the observation depends only on the current
+state:
+
+$$
+p(x_n \mid z_n, x_{1:n-1}) = p(x_n \mid z_n).
+$$
+
+So
+
+$$
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n \mid z_n)\,p(z_n \mid x_{1:n-1}).
+$$
+
+Here \(p(z_n \mid x_{1:n-1})\) is the *belief* over the current hidden state
+given all previous words. This belief is updated recursively from
+\(p(z_{n-1} \mid x_{1:n-2})\) using the transition and emission distributions. In
+principle, every past word \(x_1,\dots,x_{n-1}\) can influence \(p(z_n \mid
+x_{1:n-1})\), and therefore \(p(x_n \mid x_{1:n-1})\).
+
+**How new observations overwrite older information.**
+
+We want an explicit formula for our *updated belief* about the current
+hidden state after seeing the new observation at time \(t\); this belief is the
+filtering distribution
+
+$$
+p(z_t \mid x_{1:t}).
+$$
+
+**1. Start from Bayes’ rule.**  
+Treat \(x_t\) as the new observation and \(x_{1:t-1}\) as given context:
+We have:
+
+$$
+p(A \mid B,C)
+= \frac{p(B \mid A,C)\,p(A \mid C)}{p(B \mid C)}.
+$$
+
+Where,
+
+$$
+A = z_t,\quad B = x_t,\quad C = x_{1:t-1}.
+$$
+
+So
+
+$$
+p(z_t \mid x_{1:t-1}, x_t)
+= \frac{p(x_t \mid z_t, x_{1:t-1})\,p(z_t \mid x_{1:t-1})}
+       {p(x_t \mid x_{1:t-1})}.
+$$
+
+Finally, note that
+
+$$
+p(z_t \mid x_{1:t})
+= p(z_t \mid x_{1:t-1}, x_t),
+$$
+
+**2. Use the emission assumption.**  
+In an HMM, \(x_t\) depends only on \(z_t\):
+
+$$
+p(x_t \mid z_t, x_{1:t-1}) = p(x_t \mid z_t).
+$$
+
+So
+
+$$
+p(z_t \mid x_{1:t})
+= \frac{p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1})}
+       {p(x_t \mid x_{1:t-1})}.
+$$
+
+The denominator does not depend on \(z_t\), so it is a normalizing constant.
+Thus
+
+$$
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}).
+$$
+
+**3. Expand the predictive term.**
+
+In the previous step we obtained
+
+$$
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}),
+$$
+
+so to complete the update we need an explicit expression for the
+*predictive* distribution \(p(z_t \mid x_{1:t-1})\) in terms of quantities
+at time \(t-1\). This is where the Markov structure of the HMM enters.
+
+**Step 1: Start from the definition of the predictive term.**
+
+By definition of conditional probability,
+
+$$
+p(z_t \mid x_{1:t-1})
+= \frac{p(z_t, x_{1:t-1})}{p(x_{1:t-1})}.
+$$
+
+**Step 2: Introduce \(z_{t-1}\) by marginalization.**
+
+Use the law of total probability on the joint:
+
+$$
+p(z_t, x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t, z_{t-1}, x_{1:t-1}).
+$$
+
+Substitute into the conditional:
+
+$$
+p(z_t \mid x_{1:t-1})
+= \frac{1}{p(x_{1:t-1})}
+  \sum_{z_{t-1}} p(z_t, z_{t-1}, x_{1:t-1}).
+$$
+
+Bring the constant denominator inside the sum:
+
+$$
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} \frac{p(z_t, z_{t-1}, x_{1:t-1})}{p(x_{1:t-1})}
+= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}).
+$$
+
+This gives
+
+$$
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}).
+$$
+
+**Step 3: Apply the product rule inside the sum.**
+
+For any variables \(A,B,C\),
+
+$$
+p(A,B \mid C) = p(A \mid B,C)\,p(B \mid C).
+$$
+
+Let
+
+$$
+A = z_t,\quad B = z_{t-1},\quad C = x_{1:t-1}.
+$$
+
+Then
+
+$$
+p(z_t, z_{t-1} \mid x_{1:t-1})
+= p(z_t \mid z_{t-1}, x_{1:t-1})\,
+  p(z_{t-1} \mid x_{1:t-1}).
+$$
+
+Substitute back:
+
+$$
+\begin{aligned}
+p(z_t \mid x_{1:t-1})
+&= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}) \\
+&= \sum_{z_{t-1}}
+   p(z_t \mid z_{t-1}, x_{1:t-1})\,
+   p(z_{t-1} \mid x_{1:t-1}).
+\end{aligned}
+$$
+
+This is the desired expression of the predictive term in terms of the previous
+belief \(p(z_{t-1} \mid x_{1:t-1})\) and the state dynamics.
+
+**4. Use the Markov assumption.**  
+In an HMM, the next state depends only on the previous state:
+
+$$
+p(z_t \mid z_{t-1}, x_{1:t-1}) = p(z_t \mid z_{t-1}).
+$$
+
+So
+
+$$
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}).
+$$
+
+**5. Combine the pieces.**
+
+Substitute the expression for \(p(z_t \mid x_{1:t-1})\) back into the proportional
+form:
+
+$$
+\begin{aligned}
+p(z_t \mid x_{1:t})
+&\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}) \\
+&= p(x_t \mid z_t)
+   \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}).
+\end{aligned}
+$$
+
+This gives
+
+$$
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)
+        \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}),
+$$
+
+with the proportionality constant chosen so that
+\(\sum_{z_t} p(z_t \mid x_{1:t}) = 1\).
+This is the standard forward (filtering) update: the belief over \(z_t\) after
+seeing \(x_t\).
+
+It is often useful to view this update at time \(t+1\) as two steps:
+
+1. **Prediction (from \(t\) to \(t+1\)):**
+
+$$
+\tilde{p}(z_{t+1} \mid x_{1:t})
+= \sum_{z_t} p(z_{t+1} \mid z_t)\,p(z_t \mid x_{1:t}),
+$$
+
+   which uses only the transition probabilities and the previous belief.
+
+2. **Correction (using \(x_{t+1}\)):**
+
+$$
+p(z_{t+1} \mid x_{1:t+1})
+\propto p(x_{t+1} \mid z_{t+1})\,
+         \tilde{p}(z_{t+1} \mid x_{1:t}),
+$$
+
+$$
+p(z_{t+1} \mid x_{1:t+1})
+\propto p(x_{t+1} \mid z_{t+1})\,
+          \sum_{z_t} p(z_{t+1} \mid z_t)\,p(z_t \mid x_{1:t}),
+$$
+
+   which reweights the predicted belief using the likelihood of the new
+   observation.
+
+Thus, all past observations \(x_{1:t}\) affect \(p(z_{t+1} \mid x_{1:t+1})\) only
+through the current summary \(p(z_t \mid x_{1:t})\). At each new time step this
+summary is first mixed by the transition probabilities and then reshaped by the
+new word. After many such updates, different early histories produce almost the
+same state distribution. In practice, this means that the influence of very old
+observations on future predictions becomes very small very quickly.
+
 
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
