@@ -1136,6 +1136,166 @@ new word. After many such updates, different early histories produce almost the
 same state distribution. In practice, this means that the influence of very old
 observations on future predictions becomes very small very quickly.
 
+## Recurrent neural networks
+
+\(n\)-gram models scale badly with sequence length because they store large,
+unstructured tables of conditional probabilities. We can get much better scaling
+by using parameterized models based on neural networks. But if we try to apply a standard feed-forward network directly to word sequences,
+two problems appear:
+
+- The network expects a fixed number of inputs and outputs, but real
+  sequences have variable length in both training and test data.
+- A word (or phrase) that appears in different positions should usually
+  represent the same concept, but a plain feed-forward network would
+  treat each position with separate parameters.
+
+Ideally, we want an architecture that:
+
+1. shares parameters across all positions in the sequence (an equivariance property), and
+2. can handle sequences of different lengths.
+
+To achieve this, we take inspiration from the hidden Markov model and introduce
+a hidden state \(z_n\) for each step \(n\) in the sequence. At each step the network
+takes as input
+
+$$
+(x_n, z_{n-1})
+$$
+
+where \(x_n\) is the current word and \(z_{n-1}\) is the previous hidden state, and
+it outputs
+
+$$
+(y_n, z_n),
+$$
+
+where \(y_n\) is the network output at that step (for example, a predicted word)
+and \(z_n\) is the updated hidden state. Instead of building a different network for each time step, we use *one*
+neural network cell and apply it repeatedly along the sequence. Formally, if the cell has parameters
+\(\theta\) (weights and biases), then at every step \(n\) we compute
+
+$$
+(z_n, y_n) = f_\theta(x_n, z_{n-1}),
+$$
+
+using the *same* \(\theta\) for all \(n\). The
+resulting architecture is called a *recurrent neural network* (RNN). A common choice is to initialize the hidden state to a
+default value such as
+
+$$
+z_0 = (0,0,\ldots,0)^\top.
+$$
+
+As a concrete example, consider translating sentences from English to Dutch.
+Input and output sentences have variable length, and the output length may differ
+from the input length. The model may also need to see the entire English
+sentence before producing any Dutch words.
+
+With an RNN we can:
+
+1. Feed the whole English sentence word by word.
+2. Then feed a special token \(\langle\text{start}\rangle\) to signal the
+   beginning of the translation.
+
+During training, the network learns that \(\langle\text{start}\rangle\)
+indicates the point at which it should begin generating the translated sentence.
+At each subsequent time step:
+
+- the RNN outputs the next Dutch word,
+- we feed that output word back as the next input.
+
+The network is also trained to emit a special token
+\(\langle\text{stop}\rangle\) that marks the end of the translation. We now describe the encoder--decoder RNN more explicitly. Let the English input sentence be
+
+$$
+(e_1, e_2, \ldots, e_T),
+$$
+
+and the Dutch output sentence be
+
+$$
+(d_1, d_2, \ldots, d_M).
+$$
+
+**Encoder (reads English, no outputs used).**
+
+We start with a hidden state
+
+$$
+z_0 = \mathbf{0}.
+$$
+
+For each English word \(e_t\) we apply the recurrent update
+
+$$
+z_t = f_{\text{enc}}(z_{t-1}, e_t), \qquad t = 1,\ldots,T,
+$$
+
+where \(f_{\text{enc}}\) is the RNN cell (e.g.\ a simple RNN, LSTM, or GRU).
+During this phase:
+
+- *inputs*: \((z_{t-1}, e_t)\),
+- *outputs*: intermediate \(z_t\); we ignore any word-level outputs.
+
+After the last English word we keep only the final hidden state
+
+$$
+z^\ast = z_T.
+$$
+
+This \(z^\ast\) is a fixed-length vector that summarizes the whole English
+sentence. It is the *encoder representation*.
+
+**Decoder (generates Dutch, uses \(z^\ast\)).**
+
+The decoder is another RNN (often with the same form of cell) that starts from
+the encoder state. We set
+
+$$
+h_0 = z^\ast,
+$$
+
+and feed a special start token \(\langle\text{start}\rangle\) as the first input.
+At step \(m = 1,2,\ldots\) we compute
+
+$$
+h_m = f_{\text{dec}}(h_{m-1}, u_m),
+$$
+
+where:
+
+- for \(m=1\), \(u_1 = \langle\text{start}\rangle\),
+- for \(m>1\), \(u_m = d_{m-1}\), the *previous* Dutch word.
+
+From \(h_m\) the decoder produces a distribution over the next Dutch word:
+
+$$
+p(d_m \mid h_m) = \text{softmax}(W h_m + b).
+$$
+
+During training we use the true previous word \(d_{m-1}\) as input; at test time
+we instead feed back the word sampled (or chosen) from \(p(d_m \mid h_m)\). The decoder continues until it outputs a special stop token
+\(\langle\text{stop}\rangle\). Thus:
+
+- *inputs to decoder*: \(z^\ast\) (via \(h_0\)) and the sequence
+  \((\langle\text{start}\rangle, d_1, d_2,\ldots)\),
+- *outputs from decoder*: the Dutch words
+  \((d_1, d_2,\ldots,d_M,\langle\text{stop}\rangle)\).
+
+**Autoregressive structure.**
+
+Conditioned on the English sentence \(e_{1:T}\) (summarized by \(z^\ast\)), the
+decoder defines
+
+$$
+p(d_1,\ldots,d_M \mid e_{1:T})
+= \prod_{m=1}^M p\bigl(d_m \mid d_{1:m-1}, e_{1:T}\bigr),
+$$
+
+because each step \(m\) takes as input the previous hidden state \(h_{m-1}\) and
+previous output word \(d_{m-1}\). This is exactly an autoregressive factorization
+over the Dutch sequence, with the entire English sentence influencing each term
+through \(z^\ast\) and the hidden states \(h_m\).
 
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
