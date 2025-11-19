@@ -233,8 +233,6 @@ $$
 
 **Why this still learns useful embeddings**
 
-Even though \(j\) is ignored:
-
 For a fixed centre word \(w_t\), the model sees many targets \(w_{t+j}\) sampled
 from words that tend to occur near \(w_t\). Gradients move the centre embedding \(\mathbf{v}(w_t)\) closer (dot product)
 to the output vectors of these neighbours. If two words \(w\) and \(w'\) share similar sets of neighbours, they receive
@@ -305,10 +303,10 @@ $$
 Words that
 are semantically related are mapped to nearby positions in the embedding space.
 This happens because related words tend to occur with similar context words
-more often than unrelated words. For example, the words ``city'' and
-``capital'' appear more often as context for target words such as ``Paris'' or
-``London'' than for ``orange'' or ``polynomial''. The network can then more
-easily predict the missing words if ``Paris'' and ``London'' are mapped to
+more often than unrelated words. For example, the words 'city' and
+'capital' appear more often as context for target words such as 'Paris' or
+'London' than for 'orange' or 'polynomial'. The network can then more
+easily predict the missing words if 'Paris' and 'London' are mapped to
 nearby embedding vectors.
 
 The learned embedding space often has richer semantic structure than simple
@@ -319,8 +317,7 @@ the embedding of *word*, we find
 
 $$
 \mathbf{v}(\text{Paris}) - \mathbf{v}(\text{France})
-+ \mathbf{v}(\text{Italy}) \simeq \mathbf{v}(\text{Rome}) .
-\tag{12.27}
++ \mathbf{v}(\text{Italy}) \simeq \mathbf{v}(\text{Rome})
 $$
 
 Word embeddings were first developed as stand-alone tools for natural language
