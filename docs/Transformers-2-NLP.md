@@ -60,7 +60,7 @@ We predict a target word \(w_t\) from its \(M\) context words.
 
 **Architecture**
 
-1. **First layer (input \(\to\) hidden).**
+(i) **First layer (input \(\to\) hidden).**
 
    Weight matrix \(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\). For one context word \(w\),
 
@@ -74,7 +74,7 @@ $$
 \mathbf{h} = \frac{1}{M} \sum_{i=1}^M \mathbf{W}^{(1)} \mathbf{x}(w_i).
 $$
 
-2. **Second layer (hidden \(\to\) output).**
+(ii) **Second layer (hidden \(\to\) output).**
 
    Weight matrix \(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\). Let \(\mathbf{w}^{(2)}_k{}^{\!\top}\) be the \(k\)th row of \(\mathbf{W}^{(2)}\).
    The logit for predicting word \(k\) is
@@ -137,13 +137,13 @@ $$
 = \mathbf{W}^{(2)\top}.
 $$
 
-So in CBOW the “learned embeddings” are not something extra: they are exactly
+So in CBOW the “learned embeddings” are
 the parameters of the output layer that connect the context representation
 \(\mathbf{h}\) to each possible target word.
 
 #### Skip-gram
 
-We have a corpus \(w_1, w_2, \dots, w_T\). At each position \(t\) we treat \(w_t\) as
+Lets assume we have a corpus \(w_1, w_2, \dots, w_T\). At each position \(t\) we treat \(w_t\) as
 the *centre* word. With window size \(M\) (e.g.\(M=5\)), the *context*
 of \(w_t\) is
 
@@ -158,11 +158,11 @@ $$
 (\text{input } w_t,\; \text{target } w_{t+j}),
 $$
 
-using all such pairs or a random subset.
+using all such pairs or a random subset we perform the following operations.
 
 **Architecture**
 
-1. **First layer (input \(\to\) hidden).**
+(i) **First layer (input \(\to\) hidden).**
 
    Weight matrix \(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\).
 
@@ -176,7 +176,7 @@ $$
    Because \(\mathbf{x}(w_t)\) has a single 1 and all zeros, \(\mathbf{h}\) is the \(t\)-th column
    of \(\mathbf{W}^{(1)}\) and has the shape \(D \times 1\). This give a \(D\) dimensional representation vector for the input word.
 
-2. **Second layer (hidden \(\to\) output).**
+(ii) **Second layer (hidden \(\to\) output).**
 
    Weight matrix \(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\).
 
@@ -190,7 +190,7 @@ $$
 z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
 $$
 
-   We compute their dot product, so if these two vectors point in a similar direction (high similarity),
+   We compute their dot product, so if these two vectors point in a similar direction (high similarity in context),
    \(z_k\) is large and word \(k\) becomes more likely, given the center or target word.
 
    Collecting all \(z_k\) into \(\mathbf{z} \in \mathbb{R}^K\) gives a single
@@ -311,7 +311,7 @@ nearby embedding vectors.
 
 The learned embedding space often has richer semantic structure than simple
 closeness of related words, and it supports simple vector arithmetic. For
-example, the relation ``Paris is to France as Rome is to Italy'' can be
+example, the relation 'Paris is to France as Rome is to Italy' can be
 expressed in terms of embedding vectors. Writing \(\mathbf{v}(\text{word})\) for
 the embedding of *word*, we find
 
