@@ -1297,5 +1297,147 @@ previous output word \(d_{m-1}\). This is exactly an autoregressive factorizatio
 over the Dutch sequence, with the entire English sentence influencing each term
 through \(z^\ast\) and the hidden states \(h_m\).
 
+## Backpropagation through time
+
+We fix a simple language-model RNN that predicts the next token at each time
+step. We train RNNs with stochastic gradient descent, using gradients computed by
+backpropagation and automatic differentiation, just as for standard neural
+networks.
+
+**Data, inputs, and outputs** Consider Vocabulary size \(K\), a training sequence is \(x_{1:N} = (x_1,\dots,x_N)\), with \(x_n \in \{1,\dots,K\}\). The target at step \(n\) is the next token \(t_n = x_{n+1}\) (or a special end token).
+
+Each token is mapped to a vector \(\mathbf{x}_n\) either via a one-hot vector in \(\mathbb{R}^K\) or an embedding \(\mathbf{x}_n = \mathbf{E}\,\mathbf{e}(x_n) \in \mathbb{R}^D\),
+where \(\mathbf{E} \in \mathbb{R}^{D\times K}\) is the embedding matrix.
+
+The RNN cell has hidden state \(\mathbf{h}_n \in \mathbb{R}^H\), output logits \(\mathbf{o}_n \in \mathbb{R}^K\) and output probabilities \(\mathbf{y}_n \in \mathbb{R}^K\).
+
+**Forward pass through time**
+
+At each time step \(n\) the RNN computes
+
+$$
+\mathbf{h}_n = f(\mathbf{W}_{xh}\mathbf{x}_n + \mathbf{W}_{hh}\mathbf{h}_{n-1} + \mathbf{b}_h),
+$$
+
+$$
+\mathbf{o}_n = \mathbf{W}_{ho}\mathbf{h}_n + \mathbf{b}_o,
+$$
+
+$$
+\mathbf{y}_n = \text{softmax}(\mathbf{o}_n),
+$$
+
+with initial state \(\mathbf{h}_0\) (often \(\mathbf{0}\)). Unrolling this gives a
+chain
+
+$$
+(\mathbf{x}_1,\mathbf{h}_0) \to \mathbf{h}_1 \to \mathbf{o}_1 \to \mathbf{y}_1,
+\quad
+(\mathbf{x}_2,\mathbf{h}_1) \to \mathbf{h}_2 \to \mathbf{o}_2 \to \mathbf{y}_2,
+\quad \dots
+$$
+
+All steps share the same parameters
+
+$$
+\theta = \{\mathbf{E},\mathbf{W}_{xh},\mathbf{W}_{hh},\mathbf{W}_{ho},\mathbf{b}_h,\mathbf{b}_o\}.
+$$
+
+**Loss definition**
+
+At step \(n\), the target is a one-hot vector \(\mathbf{t}_n \in \mathbb{R}^K\)
+with components \(t_{n,k}\) and \(\sum_k t_{n,k}=1\). The cross-entropy loss at
+that step is
+
+$$
+L_n = - \sum_{k=1}^K t_{n,k}\log y_{n,k}.
+$$
+
+The total loss for the sequence (over \(N'\) training steps) is
+
+$$
+L = \sum_{n=1}^{N'} L_n
+  = - \sum_{n=1}^{N'} \sum_{k=1}^K t_{n,k}\log y_{n,k}.
+$$
+
+Because \(\mathbf{t}_n\) is one-hot, there is a unique index \(t_n\) with
+\(t_{n,t_n}=1\) and zero for all other, so
+
+$$
+L_n = -\log y_{n,t_n}.
+$$
+
+**Backward pass**
+
+To compute gradients we view the unrolled RNN over \(N'\) steps as one large
+feed-forward network and apply standard backpropagation. Gradients at each step flow
+
+$$
+L_n \;\to\; \mathbf{y}_n \;\to\; \mathbf{o}_n \;\to\; \mathbf{h}_n
+\;\to\; \mathbf{h}_{n-1} \;\to\; \theta.
+$$
+
+- The recurrent connection \(\mathbf{h}_{n-1} \to \mathbf{h}_n\) causes the
+  gradient at time \(n\) to contribute to the gradient at all earlier times. Since the same parameters \(\theta\) are reused at every time step, the total
+  gradient is the sum of contributions from all steps:
+
+$$
+\frac{\partial L}{\partial \theta}
+= \sum_{n=1}^{N'} \frac{\partial L}{\partial \theta}\Big|_{\text{via step }n}.
+$$
+
+Running this backward pass over the unrolled network is called
+*backpropagation through time (BPTT)*. Conceptually it is straightforward,
+but in practice very long sequences cause training difficulties: gradients can
+either vanish or explode, just as in very deep feed-forward networks.
+
+### Long range dependencies
+  
+Standard RNNs also struggle with long-range dependencies. Natural language
+often contains concepts introduced early in a passage that strongly influence
+words much later. In the encoder–decoder architecture described earlier, the
+entire meaning of the English sentence must be stored in a single fixed-length
+hidden vector \(z^\ast\). As sequences grow longer, compressing all relevant
+information into \(z^\ast\) becomes harder. This is called a *bottleneck*
+problem: an arbitrarily long input sequence must be summarized into one hidden
+vector before the network can start producing the output translation.
+
+To address both vanishing/exploding gradients and limited long-range memory,
+we can change the recurrent cell to include additional pathways that let signals
+bypass many intermediate computations. This helps information persist over more
+time steps. The most prominent examples are *long short-term memory*
+(LSTM) networks and *gated recurrent
+units* (GRU). These architectures improve performance over
+standard RNNs, but they still have restricted ability to capture very long-range
+dependencies. Their more complex cells also make them slower to train. All recurrent models, including LSTMs and GRUs, share two structural
+limitations:
+
+- The length of the signal path between distant time steps grows
+  linearly with the sequence length. To see this, look at the unrolled RNN:
+
+$$
+ (\mathbf{x}_1,\mathbf{h}_0) \to \mathbf{h}_1 \to \mathbf{h}_2 \to \cdots \to \mathbf{h}_N \to \mathbf{y}_N.
+$$
+
+  Any influence from time step \(i\) on time step \(j>i\) must pass through the
+  chain
+
+$$
+ \mathbf{x}_i \to \mathbf{h}_i \to \mathbf{h}_{i+1} \to \cdots \to \mathbf{h}_j \to \mathbf{y}_j.
+$$
+
+  This path contains \((j-i)\) recurrent transitions
+  \(\mathbf{h}_{t-1}\to\mathbf{h}_t\) (plus a constant number of input/output
+  edges), so its length is proportional to \(j-i\). For two positions that are
+  \(L\) steps apart, the signal must traverse \(O(L)\) nonlinear transformations.
+  
+- Computation within a single sequence is inherently sequential, so
+  different time steps cannot be processed in parallel.
+
+As a result, RNNs cannot exploit modern highly parallel hardware (such as GPUs)
+efficiently. These limitations motivate replacing RNNs with transformer
+architectures.
+
+
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
