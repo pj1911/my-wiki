@@ -402,11 +402,34 @@ p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)
 = \prod_{n=1}^N p(\mathbf{x}_n \mid C_k)
 $$
 
-With prior class probabilities \(p(C_k)\), the posterior for a new sequence is
+Now apply Bayes’ rule to get the posterior over the class:
 
 $$
 p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
-\propto p(C_k) \prod_{n=1}^N p(\mathbf{x}_n \mid C_k)
+= \frac{p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)\,p(C_k)}
+       {p(\mathbf{x}_1,\ldots,\mathbf{x}_N)}.
+$$
+
+Substitute the likelihood:
+
+$$
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \frac{\Bigl[\prod_{n=1}^N p(\mathbf{x}_n \mid C_k)\Bigr]\,p(C_k)}
+       {p(\mathbf{x}_1,\ldots,\mathbf{x}_N)}.
+$$
+
+The denominator
+
+$$
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+$$
+
+does not depend on \(k\) (it is the same for all classes), so when we compare or
+normalize over \(k\) we can treat it as a constant. Therefore we write
+
+$$
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+\propto p(C_k)\prod_{n=1}^N p(\mathbf{x}_n \mid C_k),
 $$
 
 Both the class-conditional distributions \(p(\mathbf{x}\mid C_k)\) and the priors
