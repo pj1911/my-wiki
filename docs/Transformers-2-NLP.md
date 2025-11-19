@@ -4,7 +4,7 @@
 
 Transformers can process language data made of words, sentences, and paragraphs. They were first developed for text, but are now state-of-the-art models for many other kinds of input data. Many languages, such as English, are sequences of words separated by white space, together with punctuation symbols making them sequential data. For now we focus only on the words and ignore punctuation.
 
-**Representation.** To use words in a deep neural network, we must first turn each word into numbers. A simple method is to choose a fixed dictionary (vocabulary) of words and represent each word by a vector whose length equals the dictionary size. We then use a one-hot representation: the \(\,k\,\)th word in the dictionary has a vector with a 1 in position \(k\) and 0 in all other positions. For example, if `aardwolf` is the third word in the dictionary, its vector is \((0, 0, 1, 0, \ldots, 0)\).
+**Representation.** To use words in a deep neural network, we must first turn each word into numbers. A simple method is to choose a fixed dictionary (vocabulary) of words and represent each word by a vector whose length equals the dictionary size. We then use a one-hot representation: the \(\,k\,\)th word in the dictionary has a vector with a 1 in position \(k\) and 0 in all other positions. For example, if aardwolf is the third word in the dictionary, its vector is \((0, 0, 1, 0, \ldots, 0)\).
 
 **Two issues.** This one-hot scheme has two main problems. First, a realistic dictionary may have several hundred thousand words, so the vectors are very high dimensional. Second, these vectors do not express any similarity or relationship between words. 
 
