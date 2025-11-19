@@ -42,7 +42,7 @@ sequences are sampled at random. The labels come from the text itself by
 weights: it is the transpose of the second-layer weight matrix for the CBOW
 model, and the first-layer weight matrix for the skip-gram model. Here is a compact derivation for both CBOW and skip-gram.
 
-#### Why the embedding matrix equals those weight matrices
+**Why the embedding matrix equals those weight matrices**
 
 **Setup**
 
@@ -54,7 +54,7 @@ Let
 - \(\mathbf{E} \in \mathbb{R}^{D \times K}\) = embedding matrix,
 - \(\mathbf{v}(w) = \mathbf{E}\,\mathbf{x}(w)\) = embedding of word \(w\) (a column of \(\mathbf{E}\)).
 
-#### CBOW - Fill in the blank
+#### CBOW
 
 We predict a target word \(w_t\) from its \(M\) context words.
 
@@ -62,37 +62,33 @@ We predict a target word \(w_t\) from its \(M\) context words.
 
 1. **First layer (input \(\to\) hidden).**
 
-   Weight matrix \(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\).
+   Weight matrix \(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\). For one context word \(w\),
 
-   For one context word \(w\),
-
-   $$
-   \mathbf{h}(w) = \mathbf{W}^{(1)} \mathbf{x}(w).
-   $$
+$$
+\mathbf{h}(w) = \mathbf{W}^{(1)} \mathbf{x}(w).
+$$
 
    For a window of \(M\) context words \(w_1,\dots,w_M\), CBOW uses the average
 
-   $$
-   \mathbf{h} = \frac{1}{M} \sum_{i=1}^M \mathbf{W}^{(1)} \mathbf{x}(w_i).
-   $$
+$$
+\mathbf{h} = \frac{1}{M} \sum_{i=1}^M \mathbf{W}^{(1)} \mathbf{x}(w_i).
+$$
 
 2. **Second layer (hidden \(\to\) output).**
 
-   Weight matrix \(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\).
-
-   Let \(\mathbf{w}^{(2)}_k{}^{\!\top}\) be the \(k\)th row of \(\mathbf{W}^{(2)}\).
+   Weight matrix \(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\). Let \(\mathbf{w}^{(2)}_k{}^{\!\top}\) be the \(k\)th row of \(\mathbf{W}^{(2)}\).
    The logit for predicting word \(k\) is
 
-   $$
-   z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
-   $$
+$$
+z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
+$$
 
    and the output distribution is
 
-   $$
-   p(k \mid \text{context}) =
-     \frac{\exp(z_k)}{\sum_{j=1}^K \exp(z_j)}.
-   $$
+$$
+p(k \mid \text{context}) =
+  \frac{\exp(z_k)}{\sum_{j=1}^K \exp(z_j)}.
+$$
 
 Training adjusts \(\mathbf{W}^{(1)}\) and \(\mathbf{W}^{(2)}\) so that the true
 target word \(t\) has high probability.
@@ -173,9 +169,9 @@ using all such pairs or a random subset.
    Input is the one-hot vector \(\mathbf{x}(w_t)\) with shape \(K \times 1\) for the centre word \(w_t\).
    The hidden vector for the input (center) word is given by:
 
-   $$
-   \mathbf{h} = \mathbf{W}^{(1)} \mathbf{x}(w_t).
-   $$
+$$
+\mathbf{h} = \mathbf{W}^{(1)} \mathbf{x}(w_t).
+$$
 
    Because \(\mathbf{x}(w_t)\) has a single 1 and all zeros, \(\mathbf{h}\) is the \(t\)-th column
    of \(\mathbf{W}^{(1)}\) and has the shape \(D \times 1\). This give a \(D\) dimensional representation vector for the input word.
@@ -190,9 +186,9 @@ using all such pairs or a random subset.
    so \(\mathbf{w}^{(2)}_k \in \mathbb{R}^D\) is a feature vector for
    candidate word \(k\). The logit (a scalar) is
 
-   $$
-   z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
-   $$
+$$
+z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
+$$
 
    We compute their dot product, so if these two vectors point in a similar direction (high similarity),
    \(z_k\) is large and word \(k\) becomes more likely, given the center or target word.
@@ -200,9 +196,9 @@ using all such pairs or a random subset.
    Collecting all \(z_k\) into \(\mathbf{z} \in \mathbb{R}^K\) gives a single
    distribution
 
-   $$
-   p(k \mid w_t) = \text{softmax}_k(\mathbf{z}),
-   $$
+$$
+p(k \mid w_t) = \text{softmax}_k(\mathbf{z}),
+$$
 
    which depends only on the centre word \(w_t\). Each context position \(j\)
    uses this same distribution but has its own target label \(w_{t+j}\).
@@ -294,7 +290,7 @@ $$
 \mathbf{E} = \mathbf{W}^{(1)}.
 $$
 
-#### Summary
+**Summary**
 
 - In CBOW, the embedding of a *predicted* word \(k\) is the vector used
   to score that word at the output. Those vectors are the rows of
