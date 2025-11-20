@@ -1367,6 +1367,12 @@ $$
 L_n = -\log y_{n,t_n}.
 $$
 
+Thus, the total loss can also be written as
+
+$$
+L = - \sum_{n=1}^{N'} \log y_{n,t_n}.
+$$
+
 **Backward pass**
 
 To compute gradients we view the unrolled RNN over \(N'\) steps as one large
