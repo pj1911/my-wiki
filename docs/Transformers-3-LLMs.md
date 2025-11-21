@@ -177,22 +177,22 @@ $$
 
    - Start from the raw text tokens
 
- $$
- x_1, x_2, \ldots, x_N.
- $$
+   $$
+   x_1, x_2, \ldots, x_N.
+   $$
 
    - Build the *input row* by shifting right and inserting the start
      token:
 
- $$
- \underbrace{\langle\text{start}\rangle, x_1, x_2, \ldots, x_{N-1}}_{\text{inputs}}
- $$
+   $$
+   \underbrace{\langle\text{start}\rangle, x_1, x_2, \ldots, x_{N-1}}_{\text{inputs}}
+   $$
 
    - Build the *target row* by shifting left:
 
- $$
- \underbrace{x_1, x_2, \ldots, x_N}_{\text{targets}}.
- $$
+   $$
+   \underbrace{x_1, x_2, \ldots, x_N}_{\text{targets}}.
+   $$
 
    So compared to the original text, we have:
 
