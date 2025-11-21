@@ -10,6 +10,7 @@ nav:
       - Generative Adversarial Networks: Generative Adversarial Networks.md
       - Transformers-1-Introduction: Transformers-1-Introduction.md
       - Transformers-2-Natural Language Processing: Transformers-2-NLP.md
+      - Transformers-3-Transformer Language Models: Transformers-3-LLMs.md
 
 markdown_extensions:
   - admonition
