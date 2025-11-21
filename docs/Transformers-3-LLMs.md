@@ -164,10 +164,11 @@ We prevent the above issue in two ways:
    **Before shifting.** Conceptually, we were thinking of many separate
    next-token training pairs, e.g.
 
- $$
- (\text{``I''} \to \text{``swam''}),\quad
- (\text{``I swam''} \to \text{``across''}),\quad \ldots
- $$
+$$
+(\text{I} \to \text{swam}),\quad
+(\text{I swam} \to \text{across}),\quad \ldots
+$$
+
 
    Each pair would be run through the model as its own little training example.
 
