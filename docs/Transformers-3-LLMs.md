@@ -31,7 +31,7 @@ distribution extends the sequence to length \(n\), and we can repeat this proces
 to get token \(n+1\), \(n+2\), and so on, up to a maximum sequence length set by
 the transformer. This token-by-token view is how we *generate* text. Training follows a different paradigm defined later in this chapter.
 
-### Network architecture and self-supervised training.
+### Network architecture and self-supervised training
 
 A GPT-style model is a stack of transformer layers. The input is a sequence of
 token embeddings
@@ -151,7 +151,7 @@ but it would fail at generation time, where future tokens are not available.
 In the next section we will see how the architecture is constrained so that
 each prediction can only depend on earlier tokens in the sequence.
 
-### Preventing cheating: shifting and masking.
+### Preventing cheating: shifting and masking
 
 We prevent the above issue in two ways:
 
