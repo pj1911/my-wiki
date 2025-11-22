@@ -335,13 +335,13 @@ So in the final model:
 
 Both are applied every time we run the transformer model.
 
-### Sampling strategies
+## Sampling strategies
 
 As we saw a decoder transformer outputs, at each step, a probability distribution over the
 next token. To extend a sequence we must turn this distribution into a concrete
 choice. For this, several strategies are used.
 
-**Greedy search.**
+### Greedy search
 
 The simplest method, *greedy search*, always chooses the token with the
 highest probability. This makes generation deterministic: the same input prefix
@@ -362,7 +362,8 @@ search, by contrast, has cost \(\mathcal{O}(KN)\): at each of the \(N\) steps it
 scores all \(K\) tokens once and picks the best, so the total work scales
 linearly with \(N\).
 
-**Beam search.**
+### Beam search
+
 To get higher-probability sequences than greedy search, we can use
 *beam search*. Instead of keeping only one hypothesis, we maintain \(B\)
 partial sequences at step \(n\) where \(B\) is the *beam width*. We feed all \(B\)
@@ -371,9 +372,9 @@ tokens. Since each of the \(B\) partial sequences can be extended in \(B\) ways,
 sequences with the highest total sequence probability. The algorithm therefore
 tracks \(B\) alternatives and their probabilities at all times, and finally
 returns the most probable sequence among them. For example, with \(B=2\) and
-current beam \{\ `I`, `You`\ \}, if the top two continuations for
-each are \{\ `am`,`like`\ \} and \{\ `are`,`like`\ \},
-the \(B^2=4\) candidates are \{\ `I am`,`I like`,`You are`,`You like`\ \}, from which we keep the best \(B=2\).
+current beam \{ `I`, `You` \}, if the top two continuations for
+each are \{ `am`,`like` \} and \{ `are`,`like` \},
+the \(B^2=4\) candidates are \{ `I am`,`I like`,`You are`,`You like` \}, from which we keep the best \(B=2\).
 
 Because the probability of a sequence is a product of stepwise probabilities,
 and each probability is at most one, long sequences tend to have lower raw
@@ -383,7 +384,7 @@ Its computational cost is \(\mathcal{O}(BKN)\), still linear in \(N\) but \(B\) 
 more expensive than greedy search. For very large language models this extra
 factor can make beam search unattractive.
 
-**Diversity and randomness.**
+### Diversity and randomness
 
 Greedy and beam search both focus on high-probability sequences, but this often
 reduces diversity and can even cause loops in which the same subsequence is
@@ -400,7 +401,7 @@ probabilities rather than deterministically choosing the largest. This can give 
 vocabulary the distribution typically has a long tail of very low-probability
 tokens, and sampling from the full distribution can easily pick poor choices.
 
-**Top-\(K\) and nucleus sampling.**
+### Top-\(K\) and nucleus sampling
 
 To balance between determinism and randomness, we can restrict sampling to the
 most likely tokens. In *top-\(K\) sampling* we keep only the \(K\) tokens with
@@ -415,7 +416,7 @@ this set adapts to the model’s confidence: when the model is sure, the nucleus
 is small and more focused; when it is uncertain, the nucleus becomes larger and
 more diverse.
 
-**Temperature.**
+### Temperature
 
 A softer way to control randomness is to introduce a temperature parameter \(T\)
 into the softmax:
@@ -549,7 +550,7 @@ z_i = W h_i + b,
 $$
 
   and apply a softmax to \(z_i\) to obtain a probability distribution over
-  \(K\) possible labels for that token (e.g.\ `PERSON`, `LOC`,
+  \(K\) possible labels for that token (e.g. `PERSON`, `LOC`,
   `COLOR`, etc.).
 
   During training, each token in the input sequence has a ground-truth
