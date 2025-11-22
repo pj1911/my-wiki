@@ -606,10 +606,11 @@ $$
 
 **Encoder (English side).**
 
-- Each English token \(x_m\) is embedded to \(e^{\text{src}}_m\)
+(i) Each English token \(x_m\) is embedded to \(e^{\text{src}}_m\)
   (with \(e^{\text{src}}_m \in \mathbb{R}^D\), using a source embedding matrix
   \(E^{\text{src}} \in \mathbb{R}^{K_{\text{src}} \times D}\)).
-- Bidirectional self-attention over all \(e^{\text{src}}_1,\dots,e^{\text{src}}_M\)
+  
+(ii) Bidirectional self-attention over all \(e^{\text{src}}_1,\dots,e^{\text{src}}_M\)
   produces encoder states \(z_1,\dots,z_M\)
   (each \(z_m \in \mathbb{R}^D\)).
   Each \(z_m\) summarizes information about the *whole* English
@@ -617,19 +618,23 @@ $$
 
 **Decoder (Dutch side).**
 
-- We have a target (Dutch) sequence with tokens \(y_1,\dots,y_N\). During training
+(i) We have a target (Dutch) sequence with tokens \(y_1,\dots,y_N\). During training
   we feed the decoder the *shifted* input sequence
   \((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\) and train it to predict
   \((y_1,\dots,y_N)\).
-- Each token in this decoder input is embedded
+  
+(ii) Each token in this decoder input is embedded
   to \(e^{\text{tgt}}_n\) (with \(e^{\text{tgt}}_n \in \mathbb{R}^D\), via a target embedding matrix \(E^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}} \times D}\)).
-- Masked self-attention over these target embeddings produces intermediate
+  
+(iii) Masked self-attention over these target embeddings produces intermediate
   states \(\hat{h}_n\), where each \(\hat{h}_n\) can only attend to earlier positions in
   the decoder input, i.e. to \(y_1,\dots,y_{n-1}\) (no peeking at future Dutch
   tokens). Each \(\hat{h}_n \in \mathbb{R}^D\).
   
-- **Cross-attention.**
+(iv) Cross-attention
+  
   For each position \(n\) we:
+  
   - use \(\hat{h}_n\) as a *query* \(q_n\),
   - use all encoder states \(z_1,\dots,z_M\) as *keys* and *values*.
 
@@ -676,7 +681,7 @@ $$
   so \(c_n \in \mathbb{R}^D\), and the representation at position \(n\) can directly “look at” *any*
   English position \(m\) via its weight \(\alpha_{n,m}\).
 
-- \(c_n\) is then combined with \(\hat{h}_n\) using the usual transformer
+(v) \(c_n\) is then combined with \(\hat{h}_n\) using the usual transformer
   block structure: first a residual (skip) connection, then layer
   normalization, and then a feed-forward network. Concretely, we can write
 
@@ -698,11 +703,12 @@ $$
   \(b^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}}}\) map \(h_n\) to logits in
   \(\mathbb{R}^{K_{\text{tgt}}}\), followed by a softmax over the \(K_{\text{tgt}}\) target tokens.
 
-- The encoder and decoder are *trained together, end-to-end*. A
+(vi) The encoder and decoder are *trained together, end-to-end*. A
   *training pair* \((x_{1:M}, y_{1:N})\) means one aligned example from
   our dataset: a source sequence \(x_{1:M}\) (e.g. an English sentence) and
   its corresponding target sequence \(y_{1:N}\) (e.g. the Dutch translation).
   For each training pair, we:
+  
   - run the encoder on the *entire* source sequence \(x_{1:M}\),
   - feed the shifted target sequence
     \((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\) into the decoder,
@@ -732,5 +738,6 @@ to its correct translated target sentence.
 
 
 ## References
+
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
 - Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... and Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30.
