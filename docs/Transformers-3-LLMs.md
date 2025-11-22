@@ -474,7 +474,7 @@ words fit together in context.
 BERT achieves this with a *masked language modelling* objective. Every
 input sequence begins with a special token \(\langle\text{class}\rangle\) whose
 output is ignored during pre-training but will be used later. The model is then
-trained on sequences of tokens where a random subset (e.g.\ \(15\%\) of tokens) is
+trained on sequences of tokens where a random subset (e.g. \(15\%\) of tokens) is
 replaced by a special \(\langle\text{mask}\rangle\) token. The task is then to predict
 the original tokens at the corresponding output positions. For example take the input sequence:
 
@@ -504,7 +504,7 @@ follows:
 Once the encoder is pre-trained, we attach a task-specific output layer and
 fine-tune the whole model.
 
-- **Sequence-level classification (e.g.\ sentiment).**  
+- **Sequence-level classification (e.g. sentiment).**  
   The input can be a whole sentence or multiple paragraphs, tokenized and fed through
   the encoder with the \(\langle\text{class}\rangle\) token at the first
   position. After the final encoder layer we get one output vector for each
@@ -526,7 +526,7 @@ $$
   it with a small MLP or any other differentiable module that maps
   \(h_{0}\) to the desired label space.
 
-- **Token-level classification (e.g.\ tagging each word as person,
+- **Token-level classification (e.g. tagging each word as person,
   place, colour, etc.).**  
   Here the input is again a full sequence as above with the \(\langle\text{class}\rangle\) token at the beginning. After passing this
   sequence through the encoder, we obtain one hidden vector for each input
