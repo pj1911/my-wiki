@@ -335,3 +335,234 @@ So in the final model:
 
 Both are applied every time we run the transformer model.
 
+### Sampling strategies
+
+As we saw a decoder transformer outputs, at each step, a probability distribution over the
+next token. To extend a sequence we must turn this distribution into a concrete
+choice. For this, several strategies are used.
+
+**Greedy search.**
+
+The simplest method, *greedy search*, always chooses the token with the
+highest probability. This makes generation deterministic: the same input prefix
+always produces the same continuation.
+
+Note that choosing the most probable token at each step is *not* the same
+as choosing the most probable overall sequence. The probability of a full
+sequence \(y_1,\ldots,y_N\) is
+
+$$
+p(y_1,\ldots,y_N)=\prod_{n=1}^N p(y_n \mid y_1,\ldots,y_{n-1})
+$$
+
+If there are \(N\) steps and a vocabulary of size \(K\), the number of possible
+sequences is \(\mathcal{O}(K^N)\), which grows exponentially with \(N\), so
+exhaustively finding the single most probable sequence is infeasible. Greedy
+search, by contrast, has cost \(\mathcal{O}(KN)\): at each of the \(N\) steps it
+scores all \(K\) tokens once and picks the best, so the total work scales
+linearly with \(N\).
+
+**Beam search.**
+To get higher-probability sequences than greedy search, we can use
+*beam search*. Instead of keeping only one hypothesis, we maintain \(B\)
+partial sequences at step \(n\) where \(B\) is the *beam width*. We feed all \(B\)
+sequences through the model and, for each, consider the \(B\) most probable next
+tokens. Since each of the \(B\) partial sequences can be extended in \(B\) ways, this yields \(B \cdot B = B^2\) candidate sequences, from which we keep the \(B\)
+sequences with the highest total sequence probability. The algorithm therefore
+tracks \(B\) alternatives and their probabilities at all times, and finally
+returns the most probable sequence among them. For example, with \(B=2\) and
+current beam \{\ `I`, `You`\ \}, if the top two continuations for
+each are \{\ `am`,`like`\ \} and \{\ `are`,`like`\ \},
+the \(B^2=4\) candidates are \{\ `I am`,`I like`,`You are`,`You like`\ \}, from which we keep the best \(B=2\).
+
+Because the probability of a sequence is a product of stepwise probabilities,
+and each probability is at most one, long sequences tend to have lower raw
+probability than short ones. Beam search is therefore usually combined with a
+length normalization so that different sequence lengths can be compared fairly.
+Its computational cost is \(\mathcal{O}(BKN)\), still linear in \(N\) but \(B\) times
+more expensive than greedy search. For very large language models this extra
+factor can make beam search unattractive.
+
+**Diversity and randomness.**
+
+Greedy and beam search both focus on high-probability sequences, but this often
+reduces diversity and can even cause loops in which the same subsequence is
+repeated. Human-written text is often more surprising (lower probability under
+the model) than automatically generated text.
+
+An alternative is to sample the next token directly from the softmax
+distribution at each step: instead of always taking the single most probable
+token (the argmax), we treat the softmax output as a categorical distribution
+over the \(K\) tokens and randomly draw one token according to these
+probabilities. This is same as picking one of the \(K\) outputs from
+the final softmax at each step, but doing so stochastically according to their
+probabilities rather than deterministically choosing the largest. This can give diverse outputs, but with a large
+vocabulary the distribution typically has a long tail of very low-probability
+tokens, and sampling from the full distribution can easily pick poor choices.
+
+**Top-\(K\) and nucleus sampling.**
+
+To balance between determinism and randomness, we can restrict sampling to the
+most likely tokens. In *top-\(K\) sampling* we keep only the \(K\) tokens with
+highest probability, renormalize their probabilities, and sample from this
+reduced set. This removes the very low-probability tail, which cuts down on
+wild or nonsensical tokens but still allows multiple plausible choices.
+
+A popular variant is *top-\(p\)* or *nucleus sampling*. Here we choose
+the smallest set of tokens whose cumulative probability reaches a threshold \(p\),
+then renormalize and sample only from that subset. Unlike top-\(K\), the size of
+this set adapts to the model’s confidence: when the model is sure, the nucleus
+is small and more focused; when it is uncertain, the nucleus becomes larger and
+more diverse.
+
+**Temperature.**
+
+A softer way to control randomness is to introduce a temperature parameter \(T\)
+into the softmax:
+
+$$
+y_i = \frac{\exp(a_i/T)}{\sum_j \exp(a_j/T)}
+$$
+
+We then sample the next token from this modified distribution.
+
+- \(T=0\) concentrates all probability on the most likely token
+  (greedy selection).
+- \(T=1\) recovers the original softmax distribution.
+- \(T \to \infty\) gives a uniform distribution over all tokens.
+- For \(0 < T < 1\), probability mass is pushed towards higher-probability
+  tokens.
+
+**Training vs. generation (exposure bias).**
+
+During training, the model sees *human*-generated sequences as input.
+During generation, however, the input prefix is itself model-generated. Over
+time, this mismatch can cause the model to drift away from the distribution of
+sequences present in the training data, which is an important challenge in
+sequence generation.
+
+## Encoder transformers
+
+Encoder-based transformer language models take a whole sequence as input and
+turn it into one or more fixed-size vectors. These vectors can then be used to
+predict a discrete category (a *class label*), such as *positive* vs.\
+*negative* sentiment, or *spam* vs.\ *not spam*. In other
+words, they *encode* the entire sentence into one or more summary
+representations, but they do not generate text by themselves. This contrasts
+with *decoder* models, which are trained to predict the next token and can
+therefore generate sequences, and with *encoder–decoder* models, which
+first encode an input sequence and then use a decoder to generate a separate
+output sequence (as in machine translation). A key example
+is *BERT* (bidirectional encoder representations from transformers). The idea is:
+
+- pre-train a transformer encoder on a huge text corpus,
+- then apply *transfer learning* by fine-tuning it on many downstream
+  tasks, each with a much smaller task-specific data set.
+
+**Pre-training with masked tokens.**
+
+Our goal in the pre-training stage is to teach the encoder a rich, general
+understanding of language using only raw text (no human labels). To do this we
+use a self-supervised prediction task that encourages the model to use both the
+preceding and following words around a token, so it learns *bidirectional*
+representations. This turns plain text into its own source of supervision:
+by hiding some words and asking the model to guess them, we create huge numbers
+of training examples for free while directly teaching it to understand how
+words fit together in context.
+
+BERT achieves this with a *masked language modelling* objective. Every
+input sequence begins with a special token \(\langle\text{class}\rangle\) whose
+output is ignored during pre-training but will be used later. The model is then
+trained on sequences of tokens where a random subset (e.g.\ \(15\%\) of tokens) is
+replaced by a special \(\langle\text{mask}\rangle\) token. The task is then to predict
+the original tokens at the corresponding output positions. For example take the input sequence:
+
+$$
+\text{I } \langle\text{mask}\rangle \text{ across the river to get to the }
+\langle\text{mask}\rangle \text{ bank.}
+$$
+
+The network should output “swam” at position \(2\) and “other” at position
+\(10\) while all other outputs are ignored for computing the loss. As a result of bidirection:
+
+- we do not shift inputs to the right (no autoregressive structure),
+- we do not need causal masks to hide future tokens.
+
+Compared with decoder models, this is less efficient for training, because only
+a subset of tokens provide supervised targets, and the encoder alone cannot
+generate sequences. If we always replaced the chosen tokens by \(\langle\text{mask}\rangle\) during pre-training, the model would mainly learn to handle inputs that contain many \(\langle\text{mask}\rangle\) symbols. At fine-tuning and test time, however, it is given normal sentences with no \(\langle\text{mask}\rangle\) tokens, so the input distribution looks very different from what it saw during pre-training. This *mismatch* can make the learned representations less useful, because the model has had much less practice dealing with real words in those positions. To reduce this gap, we can adjust the \(15\%\) selected tokens as
+follows:
+
+- \(80\%\) are replaced by \(\langle\text{mask}\rangle\),
+- \(10\%\) are replaced by a random vocabulary token,
+- \(10\%\) are left unchanged (but the model is still trained to predict
+  them).
+
+**Fine-tuning for downstream tasks.**
+
+Once the encoder is pre-trained, we attach a task-specific output layer and
+fine-tune the whole model.
+
+- **Sequence-level classification (e.g.\ sentiment).**  
+  The input can be a whole sentence or multiple paragraphs, tokenized and fed through
+  the encoder with the \(\langle\text{class}\rangle\) token at the first
+  position. After the final encoder layer we get one output vector for each
+  input token \(h_0, h_1, \cdots , h_n\). The first one \(h_{0} \in \mathbb{R}^D\) is treated as a summary of the entire sequence.
+
+  To turn this summary into a label, we attach a small task-specific
+  classifier on top. The simplest choice is a linear layer with parameter
+  matrix \(W \in \mathbb{R}^{K \times D}\) and bias \(b \in \mathbb{R}^K\),
+  giving logits
+
+$$
+z = W h_{\text{class}} + b .
+$$
+
+  For \(K\)-way classification we apply a softmax to \(z\) to get class
+  probabilities. For binary classification (\(K=2\)) like positive or negative sentiment, a common variant is
+  to use a single output score \(s = w^\top h_{\text{class}} + b\) followed
+  by a logistic sigmoid. This linear head is just a minimal example, in practice we can replace
+  it with a small MLP or any other differentiable module that maps
+  \(h_{0}\) to the desired label space.
+
+- **Token-level classification (e.g.\ tagging each word as person,
+  place, colour, etc.).**  
+  Here the input is again a full sequence as above with the \(\langle\text{class}\rangle\) token at the beginning. After passing this
+  sequence through the encoder, we obtain one hidden vector for each input
+  position as well:
+
+$$
+h_0, h_1, \ldots, h_N \in \mathbb{R}^D,
+$$
+
+  where \(h_0\) corresponds to \(\langle\text{class}\rangle\) and
+  \(h_1,\ldots,h_N\) correspond to the actual tokens in the sentence.
+
+  For token-level labelling we ignore \(h_0\) and attach the *same*
+  linear classifier to each of the remaining hidden states. Concretely, we
+  use a weight matrix \(W \in \mathbb{R}^{K \times D}\) and bias
+  \(b \in \mathbb{R}^K\) (shared across positions). For each token position
+  \(i = 1,\ldots,N\) we compute
+
+$$
+z_i = W h_i + b,
+$$
+
+  and apply a softmax to \(z_i\) to obtain a probability distribution over
+  \(K\) possible labels for that token (e.g.\ `PERSON`, `LOC`,
+  `COLOR`, etc.).
+
+  During training, each token in the input sequence has a ground-truth
+  label, and we sum the cross-entropy loss over all token positions
+  (optionally skipping special tokens such as padding). At test time, we
+  simply pick the most likely label for each position, giving a predicted
+  tag sequence aligned with the original input tokens.
+
+During fine-tuning, all parameters, including the new output layer, are
+updated using stochastic gradient descent to maximize the log probability of the
+correct labels. Finally, instead of a simple classifier head, the encoder’s representations can
+also be fed into a more advanced generative model, for example in text-to-image
+synthesis systems.
+
+## References
+- Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
