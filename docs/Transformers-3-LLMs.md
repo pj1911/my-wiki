@@ -508,7 +508,7 @@ fine-tune the whole model.
   The input can be a whole sentence or multiple paragraphs, tokenized and fed through
   the encoder with the \(\langle\text{class}\rangle\) token at the first
   position. After the final encoder layer we get one output vector for each
-  input token \(h_0, h_1, \cdots , h_n\). The first one \(h_{0} \in \mathbb{R}^D\) is treated as a summary of the entire sequence.
+  input token \(h_0, h_1, \cdots , h_n\). The first one, \(h_{0} \in \mathbb{R}^D\) is treated as a summary of the entire sequence.
 
   To turn this summary into a label, we attach a small task-specific
   classifier on top. The simplest choice is a linear layer with parameter
