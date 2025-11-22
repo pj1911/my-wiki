@@ -460,7 +460,7 @@ is *BERT* (bidirectional encoder representations from transformers). The idea is
 - then apply *transfer learning* by fine-tuning it on many downstream
   tasks, each with a much smaller task-specific data set.
 
-**Pre-training with masked tokens.**
+### Pre-training with masked tokens
 
 Our goal in the pre-training stage is to teach the encoder a rich, general
 understanding of language using only raw text (no human labels). To do this we
@@ -499,7 +499,7 @@ follows:
 - \(10\%\) are left unchanged (but the model is still trained to predict
   them).
 
-**Fine-tuning for downstream tasks.**
+### Fine-tuning for downstream tasks
 
 Once the encoder is pre-trained, we attach a task-specific output layer and
 fine-tune the whole model.
