@@ -631,9 +631,7 @@ $$
   the decoder input, i.e. to \(y_1,\dots,y_{n-1}\) (no peeking at future Dutch
   tokens). Each \(\hat{h}_n \in \mathbb{R}^D\).
   
-(iv) Cross-attention
-  
-  For each position \(n\) we:
+(iv) Now we use Cross-attention where the key and query comes from different datasets or sequences (here English and Dutch). In this for each position \(n\) we:
   
   - use \(\hat{h}_n\) as a *query* \(q_n\),
   - use all encoder states \(z_1,\dots,z_M\) as *keys* and *values*.
@@ -647,9 +645,7 @@ $$
   v_m = z_m W^V,
 $$
 
-  where \(q_n, k_m, v_m \in \mathbb{R}^D\).
-
-  The attention scores are first computed from the *query* \(q_n\) and each
+  where \(q_n, k_m, v_m \in \mathbb{R}^D\). The attention scores are first computed from the *query* \(q_n\) and each
   *key* \(k_m\):
 
 $$
@@ -657,9 +653,7 @@ $$
 $$
 
   so \(s_{n,m}\) is a scalar, and the score matrix \(S = [s_{n,m}]\) has shape
-  \(\mathbb{R}^{N \times M}\).
-
-  We then turn these scores into attention weights by applying a softmax over
+  \(\mathbb{R}^{N \times M}\). We then turn these scores into attention weights by applying a softmax over
   \(m\):
 
 $$
@@ -669,9 +663,7 @@ $$
 $$
 
   Each \(\alpha_{n,m}\) is a scalar, and for fixed \(n\) the vector
-  \((\alpha_{n,1},\dots,\alpha_{n,M})\) lies in \(\mathbb{R}^M\) and sums to \(1\).
-
-  Finally, the cross-attention output at position \(n\) is a weighted average of
+  \((\alpha_{n,1},\dots,\alpha_{n,M})\) lies in \(\mathbb{R}^M\) and sums to \(1\). Finally, the cross-attention output at position \(n\) is a weighted average of
   the *value* vectors \(v_m\):
 
 $$
@@ -704,8 +696,7 @@ $$
   \(\mathbb{R}^{K_{\text{tgt}}}\), followed by a softmax over the \(K_{\text{tgt}}\) target tokens.
 
 (vi) The encoder and decoder are *trained together, end-to-end*. A
-  *training pair* \((x_{1:M}, y_{1:N})\) means one aligned example from
-  our dataset: a source sequence \(x_{1:M}\) (e.g. an English sentence) and
+  training pair \((x_{1:M}, y_{1:N})\) consists of a source sequence \(x_{1:M}\) (e.g. an English sentence) and
   its corresponding target sequence \(y_{1:N}\) (e.g. the Dutch translation).
   For each training pair, we:
   
