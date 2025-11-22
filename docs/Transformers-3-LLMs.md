@@ -447,7 +447,7 @@ sequence generation.
 Encoder-based transformer language models take a whole sequence as input and
 turn it into one or more fixed-size vectors. These vectors can then be used to
 predict a discrete category (a *class label*), such as *positive* vs.\
-*negative* sentiment, or *spam* vs.\ *not spam*. In other
+*negative* sentiment, or *spam* vs. *not spam*. In other
 words, they *encode* the entire sentence into one or more summary
 representations, but they do not generate text by themselves. This contrasts
 with *decoder* models, which are trained to predict the next token and can
@@ -574,12 +574,12 @@ machine translation, say from English to Dutch. Let:
 - \(x_1,\dots,x_M\) = tokens of the **English** sentence 
 - \(y_1,\dots,y_N\) = tokens of the **Dutch** sentence 
 
-**1. Decoder-only transformer (GPT-style).**
+### Decoder-only transformer (GPT-style)
 
 Here we model a single sequence only, lets say english:
 
 - Input tokens: \(x_1,\dots,x_M\).
-- Each \(x_t\) is embedded to a vector \(e_t\) (with \(e_t \in \mathbb{R}^D\), using an embedding matrix \(E \in \mathbb{R}^{K \times D}\)).
+- Each \(x_t\) is embedded to a vector \(e_t\) with \(e_t \in \mathbb{R}^D\), using an embedding matrix \(E \in \mathbb{R}^{K \times D}\).
 - Masked self-attention processes \((e_1,\dots,e_{t-1})\) to produce a
   hidden state \(h_t\) for position \(t\) (with \(h_t \in \mathbb{R}^D\)).
 - A linear+softmax layer turns \(h_t\) into a distribution over the English
@@ -595,7 +595,7 @@ $$
   probability vector. So, for this we only have one sequence and one language. Each token is predicted from the
   previous tokens in that same sequence.
 
-**2. Encoder–decoder transformer (seq2seq for translation).**
+### Encoder–decoder transformer (seq2seq for translation)
 
 Now we truly have *two* sequences:
 
@@ -604,7 +604,8 @@ x_1,\dots,x_M \ (\text{English source}), \qquad
 y_1,\dots,y_N \ (\text{Dutch target}).
 $$
 
-**Encoder (English side):**
+**Encoder (English side).**
+
 - Each English token \(x_m\) is embedded to \(e^{\text{src}}_m\)
   (with \(e^{\text{src}}_m \in \mathbb{R}^D\), using a source embedding matrix
   \(E^{\text{src}} \in \mathbb{R}^{K_{\text{src}} \times D}\)).
@@ -614,7 +615,8 @@ $$
   Each \(z_m\) summarizes information about the *whole* English
   sentence, but is still tied to position \(m\).
 
-**Decoder (Dutch side):**
+**Decoder (Dutch side).**
+
 - We have a target (Dutch) sequence with tokens \(y_1,\dots,y_N\). During training
   we feed the decoder the *shifted* input sequence
   \((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\) and train it to predict
@@ -625,6 +627,7 @@ $$
   states \(\hat{h}_n\), where each \(\hat{h}_n\) can only attend to earlier positions in
   the decoder input, i.e. to \(y_1,\dots,y_{n-1}\) (no peeking at future Dutch
   tokens). Each \(\hat{h}_n \in \mathbb{R}^D\).
+  
 - **Cross-attention.**
   For each position \(n\) we:
   - use \(\hat{h}_n\) as a *query* \(q_n\),
@@ -707,7 +710,7 @@ $$
     sequence and compute a cross-entropy loss at each step \(n\) for \(y_n\).
 
   In this way, every part of the target sequence contributes to the loss, and
-  gradients update **all** parameters (encoder, decoder, and
+  gradients update all parameters (encoder, decoder, and
   cross-attention) jointly. 
 
 **Key points:**
