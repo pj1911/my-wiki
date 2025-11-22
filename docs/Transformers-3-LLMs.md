@@ -565,5 +565,169 @@ correct labels. Finally, instead of a simple classifier head, the encoder’s re
 also be fed into a more advanced generative model, for example in text-to-image
 synthesis systems.
 
+## Sequence-to-sequence transformers
+
+The third family of transformer models combines an encoder with a decoder, as in
+the original transformer paper of Vaswani et al. (2017). A typical example is
+machine translation, say from English to Dutch. Let:
+
+- \(x_1,\dots,x_M\) = tokens of the **English** sentence 
+- \(y_1,\dots,y_N\) = tokens of the **Dutch** sentence 
+
+**1. Decoder-only transformer (GPT-style).**
+
+Here we model a single sequence only, lets say english:
+
+- Input tokens: \(x_1,\dots,x_M\).
+- Each \(x_t\) is embedded to a vector \(e_t\) (with \(e_t \in \mathbb{R}^D\), using an embedding matrix \(E \in \mathbb{R}^{K \times D}\)).
+- Masked self-attention processes \((e_1,\dots,e_{t-1})\) to produce a
+  hidden state \(h_t\) for position \(t\) (with \(h_t \in \mathbb{R}^D\)).
+- A linear+softmax layer turns \(h_t\) into a distribution over the English
+  vocabulary:
+
+$$
+p(x_t \mid x_1,\dots,x_{t-1}).
+$$
+
+  Concretely, a weight matrix \(W^{\text{out}} \in \mathbb{R}^{D \times K}\)
+  and bias \(b^{\text{out}} \in \mathbb{R}^K\) map \(h_t\) to logits in
+  \(\mathbb{R}^K\), which are then passed through a softmax to get a length-\(K\)
+  probability vector. So, for this we only have one sequence and one language. Each token is predicted from the
+  previous tokens in that same sequence.
+
+**2. Encoder–decoder transformer (seq2seq for translation).**
+
+Now we truly have *two* sequences:
+
+$$
+x_1,\dots,x_M \ (\text{English source}), \qquad
+y_1,\dots,y_N \ (\text{Dutch target}).
+$$
+
+**Encoder (English side):**
+- Each English token \(x_m\) is embedded to \(e^{\text{src}}_m\)
+  (with \(e^{\text{src}}_m \in \mathbb{R}^D\), using a source embedding matrix
+  \(E^{\text{src}} \in \mathbb{R}^{K_{\text{src}} \times D}\)).
+- Bidirectional self-attention over all \(e^{\text{src}}_1,\dots,e^{\text{src}}_M\)
+  produces encoder states \(z_1,\dots,z_M\)
+  (each \(z_m \in \mathbb{R}^D\)).
+  Each \(z_m\) summarizes information about the *whole* English
+  sentence, but is still tied to position \(m\).
+
+**Decoder (Dutch side):**
+- We have a target (Dutch) sequence with tokens \(y_1,\dots,y_N\). During training
+  we feed the decoder the *shifted* input sequence
+  \((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\) and train it to predict
+  \((y_1,\dots,y_N)\).
+- Each token in this decoder input is embedded
+  to \(e^{\text{tgt}}_n\) (with \(e^{\text{tgt}}_n \in \mathbb{R}^D\), via a target embedding matrix \(E^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}} \times D}\)).
+- Masked self-attention over these target embeddings produces intermediate
+  states \(\hat{h}_n\), where each \(\hat{h}_n\) can only attend to earlier positions in
+  the decoder input, i.e. to \(y_1,\dots,y_{n-1}\) (no peeking at future Dutch
+  tokens). Each \(\hat{h}_n \in \mathbb{R}^D\).
+- **Cross-attention.**
+  For each position \(n\) we:
+  - use \(\hat{h}_n\) as a *query* \(q_n\),
+  - use all encoder states \(z_1,\dots,z_M\) as *keys* and *values*.
+
+  Concretely, we apply learned projection matrices
+  \(W^Q, W^K, W^V \in \mathbb{R}^{D \times D}\) to obtain
+
+$$
+  q_n = \hat{h}_n W^Q,\quad
+  k_m = z_m W^K,\quad
+  v_m = z_m W^V,
+$$
+
+  where \(q_n, k_m, v_m \in \mathbb{R}^D\).
+
+  The attention scores are first computed from the *query* \(q_n\) and each
+  *key* \(k_m\):
+
+$$
+  s_{n,m} = q_n^\top k_m,
+$$
+
+  so \(s_{n,m}\) is a scalar, and the score matrix \(S = [s_{n,m}]\) has shape
+  \(\mathbb{R}^{N \times M}\).
+
+  We then turn these scores into attention weights by applying a softmax over
+  \(m\):
+
+$$
+  \alpha_{n,m}
+  = \frac{\exp(s_{n,m})}{\sum_{j=1}^M \exp(s_{n,j})}
+  \;\;\propto\;\; \exp(q_n^\top k_m).
+$$
+
+  Each \(\alpha_{n,m}\) is a scalar, and for fixed \(n\) the vector
+  \((\alpha_{n,1},\dots,\alpha_{n,M})\) lies in \(\mathbb{R}^M\) and sums to \(1\).
+
+  Finally, the cross-attention output at position \(n\) is a weighted average of
+  the *value* vectors \(v_m\):
+
+$$
+  c_n = \sum_{m=1}^M \alpha_{n,m} v_m,
+$$
+
+  so \(c_n \in \mathbb{R}^D\), and the representation at position \(n\) can directly “look at” *any*
+  English position \(m\) via its weight \(\alpha_{n,m}\).
+
+- \(c_n\) is then combined with \(\hat{h}_n\) using the usual transformer
+  block structure: first a residual (skip) connection, then layer
+  normalization, and then a feed-forward network. Concretely, we can write
+
+$$
+  u_n = \mathrm{LayerNorm}(\hat{h}_n + c_n), \qquad
+  h_n = \mathrm{FFN}(u_n),
+$$
+
+  where \(\mathrm{FFN}\) is a small position-wise MLP that maps
+  \(\mathbb{R}^D \to \mathbb{R}^D\). Both \(u_n\) and \(h_n\) are in
+  \(\mathbb{R}^D\). The final state
+  \(h_n\) then goes through a linear+softmax layer to produce
+
+$$
+  p(y_n \mid y_1,\dots,y_{n-1}, x_1,\dots,x_M).
+$$
+
+  Here a projection \(W^{\text{tgt}} \in \mathbb{R}^{D \times K_{\text{tgt}}}\) and bias
+  \(b^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}}}\) map \(h_n\) to logits in
+  \(\mathbb{R}^{K_{\text{tgt}}}\), followed by a softmax over the \(K_{\text{tgt}}\) target tokens.
+
+- The encoder and decoder are *trained together, end-to-end*. A
+  *training pair* \((x_{1:M}, y_{1:N})\) means one aligned example from
+  our dataset: a source sequence \(x_{1:M}\) (e.g. an English sentence) and
+  its corresponding target sequence \(y_{1:N}\) (e.g. the Dutch translation).
+  For each training pair, we:
+  - run the encoder on the *entire* source sequence \(x_{1:M}\),
+  - feed the shifted target sequence
+    \((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\) into the decoder,
+  - obtain a predicted distribution for every position in the target
+    sequence and compute a cross-entropy loss at each step \(n\) for \(y_n\).
+
+  In this way, every part of the target sequence contributes to the loss, and
+  gradients update **all** parameters (encoder, decoder, and
+  cross-attention) jointly. 
+
+**Key points:**
+
+- We **still** never allow \(y_n\) to see future \(y_{n+1},y_{n+2},\dots\),
+  so there is no data leakage.
+- What **changes** compared to the decoder-only model is that each
+  target token \(y_n\) can now attend to *all* encoder states
+  \(z_1,\dots,z_M\), i.e. to the entire English sentence \(x_1,\dots,x_M\),
+  via cross-attention.
+
+Intuitively, this is like a user sending their query to a different streaming
+service: the service compares the query with its own library of key vectors and
+returns the best-matching movie as the value vector. When we wire the encoder and decoder together in this way we obtain the classic
+sequence-to-sequence transformer architecture. The model is trained in a supervised way using *sentence pairs*: for each
+English input sentence \(x_1,\dots,x_M\) we provide the corresponding Dutch output
+sentence \(y_1,\dots,y_N\), and the network learns to map the full source sentence
+to its correct translated target sentence.
+
+
 ## References
 - Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
+- Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... and Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30.
