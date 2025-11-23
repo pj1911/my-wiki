@@ -727,6 +727,156 @@ English input sentence \(x_1,\dots,x_M\) we provide the corresponding Dutch outp
 sentence \(y_1,\dots,y_N\), and the network learns to map the full source sentence
 to its correct translated target sentence.
 
+## Large Language models
+
+One of the biggest shifts in modern machine learning has been the rise of very
+large transformer-based neural networks for language, called *large
+language models* (LLMs). Here 'large' refers to the number of learnable
+weights and biases, which at the time of writing can reach around one trillion
+\((10^{12})\). These models are expensive to train, but their extraordinary
+capabilities make them worth the effort.
+
+Several trends made LLMs possible:
+
+- huge text data sets,
+- massively parallel hardware, especially GPUs and related accelerators,
+  organized in large clusters with fast interconnects and lots of memory,
+- the transformer architecture, which uses this hardware very efficiently.
+
+In practice, simply scaling up data and parameter count often improves
+performance more than clever architectures or hand-built domain knowledge. For example, the big performance jumps in
+the GPT series have mainly come from increased scale. This has led to a new kind of “Moore’s law”
+for ML: since about 2012, the compute needed to train a state-of-the-art model
+has grown exponentially, with a doubling time of roughly about \(3.4\) months.
+
+**From supervised to self-supervised training**
+
+Early language models were trained with *supervised learning*. For
+instance, to build a translation system one would use many pairs of aligned
+sentences in two languages. The problem is that such labelled data must be
+curated by humans, so it is scarce. This forces strong inductive biases (feature
+engineering, rigid architectures) just to reach decent performance.
+
+LLMs instead use *self-supervised learning* on very large unlabelled data
+sets of text (and often other token sequences such as source code). As we saw
+with decoder transformers, we can treat each token in a sequence as a labelled
+target, with the previous tokens as input, and learn a conditional probability
+distribution over the next token. This “self-labelling” turns raw text into a
+massive training set and makes it practical to exploit deep networks with huge
+numbers of parameters.
+
+**Pre-training, fine-tuning, and foundation models.**
+
+This self-supervised approach led to a new training paradigm:
+
+1. **Pre-train** a large model on unlabelled data.
+2. **Fine-tune** it with supervised learning on a much smaller
+   labelled data set for a particular task.
+
+This is a form of transfer learning, and the same pre-trained model can be
+reused across many downstream applications. A broadly capable model that
+can be fine-tuned for many tasks is called a foundation model. Fine-tuning can be done in various ways:
+
+- add new layers on top and train them on labelled data,
+- or replace the last few layers with new parameters and train only those.
+
+During fine-tuning, the main network weights can be frozen or allowed small
+adjustments. In either case, the compute cost of fine-tuning is usually tiny
+compared with pre-training.
+
+**Low-rank adaptation (LoRA).**
+
+A very efficient fine-tuning method is low-rank adaptation. It is motivated by the observation that over-parameterized models
+often have low intrinsic dimensionality for fine-tuning: useful parameter
+changes lie on a much lower-dimensional manifold than the full space.
+
+LoRA keeps the original model weights fixed and adds small trainable
+low-rank matrices to each transformer layer, usually only in the attention
+blocks (MLP layers stay fixed). Consider a weight matrix
+\(\mathbf{W}_0 \in \mathbb{R}^{D\times D}\), representing, say, the combined
+query/key/value matrix for all attention heads. LoRA introduces a parallel set
+of weights \(\mathbf{A} \in \mathbb{R}^{D\times R}\) and
+\(\mathbf{B} \in \mathbb{R}^{R\times D}\) freezing the weights \(W_0\), and the layer output becomes
+
+$$
+X\mathbf{W}_0 + X\mathbf{A}\mathbf{B}.
+$$
+
+The added matrix \(\mathbf{A}\mathbf{B}\) has \(2RD\) parameters, compared with the
+\(D^2\) parameters of \(\mathbf{W}_0\). When \(R \ll D\), the number of parameters
+that must be trained is much smaller than in the original transformer, often by
+up to a factor of \(10{,}000\) in practice. After fine-tuning, the adapted weights
+are simply merged into the original matrix:
+
+$$
+\widehat{\mathbf{W}} = \mathbf{W}_0 + \mathbf{A}\mathbf{B}
+$$
+
+so at inference time there is no extra computational cost and the model size is
+the same as before. As LLMs grow more powerful, we can increasingly skip fine-tuning altogether and
+instead solve many tasks directly through text-based interaction.
+
+**Zero-shot and few-shot capabilities.**
+
+Zero-shot learning means the model is asked to do a task that it has never
+seen explicitly in training, and we give it only an instruction or pattern in
+the prompt (no examples). *Few-shot learning* is similar, but we also give a
+small number of input–output examples in the prompt to guide the model.
+
+As a simple zero-shot example, suppose we give the following text to a
+generative language model:
+
+> **English:** the cat sat on the mat. **French:**
+
+Here the French part is *intentionally* left blank, this is the task we
+want the model to solve. If this whole line is used as the input sequence, an
+autoregressive language model will continue generating tokens until it produces
+a special \(\langle\text{stop}\rangle\) token. The generated continuation will
+typically be a French translation of the English sentence. Crucially, the model
+was never directly trained as a translation system, it acquired this ability
+indirectly by being pre-trained on a very large corpus of text that includes
+many different languages.
+
+**Interaction, RLHF, and ChatGPT.**
+
+Users can interact with such models via natural language dialogue, making them
+highly accessible. To improve user experience and output quality, LLMs are often
+*aligned* using human feedback. A popular approach is
+reinforcement learning through human feedback (RLHF), where humans rate model outputs and these ratings are used to further
+train the model. These techniques have enabled easy-to-use conversational
+systems such as OpenAI’s *ChatGPT*.
+
+**Prompts and prompt engineering.**
+
+The sequence of input tokens provided by the user is called a *prompt*. It
+might be:
+
+- the opening of a story for the model to complete,
+- a question the model should answer,
+- a request such as “write Python code that …” or “compose a
+  rhyme about …”.
+
+By changing the prompt, the same underlying network can perform many tasks:
+code generation from a plain-text description, poetry on demand, and much more.
+Model performance therefore depends strongly on how we phrase the prompt. This
+has led to a new field, prompt engineering, which
+focuses on designing prompts that yield high-quality outputs.
+
+We can also modify behaviour by automatically editing the user’s prompt before
+it reaches the model. A common method is to prepend an additional token sequence
+called a *prefix prompt*. For instance, the prefix might contain
+instructions in standard English telling the model to avoid offensive language.
+The main prompt then follows this prefix.
+
+This mechanism lets us solve new tasks simply by including a few examples or
+instructions in the prompt, without changing model parameters, an ability known
+as *few-shot learning*.
+
+**Current state and outlook.**
+
+State-of-the-art models such as GPT-4 already show striking capabilities that
+some authors describe as early signs of artificial general intelligence. They are driving a major new wave of technological innovation,
+and their abilities continue to advance at an impressive pace.
 
 ## References
 
