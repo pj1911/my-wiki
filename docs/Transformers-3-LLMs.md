@@ -874,7 +874,7 @@ as *few-shot learning*.
 
 **Current state and outlook.**
 
-State-of-the-art models such as GPT-4 already show striking capabilities that
+State-of-the-art models such as GPT-5 already show striking capabilities that
 some authors describe as early signs of artificial general intelligence. They are driving a major new wave of technological innovation,
 and their abilities continue to advance at an impressive pace.
 
