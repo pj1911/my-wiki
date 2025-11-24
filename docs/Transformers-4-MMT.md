@@ -56,8 +56,7 @@ as a product of conditionals once we pick *some* ordering:
 
 $$
 p(\mathbf{x}_1,\dots,\mathbf{x}_N)
-= \prod_{n=1}^N p(\mathbf{x}_n \mid \mathbf{x}_1,\dots,\mathbf{x}_{n-1}).
-\tag{1}\label{eq:autoregressive}
+= \prod_{n=1}^N p(\mathbf{x}_n \mid \mathbf{x}_1,\dots,\mathbf{x}_{n-1})
 $$
 
 This factorization is completely general and does not restrict the form of the
@@ -101,8 +100,7 @@ usually in Euclidean distance:
 
 $$
 \mathbf{x}_n \;\rightarrow\;
-\arg\min_{\mathbf{c}_k \in \mathcal{C}} \|\mathbf{x}_n - \mathbf{c}_k\|^2.
-\tag{2}\label{eq:vq}
+\arg\min_{\mathbf{c}_k \in \mathcal{C}} \|\mathbf{x}_n - \mathbf{c}_k\|^2
 $$
 
 Because there are only \(K\) codebook vectors, we can represent each
@@ -265,4 +263,6 @@ flexible: they can do text-to-image generation, image captioning, image editing,
 text completion, and essentially any task a regular language model can handle,
 all within a single multimodal transformer.
 
+## References
 
+- Bishop, C. M., & Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.
