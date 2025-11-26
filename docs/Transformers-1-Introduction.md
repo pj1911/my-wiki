@@ -507,17 +507,26 @@ with \(W^{(q)}_h,W^{(k)}_h\in\mathbb{R}^{D\times d_k}\), \(W^{(v)}_h\in\mathbb{R
 $$
 \begin{aligned}
 \text{Shapes: }& Q_h,K_h\in\mathbb{R}^{N\times d_k},\; V_h\in\mathbb{R}^{N\times d_v}.
-$$
-
-$$
-\text{FLOPs: }& \underbrace{N D d_k}_{XW^{(q)}_h}+\underbrace{N D d_k}_{XW^{(k)}_h}
-+\underbrace{N D d_v}_{XW^{(v)}_h}\;\text{ per head}.
-$$
-
-$$
-&\Rightarrow\;\text{Total FLOPs (all \(H\) heads)}=N D\,(2H d_k + H d_v) = 3ND^2.
 \end{aligned}
 $$
+
+$$
+\begin{aligned}
+\text{FLOPs: }&
+\underbrace{N D d_k}_{XW^{(q)}_h}
++\underbrace{N D d_k}_{XW^{(k)}_h}
++\underbrace{N D d_v}_{XW^{(v)}_h}
+= N D\,(2 d_k + d_v)\;\text{ per head}.
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+&\Rightarrow\;\text{Total FLOPs (all \(H\) heads)} = N D H\,(2 d_k + d_v). \\
+&\text{If } d_k = d_v = D/H,\ \text{then this simplifies to } 3 N D^2.
+\end{aligned}
+$$
+
 
 $$
 \text{parameters (projections)}=D(2H d_k + H d_v) = 3D^2.
