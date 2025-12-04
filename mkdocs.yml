@@ -13,6 +13,8 @@ nav:
           - 2 – Natural Language Processing: Transformers-2-NLP.md
           - 3 – Transformer Language Models: Transformers-3-LLMs.md
           - 4 – Multimodal Transformers: Transformers-4-MMT.md
+  - Mathematics:
+        - Fuzzy Inference Systems: Fuzzy Inference Systems.md
 
 markdown_extensions:
   - admonition
