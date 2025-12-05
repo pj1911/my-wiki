@@ -1,13 +1,14 @@
 # Fuzzy Inference Systems
 
 ## Introduction
+
 Fuzzy inference systems sound mysterious if we are hearing about 'fuzzy' things for the first time. In reality, they are just a way to let computers handle vague, human-style reasoning like 'temperature is warm' or 'speed is a bit high'. This chapter builds up to fuzzy inference systems, starting with classical sets and logic, then introducing fuzzy sets, and finally showing how fuzzy rules come together into a full fuzzy inference system.
 
 ## Why care about fuzziness?
 
-Let us start with an everyday question: Is this coffee hot? A typical answer is not just 'yes' or 'no'. we might say:
+Let us start with an everyday question: Is this coffee hot? A typical answer is not just ''yes'' or ''no''. we might say:
 
-- 'It's lukewarm' or 'It's kind of hot, but we can drink it.'
+- ''It's lukewarm'' or ''It's kind of hot, but we can drink it.''
 
 Human language is full of words like *tall*, *young*, *expensive*, *close*, *fast*, etc. These are not crisp categories with sharp boundaries. Classical logic and classical sets, however, are based on sharp yes/no decisions: either \(x\) is in the set \(A\), or it is not. Fuzzy logic and fuzzy inference systems were developed to bridge this gap: they allow us to mathematically model concepts like 'kind of hot' or 'very tall' and use them in reasoning and control. Before we get to fuzzy stuff, let us quickly recall how classical sets and logic work, and why they struggle with vagueness.
 
@@ -66,12 +67,12 @@ There is no natural, universally accepted sharp cut-off where 'not tall' suddenl
 
 ## Vagueness vs randomness
 
-Before introducing fuzziness, it is useful to distinguish it from *randomness*. These are different kinds of uncertainty. Probability theory deals with randomness or lack of knowledge about which outcome will occur. For example, we toss a fair coin. We do not know if it will land heads or tails, but after the toss it is definitely either heads or tails. A probability \(\,P(\text{heads}) = 0.5\,\) does *not* mean the coin is 'half-heads and half-tails'. It means, roughly, that in the long run we will see heads about half the time.
+Before introducing fuzziness, it is useful to distinguish it from *randomness*. These are different kinds of uncertainty. Probability theory deals with randomness or lack of knowledge about which outcome will occur. For example, we toss a fair coin. We do not know if it will land heads or tails, but after the toss it is definitely either heads or tails. A probability \(P(\text{heads}) = 0.5\) does *not* mean the coin is 'half-heads and half-tails'. It means, roughly, that in the long run we will see heads about half the time.
 
 ### Vagueness (fuzziness)
 
-Consider the question: 'Is a \(168\) cm person tall?'. There is no randomness here. We are not uncertain about the height, we already know it exactly. The uncertainty is about how well this precise height fits a vague category like 'tall'. Instead of forcing a yes/no answer, fuzzy logic lets us assign a number that says how well something fits a vague description.
-For instance, we might say:
+Consider the question: "Is a \(168\) cm person tall?". There is no randomness here. We are not uncertain about the height, we already know it exactly. The uncertainty is about how well this precise height fits a vague category like 'tall'. Instead of forcing a yes/no answer, fuzzy logic lets us assign a number that says how well something fits a vague description.
+ For instance, we might say:
 
 $$
 \text{'Tall'}(168\text{ cm}) = 0.6,
@@ -83,7 +84,7 @@ meaning '168 cm is tall to degree \(0.6\)'. This is a different numerical quanti
 
 ### From indicator functions to membership functions
 
-Recall, if \(X\) is a set defined on temperatures and \(A\) is a subset of it, defined as
+Recall, if \(X\) is a set defined on temperatures and A is a subset of it, defined as
 
 $$
 A = \{\text{temperatures considered 'hot'}\}.
@@ -144,7 +145,7 @@ So far, we have only talked about static fuzzy sets. To build fuzzy inference sy
 
 ### Linguistic variables
 
-A *linguistic variable* is a variable whose values are words (or short phrases) rather than numbers. For example, instead of writing `Temperature` \(= 25^\circ\mathrm{C}\), we might describe it as
+A *linguistic variable* is a variable whose values are words (or short phrases) rather than numbers. For example, instead of writing \texttt{Temperature} \(= 25^\circ\mathrm{C}\), we might describe it as
 
 $$
 \texttt{Temperature} \in \{\text{'cold'}, \text{'cool'}, \text{'warm'}, \text{'hot'}\}.
@@ -152,7 +153,7 @@ $$
 
 Each word here is not just a label, it corresponds to a fuzzy set on the underlying numeric domain. Concretely:
 
-- the *universe of discourse* is the numeric range of possible temperatures (e.g.\ \(0\)--\(100^\circ\mathrm{C}\)),
+- the *universe of discourse* is the numeric range of possible temperatures (e.g. \(0\)--\(100^\circ\mathrm{C}\)),
 - each linguistic term ('cold', 'cool', 'warm', 'hot', etc.) is represented by its own fuzzy set over this range.
 
 For example, 'cold' might be modeled so that
@@ -163,7 +164,7 @@ $$
 \mu_{\text{cold}}(25^\circ\mathrm{C}) = 0,
 $$
 
-which means \(10^\circ\mathrm{C}\) is fully cold, \(15^\circ\mathrm{C}\) is 'half cold', and \(25^\circ\mathrm{C}\) is not cold at all.
+which means \(10^\circ\)C is fully cold, \(15^\circ\)C is 'half cold', and \(25^\circ\)C is not cold at all.
 
 Thus a single numeric value, such as \(25^\circ\mathrm{C}\), can belong to several of these fuzzy sets at once, but with different degrees of membership.
 
@@ -196,7 +197,6 @@ A *fuzzy inference system* (FIS) is a mapping from inputs to outputs using fuzzy
 We now walk through one concrete fuzzy inference system from start to finish.
 
 **Setup.**
-
 We use two inputs and one output:
 
 - Temperature \(T\) in \([0,40]\) (\(^\circ\mathrm{C}\)).
@@ -221,7 +221,7 @@ $$
 \text{'low'}, \quad \text{'medium'}, \quad \text{'high'}.
 $$
 
-We will use the fixed input:
+We will use the fixed input
 
 $$
 T = 24^\circ\mathrm{C}, \qquad H = 55\%.
@@ -268,30 +268,28 @@ $$
 **Fan speed.** (triangular shapes)
 
 $$
-\mu_{\text{low}}(S) =
+\begin{aligned}
+\mu_{\text{low}}(S) &=
 \begin{cases}
 \dfrac{S}{2}, & 0 < S \le 2,\\
 \dfrac{4 - S}{2}, & 2 < S < 4,\\
 0, & \text{otherwise},
 \end{cases}
-$$
-
-$$
-\mu_{\text{medium}}(S) =
+\\
+\mu_{\text{medium}}(S) &=
 \begin{cases}
 \dfrac{S - 3}{2}, & 3 < S \le 5,\\
 \dfrac{7 - S}{2}, & 5 < S < 7,\\
 0, & \text{otherwise},
 \end{cases}
-$$
-
-$$
-\mu_{\text{high}}(S) =
+\\
+\mu_{\text{high}}(S) &=
 \begin{cases}
 \dfrac{S - 6}{2}, & 6 < S \le 8,\\
 \dfrac{10 - S}{2}, & 8 < S < 10,\\
 0, & \text{otherwise}.
 \end{cases}
+\end{aligned}
 $$
 
 **Step 1: Fuzzification.**
@@ -310,7 +308,7 @@ $$
 \mu_{\text{humid}}(55) = \frac{55 - 50}{30} \approx 0.17.
 $$
 
-So the crisp input \((T,H) = (24,55)\) becomes the fuzzy description:
+So the crisp input \((T,H) = (24,55)\) becomes the fuzzy description
 
 $$
 \mu_{\text{cool}}(24) = 0.4, \quad
@@ -327,18 +325,17 @@ We use three rules:
 - **R2:** IF \(T\) is warm AND \(H\) is dry THEN \(S\) is medium.
 - **R3:** IF \(T\) is warm AND \(H\) is humid THEN \(S\) is high.
 
-We take AND as minimum. The firing strength \(\alpha_k\) of rule \(k\) is:
+We take AND as minimum (discussed above). The firing strength \(\alpha_k\) of rule \(k\) is then given by:
 
 $$
-\alpha_1 = \min(0.4, 0.25) = 0.25,
-$$
-
-$$
-\alpha_2 = \min(0.4, 0.25) = 0.25,
-$$
-
-$$
-\alpha_3 = \min(0.4, 0.17) \approx 0.17.
+\begin{aligned}
+\alpha_1 &= \min\big(\mu_{\text{cool}}(24), \mu_{\text{dry}}(55)\big)
+        = \min(0.4, 0.25) = 0.25,\\
+\alpha_2 &= \min\big(\mu_{\text{warm}}(24), \mu_{\text{dry}}(55)\big)
+        = \min(0.4, 0.25) = 0.25,\\
+\alpha_3 &= \min\big(\mu_{\text{warm}}(24), \mu_{\text{humid}}(55)\big)
+        = \min(0.4, 0.17) \approx 0.17.
+\end{aligned}
 $$
 
 So all three rules fire, with different strengths.
@@ -347,10 +344,12 @@ So all three rules fire, with different strengths.
 
 By this point, each rule \(R_k\) has:
 
-- a firing strength \(\alpha_k \in [0,1]\),
-- an output fuzzy set (\(\mu_{\text{low}}\), \(\mu_{\text{medium}}\), \(\mu_{\text{high}}\)).
+- a firing strength \(\alpha_k \in [0,1]\) that says how true its IF-part is for the current input, and
+- an output fuzzy set (low, medium and high) that tells, for each possible fan speed \(S \in [0,10]\), how well that fan speed fits the label in the THEN-part if the rule were fully true (\(\mu_{\text{low}}\), \(\mu_{\text{medium}}\) and \(\mu_{\text{high}}\)).
 
-Suppose from Step 2 we already have:
+Step 3 answers the question: *Given the firing strengths \(\alpha_k\) of all rules and their corresponding output fuzzy sets (such as \(\mu_{\text{low}}\), \(\mu_{\text{medium}}\), and \(\mu_{\text{high}}\) over fan speeds \(S\)), how strongly does the rule base as a whole support each possible fan speed \(S\)?* We do this in two stages:
+
+To keep things concrete, suppose from Step 2 we already have
 
 $$
 \alpha_1 = 0.25, \qquad
@@ -360,45 +359,66 @@ $$
 
 **Inside a single rule:**
 
-Take:
+Take one rule in isolation, for example
 
 $$
-\text{R2: IF $T$ is warm AND $H$ is dry THEN $S$ is medium.}
+\text{R2: IF } T \text{ is warm AND } H \text{ is dry THEN } S \text{ is medium.}
 $$
 
-Its truth is \(\alpha_2 = 0.25\). We weaken the consequent using:
+For the current input \((T,H)\), the IF-part (the antecedent) is not fully true, its truth is \(\alpha_2 = 0.25\). The fuzzy set \(\mu_{\text{medium}}(S)\) tells us, for each \(S\), how 'medium' that speed would be *if the rule were completely true*. But in reality the rule is only true to degree \(0.25\), so its recommendation should be weakened accordingly. For each \(S\), we therefore combine:
+
+- the degree to which \(S\) is 'medium': \(\mu_{\text{medium}}(S)\),
+- the degree to which the rule is true: \(\alpha_2 = 0.25\).
+
+The standard Mamdani choice (a classic and widely used fuzzy inference scheme, chosen here because it is simple, interpretable, and closely follows human IF-THEN rules) is
 
 $$
 \mu_{S|\mathrm{R2}}(S) = \min\big(\alpha_2, \mu_{\text{medium}}(S)\big).
 $$
 
-If:
+For example, imagine that from the output membership function we know:
 
 $$
 \mu_{\text{medium}}(4.5) = 0.8, \qquad
-\mu_{\text{medium}}(3.0) = 0.2,
+\mu_{\text{medium}}(3.0) = 0.2.
 $$
 
-then:
+Then R2's support for these two speeds becomes
 
 $$
-\mu_{S|\mathrm{R2}}(4.5) = 0.25, \qquad
-\mu_{S|\mathrm{R2}}(3.0) = 0.2.
+\mu_{S|\mathrm{R2}}(4.5) = \min(0.25, 0.8) = 0.25,\qquad
+\mu_{S|\mathrm{R2}}(3.0) = \min(0.25, 0.2) = 0.2.
 $$
 
-Similarly:
+So:
+
+- At \(S=4.5\), the rule would like this speed quite a lot ('medium' to degree \(0.8\)), but the rule itself is weak (\(0.25\)), so we cap the support at \(0.25\).
+- At \(S=3.0\), the rule is equally weak (\(0.25\)) but \(S=3.0\) is barely 'medium' (\(0.2\)), so the support is only \(0.2\).
+
+In other words, the rule's support for a particular \(S\) is always the weaker of:
+
+\[
+    '\text{how true is the rule?}' \quad \text{vs.} \quad '\text{how well does } S \text{ fit the label in the THEN-part?}'
+\]
+
+This minimum operator also has two nice properties:
+
+- If everything is crisp (\(\alpha_2 \in \{0,1\}\) and \(\mu_{\text{medium}}(S) \in \{0,1\}\)), this reduces to ordinary logic: the consequent is true only when both the rule fires and \(S\) satisfies the label.
+- Geometrically, it corresponds to 'cutting' the top of the fuzzy set \(\mu_{\text{medium}}(S)\) at height \(\alpha_2\). When plotted, each rule produces a 'truncated hill' over the output axis.
+
+We do the same thing for every rule, so that each fuzzy IF--THEN rule contributes its own truncated output membership function, i.e.\ its own partial, weighted opinion about \(S\). Formally, in our example:
 
 $$
-\mu_{S|\mathrm{R1}}(S) = \min(\alpha_1, \mu_{\text{low}}(S)),
-$$
-
-$$
-\mu_{S|\mathrm{R3}}(S) = \min(\alpha_3, \mu_{\text{high}}(S)).
+\begin{aligned}
+\mu_{S|\mathrm{R1}}(S) &= \min\big(\alpha_1, \mu_{\text{low}}(S)\big),\\
+\mu_{S|\mathrm{R2}}(S) &= \min\big(\alpha_2, \mu_{\text{medium}}(S)\big),\\
+\mu_{S|\mathrm{R3}}(S) &= \min\big(\alpha_3, \mu_{\text{high}}(S)\big).
+\end{aligned}
 $$
 
 **Across rules:**
 
-Fix \(S^\star = 4.5\). Suppose:
+Now we fix a particular output value \(S^\star\) (say \(S^\star=4.5\)). Suppose the truncated fuzzy sets from the three rules give:
 
 $$
 \mu_{S|\mathrm{R1}}(4.5) = 0.10, \qquad
@@ -406,43 +426,64 @@ $$
 \mu_{S|\mathrm{R3}}(4.5) = 0.05.
 $$
 
-Then:
+This means:
+
+- Rule 1 says: '\(S^\star\) is low' to degree \(0.10\).
+- Rule 2 says: '\(S^\star\) is medium' to degree \(0.25\).
+- Rule 3 says: '\(S^\star\) is high' to degree \(0.05\).
+
+The question is: *overall, how acceptable is \(S^\star\) as an output according to the whole rule base?* The intuitive answer is: \(S^\star\) is acceptable if at least one rule supports it, and the more strongly any rule supports it, the more acceptable it is. This is a fuzzy version of logical OR over rules. In standard fuzzy logic, OR is modeled by the maximum of the truth degrees, so we take:
 
 $$
-\mu_{\text{out}}(4.5)
+\mu_{\text{out}}(S^\star)
+= \max\big(\mu_{S|\mathrm{R1}}(S^\star), \mu_{S|\mathrm{R2}}(S^\star), \mu_{S|\mathrm{R3}}(S^\star)\big)
 = \max(0.10, 0.25, 0.05) = 0.25.
 $$
 
-Thus the aggregated fuzzy output is:
+Doing this for every \(S\) gives the final aggregated output fuzzy set:
 
 $$
 \mu_{\text{out}}(S)
 = \max\big(\mu_{S|\mathrm{R1}}(S), \mu_{S|\mathrm{R2}}(S), \mu_{S|\mathrm{R3}}(S)\big).
 $$
 
+Geometrically, this means we place all the truncated hills from the individual rules on the same axis and, at each \(S\), take the highest one. The resulting outline is the combined fuzzy belief about \(S\) after considering all rules.
+
 **Why this min-max scheme, and what else is possible?**
 
-The min-inside / max-across scheme is the classic Mamdani choice because:
+The min-inside / max-across pattern is the classic Mamdani choice because:
 
-- it is easy to interpret,
-- it matches crisp logic when memberships are 0 or 1,
-- it is easy to visualize.
+- it is easy to interpret: each rule's influence is limited by its truth, and the system accepts an output if any rule supports it.
+- it matches crisp logic when all memberships are \(0\) or \(1\).
+- it is very easy to visualize and implement.
 
-Alternatives exist:
+However, it is not the only design:
 
-- use product \(\alpha_k \cdot \mu(S)\) instead of \(\min\),
-- use other OR-like aggregation operators,
-- use Sugeno systems, where consequents are crisp functions:
+- Instead of \(\min(\alpha_k, \mu(S))\) inside a rule, one can use product \(\alpha_k \cdot \mu(S)\). For example, if \(\alpha_2 = 0.25\) and \(\mu_{\text{medium}}(4.5) = 0.8\), product inference would give \(0.25 \cdot 0.8 = 0.20\) instead of \(\min(0.25,0.8)=0.25\), smoothly scaling the fuzzy set rather than flat-cutting it.
+- Instead of combining rules with \(\max\), one can use other aggregation operators that behave like a soft OR and give slightly different shapes to \(\mu_{\text{out}}(S)\).
+- We also have another type of system known as Sugeno-type systems, the consequents are not fuzzy sets at all but crisp functions of the inputs. For example, each rule might have
 
 $$
-S^\ast = \frac{\sum_k \alpha_k f_k(T,H)}{\sum_k \alpha_k}.
+\text{R}_k: \ \text{IF (conditions)} \ \text{THEN } S = f_k(T,H) = a_k T + b_k H + c_k.
 $$
 
-We stick to the Mamdani style here.
+  After computing the firing strengths \(\alpha_k\) of all rules, the final output is a weighted average of these rule outputs:
+
+$$
+S^\ast = \frac{\sum_k \alpha_k \, f_k(T,H)}{\sum_k \alpha_k}.
+$$
+
+  So if two rules fire with \(\alpha_1 = 0.6\), \(\alpha_2 = 0.4\) and give \(f_1(T,H)=5\), \(f_2(T,H)=8\), then
+
+$$
+S^\ast = \frac{0.6 \cdot 5 + 0.4 \cdot 8}{0.6 + 0.4} = 6.2.
+$$
+
+We stick to the Mamdani min-max style here because it gives a clean first mental model: each rule draws a fuzzy bump over the output axis, cut at the level of its truth, and the system as a whole takes the upper envelope of all these bumps as its final fuzzy recommendation.
 
 **Step 4: Defuzzification.**
 
-To obtain a single crisp fan speed, we use the centroid:
+To obtain a single crisp fan speed, we use the centroid (center of gravity) of \(\mu_{\text{out}}\):
 
 $$
 S^\ast =
@@ -450,7 +491,7 @@ S^\ast =
      {\displaystyle \int_0^{10}     \mu_{\text{out}}(S)\, dS}.
 $$
 
-For the shapes and firing strengths above:
+For the specific shapes and firing strengths above, this centroid is numerically around
 
 $$
 S^\ast \approx 4.7.
@@ -462,7 +503,7 @@ So, given \(T = 24^\circ\mathrm{C}\) and \(H = 55\%\), the fuzzy inference syste
 
 Fuzzy inference systems shine in situations where:
 
-- Human expertise is available in the form of fuzzy rules like 'IF \(A\) is high AND \(B\) is low THEN ...'.
+- Human expertise is available in the form of fuzzy rules like 'IF \(A\) is high AND \(B\) is low THEN \dots'.
 - The system is too complex or poorly understood to model precisely with differential equations or detailed physics.
 - Inputs and outputs can be reasonably described using linguistic terms (e.g., control systems, decision support, heuristic policies).
 
