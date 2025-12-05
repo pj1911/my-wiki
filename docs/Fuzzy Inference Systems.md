@@ -75,7 +75,7 @@ Consider the question: "Is a \(168\) cm person tall?". There is no randomness he
  For instance, we might say:
 
 $$
-\text{'Tall'}(168\text{ cm}) = 0.6,
+\text{"Tall"}(168\text{ cm}) = 0.6,
 $$
 
 meaning '168 cm is tall to degree \(0.6\)'. This is a different numerical quantity than a probability. With that distinction in mind, we can now define fuzzy sets.
@@ -87,7 +87,7 @@ meaning '168 cm is tall to degree \(0.6\)'. This is a different numerical quanti
 Recall, if \(X\) is a set defined on temperatures and A is a subset of it, defined as
 
 $$
-A = \{\text{temperatures considered 'hot'}\}.
+A = \{\text{temperatures considered "hot"}\}.
 $$
 
 In classical set theory, we must draw a sharp line: maybe \(A = \{ x \in X : x \ge 60^\circ\mathrm{C} \}\). We can express this with an *indicator or membership function*:
@@ -145,7 +145,7 @@ So far, we have only talked about static fuzzy sets. To build fuzzy inference sy
 
 ### Linguistic variables
 
-A *linguistic variable* is a variable whose values are words (or short phrases) rather than numbers. For example, instead of writing \texttt{Temperature} \(= 25^\circ\mathrm{C}\), we might describe it as
+A *linguistic variable* is a variable whose values are words (or short phrases) rather than numbers. For example, instead of writing Temperature \(= 25^\circ\mathrm{C}\), we might describe it as
 
 $$
 \texttt{Temperature} \in \{\text{'cold'}, \text{'cool'}, \text{'warm'}, \text{'hot'}\}.
@@ -168,9 +168,9 @@ which means \(10^\circ\)C is fully cold, \(15^\circ\)C is 'half cold', and \(25^
 
 Thus a single numeric value, such as \(25^\circ\mathrm{C}\), can belong to several of these fuzzy sets at once, but with different degrees of membership.
 
-### Fuzzy IF--THEN rules
+### Fuzzy IF-THEN rules
 
-Now we can express knowledge in a very natural form using fuzzy sets. For instance, in a simple temperature control scenario, we might want to decide how fast a fan should run based on how warm the room feels. A human would say something like: **IF** temperature is warm **THEN** fan speed is medium. More formally, this is a fuzzy IF--THEN rule of the form:
+Now we can express knowledge in a very natural form using fuzzy sets. For instance, in a simple temperature control scenario, we might want to decide how fast a fan should run based on how warm the room feels. A human would say something like: **IF** temperature is warm **THEN** fan speed is medium. More formally, this is a fuzzy IF-THEN rule of the form:
 
 $$
 \text{IF } x \text{ is } A \text{ THEN } y \text{ is } B.
@@ -206,19 +206,19 @@ We use two inputs and one output:
 For \(T\) we use two fuzzy sets:
 
 $$
-\text{'cool'}, \quad \text{'warm'},
+\text{"cool"}, \quad \text{"warm"},
 $$
 
 for \(H\) we use two:
 
 $$
-\text{'dry'}, \quad \text{'humid'},
+\text{"dry"}, \quad \text{"humid"},
 $$
 
 and for \(S\) we use three:
 
 $$
-\text{'low'}, \quad \text{'medium'}, \quad \text{'high'}.
+\text{"low"}, \quad \text{"medium"}, \quad \text{"high"}.
 $$
 
 We will use the fixed input
@@ -398,7 +398,7 @@ So:
 In other words, the rule's support for a particular \(S\) is always the weaker of:
 
 \[
-    '\text{how true is the rule?}' \quad \text{vs.} \quad '\text{how well does } S \text{ fit the label in the THEN-part?}'
+    "\text{how true is the rule?}" \quad \text{vs.} \quad "\text{how well does } S \text{ fit the label in the THEN-part?}"
 \]
 
 This minimum operator also has two nice properties:
@@ -406,7 +406,7 @@ This minimum operator also has two nice properties:
 - If everything is crisp (\(\alpha_2 \in \{0,1\}\) and \(\mu_{\text{medium}}(S) \in \{0,1\}\)), this reduces to ordinary logic: the consequent is true only when both the rule fires and \(S\) satisfies the label.
 - Geometrically, it corresponds to 'cutting' the top of the fuzzy set \(\mu_{\text{medium}}(S)\) at height \(\alpha_2\). When plotted, each rule produces a 'truncated hill' over the output axis.
 
-We do the same thing for every rule, so that each fuzzy IF--THEN rule contributes its own truncated output membership function, i.e.\ its own partial, weighted opinion about \(S\). Formally, in our example:
+We do the same thing for every rule, so that each fuzzy IF-THEN rule contributes its own truncated output membership function, i.e. its own partial, weighted opinion about \(S\). Formally, in our example:
 
 $$
 \begin{aligned}
@@ -523,7 +523,7 @@ Fuzzy inference systems also have limitations:
 
 ## Wrapping up
 
-We started from classical sets and logic, where membership and truth are crisp, and saw that they struggle with inherently vague concepts like 'tall' or 'warm'. Fuzzy sets extend the idea of set membership to degrees in \([0,1]\), which can capture how well a specific value fits a vague category. Using fuzzy sets, we defined linguistic variables and fuzzy IF--THEN rules. A fuzzy inference system then:
+We started from classical sets and logic, where membership and truth are crisp, and saw that they struggle with inherently vague concepts like 'tall' or 'warm'. Fuzzy sets extend the idea of set membership to degrees in \([0,1]\), which can capture how well a specific value fits a vague category. Using fuzzy sets, we defined linguistic variables and fuzzy IF-THEN rules. A fuzzy inference system then:
 
 1. fuzzifies numerical inputs,
 2. evaluates fuzzy rules,
