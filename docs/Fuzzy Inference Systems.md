@@ -503,7 +503,7 @@ So, given \(T = 24^\circ\mathrm{C}\) and \(H = 55\%\), the fuzzy inference syste
 
 Fuzzy inference systems shine in situations where:
 
-- Human expertise is available in the form of fuzzy rules like 'IF \(A\) is high AND \(B\) is low THEN \dots'.
+- Human expertise is available in the form of fuzzy rules like 'IF \(A\) is high AND \(B\) is low THEN ...'.
 - The system is too complex or poorly understood to model precisely with differential equations or detailed physics.
 - Inputs and outputs can be reasonably described using linguistic terms (e.g., control systems, decision support, heuristic policies).
 
