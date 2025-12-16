@@ -212,7 +212,7 @@ where the same pair \((\eta,q)\) is kept but the equality is relaxed to select t
 relevant weak solution. Therefore, across shocks, the weak form alone can accept multiple solutions. The entropy condition
 adds an extra rule: pick the solution where entropy does not increase across the shock.
 
-**Traffic intuition (LWR).**
+#### Traffic intuition (LWR model)
 
 In \(\partial_t\rho+\partial_x f(\rho)=0\), shocks represent compression (cars brake and bunch
 up). Compression can happen abruptly, so a low\(\to\)high density jump can be an admissible shock.
@@ -280,7 +280,7 @@ if more entropy enters at \(x=a\) than leaves at \(x=b\). If the boundaries are 
 injecting entropy, then \(E(t)\) cannot increase, meaning any shock inside the segment must be
 entropy-dissipating (compressive) rather than entropy-creating (a rarefaction shock).
 
-####Understanding the inequality
+#### Understanding the inequality
 
 The inequality \(\partial_t\eta(u)+\nabla\!\cdot q(u)\le 0\) is understood in the same weak (integral)
 way as before: derivatives are moved onto a smooth test function. Concretely, for every smooth
