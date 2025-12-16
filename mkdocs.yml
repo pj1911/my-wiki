@@ -15,6 +15,7 @@ nav:
           - 4 – Multimodal Transformers: Transformers-4-MMT.md
   - Mathematics:
         - Fuzzy Inference Systems: Fuzzy Inference Systems.md
+        - Hyperbolic PDEs: Hyperbolic PDEs-1-weak solutions.md
 
 markdown_extensions:
   - admonition
