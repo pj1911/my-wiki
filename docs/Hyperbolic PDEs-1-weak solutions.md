@@ -126,7 +126,7 @@ where shocks (jumps) can form even from smooth initial data. The weak form alone
 candidates \(u\) that all satisfy the integral identity, so an extra rule is needed to pick the
 physically relevant one. For this an entropy solution is introduced, it is a weak solution that, in addition to weak solution property, satisfies a family of integral
 inequalities of the form \(\partial_t \eta(u)+\nabla\!\cdot q(u)\le 0\) (in the weak sense) for every
-convex entropy \(\eta\) and its associated entropy flux \(q\).\
+convex entropy \(\eta\) and its associated entropy flux \(q\).
 
 Here, an entropy is a convex scalar function \(\eta:\mathbb R\to\mathbb R\) applied to the
 state \(u\), where \(u(t,x)\) is a scalar value. An associated entropy flux
