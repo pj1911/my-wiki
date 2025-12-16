@@ -1,7 +1,7 @@
 # Introduction - weak solution to hyperbolic PDEs
 
-This chapter goes through neural-network (NN) methods for approximating solutions of partial
-differential equations (PDEs), with a special focus on hyperbolic PDEs.
+This full chapter goes through neural-network (NN) methods for approximating solutions of partial
+differential equations (PDEs), with a special focus on hyperbolic PDEs for the current part.
 
 - Both supervised and unsupervised learning approaches are covered, along with
   their main strengths and limitations.
@@ -50,7 +50,7 @@ all pairs \((t,x)\) with \(t\in[0,T]\) and \(x\in\mathcal U\). Here, \(u\) can b
 (\(n>1\), several coupled values at each \((t,x)\)). Furthermore, \(\partial_t u\) denotes the partial derivative of \(u\) with respect to time:
 it measures how \(u(t,x)\) changes as \(t\) varies while keeping \(x\) fixed. The operator \(L\) is a spatial differential operator: for each fixed time \(t\), it takes the spatial function
 \(u(t,\cdot):\mathcal U\to\mathbb R^n\) as input and returns another function on \(\mathcal U\), built from derivatives with
-respect to \(x\) (and possibly \(x\)-dependent coefficients), i.e.\ \(L[u(t,\cdot)]:\mathcal U\to\mathbb R^n\).
+respect to \(x\) (and possibly \(x\)-dependent coefficients), i.e. \(L[u(t,\cdot)]:\mathcal U\to\mathbb R^n\).
  For example, \(L\) may contain
 
 - Transport/advection terms (first derivatives), such as \(a(x)\cdot\nabla u\), which move the profile of \(u\)
@@ -124,12 +124,12 @@ $$
 
 where shocks (jumps) can form even from smooth initial data. The weak form alone may admit multiple
 candidates \(u\) that all satisfy the integral identity, so an extra rule is needed to pick the
-physically relevant one. For this an **entropy solution** is introduced, it is a weak solution that, in addition to weak solution property, satisfies a family of integral
+physically relevant one. For this an entropy solution is introduced, it is a weak solution that, in addition to weak solution property, satisfies a family of integral
 inequalities of the form \(\partial_t \eta(u)+\nabla\!\cdot q(u)\le 0\) (in the weak sense) for every
-convex entropy \(\eta\) and its associated entropy flux \(q\).\\
+convex entropy \(\eta\) and its associated entropy flux \(q\).\
 
-Here, an **entropy** is a convex scalar function \(\eta:\mathbb R\to\mathbb R\) applied to the
-state \(u\), where \(u(t,x)\) is a scalar value. An associated **entropy flux**
+Here, an entropy is a convex scalar function \(\eta:\mathbb R\to\mathbb R\) applied to the
+state \(u\), where \(u(t,x)\) is a scalar value. An associated entropy flux
 is a function \(q:\mathbb R\to\mathbb R^d\) (in \(d\) space dimensions) chosen to be compatible with
 the physical flux \(f\). Compatibility means that, for smooth solutions of the conservation law
 \(\partial_t u+\nabla\!\cdot f(u)=0\), the quantity \(\eta(u)\) also satisfies a conservation law
@@ -209,7 +209,7 @@ $$
 
 This is the starting point for the entropy inequality used when shocks appear,
 where the same pair \((\eta,q)\) is kept but the equality is relaxed to select the physically
-relevant weak solution. Therefore, across shocks, the weak form alone can accept multiple solutions. The **entropy condition**
+relevant weak solution. Therefore, across shocks, the weak form alone can accept multiple solutions. The entropy condition
 adds an extra rule: pick the solution where entropy does not increase across the shock.
 
 **Traffic intuition (LWR).**
@@ -217,14 +217,14 @@ adds an extra rule: pick the solution where entropy does not increase across the
 In \(\partial_t\rho+\partial_x f(\rho)=0\), shocks represent compression (cars brake and bunch
 up). Compression can happen abruptly, so a low\(\to\)high density jump can be an admissible shock.
 The opposite transition, high\(\to\)low density, is decompression: gaps open up gradually as
-information travels through the flow. A sudden high\(\to\)low jump (a ``rarefaction shock'') would
+information travels through the flow. A sudden high\(\to\)low jump (a rarefaction shock) would
 require an instantaneous response, so it is ruled out by the entropy condition. Instead, the model
-produces a **rarefaction fan**, a smooth spreading wave.
+produces a rarefaction fan, a smooth spreading wave.
 
 **What the entropy inequality adds (and how it matches the intuition).**
 
 The intuition above says: a compressive jump is allowed, but a decompressive jump is not. The
-**entropy inequality** is the mathematical way to enforce that idea. It introduces a scalar
+entropy inequality is the mathematical way to enforce that idea. It introduces a scalar
 ``disorder'' measure \(\eta(\rho)\) (any convex function) and requires that this quantity cannot be
 created inside the road, except for what enters through the boundaries. Pick any convex entropy function \(\eta(\rho)\) and its associated entropy flux \(q(\rho)\). An entropy
 solution satisfies
@@ -235,21 +235,19 @@ $$
 $$
 
 This inequality rules out rarefaction shocks because those jumps would act like an internal
-source of entropy; compressive shocks are allowed because they act like dissipation.
-
-The inequality is easiest to read on a road segment \([a,b]\). Define the entropy content on \([a,b]\) by
+source of entropy; compressive shocks are allowed because they act like dissipation. The inequality is easiest to read on a road segment \([a,b]\). Define the entropy content on \([a,b]\) by
 
 $$
 E(t):=\int_a^b \eta(\rho(t,x))\,dx.
 $$
 
-Differentiate under the integral sign (formally):
+Differentiate under the integral sign:
 
 $$
 \frac{d}{dt}E(t)=\int_a^b \partial_t \eta(\rho(t,x))\,dx.
 $$
 
-Now use the entropy inequality
+Now using the entropy inequality
 
 $$
 \partial_t \eta(\rho) + \partial_x q(\rho)\le 0
@@ -257,7 +255,7 @@ $$
 \partial_t \eta(\rho)\le -\partial_x q(\rho),
 $$
 
-to get
+we get
 
 $$
 \frac{d}{dt}E(t)\le \int_a^b \big(-\partial_x q(\rho(t,x))\big)\,dx.
@@ -282,7 +280,7 @@ if more entropy enters at \(x=a\) than leaves at \(x=b\). If the boundaries are 
 injecting entropy, then \(E(t)\) cannot increase, meaning any shock inside the segment must be
 entropy-dissipating (compressive) rather than entropy-creating (a rarefaction shock).
 
-**Understanding the inequality**
+###Understanding the inequality
 
 The inequality \(\partial_t\eta(u)+\nabla\!\cdot q(u)\le 0\) is understood in the same weak (integral)
 way as before: derivatives are moved onto a smooth test function. Concretely, for every smooth
@@ -405,7 +403,7 @@ $$
 \int_{\mathcal U}F\cdot\nabla\varphi\,dx.
 $$
 
-**Step 5 (extend to space--time).**
+**Step 5 (extend to space-time).**
 Apply the spatial identity at each fixed time \(t\), then integrate the whole equation over \(t\in[0,T]\):
 
 $$
@@ -517,6 +515,8 @@ $$
 \le 0.
 $$
 
+Rearranging,
+
 $$
 \int_{\mathcal U}\eta(u_0(x))\,\varphi(0,x)\,dx
 +\int_{0}^{T}\int_{\mathcal U}\eta(u)\,\partial_t\varphi\,dx\,dt
@@ -544,7 +544,7 @@ At this point, two natural technical questions come up about the choice of test 
 
 **1) Why require \(\varphi\ge 0\)?**
 Because the starting statement is an inequality (not an equality). Testing it against all
-nonnegative \(\varphi\) is the standard weak way to encode ``\(\le 0\)'' without needing pointwise
+nonnegative \(\varphi\) is the standard weak way to encode '\(\le 0\)' without needing pointwise
 derivatives.
 
 **2) What if \(\varphi\) does not vanish on \(\partial\mathcal U\) or at \(t=T\)?**
