@@ -280,7 +280,7 @@ if more entropy enters at \(x=a\) than leaves at \(x=b\). If the boundaries are 
 injecting entropy, then \(E(t)\) cannot increase, meaning any shock inside the segment must be
 entropy-dissipating (compressive) rather than entropy-creating (a rarefaction shock).
 
-###Understanding the inequality
+####Understanding the inequality
 
 The inequality \(\partial_t\eta(u)+\nabla\!\cdot q(u)\le 0\) is understood in the same weak (integral)
 way as before: derivatives are moved onto a smooth test function. Concretely, for every smooth
