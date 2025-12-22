@@ -15,7 +15,7 @@ nav:
           - 4 – Multimodal Transformers: Transformers-4-MMT.md
   - Mathematics:
         - Fuzzy Inference Systems: Fuzzy Inference Systems.md
-        - Partial differential equations:
+        - Neural network methods for partial differential equations:
           - 1 - Hamilton Jacobi Equation: Hamilton-Jacobi equations.md
           - 2 - Weak Solutions: Hyperbolic PDEs-1-weak solutions.md
 
