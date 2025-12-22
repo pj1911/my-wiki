@@ -1,7 +1,6 @@
 # Introduction - weak solution to hyperbolic PDEs
 
-This chapter is part of a broader series on neural-network methods for approximating solutions of PDEs.  
-Here we narrow the focus to hyperbolic PDEs and the core analytical issue they raise: solutions can develop discontinuities, so one must work with weak solutions (rather than classical smooth solutions).
+This chapter is part of a broader series on neural-network methods for approximating solutions of PDEs. Here we narrow the focus to hyperbolic PDEs and the core analytical issue they raise: solutions can develop discontinuities, so one must work with weak solutions (rather than classical smooth solutions).
 
 ## Partial Differential Equations
 Partial differential equations (PDEs) describe many physical and engineering systems, from traffic flow to electromagnetism, so solving them efficiently and accurately matters, in practice, many applications need results
