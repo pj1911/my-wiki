@@ -1,21 +1,7 @@
 # Introduction - weak solution to hyperbolic PDEs
 
-This full chapter goes through neural-network (NN) methods for approximating solutions of partial
-differential equations (PDEs), with a special focus on hyperbolic PDEs for the current part.
-
-- Both supervised and unsupervised learning approaches are covered, along with
-  their main strengths and limitations.
-
-- Key analytical properties of PDE solutions like regularity, stability, and
-  conservation laws, are used to motivate NN architecture design. Here, regularity means how smooth the solution is (and whether it has jumps),
-  stability means small changes in inputs or initial data should not cause large changes in the output,
-  and conservation laws mean certain physical quantities (like mass or energy) should be preserved over time. Therefore, hyperbolic PDEs are
-  particularly challenging because solutions often develop discontinuities and other
-  irregular features.
-  
-- Recent hybrid methods that combine classical numerical schemes with NNs are also
-  discussed, with the goal of reducing discretization-induced errors. These are errors introduced when a continuous problem (like a PDE)
-  is approximated on a finite grid, time step, or set of sample points. These hybrid methods connect PDE theory (e.g., conservation laws and stability) with NN-based solvers and help NNs approximate the exact (continuous) PDE solution more accurately.
+This chapter is part of a broader series on neural-network methods for approximating solutions of PDEs.  
+Here we narrow the focus to hyperbolic PDEs and the core analytical issue they raise: solutions can develop discontinuities, so one must work with weak solutions (rather than classical smooth solutions).
 
 ## Partial Differential Equations
 Partial differential equations (PDEs) describe many physical and engineering systems, from traffic flow to electromagnetism, so solving them efficiently and accurately matters, in practice, many applications need results
