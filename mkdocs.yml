@@ -18,7 +18,9 @@ nav:
         - Neural network methods for partial differential equations:
           - 1 - Hamilton Jacobi Equation: Hamilton-Jacobi equations.md
           - 2 - Weak Solutions: Hyperbolic PDEs-1-weak solutions.md
-
+  - Reinforcement Learning:
+      - 1 - Introduction: RL-1-Introduction.md
+      
 markdown_extensions:
   - admonition
   - pymdownx.arithmatex:
