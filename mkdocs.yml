@@ -20,6 +20,7 @@ nav:
           - 2 - Weak Solutions: Hyperbolic PDEs-1-weak solutions.md
   - Reinforcement Learning:
       - 1 - Introduction: RL-1-Introduction.md
+      - 2 - Markov Decision Processes: RL-2-Markov Decision Processes.md
       
 markdown_extensions:
   - admonition
