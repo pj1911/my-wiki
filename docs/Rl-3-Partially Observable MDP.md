@@ -45,7 +45,7 @@ $$
 ### What changes relative to an MDP
 
 The dynamics and rewards are still defined on the (hidden) state \(S_t\), but the agent only observes
-the stream \(O_t\). Consequently, policies are typically defined on the agent's information (e.g.\ the
+the stream \(O_t\). Consequently, policies are typically defined on the agent's information (e.g. the
 observation--action history, or a belief state), rather than directly on \(S_t\).
 
 ## Agent information: histories and belief states
@@ -98,7 +98,7 @@ time-homogeneous stochastic process. In particular:
 
 - in an MDP, the state sequence \((S_t)\) becomes a Markov chain under \(\pi\);
 - in a POMDP, although \(S_t\) is hidden, the underlying system still evolves Markovly, and it is
-  often useful to analyze the long-run behavior of the induced controlled dynamics (e.g.\ via the
+  often useful to analyze the long-run behavior of the induced controlled dynamics (e.g. via the
   belief-MDP viewpoint).
 
 This is why concepts like ergodicity and stationary distributions are natural: they
@@ -186,7 +186,7 @@ $$
 \rho^\pi \;=\; \lim_{T\to\infty}\frac{1}{T}\,\mathbb E_\pi\!\left[\sum_{t=1}^{T} R_t\right],
 $$
 
-(when the limit is well defined, e.g.\ under ergodicity). This scalar captures steady-state
+(when the limit is well defined, e.g. under ergodicity). This scalar captures steady-state
 performance, but it does not describe how trajectories from a particular starting state compare to
 that baseline.
 
