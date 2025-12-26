@@ -919,14 +919,14 @@ For very small state spaces, we can solve piecewise: assume a maximizing action 
 **(3) Special cases / restricted classes.**  
 Some structured MDPs admit analytic solutions (certain deterministic shortest-path forms, special linear-quadratic control in continuous settings, etc.), but for general finite stochastic MDPs the standard approach is iterative computation.
 
-### Iterative solution methods (big picture)
+### Iterative solution methods
 
-#### Model-based vs model-free
+**Model-based vs model-free**
 
 - Model-based: uses \(P\) and \(R\) explicitly (value iteration, policy iteration, DP).
 - Model-free: learns from sampled transitions without explicit \(P\) (Q-learning, SARSA).
 
-#### Value Iteration (VI)
+**Value Iteration (VI)**
 
 Value iteration applies the Bellman optimality backup repeatedly:
 
@@ -939,7 +939,7 @@ $$
 
 Intuition: repeatedly perform one-step lookahead improvements until the values stabilize.
 
-#### Policy Iteration (PI)
+**Policy Iteration (PI)**
 
 Policy iteration alternates two steps:
 
@@ -952,7 +952,7 @@ $$
 
 Repeat until the policy stops changing (then it is optimal).
 
-#### Q-learning (off-policy, model-free)
+**Q-learning (off-policy, model-free)**
 
 Q-learning aims to learn \(Q^*\) directly from samples \((S_t,A_t,R_{t+1},S_{t+1})\):
 
@@ -962,7 +962,7 @@ $$
 
 It uses a greedy max in the target, so it can learn the optimal greedy behavior even if the behavior policy explores.
 
-#### SARSA (on-policy, model-free)
+**SARSA (on-policy, model-free)**
 
 SARSA learns the value of the current behavior policy:
 
@@ -974,7 +974,7 @@ Key difference: it uses the next action actually taken \((A_{t+1})\), rather tha
 
 ## Appendix
 
-### Proof of Law of total expectation
+**Proof of Law of total expectation**
 
 We want to show that:
 
