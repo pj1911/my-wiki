@@ -289,8 +289,7 @@ where \(I\) is the \(n\times n\) identity matrix. For \(\gamma\in[0,1)\) and fin
 
 The Bellman equation expresses the value function as a recursion: the value of a state \(s\) is written in terms of the values of its possible successor states. Starting from \(s\), the process transitions to a random next state \(s'\), yields an immediate reward, and then continues recursively from \(s'\). Taking expectations over all possible next states yields a recursive equation for \(V(s)\).
 
-\medskip
-\noindent Recursive form (transition-based reward, most general).
+**Recursive form (transition-based reward, most general)**
 Starting from the definition
 
 $$  
@@ -329,16 +328,14 @@ $$
 This equation shows that \(V(s)\) is obtained as a probability-weighted average of the quantities
 \(R(s,s')+\gamma V(s')\) associated with each possible successor state \(s'\).
 
-\medskip
-\noindent Special case (state-based reward).
+**Special case (state-based reward)**
 If rewards depend only on the current state, i.e. \(R(s,s')\equiv R(s)\), the equation reduces to
 
 $$  
 V(s)=R(s)+\gamma\sum_{s'\in\mathcal S}P(s'\mid s)\,V(s').  
 $$
 
-\medskip
-\noindent Worked example (recursive value computation).
+**Worked example (recursive value computation)**
 Suppose from state \(s\) the next states are \(\{a,b,c\}\) with
 
 $$  
