@@ -1,4 +1,4 @@
-# Introduction
+# Introduction to Reinforcement Learning
 
 Reinforcement Learning (RL) is the science of decision making: an agent learns what to do by interacting with an environment, trying to maximize it's reward over time. What makes RL different from many other machine learning methods is the kind of feedback it receives. Instead of a supervisor telling the correct answer, the agent only sees a reward signal, and that signal may be delayed, meaning the effect of an action might show up much later. Time is therefore central: the data comes as a sequence, not as independent samples (so it is not i.i.d.), and the agent's actions actively influence what it experiences next. Typical examples of RL includes learning to play games (like Atari or Chess), training robots to walk or manipulate objects, optimizing long-term choices in recommender systems, and controlling real-world systems such as traffic lights, resource allocation, or scheduling.
 
