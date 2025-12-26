@@ -1,4 +1,4 @@
-## Introduction
+# Introduction to Markov Decision Processes
 
 In reinforcement learning (RL), interaction with an environment is modeled as a random trajectory
 
