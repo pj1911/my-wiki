@@ -127,6 +127,7 @@ R(s,s') = \mathbb{E}[R_{t+1}\mid S_t=s,\, S_{t+1}=s'],
 $$
 
 which allows the reward to depend on the transition.
+
 - \(\gamma \in [0,1]\) is the discount factor, which controls how much future rewards are valued relative to immediate rewards.
 
 An MRP can be seen as a Markov chain with rewards attached to states (or, under the transition-based convention, attached to transitions).
@@ -157,6 +158,7 @@ G_t = \sum_{k=0}^{\infty} R_{t+1+k}.
 $$
 
 This is used when we want to value rewards at all future times equally (no time preference). In practice it is most common in episodic tasks with terminal states, where the episode ends so the sum is over finitely many rewards and stays well-defined.
+
 - Finite-horizon return (horizon \(T\)):
 
 $$  
