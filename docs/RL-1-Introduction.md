@@ -152,6 +152,7 @@ v_\pi(s) = \mathbb{E}_\pi \big[ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \d
 $$
 
 where \(\gamma \in [0,1]\) is the discount factor.
+
 - The action-value function (also called the \(Q\)-function) evaluates a state--action pair. It answers: if I am in state \(s\), take action \(a\) now, and then follow policy \(\pi\), what long-term reward should I expect?
 
 $$
