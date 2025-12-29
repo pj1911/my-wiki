@@ -22,7 +22,8 @@ nav:
       - 1 - Introduction: RL-1-Introduction.md
       - 2 - Markov Decision Processes: RL-2-Markov Decision Processes.md
       - 3 - Partially Observable MDP: Rl-3-Partially Observable MDP.md
-      
+      - 4 - Planning with Dynamic Programming: RL-4-Planning with Dynamic Programming.md
+         
 markdown_extensions:
   - admonition
   - pymdownx.arithmatex:
