@@ -71,7 +71,7 @@ Informally: if we are optimal now, we must remain optimal on every continuation.
 In reinforcement learning, planning means computing decisions using a model of the environment, rather than updating solely from real experience.
 Concretely, a planning method takes as input an MDP model, for example the states, actions, a transition model, a reward model, and a discount factor and performs computation (often offline, or via simulated lookahead) to produce a decision rule, i.e., a policy. Dynamic Programming (DP) is the classical planning approach for MDPs when this model is available. Assuming we know all the model parameters ($\mathcal{S}$, $\mathcal{A}$, $P_{ss'}^{a}$, $R_{s}^{a}$, $\gamma$), DP computes long-term consequences by exploiting Bellman recursions. These recursions express the value of a state (or state--action pair) in terms of the immediate reward and the discounted value of successor states, allowing DP algorithms to improve value estimates and policies through repeated one-step lookahead updates. Within this planning setting, DP algorithms are typically organized around two complementary tasks: prediction and control, which we define precisely next.
 
-### Prediction vs.\ control
+### Prediction vs. control
 It is useful to distinguish two closely related computational goals when we plan with a known MDP model:
 
 - Prediction: the policy $\pi$ is fixed. The task is to evaluate it by computing its value function $v_{\pi}$, which gives the expected discounted return from each state when actions are chosen according to $\pi$.
