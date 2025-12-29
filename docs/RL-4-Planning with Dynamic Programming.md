@@ -365,30 +365,30 @@ Where they differ is in the objective, prediction versus control, and therefore 
 
 1. Prediction $\rightarrow$ Iterative Policy Evaluation
 
-Goal: evaluate a fixed policy $\pi$ by computing its value function $v_{\pi}$.
-
-Bellman relationship: the Bellman expectation equation, which averages over the actions selected by $\pi$ (and over next states under the dynamics).
-
-Algorithmic pattern: repeatedly update $v(s)$ using the expected immediate reward plus the discounted expected value of successor states under $\pi$, until the values are consistent with following $\pi$.
+  Goal: evaluate a fixed policy $\pi$ by computing its value function $v_{\pi}$.
+  
+  Bellman relationship: the Bellman expectation equation, which averages over the actions selected by $\pi$ (and over next states under the dynamics).
+  
+  Algorithmic pattern: repeatedly update $v(s)$ using the expected immediate reward plus the discounted expected value of successor states under $\pi$, until the values      are consistent with following $\pi$.
 
 2. Control $\rightarrow$ Policy Iteration
 
 Goal: find an optimal policy $\pi^{*}$.
 
-Bellman relationships:
-
-- use the Bellman expectation equation to (approximately or exactly) evaluate the current policy, and
-- apply a greedy improvement step to update the policy.
-
-Algorithmic pattern: alternate between (i) evaluating the current $\pi$ and (ii) improving it by choosing, in each state, an action that maximizes one-step lookahead using the current value estimate. The resulting sequence of policies is monotone: it never gets worse.
+  Bellman relationships:
+  
+  - use the Bellman expectation equation to (approximately or exactly) evaluate the current policy, and
+  - apply a greedy improvement step to update the policy.
+  
+  Algorithmic pattern: alternate between (i) evaluating the current $\pi$ and (ii) improving it by choosing, in each state, an action that maximizes one-step lookahead       using the current value estimate. The resulting sequence of policies is monotone: it never gets worse.
 
 3. Control $\rightarrow$ Value Iteration
 
-Goal: compute the optimal value function $v^{*}$ and then extract an optimal policy from it.
-
-Bellman relationship: the Bellman optimality equation, which takes a max over actions.
-
-Algorithmic pattern: repeatedly apply the optimality backup directly to $v$. Informally, each sweep performs an "improve everywhere" step, without explicitly storing a policy during the updates (though a greedy policy can be extracted at any time).
+  Goal: compute the optimal value function $v^{*}$ and then extract an optimal policy from it.
+  
+  Bellman relationship: the Bellman optimality equation, which takes a max over actions.
+  
+  Algorithmic pattern: repeatedly apply the optimality backup directly to $v$. Informally, each sweep performs an "improve everywhere" step, without explicitly storing a     policy during the updates (though a greedy policy can be extracted at any time).
 
 ### Complexity analysis
 In their simplest tabular forms, these DP planning methods store state values:
@@ -582,8 +582,8 @@ For $k=0,1,2,\ldots$ repeat:
 
 1. Sample states and form Bellman targets.
 
-Sample a finite training set of states $\tilde{\mathcal{S}}_k=\{s^{(1)},\dots,s^{(n)}\}$ from $\mu$.
-For each sampled state $s\in\tilde{\mathcal{S}}_k$, compute a one-step optimality target by backing up the current approximation:
+  Sample a finite training set of states $\tilde{\mathcal{S}}_k=\{s^{(1)},\dots,s^{(n)}\}$ from $\mu$.
+  For each sampled state $s\in\tilde{\mathcal{S}}_k$, compute a one-step optimality target by backing up the current approximation:
 
 $$
 \tilde v_k(s)=
@@ -594,11 +594,11 @@ $$
 \right).
 $$
 
-(If we only have a simulator rather than an explicit transition matrix, the expectation over $s'$ can be approximated by samples.)
+  (If we only have a simulator rather than an explicit transition matrix, the expectation over $s'$ can be approximated by samples.)
 
 2. Fit the approximator to the targets (projection step).
 
-Update parameters by supervised regression so that the next approximation matches these targets on the sampled states:
+  Update parameters by supervised regression so that the next approximation matches these targets on the sampled states:
 
 $$
 \mathbf{w}_{k+1}
@@ -608,8 +608,8 @@ $$
 \big(\hat v(s,\mathbf{w})-\tilde v_k(s)\big)^2.
 $$
 
-Equivalently, $\hat v(\cdot,\mathbf{w}_{k+1})$ is trained on the dataset
-$\{(s,\tilde v_k(s)):\ s\in\tilde{\mathcal{S}}_k\}$.
+  Equivalently, $\hat v(\cdot,\mathbf{w}_{k+1})$ is trained on the dataset
+  $\{(s,\tilde v_k(s)):\ s\in\tilde{\mathcal{S}}_k\}$.
 
 **Interpretation.**
 Each iteration performs two conceptual steps: a Bellman improvement step (create targets using one-step lookahead) followed by a projection step (compress the backed-up values back into the function class by regression). This recovers the DP idea of repeated Bellman updates, but replaces exact tabular storage with approximation and generalization.
