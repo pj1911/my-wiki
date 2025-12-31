@@ -358,3 +358,56 @@ which lets information propagate efficiently along observed state-to-state trans
 ## Bootstrapping and Sampling
 
 Dynamic Programming, TD, and MC can be compared along two independent axes: bootstrapping (whether the update target uses the current estimate \( V \)) and sampling (whether expectations are approximated from data or computed exactly from a known model). MC is sampled but non-bootstrapped, using the complete return \( G_t \) as its target; TD is sampled and bootstrapped, using the one-step target \( R_{t+1}+\gamma V(S_{t+1}) \); and DP is bootstrapped but not sampled, using a full expected Bellman target such as \( \sum_{s'}P(s'|s,a)\bigl(R(s,a,s')+\gamma V(s')\bigr) \). Equivalently, all three are backups that move \( V(s) \) toward a target: DP performs a full expected backup using the model, while TD and MC perform sample backups using observed experience; TD uses a shallow one-step backup that propagates information via bootstrapping, whereas MC uses a deep backup to episode end with no bootstrapping. Many multi-step methods (e.g., TD(\( \lambda \))) interpolate between TD(0) and MC by trading off backup depth against the amount of bootstrapping.
+
+## \( n \)-Step Prediction
+
+\( n \)-step prediction provides a simple continuum between TD(0) and Monte-Carlo (MC). TD(0) uses a 1-step, bootstrapped target, updating immediately from \( (R_{t+1},S_{t+1}) \), while MC avoids bootstrapping by waiting for the episode to finish and using the full observed return. The idea of \( n \)-step methods is to look ahead for \( n \) steps: use \( n \) actual rewards, then bootstrap once at step \( n \). As \( n \) increases, the target depends less on the current value estimates and more on observed rewards; in the limit \( n\to\infty \) (for episodic tasks) the method reduces to MC.
+
+**\( n \)-step return.**
+For a trajectory generated under \( \pi \), define
+
+$$
+G_t^{(n)}=
+\sum_{i=1}^{n}\gamma^{i-1}R_{t+i}
+\;+\;
+\gamma^{n} V(S_{t+n}).
+$$
+
+This is an \( n \)-step backup: accumulate \( n \) rewards, then terminate the target by bootstrapping from \( V \) at the state reached after \( n \) steps. Special cases recover familiar targets:
+
+$$
+G_t^{(1)} = R_{t+1} + \gamma V(S_{t+1}) \quad (\text{TD(0)}),\qquad
+G_t^{(\infty)}=\sum_{i=1}^{T-t}\gamma^{i-1}R_{t+i}\quad (\text{MC}).
+$$
+
+If the episode terminates before \( t+n \), the bootstrap term is omitted and the sum truncates naturally at termination.
+
+**\( n \)-step TD update.**
+Using \( G_t^{(n)} \) yields the standard TD update form
+
+$$
+V(S_t)\leftarrow V(S_t)+\alpha\bigl(G_t^{(n)}-V(S_t)\bigr).
+$$
+
+**Choosing \( n \) (trade-off).**
+Smaller \( n \) means heavier bootstrapping (typically higher bias but lower variance and more online-friendly updates), while larger \( n \) uses more real rewards (typically lower bias but higher variance and potentially delayed updates). Intermediate \( n \) often works well in practice by propagating multi-step information without the full variance of pure MC.
+
+### Averaging \( n \)-Step Returns
+
+Rather than choosing a single horizon \( n \), we can form a target by mixing multiple \( n \)-step returns: shorter backups tend to give lower-variance, more stable updates, while longer backups propagate credit farther through the episode. For instance,
+
+$$
+\frac{1}{2}G_t^{(2)}+\frac{1}{2}G_t^{(4)}
+$$
+
+blends a shallow (2-step) and a deeper (4-step) return. In general, we would like a principled mixture over many \( n \) values without explicitly computing every \( G_t^{(n)} \).
+
+### \( \lambda \)-Return
+
+The \( \lambda \)-return provides exactly such a mixture by averaging all \( n \)-step returns with geometric weights:
+
+$$
+G_t^{\lambda} \;=\; (1-\lambda)\sum_{n=1}^{\infty}\lambda^{n-1}G_t^{(n)}, \qquad \lambda\in[0,1].
+$$
+
+This yields a proper weighted average over backup depths and introduces a single interpolation parameter: \( \lambda=0 \) places all weight on \( n=1 \), giving \( G_t^{\lambda}=G_t^{(1)} \) (TD(0)), while \( \lambda\to 1 \) shifts mass to long horizons and approaches the MC return (less bootstrapping, more reliance on observed rewards).
