@@ -1,7 +1,6 @@
 ## Model-Free prediction (policy evaluation)
 
-### Recap
-In the last chapter, we planned with dynamic programming to solve a known MDP. In this chapter, we move to model-free prediction, where we estimate a value function in an unknown MDP. In the next chapter, we study model-free control, where we optimize value and aim to find an optimal policy in an unknown MDP.
+**Recap** In the last chapter, we planned with dynamic programming to solve a known MDP. In this chapter, we move to model-free prediction, where we estimate a value function in an unknown MDP. In the next chapter, we study model-free control, where we optimize value and aim to find an optimal policy in an unknown MDP.
 
 ### Setting: unknown MDP, fixed policy
 In model-free prediction, we do not know the MDP model (transitions and rewards are unknown), but we can sample experience by interacting with the environment. Here, we focus on policy evaluation: given a fixed policy \( \pi \), we estimate its value function. To estimate \( v_\pi \) in an unknown MDP, we mainly use:
@@ -217,8 +216,7 @@ We repeatedly sweep through \( \mathcal{D} \) (or sample episodes from it) and a
 
 ### A-B example
 
-#### Environment and dataset
-We consider an episodic process with \( \gamma=1 \) and two non-terminal states \( A \) and \( B \). Our fixed dataset contains \( 8 \) episodes:
+**Environment and dataset** We consider an episodic process with \( \gamma=1 \) and two non-terminal states \( A \) and \( B \). Our fixed dataset contains \( 8 \) episodes:
 
 $$
 (A,0,B,0),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,0).
@@ -230,8 +228,7 @@ So:
 - Episodes 2--7 start at \( B \) and terminate with reward \( 1 \).
 - Episode 8 starts at \( B \) and terminates with reward \( 0 \).
 
-#### Batch MC: empirical mean of observed returns
-Batch MC converges to the value function that best fits the observed Monte Carlo returns in the dataset, i.e., it treats each sampled return as a supervised target and solves a least-squares regression:
+**Batch MC: empirical mean of observed returns** Batch MC converges to the value function that best fits the observed Monte Carlo returns in the dataset, i.e., it treats each sampled return as a supervised target and solves a least-squares regression:
 
 $$
 V_{\text{MC}}
@@ -279,8 +276,7 @@ V_{\text{MC}}(B)=\frac{1}{8}\bigl(1+1+1+1+1+1+0+0\bigr)
 =\frac{6}{8}=0.75.
 $$
 
-#### Batch TD(0): fixed point induced by the dataset
-Batch TD(0) behaves differently: with a fixed dataset, it effectively treats the data as an empirical MDP and converges to the value function that satisfies the Bellman equations of that estimated model under \( \pi \). In particular, the dataset induces maximum-likelihood one-step estimates
+**Batch TD(0): fixed point induced by the dataset** Batch TD(0) behaves differently: with a fixed dataset, it effectively treats the data as an empirical MDP and converges to the value function that satisfies the Bellman equations of that estimated model under \( \pi \). In particular, the dataset induces maximum-likelihood one-step estimates
 
 $$
 \hat{P}^{a}_{s,s'}=
@@ -318,7 +314,8 @@ $$
 which lets information propagate efficiently along observed state-to-state transitions without waiting for complete outcomes. In contrast, MC uses the full return \( G_t \) as a black-box target that bundles the entire future into one number, this can work well, but it does not explicitly leverage the Markov conditional-independence structure and instead learns only from complete episode outcomes. As a rule of thumb, in standard Markov settings TD is often more data-efficient because it aligns with the environment's one-step dynamics, whereas with non-Markov signals (e.g. partial observability) MC can sometimes help because the full return may implicitly carry information from the episode history when the current state representation is incomplete.
 
 ## Method Summaries MC vs TD
-### Monte Carlo (MC)
+**Monte Carlo (MC)**
+
 - Unbiased target: MC uses the actual return \( G_t \), so
 
 $$
@@ -330,7 +327,8 @@ $$
 - Less sensitive to initialization: early errors in \( V \) do not affect the target (the target is \( G_t \)).
 - Simple mental model: we "average returns" to estimate value.
 
-### Temporal Difference (TD)
+**Temporal Difference (TD)**
+
 - Bootstrapped (biased during learning): TD(0) uses the target
 
 $$
