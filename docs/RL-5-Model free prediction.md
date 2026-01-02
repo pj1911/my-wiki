@@ -402,3 +402,579 @@ G_t^{\lambda} \;=\; (1-\lambda)\sum_{n=1}^{\infty}\lambda^{n-1}G_t^{(n)}, \qquad
 $$
 
 This yields a proper weighted average over backup depths and introduces a single interpolation parameter: \( \lambda=0 \) places all weight on \( n=1 \), giving \( G_t^{\lambda}=G_t^{(1)} \) (TD(0)), while \( \lambda\to 1 \) shifts mass to long horizons and approaches the MC return (less bootstrapping, more reliance on observed rewards).
+
+## Eligibility Traces
+
+The previous section introduced the \(\lambda\)-return as a way to assign credit across multiple time steps by blending \(n\)-step returns. The drawback is efficiency: computing it directly would require explicitly forming many \(G_t^{(n)}\). We therefore want an **online** procedure that achieves the same multi-step credit assignment without enumerating these returns and **eligibility traces** provide exactly this mechanism. Eligibility traces maintain a decaying ``memory'' of recently visited states. Each visit boosts a state's trace, which then fades over time while repeated visits reinforce it. When a TD error occurs, we distribute that error backward in proportion to the current trace, so recent and frequently visited states receive larger updates, while distant one-off states receive little.
+
+**Rat example: frequency vs. recency.**
+
+Consider the sequence \(\text{lever},\text{lever},\text{lever},\text{bell},\text{shock}\). A pure frequency rule would assign most blame to \(\text{lever}\) (it appears three times), while a pure recency rule would assign most blame to \(\text{bell}\) (it is closest to the shock). Eligibility traces do both: \(\text{bell}\) receives a large share because it is most recent, and \(\text{lever}\) can still receive substantial blame because its trace has been ``topped up'' multiple times despite decay.
+
+**State eligibility trace.**
+
+Formally, maintain a trace \(E_t(s)\) for each state \(s\). Each time step applies two operations: (\(i\)) **decay** all traces by a factor \(\gamma\lambda\), making older visits matter less, and (\(ii\)) **increment** the currently visited state by \(+1\), marking it as freshly visited. This yields the standard accumulating trace recursion
+
+$$
+E_0(s)=0,\qquad
+E_t(s)=\gamma\lambda\,E_{t-1}(s) + \mathbf{1}(S_t=s).
+$$
+
+Here \(\gamma\) is the discount factor from the problem definition, and \(\lambda\in[0,1]\) controls how slowly traces decay: larger \(\lambda\) makes traces persist longer and allows credit to propagate farther into the past. Equivalently, the effective memory length is governed by the product \(\gamma\lambda\): if \(\gamma\lambda\) is small, traces vanish quickly, if it is near \(1\), traces remain significant for many steps.
+
+### Backward view of TD(\(\lambda\))
+
+The update above is called the backward view of TD(\(\lambda\)) because each one-step TD error \(\delta_t\) is computed locally from \((S_t,R_{t+1},S_{t+1})\) but its effect is propagated backward through time via the traces: states with larger \(e_t(s)\) receive a larger portion of the update \(\alpha\,\delta_t\,e_t(s)\), while states with small traces receive negligible updates. Thus, traces turn a local error signal into multi-step credit assignment.
+
+### Forward view of TD(\(\lambda\))
+
+The forward view describes TD(\(\lambda\)) in terms of the target each visited state is trying to match. If we could look ahead, then at time \(t\) we would form the \(\lambda\)-return
+
+$$
+G_t^\lambda \;=\; (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t}G_t^{(T-t)},
+$$
+
+a geometrically weighted average of the \(n\)-step returns \(G_t^{(n)}\). The forward-view update is then simply
+
+$$
+V(S_t)\leftarrow V(S_t)+\alpha\bigl(G_t^{\lambda}-V(S_t)\bigr).
+$$
+
+This is conceptually clean, but it has its practical limitation: \(G_t^\lambda\) depends on future rewards and is therefore not directly available at time \(t\).
+
+**Summary.**
+
+Eligibility traces turn a one-step TD error into a multi-step learning update by keeping a decaying record of recently (and repeatedly) visited states, so “recent and frequent” states get the most credit.
+
+## TD(1) as Monte Carlo, and the forward/backward equivalence
+
+Consider an episodic trajectory \(S_0,R_1,S_1,\dots,S_T\) with terminal \(S_T\) and discount \(\gamma\in[0,1]\).
+Let \(V(\cdot)\) be the current value estimate and define the (one-step) TD error
+
+$$
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1,
+$$
+
+with \(V(S_T)=0\) (no bootstrapping past the terminal state).
+
+### Forward view: \(\lambda\)-return and the case \(\lambda=1\)
+
+The Monte Carlo return from time \(t\) is
+
+$$
+G_t =\; R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{T-t-1}R_T=  \sum_{i=0}^{T-t-1} \gamma^i R_{t+1+i}.
+$$
+
+In the forward view, TD(\(\lambda\)) updates \(V(S_t)\) toward the \(\lambda\)-return \(G_t^\lambda\), a geometrically weighted
+mixture of \(n\)-step returns.
+
+$$
+G_t^\lambda \;=\; (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t}G_t^{(T-t)},
+$$
+
+Set \(\lambda=1\):
+
+$$
+G_t^{1}
+= (1-1)\sum_{n=1}^{T-t}1^{\,n-1}G_t^{(n)} \;+\; 1^{\,T-t}G_t^{(T-t)}
+= 0 \;+\; G_t^{(T-t)}
+= G_t^{(T-t)}.
+$$
+
+Using \(G_t^{(n)}=\sum_{i=0}^{n-1}\gamma^i R_{t+1+i}+\gamma^n V(S_{t+n})\), set \(n=T-t\):
+
+$$
+G_t^{(T-t)}=\sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i}+\gamma^{T-t}V(S_T)
+=\sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i}=G_t
+$$
+
+since \(S_T\) is terminal and \(V(S_T)=0\). Therefore, when \(\lambda=1\), the mixture places all its weight on the longest backup, so the \(\lambda\)-return reduces to the full
+Monte Carlo return \(G_t^1=G_t^{(T-t)}=G_t\).
+Thus the forward-view TD(\(1\)) update becomes the standard Monte Carlo update
+
+$$
+V(S_t) \leftarrow V(S_t) + \alpha\big(G_t - V(S_t)\big).
+$$
+
+### Backward view: eligibility traces and equivalence
+
+The backward view implements the same overall effect online without explicitly forming \(G_t^\lambda\).
+Using accumulating traces,
+
+$$
+E_t(s) = \gamma\lambda\,E_{t-1}(s) + \mathbf{1}\{S_t=s\}, \qquad E_{-1}(s)=0,
+$$
+
+each TD error is distributed to all states proportionally to their current eligibility:
+
+$$
+V(s) \leftarrow V(s) + \alpha\,\delta_t\,E_t(s).
+$$
+
+Summing these per-step increments over an episode gives the net change to state \(s\),
+
+$$
+\Delta V(s) \;=\; \sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s).
+$$
+
+A standard way to see the equivalence is to rewrite the forward-view error in terms of TD errors and then swap the order of summation.
+
+**Step 1: \(n\)-step error as a sum of TD errors (telescoping).**
+
+Starting from the definition,
+
+$$
+G_t^{(n)} - V(S_t)
+= \sum_{i=0}^{n-1}\gamma^i R_{t+1+i} + \gamma^n V(S_{t+n}) - V(S_t).
+$$
+
+Rewrite the rewards using the TD error identity
+
+$$
+\delta_{t+i}=R_{t+i+1}+\gamma V(S_{t+i+1})-V(S_{t+i})
+\quad\Longrightarrow\quad
+R_{t+i+1}=\delta_{t+i}-\gamma V(S_{t+i+1})+V(S_{t+i}).
+$$
+
+Substitute into the return:
+
+$$
+G_t^{(n)} - V(S_t)
+= \sum_{i=0}^{n-1}\gamma^i\big(\delta_{t+i}-\gamma V(S_{t+i+1})+V(S_{t+i})\big)
+    +\gamma^n V(S_{t+n})-V(S_t)
+$$
+
+$$
+= \sum_{i=0}^{n-1}\gamma^i\delta_{t+i}
+   \;-\;\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})
+   \;+\;\sum_{i=0}^{n-1}\gamma^i V(S_{t+i})
+   \;+\;\gamma^n V(S_{t+n})-V(S_t).
+$$
+
+Now the value terms telescope: split the last two sums,
+
+$$
+\sum_{i=0}^{n-1}\gamma^i V(S_{t+i}) = V(S_t)+\sum_{i=1}^{n-1}\gamma^i V(S_{t+i}),
+\qquad
+\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})=\sum_{i=1}^{n}\gamma^i V(S_{t+i}),
+$$
+
+Consider the value-only terms:
+
+$$
+-\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})
++\sum_{i=0}^{n-1}\gamma^i V(S_{t+i})
++\gamma^n V(S_{t+n})-V(S_t).
+$$
+
+Substituting:
+
+$$
+-\sum_{i=1}^{n}\gamma^i V(S_{t+i}) + V(S_t)+\sum_{i=1}^{n-1}\gamma^i V(S_{t+i}) +\;\gamma^n V(S_{t+n})-V(S_t) =0
+$$
+
+Therefore,
+
+$$
+G_t^{(n)} - V(S_t)=\sum_{i=0}^{n-1}\gamma^i\delta_{t+i}.
+$$
+
+Finally, re-index with \(k=t+i\):
+
+$$
+\sum_{i=0}^{n-1}\gamma^i\delta_{t+i}
+=\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k,
+$$
+
+This gives the result:
+
+$$
+G_t^{(n)} - V(S_t) =\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k.
+$$
+
+**Step 2: \(\lambda\)-return error becomes a discounted sum of TD errors.**
+
+Plug the identity above into the definition of \(G_t^\lambda\):
+
+$$
+G_t^\lambda - V(S_t)
+= \Bigl[(1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)}+\lambda^{T-t}G_t^{(T-t)}\Bigr]-V(S_t)
+$$
+
+$$
+= (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}\bigl(G_t^{(n)}-V(S_t)\bigr)
+\;+\;\lambda^{T-t}\bigl(G_t^{(T-t)}-V(S_t)\bigr)
+$$
+
+$$
+= (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k
+\;+\;\lambda^{T-t}\sum_{k=t}^{T-1}\gamma^{k-t}\delta_k,
+$$
+
+where the last equality uses \(t+(T-t)-1=T-1\).
+Fix \(k\ge t\) and collect the coefficient of \(\gamma^{k-t}\delta_k\).
+
+In the first double-sum, \(\delta_k\) appears whenever \(k\le t+n-1\), i.e. \(n\ge k-t+1\), so its total weight there is
+
+$$
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}.
+$$
+
+Adding the second term contributes an additional \(\lambda^{T-t}\). Hence the total coefficient on \(\gamma^{k-t}\delta_k\) is
+
+$$
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}+\lambda^{T-t}.
+$$
+
+Evaluate the geometric sum:
+
+$$
+\sum_{n=k-t+1}^{T-t}\lambda^{n-1}
+=\sum_{j=k-t}^{T-t-1}\lambda^{j}
+=\lambda^{k-t}\frac{1-\lambda^{T-k}}{1-\lambda}.
+$$
+
+Therefore,
+
+$$
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}+\lambda^{T-t}
+=\lambda^{k-t}(1-\lambda^{T-k})+\lambda^{T-t}
+=\lambda^{k-t}.
+$$
+
+So the coefficient of \(\gamma^{k-t}\delta_k\) is \(\lambda^{k-t}\), and we obtain
+
+$$
+G_t^\lambda - V(S_t)
+=\sum_{k=t}^{T-1}\gamma^{k-t}\lambda^{k-t}\delta_k
+=\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k.
+$$
+
+**Step 3: accumulate forward-view updates and swap sums.**
+
+Sum the forward-view updates affecting a particular state \(s\):
+
+$$
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}
+= \sum_{t=0}^{T-1}\alpha\,\mathbf{1}\{S_t=s\}\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k
+$$
+
+$$
+= \alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} \mathbf{1}\{S_t=s\}(\gamma\lambda)^{k-t}\delta_k
+$$
+
+Start with the double sum
+
+$$
+\alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} \mathbf{1}\{S_t=s\}(\gamma\lambda)^{k-t}\delta_k.
+$$
+
+The index set here is the triangle
+
+$$
+\{(t,k): 0\le t\le T-1,\; t\le k\le T-1\} \;=\; \{(t,k): 0\le k\le T-1,\; 0\le t\le k\}.
+$$
+
+So we can swap the order:
+
+$$
+\alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} (\cdots)
+\;=\;
+\sum_{k=0}^{T-1}\alpha\,\delta_k \sum_{t=0}^{k}(\gamma\lambda)^{k-t}\mathbf{1}\{S_t=s\}.
+$$
+
+**Step 4: the inner sum is exactly the trace.**
+
+Unrolling the accumulating-trace recursion
+
+$$
+E_k(s)=\gamma\lambda E_{k-1}(s)+\mathbf{1}\{S_k=s\},\qquad E_{-1}(s)=0,
+$$
+
+gives
+
+$$
+E_k(s)=\sum_{t=0}^{k}(\gamma\lambda)^{k-t}\mathbf{1}\{S_t=s\}.
+$$
+
+Substitute this into the expression above to obtain
+
+$$
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}
+\;=\;
+\sum_{k=0}^{T-1}\alpha\,\delta_k\,E_k(s),
+$$
+
+which is the desired forward/backward equivalence.
+
+Therefore the forward view explains what is being optimized (learning toward \(G_t^\lambda\)), while the backward view
+explains how to realize it incrementally via traces. In particular, when \(\lambda=1\) we have \(G_t^\lambda = G_t\),
+so the episode-level effect of TD(1) matches Monte Carlo.
+
+### Special case: \(s\) is visited only once
+
+Assume a state \(s\) appears exactly once, at time \(k\) (i.e., \(S_k=s\) and \(S_t\neq s\) for \(t\neq k\)). For TD(1),
+the trace recursion becomes a pure geometric decay after the visit:
+
+$$
+E_t(s)=\gamma E_{t-1}(s)+\mathbf{1}(S_t=s)
+\;=\;
+\begin{cases}
+0, & t<k,\\[2pt]
+\gamma^{t-k}, & t\ge k.
+\end{cases}
+$$
+
+Hence the total change to \(V(s)\) over the episode is a discounted sum of subsequent TD errors:
+
+$$
+\Delta V(s) \;=\; \alpha\sum_{t=k}^{T-1}\gamma^{t-k}\delta_t.
+$$
+
+This sum telescopes: the \(-V(S_t)\) term in \(\delta_t\) cancels with the \(+\gamma V(S_{t+1})\) term from the previous step
+once we apply the discount powers. What remains is exactly “observed return minus current estimate”:
+
+$$
+\sum_{t=k}^{T-1}\gamma^{t-k}\delta_t =
+\Big(\sum_{i=0}^{T-k-1}\gamma^i R_{k+1+i}\Big) - V(S_k) =
+G_k - V(S_k).
+$$
+
+Therefore,
+
+$$
+\Delta V(s) \;=\; \alpha\big(G_k - V(S_k)\big),
+$$
+
+which is precisely the Monte Carlo update for the single visit at time \(k\).
+
+## Telescoping in TD(1) (why it matches MC at the episode level)
+
+Let's assume we are working in an episodic setting with discount \(\gamma\in[0,1]\), terminal time \(T\), and value estimate \(V\) with the terminal
+convention \(V(S_T)=0\). Define the one-step TD error
+
+$$
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+$$
+
+**A telescoping identity.** From the \(n\)-step derivation already shown earlier (the identity \(G_t^{(n)}-V(S_t)=\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k\)),
+take \(n=T-t\) to obtain
+
+$$
+\sum_{k=t}^{T-1}\gamma^{k-t}\delta_k \;=\; G_t^{(T-t)} - V(S_t).
+$$
+
+Since \(S_T\) is terminal and \(V(S_T)=0\), the \((T-t)\)-step return is exactly the Monte Carlo return:
+
+$$
+G_t^{(T-t)} \;=\; \sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i} \;=\; G_t.
+$$
+
+Combining these gives the telescoping relation
+
+$$
+\delta_t + \gamma\delta_{t+1} + \cdots + \gamma^{T-1-t}\delta_{T-1}
+\;=\;
+G_t - V(S_t).
+$$
+
+(Note: the explicit term-by-term cancellation expansion is the same telescoping argument used in the earlier
+\(n\)-step identity, so it is omitted here.)
+
+### TD(1) is every-visit MC when updates are applied offline
+
+In the backward view, TD(\(\lambda\)) applies per-step increments
+
+$$
+\Delta V(s)\!\mid_t \;=\; \alpha\,\delta_t\,E_t(s),
+\qquad
+E_t(s)=\gamma\lambda E_{t-1}(s)+\mathbf{1}\{S_t=s\},
+$$
+
+and the episode-level (offline) change is the sum of these increments:
+
+$$
+\Delta V(s)\;=\;\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s).
+$$
+
+For \(\lambda=1\), unrolling the trace recursion gives the explicit form
+
+$$
+E_u(s)\;=\;\sum_{t=0}^{u}\gamma^{u-t}\mathbf{1}\{S_t=s\},
+$$
+
+so
+
+$$
+\Delta V(s)
+=\sum_{u=0}^{T-1}\alpha\,\delta_u\sum_{t=0}^{u}\gamma^{u-t}\mathbf{1}\{S_t=s\}
+=\sum_{t=0}^{T-1}\alpha\,\mathbf{1}\{S_t=s\}\sum_{u=t}^{T-1}\gamma^{u-t}\delta_u,
+$$
+
+where we swapped the order of summation over the region \(0\le t\le u\le T-1\).
+
+By the telescoping identity,
+
+$$
+\sum_{u=t}^{T-1}\gamma^{u-t}\delta_u \;=\; G_t - V(S_t),
+$$
+
+hence
+
+$$
+\Delta V(s)
+=\sum_{t=0}^{T-1}\alpha\bigl(G_t - V(S_t)\bigr)\mathbf{1}\{S_t=s\},
+$$
+
+which is exactly the state-wise form of the every-visit Monte Carlo update.
+
+**What differs in practice?**
+
+The equality above is an episode-level statement (often presented for offline/accumulated updates).
+Conceptually, MC computes \(G_t\) directly from the full reward sequence after the episode ends, while TD(1)
+constructs the same quantity indirectly: it generates one-step TD errors online and uses traces to “route” those errors
+back to earlier states. The end result matches, but the bookkeeping and when information is used are different.
+
+## Telescoping in TD(\(\lambda\)) and the forward/backward match
+
+Assume an episodic trajectory \(S_0,R_1,S_1,\dots,S_T\) with discount \(\gamma\in[0,1]\) and terminal convention \(V(S_T)=0\).
+Define the one-step TD error
+
+$$
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+$$
+
+**\(\lambda\)-return as a weighted sum of \(n\)-step targets.** The \(n\)-step return is
+
+$$
+G_t^{(n)} = \sum_{i=0}^{n-1}\gamma^i R_{t+1+i} + \gamma^n V(S_{t+n}),
+$$
+
+and the episodic \(\lambda\)-return can be written (equivalently) as a geometric mixture over horizons, with the remaining
+probability mass placed on the full return:
+
+$$
+G_t^\lambda = (1-\lambda)\sum_{n=1}^{T-t-1}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t-1}G_t.
+$$
+
+**TD errors telescope to the \(\lambda\)-error.** Using the identity proved earlier,
+
+$$
+G_t^{(n)} - V(S_t) \;=\; \sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k,
+$$
+
+one obtains (by substituting into the \(\lambda\)-return and collecting coefficients) the compact telescoping form
+
+$$
+G_t^\lambda - V(S_t)
+\;=\;
+\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k
+\;=\;
+\delta_t + (\gamma\lambda)\delta_{t+1} + \cdots + (\gamma\lambda)^{T-1-t}\delta_{T-1}.
+$$
+
+(The term-by-term cancellation intuition is the same telescoping argument already used in the \(n\)-step case, so we omit a second expansion here.)
+
+### Backward view: eligibility traces recover the same target
+
+The backward view implements the update online without explicitly forming \(G_t^\lambda\). It maintains accumulating traces
+
+$$
+E_t(s) = \gamma\lambda\,E_{t-1}(s) + \mathbf{1}\{S_t=s\}, \qquad E_{-1}(s)=0,
+$$
+
+and applies the per-step increment
+
+$$
+\Delta V(s)\!\mid_t \;=\; \alpha\,\delta_t\,E_t(s).
+$$
+
+Thus each local TD error \(\delta_t\) is distributed across previously visited states, with geometric decay controlled by \(\gamma\lambda\). To see the link to the forward view without repeating the full derivation, unroll the trace:
+
+$$
+E_t(s) \;=\; \sum_{k=0}^{t}(\gamma\lambda)^{t-k}\mathbf{1}\{S_k=s\}.
+$$
+
+Accumulating increments over an episode (offline) gives
+
+$$
+\Delta V(s)
+=\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s)
+$$
+
+$$
+=\sum_{t=0}^{T-1}\alpha\,\delta_t\sum_{k=0}^{t}(\gamma\lambda)^{t-k}\mathbf{1}\{S_k=s\}
+$$
+
+$$
+=\sum_{k=0}^{T-1}\alpha\,\mathbf{1}\{S_k=s\}\sum_{t=k}^{T-1}(\gamma\lambda)^{t-k}\delta_t,
+$$
+
+where the last step is just swapping sums over \(0\le k\le t\le T-1\). By the telescoping identity,
+
+$$
+\sum_{t=k}^{T-1}(\gamma\lambda)^{t-k}\delta_t \;=\; G_k^\lambda - V(S_k),
+$$
+
+so
+
+$$
+\Delta V(s)
+=\sum_{k=0}^{T-1}\alpha\bigl(G_k^\lambda - V(S_k)\bigr)\mathbf{1}\{S_k=s\},
+$$
+
+which is exactly the episode-level (offline) forward-view update, written state-by-state.
+
+## Online vs. Offline: when do forward and backward TD(\(\lambda\)) agree?
+
+Fix an episodic trajectory \(S_0,R_1,S_1,\dots,S_T\) with discount \(\gamma\in[0,1]\) and terminal convention \(V(S_T)=0\).
+Let
+
+$$
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+$$
+
+**What is being compared?** The forward view specifies a target \(G_t^\lambda\) for each visit and updates \(V(S_t)\) toward it; the backward view produces
+updates online by distributing each \(\delta_t\) through eligibility traces. The two views coincide only once we fix when
+\(V\) is allowed to change.
+
+### Offline (frozen-\(V\)) updates: exact equality
+
+If the episode is generated with \(V\) held fixed and all changes are applied at the end, then the forward-view and backward-view
+episode updates are identical:
+
+$$
+\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s)
+\;=\;
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}.
+$$
+
+This is exactly the equivalence derived in the previous section (it relies on using the same frozen \(V\) inside all bootstrapping
+terms and TD errors throughout the episode). The endpoint cases discussed earlier follow immediately: \(\lambda=0\) gives TD(0), and
+\(\lambda=1\) gives TD(1), whose episode-level update matches every-visit Monte Carlo via telescoping.
+
+### Online updates: why equality can fail
+
+With online learning, \(V\) is modified after each transition. Then the forward view becomes ambiguous because its target
+\(G_t^\lambda\) contains bootstrapping terms \(V(S_{t+n})\): under online updates there is no single “\(V\)” to plug in—those values
+depend on which intermediate version of \(V\) we use. The backward view, meanwhile, propagates each new \(\delta_t\) through traces
+computed from past visits, but applies it using the current \(V\). Because both the TD errors and the bootstrapping values are
+now tied to a moving function, the clean algebraic match from the frozen-\(V\) case no longer goes through in general. (An exception is \(\lambda=0\), where the target is purely one-step and the forward/backward views coincide in the usual way.)
+
+**Restoring exact online equivalence: True Online TD(\(\lambda\)).** True Online TD(\(\lambda\)) modifies the trace-based update with a small correction so that, even when \(V\) changes during the episode, the backward-view recursion matches the corresponding online forward view exactly at each step.
+
+## Summary of Forward and Backward TD(\(\lambda\))
+
+| Offline updates | \(\lambda = 0\) | \(\lambda \in (0,1)\) | \(\lambda = 1\) |
+|---|---|---|---|
+| Backward view | \(\mathrm{TD}(0)\) | \(\mathrm{TD}(\lambda)\) | \(\mathrm{TD}(1)\) |
+|  | \(\parallel\) | \(\parallel\) | \(\parallel\) |
+| Forward view | \(\mathrm{TD}(0)\) | Forward \(\mathrm{TD}(\lambda)\) | \(\mathrm{MC}\) |
+| Online updates | \(\lambda = 0\) | \(\lambda \in (0,1)\) | \(\lambda = 1\) |
+| Backward view | \(\mathrm{TD}(0)\) | \(\mathrm{TD}(\lambda)\) | \(\mathrm{TD}(1)\) |
+|  | \(\parallel\) | \(\nparallel\) | \(\nparallel\) |
+| Forward view | \(\mathrm{TD}(0)\) | Forward \(\mathrm{TD}(\lambda)\) | \(\mathrm{MC}\) |
+|  | \(\parallel\) | \(\parallel\) | \(\parallel\) |
+| Exact Online | \(\mathrm{TD}(0)\) | Exact Online \(\mathrm{TD}(\lambda)\) | Exact Online \(\mathrm{TD}(1)\) |
+
+\(\parallel\) here indicates equivalence in total update at end of episode.
