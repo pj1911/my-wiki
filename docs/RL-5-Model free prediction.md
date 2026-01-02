@@ -978,3 +978,7 @@ now tied to a moving function, the clean algebraic match from the frozen-\(V\) c
 | Exact Online | \(\mathrm{TD}(0)\) | Exact Online \(\mathrm{TD}(\lambda)\) | Exact Online \(\mathrm{TD}(1)\) |
 
 \(\parallel\) here indicates equivalence in total update at end of episode.
+
+## References
+
+- https://github.com/zyxue/youtube_RL_course_by_David_Silver
