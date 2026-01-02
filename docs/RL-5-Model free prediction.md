@@ -348,11 +348,11 @@ In a stationary tabular setting where each relevant state is visited infinitely 
 
 ## Bootstrapping and Sampling
 
-Dynamic Programming, TD, and MC can be compared along two independent axes: bootstrapping (whether the update target uses the current estimate \( V \)) and sampling (whether expectations are approximated from data or computed exactly from a known model). MC is sampled but non-bootstrapped, using the complete return \( G_t \) as its target; TD is sampled and bootstrapped, using the one-step target \( R_{t+1}+\gamma V(S_{t+1}) \); and DP is bootstrapped but not sampled, using a full expected Bellman target such as \( \sum_{s'}P(s'|s,a)\bigl(R(s,a,s')+\gamma V(s')\bigr) \). Equivalently, all three are backups that move \( V(s) \) toward a target: DP performs a full expected backup using the model, while TD and MC perform sample backups using observed experience; TD uses a shallow one-step backup that propagates information via bootstrapping, whereas MC uses a deep backup to episode end with no bootstrapping. Many multi-step methods (e.g., TD(\( \lambda \))) interpolate between TD(0) and MC by trading off backup depth against the amount of bootstrapping.
+Dynamic Programming, TD, and MC can be compared along two independent axes: bootstrapping (whether the update target uses the current estimate \( V \)) and sampling (whether expectations are approximated from data or computed exactly from a known model). MC is sampled but non-bootstrapped, using the complete return \( G_t \) as its target. TD is sampled and bootstrapped, using the one-step target \( R_{t+1}+\gamma V(S_{t+1}) \), and DP is bootstrapped but not sampled, using a full expected Bellman target such as \( \sum_{s'}P(s'|s,a)\bigl(R(s,a,s')+\gamma V(s')\bigr) \). Equivalently, all three are backups that move \( V(s) \) toward a target: DP performs a full expected backup using the model, while TD and MC perform sample backups using observed experience, TD uses a shallow one-step backup that propagates information via bootstrapping, whereas MC uses a deep backup to episode end with no bootstrapping. Many multi-step methods (e.g., TD(\( \lambda \))) interpolate between TD(0) and MC by trading off backup depth against the amount of bootstrapping.
 
 ## \( n \)-Step Prediction
 
-\( n \)-step prediction provides a simple continuum between TD(0) and Monte-Carlo (MC). TD(0) uses a 1-step, bootstrapped target, updating immediately from \( (R_{t+1},S_{t+1}) \), while MC avoids bootstrapping by waiting for the episode to finish and using the full observed return. The idea of \( n \)-step methods is to look ahead for \( n \) steps: use \( n \) actual rewards, then bootstrap once at step \( n \). As \( n \) increases, the target depends less on the current value estimates and more on observed rewards; in the limit \( n\to\infty \) (for episodic tasks) the method reduces to MC.
+\( n \)-step prediction provides a simple continuum between TD(0) and Monte-Carlo (MC). TD(0) uses a 1-step, bootstrapped target, updating immediately from \( (R_{t+1},S_{t+1}) \), while MC avoids bootstrapping by waiting for the episode to finish and using the full observed return. The idea of \( n \)-step methods is to look ahead for \( n \) steps: use \( n \) actual rewards, then bootstrap once at step \( n \). As \( n \) increases, the target depends less on the current value estimates and more on observed rewards, in the limit \( n\to\infty \) (for episodic tasks) the method reduces to MC.
 
 **\( n \)-step return.**
 For a trajectory generated under \( \pi \), define
@@ -405,15 +405,15 @@ This yields a proper weighted average over backup depths and introduces a single
 
 ## Eligibility Traces
 
-The previous section introduced the \(\lambda\)-return as a way to assign credit across multiple time steps by blending \(n\)-step returns. The drawback is efficiency: computing it directly would require explicitly forming many \(G_t^{(n)}\). We therefore want an **online** procedure that achieves the same multi-step credit assignment without enumerating these returns and **eligibility traces** provide exactly this mechanism. Eligibility traces maintain a decaying ``memory'' of recently visited states. Each visit boosts a state's trace, which then fades over time while repeated visits reinforce it. When a TD error occurs, we distribute that error backward in proportion to the current trace, so recent and frequently visited states receive larger updates, while distant one-off states receive little.
+The previous section introduced the \(\lambda\)-return as a way to assign credit across multiple time steps by blending \(n\)-step returns. The drawback is efficiency: computing it directly would require explicitly forming many \(G_t^{(n)}\). We therefore want an online procedure that achieves the same multi-step credit assignment without enumerating these returns and eligibility traces provide exactly this mechanism. Eligibility traces maintain a decaying "memory" of recently visited states. Each visit boosts a state's trace, which then fades over time while repeated visits reinforce it. When a TD error occurs, we distribute that error backward in proportion to the current trace, so recent and frequently visited states receive larger updates, while distant one-off states receive little.
 
 **Rat example: frequency vs. recency.**
 
-Consider the sequence \(\text{lever},\text{lever},\text{lever},\text{bell},\text{shock}\). A pure frequency rule would assign most blame to \(\text{lever}\) (it appears three times), while a pure recency rule would assign most blame to \(\text{bell}\) (it is closest to the shock). Eligibility traces do both: \(\text{bell}\) receives a large share because it is most recent, and \(\text{lever}\) can still receive substantial blame because its trace has been ``topped up'' multiple times despite decay.
+Consider the sequence \(\text{lever},\text{lever},\text{lever},\text{bell},\text{shock}\). A pure frequency rule would assign most blame to \(\text{lever}\) (it appears three times), while a pure recency rule would assign most blame to \(\text{bell}\) (it is closest to the shock). Eligibility traces do both: \(\text{bell}\) receives a large share because it is most recent, and \(\text{lever}\) can still receive substantial blame because its trace has been "topped up" multiple times despite decay.
 
 **State eligibility trace.**
 
-Formally, maintain a trace \(E_t(s)\) for each state \(s\). Each time step applies two operations: (\(i\)) **decay** all traces by a factor \(\gamma\lambda\), making older visits matter less, and (\(ii\)) **increment** the currently visited state by \(+1\), marking it as freshly visited. This yields the standard accumulating trace recursion
+Formally, maintain a trace \(E_t(s)\) for each state \(s\). Each time step applies two operations: (\(i\)) decay all traces by a factor \(\gamma\lambda\), making older visits matter less, and (\(ii\)) increment the currently visited state by \(+1\), marking it as freshly visited. This yields the standard accumulating trace recursion
 
 $$
 E_0(s)=0,\qquad
@@ -934,7 +934,7 @@ $$
 \delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
 $$
 
-**What is being compared?** The forward view specifies a target \(G_t^\lambda\) for each visit and updates \(V(S_t)\) toward it; the backward view produces
+**What is being compared?** The forward view specifies a target \(G_t^\lambda\) for each visit and updates \(V(S_t)\) toward it, the backward view produces
 updates online by distributing each \(\delta_t\) through eligibility traces. The two views coincide only once we fix when
 \(V\) is allowed to change.
 
@@ -970,7 +970,7 @@ now tied to a moving function, the clean algebraic match from the frozen-\(V\) c
 | Backward view | \(\mathrm{TD}(0)\) | \(\mathrm{TD}(\lambda)\) | \(\mathrm{TD}(1)\) |
 |  | \(\parallel\) | \(\parallel\) | \(\parallel\) |
 | Forward view | \(\mathrm{TD}(0)\) | Forward \(\mathrm{TD}(\lambda)\) | \(\mathrm{MC}\) |
-| Online updates | \(\lambda = 0\) | \(\lambda \in (0,1)\) | \(\lambda = 1\) |
+| **Online updates** | \(\lambda = 0\) | \(\lambda \in (0,1)\) | \(\lambda = 1\) |
 | Backward view | \(\mathrm{TD}(0)\) | \(\mathrm{TD}(\lambda)\) | \(\mathrm{TD}(1)\) |
 |  | \(\parallel\) | \(\nparallel\) | \(\nparallel\) |
 | Forward view | \(\mathrm{TD}(0)\) | Forward \(\mathrm{TD}(\lambda)\) | \(\mathrm{MC}\) |
