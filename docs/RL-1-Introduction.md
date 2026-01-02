@@ -214,3 +214,7 @@ Many problems in reinforcement learning can be viewed through the lens of predic
 
 - Prediction asks: given a fixed policy, how good is it? The goal is to evaluate the future by estimating expected rewards when the agent follows a particular policy. This is typically done using value functions, which predict long-term reward without changing the policy itself.
 - Control goes one step further. Instead of just evaluating a policy, the goal is to improve it. Control is about optimizing the future by finding the best possible policy, one that maximizes expected cumulative reward. Most RL algorithms alternate between prediction (evaluating how good things are) and control (using that information to choose better actions).
+
+## References
+
+- https://github.com/zyxue/youtube_RL_course_by_David_Silver
