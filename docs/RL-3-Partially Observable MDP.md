@@ -246,3 +246,7 @@ state \(s\), the expected cumulative deviation from \(\rho^\pi\) (i.e., which st
 transiently better or worse than average). This state-dependent signal is what enables
 average-reward policy evaluation and policy improvement, and it is characterized by the
 average-reward Bellman equation.
+
+## References
+
+- https://github.com/zyxue/youtube_RL_course_by_David_Silver
