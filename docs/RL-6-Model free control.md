@@ -416,9 +416,9 @@ For each episode:
    2. Choose \(A'\) from \(S'\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).
    3. Update:
       
-  $$
-  Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
-  $$
+$$
+Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
+$$
       
    4. \(S \leftarrow S'\), \(A \leftarrow A'\) until \(S\) is terminal.
 
