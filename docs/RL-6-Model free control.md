@@ -416,9 +416,9 @@ so as \(\pi\) improves and the target \(q_\pi\) moves, SARSA keeps tracking it v
 >    2. Choose \(A'\) from \(S'\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).  
 >    3. Update:
 >
->$$
->Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
->$$
+>  $$
+>  Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
+>  $$
 >
 >    4. \(S \leftarrow S'\), \(A \leftarrow A'\).  
 >    until \(S\) is terminal.
@@ -742,19 +742,17 @@ $$
 
 ### Algorithm sketch
 
-1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state--action pairs.
-2. For each episode:
-   1. Start in an initial state \(S\).
-   2. Repeat until terminal:
-      1. Choose \(A \sim \mu(\cdot\mid S)\) (e.g., \(\varepsilon\)-greedy w.r.t. \(Q\)).
-      2. Execute \(A\), observe reward \(R\) and next state \(S'\).
-      3. Update:
-
-   $$
-   Q(S,A) \leftarrow Q(S,A) + \alpha\bigl(R + \gamma \max_{a'} Q(S',a') - Q(S,A)\bigr).
-   $$
-
-      4. Set \(S \leftarrow S'\).
+>1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state--action pairs.
+>2. For each episode:
+>   1. Start in an initial state \(S\).
+>   2. Repeat until terminal:
+>      1. Choose \(A \sim \mu(\cdot\mid S)\) (e.g., \(\varepsilon\)-greedy w.r.t. \(Q\)).
+>      2. Execute \(A\), observe reward \(R\) and next state \(S'\).
+>      3. Update:
+>   $$
+>   Q(S,A) \leftarrow Q(S,A) + \alpha\bigl(R + \gamma \max_{a'} Q(S',a') - Q(S,A)\bigr).
+>   $$
+>      4. Set \(S \leftarrow S'\).
 
 ## Relationship Between DP and TD Learning
 
