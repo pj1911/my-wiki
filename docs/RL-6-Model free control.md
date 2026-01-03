@@ -409,18 +409,17 @@ so as \(\pi\) improves and the target \(q_\pi\) moves, SARSA keeps tracking it v
 
 For each episode:
 
+Initialize \(Q(s,a)\) arbitrarily for all \(s\in\mathcal{S}, a\in\mathcal{A}(s)\) and set \(Q(\text{terminal},\cdot)=0\).
+
+For each episode:
 1. Initialize \(S\).
 2. Choose \(A\) from \(S\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).
 3. Repeat (for each step of the episode):
    1. Take action \(A\), observe \(R\) and next state \(S'\).
    2. Choose \(A'\) from \(S'\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).
-   3. Update:
-      
-$$
-Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
-$$
-      
+   3. Update: \(Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr]\).
    4. \(S \leftarrow S'\), \(A \leftarrow A'\) until \(S\) is terminal.
+
 
 
 ### Convergence of SARSA (tabular setting)
