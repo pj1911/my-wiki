@@ -24,6 +24,7 @@ nav:
       - 3 - Partially Observable MDP: RL-3-Partially Observable MDP.md
       - 4 - Planning with Dynamic Programming: RL-4-Planning with Dynamic Programming.md
       - 5 - Model free prediction: RL-5-Model free prediction.md
+      - 6 - Model free Control: RL-6-Model free control.md
          
 markdown_extensions:
   - admonition
