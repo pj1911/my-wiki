@@ -407,21 +407,21 @@ so as \(\pi\) improves and the target \(q_\pi\) moves, SARSA keeps tracking it v
 
 ### SARSA algorithm
 
-> Initialize \(Q(s,a)\) arbitrarily for all \(s\in\mathcal{S}, a\in\mathcal{A}(s)\) and set \(Q(\text{terminal},\cdot)=0\).  
-> For each episode:  
-> 1. Initialize \(S\).  
-> 2. Choose \(A\) from \(S\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).  
-> 3. Repeat (for each step of the episode):  
->    1. Take action \(A\), observe \(R\) and next state \(S'\).  
->    2. Choose \(A'\) from \(S'\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).  
->    3. Update:
->
->  $$
->  Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
->  $$
->
->    4. \(S \leftarrow S'\), \(A \leftarrow A'\).  
->    until \(S\) is terminal.
+For each episode:
+
+1. Initialize \(S\).
+2. Choose \(A\) from \(S\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).
+3. Repeat (for each step of the episode):
+   1. Take action \(A\), observe \(R\) and next state \(S'\).
+   2. Choose \(A'\) from \(S'\) using a policy derived from \(Q\) (e.g. \(\varepsilon\)-greedy).
+   3. Update:
+      
+  $$
+  Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr].
+  $$
+      
+   4. \(S \leftarrow S'\), \(A \leftarrow A'\) until \(S\) is terminal.
+
 
 ### Convergence of SARSA (tabular setting)
 
@@ -742,17 +742,15 @@ $$
 
 ### Algorithm sketch
 
->1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state--action pairs.
->2. For each episode:
->   1. Start in an initial state \(S\).
->   2. Repeat until terminal:
->      1. Choose \(A \sim \mu(\cdot\mid S)\) (e.g., \(\varepsilon\)-greedy w.r.t. \(Q\)).
->      2. Execute \(A\), observe reward \(R\) and next state \(S'\).
->      3. Update:
->   $$
->   Q(S,A) \leftarrow Q(S,A) + \alpha\bigl(R + \gamma \max_{a'} Q(S',a') - Q(S,A)\bigr).
->   $$
->      4. Set \(S \leftarrow S'\).
+1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state--action pairs.
+2. For each episode:
+   1. Start in an initial state \(S\).
+   2. Repeat until terminal:
+      1. Choose \(A \sim \mu(\cdot\mid S)\) (e.g., \(\varepsilon\)-greedy w.r.t. \(Q\)).
+      2. Execute \(A\), observe reward \(R\) and next state \(S'\).
+      3. Update: \(Q(S,A) \leftarrow Q(S,A) + \alpha\bigl(R + \gamma \max_{a'} Q(S',a') - Q(S,A)\bigr)\).
+      4. Set \(S \leftarrow S'\).
+
 
 ## Relationship Between DP and TD Learning
 
