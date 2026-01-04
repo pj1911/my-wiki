@@ -2,7 +2,7 @@
 
 Model-free control means learning to maximise the value function of an unknown MDP. The main idea is simple: we do not build or use an explicit transition/reward model. Instead, we learn directly from experience samples, i.e. observed tuples \((S_t, A_t, R_{t+1}, S_{t+1})\).
 
-In practice, model-free methods show up in two common regimes. First, the MDP model is unknown but we can sample experience by interacting with the environment, so learning is naturally driven by collected trajectories. Second, the MDP model is known in principle (we could write down \(\P(s'|s,a)\) and \(\R(s,a)\)), but the state-action space is so large that exact dynamic programming updates are not feasible. In that case, we still fall back to sampled experiences.
+In practice, model-free methods show up in two common regimes. First, the MDP model is unknown but we can sample experience by interacting with the environment, so learning is naturally driven by collected trajectories. Second, the MDP model is known in principle (we could write down \(P(s'|s,a)\) and \(R(s,a)\)), but the state-action space is so large that exact dynamic programming updates are not feasible. In that case, we still fall back to sampled experiences.
 
 **On-Policy vs Off-Policy Learning.**
 
@@ -61,19 +61,19 @@ Even if we ignore the fact that \(V\)-greedy improvement needs a model, MC still
 
 ## Exploration vs Greedy Improvement: \(\varepsilon\)-Greedy MC Control
 
-If we always act greedily with respect to the current estimate \(Q(s,a)\) (or \(V(s)\)), we risk stopping exploration. Early estimates are noisy, so the action that looks best after a few trials may not actually be best. Once a greedy policy commits, rarely chosen actions stay poorly estimated, and learning can get "stuck" in a suboptimal policy. A tiny example makes this concrete. Imagine a single-state choice with two actions (two doors): \texttt{left} and \texttt{right}. We try \texttt{left} once and see reward \(0\), then try \texttt{right} once and see reward \(+1\). At this moment,
+If we always act greedily with respect to the current estimate \(Q(s,a)\) (or \(V(s)\)), we risk stopping exploration. Early estimates are noisy, so the action that looks best after a few trials may not actually be best. Once a greedy policy commits, rarely chosen actions stay poorly estimated, and learning can get "stuck" in a suboptimal policy. A tiny example makes this concrete. Imagine a single-state choice with two actions (two doors): left and right. We try left once and see reward \(0\), then try right once and see reward \(+1\). At this moment,
 
 $$
 \hat V(\texttt{left}) = 0,\qquad \hat V(\texttt{right}) = 1,
 $$
 
-so a purely greedy agent will keep choosing \texttt{right} and keep updating its estimate from more samples, e.g.
+so a purely greedy agent will keep choosing right and keep updating its estimate from more samples, e.g.
 
 $$
 \hat V(\texttt{right}) \leftarrow 2,\ \ldots
 $$
 
-But the important question is: are we sure we picked the best door? If \texttt{left} has uncertainty or rare high payoffs, never trying it again means we can never correct a wrong early guess.
+But the important question is: are we sure we picked the best door? If left has uncertainty or rare high payoffs, never trying it again means we can never correct a wrong early guess.
 
 A simple fix for this is doing a \(\varepsilon\)-greedy exploration. It keeps the greedy preference, but forces continued exploration by giving every action non-zero probability. To be more concrete, let \(m = |\mathcal{A}|\) be the number of actions, then we can define a greedy action as
 
@@ -164,7 +164,7 @@ $$
 Define
 
 $$
-w(a)\;=;\frac{\pi(a\mid s)-\varepsilon/m}{1-\varepsilon}.
+w(a)\;=\frac{\pi(a\mid s)-\varepsilon/m}{1-\varepsilon}.
 $$
 
 This is a valid distribution:
@@ -247,7 +247,7 @@ it does not provide a useful bound on how quickly the process visits all states 
 
 A fixed \(\varepsilon>0\) in \(\varepsilon\)-greedy control is great for exploration, but it has an obvious downside: the policy stays random forever, so it never becomes fully greedy. What we usually want is a schedule that explores a lot early (when \(Q\) is unreliable) and then gradually exploits more as the estimates improve. GLIE is a standard way to formalise this idea.
 
-**Definition.** A sequence of policies \(\{\pi_k\}_{k\ge 1}\) is Greedy in the Limit with Infinite Exploration (GLIE) if it satisfies two properties. First, it performs infinite exploration: every state--action pair is visited infinitely often,
+**Definition.** A sequence of policies \(\{\pi_k\}_{k\ge 1}\) is Greedy in the Limit with Infinite Exploration (GLIE) if it satisfies two properties. First, it performs infinite exploration: every state-action pair is visited infinitely often,
 
 $$
 \lim_{k\to\infty} N_k(s,a) = \infty
@@ -312,7 +312,7 @@ A full proof formalises this using stochastic approximation arguments and the GL
 
 **Additional comments.** In tabular GLIE theory, if the GLIE conditions hold (infinite exploration and greedy in the limit), then the choice of initial values does not affect the limit: the estimates still converge to \(q_*\). What initialisation does affect is the transient behaviour, how quickly \(Q_k\) becomes accurate and how quickly the induced policy becomes good.
 
-In practice, initialisation can noticeably change learning speed. With optimistic initialisation (starting with large \(Q\) values), actions look promising until they are tried, which can encourage exploration and sometimes allows a smaller \(\varepsilon\) in simple tasks. With pessimistic (or zero) initialisation, many actions may look similarly unappealing, and if exploration is weak the agent may fail to collect enough diverse experience early on. In larger problems, and especially with function approximation, this can interact with limited state--action coverage and further slow learning. Finally, at optimality the limiting action-value function satisfies the Bellman optimality equation:
+In practice, initialisation can noticeably change learning speed. With optimistic initialisation (starting with large \(Q\) values), actions look promising until they are tried, which can encourage exploration and sometimes allows a smaller \(\varepsilon\) in simple tasks. With pessimistic (or zero) initialisation, many actions may look similarly unappealing, and if exploration is weak the agent may fail to collect enough diverse experience early on. In larger problems, and especially with function approximation, this can interact with limited state-action coverage and further slow learning. Finally, at optimality the limiting action-value function satisfies the Bellman optimality equation:
 
 $$
 q_*(s,a) = \mathbb{E}\!\left[ R_{t+1} + \gamma \max_{a'\in\mathcal{A}} q_*(S_{t+1}, a') \mid S_t=s, A_t=a \right].
@@ -362,7 +362,7 @@ $$
 where \(A_{t+1}\sim \pi(\cdot\mid S_{t+1})\). If \(q_\pi\) were known, then along a trajectory generated by \(\pi\) the random variable
 
 $$
-Y_{t} \;=; R_{t+1} + \gamma q_\pi(S_{t+1},A_{t+1})
+Y_{t} \;=\; R_{t+1} + \gamma q_\pi(S_{t+1},A_{t+1})
 $$
 
 has conditional expectation
@@ -374,7 +374,7 @@ $$
 so \(Y_t\) is a one-step, unbiased sample target for \(q_\pi(s,a)\). A natural way to estimate \(q_\pi\) is therefore to repeatedly move our estimate toward this target using stochastic approximation. SARSA follows exactly this logic, but replaces the unknown \(q_\pi\) with the current estimate \(Q\):
 
 $$
-\widehat{Y}_t \;=; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}).
+\widehat{Y}_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}).
 $$
 
 This is the TD target. With stepsize \(\alpha\), the SARSA update becomes
@@ -386,7 +386,7 @@ $$
 where the TD error
 
 $$
-\delta_t \;=; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t)
+\delta_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t)
 $$
 
 measures the current violation of Bellman consistency. When \(Q\) matches \(q_\pi\), the expected TD error is zero, so on average the update stops pushing the estimate. In this sense, SARSA updates \(Q\) to make it increasingly consistent with the Bellman expectation equation for the policy being followed.
@@ -432,7 +432,7 @@ $$
 under the following conditions:
 
 - a GLIE sequence of behaviour policies \(\{\pi_t(\cdot\mid s)\}\) (infinite exploration, greedy in the limit),
-- a Robbins--Monro step-size sequence \(\{\alpha_t\}\) satisfying
+- a Robbins-Monro step-size sequence \(\{\alpha_t\}\) satisfying
 
 $$
 \sum_{t=1}^{\infty}\alpha_t = \infty,
@@ -440,11 +440,11 @@ $$
 \sum_{t=1}^{\infty}\alpha_t^2 < \infty.
 $$
 
-The Robbins--Monro conditions encode a practical balance between not giving up too early and eventual stability. The requirement \(\sum_t \alpha_t=\infty\) means there is enough total "learning rate" to keep making progress (the algorithm does not effectively freeze), while \(\sum_t \alpha_t^2<\infty\) ensures the steps become small enough that sampling noise averages out and the iterates settle. A standard schedule is \(\alpha_t=1/t\) (more generally \(\alpha_t=1/t^\beta\) with \(\tfrac12<\beta\le 1\)).
+The Robbins-Monro conditions encode a practical balance between not giving up too early and eventual stability. The requirement \(\sum_t \alpha_t=\infty\) means there is enough total "learning rate" to keep making progress (the algorithm does not effectively freeze), while \(\sum_t \alpha_t^2<\infty\) ensures the steps become small enough that sampling noise averages out and the iterates settle. A standard schedule is \(\alpha_t=1/t\) (more generally \(\alpha_t=1/t^\beta\) with \(\tfrac12<\beta\le 1\)).
 
-In real implementations it is common to use a small constant step-size (or a piecewise schedule) to learn faster and to track non-stationarity. This can violate Robbins--Monro, so the strict convergence guarantee no longer applies, but empirically it often works well, the theorem is mainly a clean guarantee for the stationary, tabular regime. These same ingredients also explain a common learning curve pattern in episodic tasks: learning can look extremely slow at first, then suddenly speed up. Early on, \(Q\) is uninformative, so an \(\varepsilon\)-greedy policy behaves close to random and may wander for a long time before reaching termination. As SARSA updates \(Q\) online, useful actions start receiving higher values, so the same \(\varepsilon\)-greedy rule increasingly prefers them and trajectories shorten dramatically. For example, in a sparse-reward navigation task where reward appears only at a goal state, the first episode might take a lot of steps to stumble into the goal but afterwards, TD bootstrapping propagates positive value back through earlier state-action choices, and later episodes can drop to a significantly lower number of steps even though exploration still occurs with probability \(\varepsilon\).
+In real implementations it is common to use a small constant step-size (or a piecewise schedule) to learn faster and to track non-stationarity. This can violate Robbins-Monro, so the strict convergence guarantee no longer applies, but empirically it often works well, the theorem is mainly a clean guarantee for the stationary, tabular regime. These same ingredients also explain a common learning curve pattern in episodic tasks: learning can look extremely slow at first, then suddenly speed up. Early on, \(Q\) is uninformative, so an \(\varepsilon\)-greedy policy behaves close to random and may wander for a long time before reaching termination. As SARSA updates \(Q\) online, useful actions start receiving higher values, so the same \(\varepsilon\)-greedy rule increasingly prefers them and trajectories shorten dramatically. For example, in a sparse-reward navigation task where reward appears only at a goal state, the first episode might take a lot of steps to stumble into the goal but afterwards, TD bootstrapping propagates positive value back through earlier state-action choices, and later episodes can drop to a significantly lower number of steps even though exploration still occurs with probability \(\varepsilon\).
 
-Overall: GLIE ensures every \((s,a)\) keeps being tried while behaviour becomes greedy in the limit, and Robbins--Monro step-sizes ensure updates keep moving but eventually stabilise, together they yield the tabular convergence of SARSA.
+Overall GLIE ensures every \((s,a)\) keeps being tried while behaviour becomes greedy in the limit, and Robbins-Monro step-sizes ensure updates keep moving but eventually stabilise, together they yield the tabular convergence of SARSA.
 
 ## \(n\)-Step SARSA and SARSA(\(\lambda\)): Forward View vs Backward View
 
@@ -468,7 +468,7 @@ More compactly, for a finite \(n\) we define the \(n\)-step Q-return
 
 $$
 q_t^{(n)}
-\;=;
+\;=\;
 \sum_{i=1}^{n}\gamma^{i-1}R_{t+i}
 \;+\;
 \gamma^{n}Q(S_{t+n},A_{t+n}).
@@ -480,7 +480,7 @@ $$
 Q(S_t,A_t)\leftarrow Q(S_t,A_t)+\alpha\Bigl(q_t^{(n)}-Q(S_t,A_t)\Bigr).
 $$
 
-Intuitively, \(n\) controls the bias--variance tradeoff: increasing \(n\) replaces more of the bootstrapped tail by actual sampled rewards (less bias, more variance and delay), while decreasing \(n\) bootstraps sooner (more bias, typically lower variance and faster propagation).
+Intuitively, \(n\) controls the bias-variance tradeoff: increasing \(n\) replaces more of the bootstrapped tail by actual sampled rewards (less bias, more variance and delay), while decreasing \(n\) bootstraps sooner (more bias, typically lower variance and faster propagation).
 
 ### Forward-view SARSA(\(\lambda\)): averaging over all horizons
 
@@ -726,7 +726,7 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t)
 +\alpha\Bigl(R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')-Q(S_t,A_t)\Bigr)
 $$
 
-is an incremental (sample-based) attempt to enforce this fixed-point condition: it replaces the expectation in \(T_\star\) by the single observed transition and moves \(Q(S_t,A_t)\) toward the corresponding target. Under the usual tabular assumptions (every \((s,a)\) is updated infinitely often and \(\{\alpha_t\}\) satisfies Robbins--Monro), these stochastic updates converge to the unique fixed point, so
+is an incremental (sample-based) attempt to enforce this fixed-point condition: it replaces the expectation in \(T_\star\) by the single observed transition and moves \(Q(S_t,A_t)\) toward the corresponding target. Under the usual tabular assumptions (every \((s,a)\) is updated infinitely often and \(\{\alpha_t\}\) satisfies Robbins-Monro), these stochastic updates converge to the unique fixed point, so
 
 $$
 Q_t(s,a)\to q_\star(s,a).
@@ -740,7 +740,7 @@ $$
 
 ### Algorithm sketch
 
-1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state--action pairs.
+1. Initialize \(Q(s,a)\) arbitrarily (often \(0\)) for all state-action pairs.
 2. For each episode:
    1. Start in an initial state \(S\).
    2. Repeat until terminal:
