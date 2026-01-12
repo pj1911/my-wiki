@@ -25,7 +25,8 @@ nav:
       - 4 - Planning with Dynamic Programming: RL-4-Planning with Dynamic Programming.md
       - 5 - Model free prediction: RL-5-Model free prediction.md
       - 6 - Model free Control: RL-6-Model free control.md
-         
+      - 7 - Value function approximation: RL-7-Value function approximation.md
+
 markdown_extensions:
   - admonition
   - pymdownx.arithmatex:
