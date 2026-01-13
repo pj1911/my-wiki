@@ -505,3 +505,362 @@ When we say an algorithm "converges", we usually mean the parameters \(w\) appro
 - **Gradient Q-learning:** designed for stability with table lookup and linear approximation; still no general guarantee with non-linear models.
 
 Here chattering informally means the parameters keep oscillating around a near-optimal solution rather than settling to an exact fixed point.
+
+## Batch reinforcement learning
+
+Incremental SGD is convenient, but it often underuses data: a transition is seen once, we update, and then we move on. Batch RL takes the opposite view: collect experience into a dataset and then fit the value function to that dataset as well as possible. This is useful when data are expensive (e.g., real robots) or when we want to squeeze more learning out of past experience.
+
+**Least-squares prediction.** If we can treat learning as supervised regression, a natural goal is to find the parameters that best fit the observed targets in a squared-error sense. Given a dataset
+
+$$
+\mathcal{D}=\{\langle s_1,v_1^\pi\rangle,\ \langle s_2,v_2^\pi\rangle,\ \ldots,\ \langle s_T,v_T^\pi\rangle\},
+$$
+
+and an approximator \(\hat{v}(s,w)\), least-squares chooses
+
+$$
+w^\pi=\arg\min_w LS(w),
+\qquad
+LS(w)=\sum_{t=1}^{T}\left(v_t^\pi-\hat{v}(s_t,w)\right)^2.
+$$
+
+Compared to one-pass SGD, this objective makes the goal explicit: "fit the best value function you can, given the data you have."
+
+**Experience replay (SGD on a dataset).** In practice, we may not solve the least-squares problem in closed form, but we can optimize it with SGD by repeatedly replaying samples from \(\mathcal{D}\):
+
+1. Sample \(\langle s,v^\pi\rangle \sim \mathcal{D}\) (often uniformly at random).
+2. Update
+
+ $$
+ \Delta w=\alpha\left(v^\pi-\hat{v}(s,w)\right)\nabla_w \hat{v}(s,w).
+ $$
+
+This is called experience replay: we reuse past experience many times, which improves sample efficiency and (with random sampling) reduces the temporal correlations that appear in online trajectories. So far, this is just "supervised learning on stored RL experience." The next step is to apply the same idea to control with action-values: store transitions \((s,a,r,s')\) in a replay buffer and train a Q-function from mini-batches.
+
+## Deep Q-network
+
+The idea is simple: replace the lookup table \(Q(s,a)\) with a neural network \(Q(s,a;w)\), and train it so that its outputs satisfy the Bellman optimality equation. However, naively combining Q-learning (bootstrapping) with a non-linear network can be unstable. To handle this, we can introduce deep Q-networks (DQN), it became successful largely because it adds two stabilizing ideas: experience replay and fixed (or slowly changing) Q-targets.
+
+### Experience replay
+
+As the agent interacts with the environment, it stores transitions in a replay buffer \(\mathcal{D}\):
+
+$$
+(s_t,a_t,r_{t+1},s_{t+1})\in\mathcal{D}.
+$$
+
+Training then samples mini-batches uniformly at random from \(\mathcal{D}\). Random sampling breaks strong temporal correlations in consecutive experience and makes learning closer to i.i.d. supervised training, which typically stabilizes SGD and improves data efficiency (each transition can be reused many times).
+
+### Fixed Q-targets
+
+A core instability in bootstrapping is the moving target problem: the target depends on the same parameters we are updating. If \(w\) changes, then both the prediction and the target can change at the same time, which can cause oscillations or divergence.
+
+DQN reduces this by using a separate set of (older) parameters \(w^{-}\) to compute targets, while the current network uses \(w\). For a sampled transition \((s,a,r,s')\), the DQN target is
+
+$$
+y = r + \gamma \max_{a'} Q(s',a';w^{-}),
+$$
+
+and we fit \(Q(s,a;w)\) to this target by minimizing the squared error
+
+$$
+\mathcal{L}(w) =\mathbb{E}_{(s,a,r,s')\sim\mathcal{D}}\Big[\big(y-Q(s,a;w)\big)^2\Big] =
+\mathbb{E}_{(s,a,r,s')\sim\mathcal{D}}
+\Big[\big(r+\gamma \max_{a'} Q(s',a';w^{-})-Q(s,a;w)\big)^2\Big].
+$$
+
+**Stability intuition.** Putting it together, DQN repeatedly:
+
+1. collects transitions and stores them in \(\mathcal{D}\) (often using \(\epsilon\)-greedy w.r.t. \(Q(\cdot,\cdot;w)\)),
+2. samples random mini-batches from \(\mathcal{D}\),
+3. treats \(y=r+\gamma \max_{a'} Q(s',a';w^{-})\) as a (nearly) fixed label and does supervised-style regression,
+4. updates the target network occasionally (hard update \(w^{-}\leftarrow w\) every \(K\) steps) or slowly (soft updates).
+
+## Linear Least Squares Prediction
+
+In the previous section we motivated batch RL: once we store experience in a replay buffer, learning becomes "fit a function to a dataset." Before going deeper into DQN, it is helpful to look at the simplest batch case: linear function approximation. If we use a linear value function,
+
+$$
+\hat{v}(s,w)=x(s)^\top w,
+$$
+
+then least-squares prediction becomes a standard linear regression problem. Experience replay + SGD can eventually reach the best-fitting parameters, but it may require many passes over the data. In case of a linear model, we can often compute the least-squares solution directly (or update it efficiently as new data arrive). We start from the least-squares objective on a dataset \(D=\{(s_t,v_t^\pi)\}_{t=1}^T\):
+
+$$
+LS(w)=\sum_{t=1}^{T}\bigl(v_t^\pi-x(s_t)^\top w\bigr)^2.
+$$
+
+At the minimizer, the gradient must be zero:
+
+$$
+\nabla_w LS(w)=0.
+$$
+
+Differentiate:
+
+$$
+\nabla_w LS(w) = -2\sum_{t=1}^{T} x(s_t)\bigl(v_t^\pi-x(s_t)^\top w\bigr)=0.
+$$
+
+Rearranging gives the normal equations:
+
+$$
+\sum_{t=1}^{T} x(s_t)\,v_t^\pi =
+\sum_{t=1}^{T} x(s_t)\,x(s_t)^\top w.
+$$
+
+Define
+
+$$
+A\;=\sum_{t=1}^{T} x(s_t)\,x(s_t)^\top,
+\qquad
+b\;=\sum_{t=1}^{T} x(s_t)\,v_t^\pi,
+$$
+
+so the solution (when \(A\) is invertible) is
+
+$$
+w=A^{-1}b.
+$$
+
+- If there are \(N\) features, solving via a matrix inverse is typically \(O(N^3)\).
+- If data arrive sequentially, we can maintain \(A^{-1}\) incrementally using Sherman-Morrison updates, giving roughly \(O(N^2)\) per new sample.
+
+## Linear Least Squares Prediction Algorithms
+
+In the batch setting we want to fit a value function from stored experience. The catch is that we still do not observe the true values \(v_\pi(S_t)\). Instead, we build targets from experience (returns or TD-style bootstraps) and then solve for the parameters that best match those targets under a linear model. With linear approximation \(\hat{v}(s,w)=x(s)^\top w\), common batch targets are:
+
+- **LSMC (Least-Squares Monte Carlo):** use returns,
+
+$$
+v_\pi(S_t)\approx G_t.
+$$
+
+- **LSTD (Least-Squares TD):** use the one-step TD target,
+
+$$
+v_\pi(S_t)\approx R_{t+1}+\gamma \hat{v}(S_{t+1},w).
+$$
+
+- **LSTD(\(\lambda\)):** use the \(\lambda\)-return,
+
+$$
+v_\pi(S_t)\approx G_t^\lambda.
+$$
+
+In each case, the algorithm finds parameters \(w\) that satisfy the corresponding MC/TD fixed-point condition on the dataset.
+
+### Fixed-point equations and closed forms
+
+Assume a dataset of transitions \((S_t,R_{t+1},S_{t+1})\) for \(t=1,\dots,T\) and linear features \(x(S_t)\).
+
+**LSMC.**
+
+Treat \(G_t\) as the label and solve the normal equations:
+
+$$
+0=\sum_{t=1}^{T}\bigl(G_t-\hat{v}(S_t,w)\bigr)x(S_t).
+$$
+
+This yields
+
+$$
+w =
+\left(\sum_{t=1}^{T} x(S_t)x(S_t)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} x(S_t)G_t\right).
+$$
+
+**LSTD.**
+
+Use the TD target. The fixed-point condition is
+
+$$
+0=\sum_{t=1}^{T}\Bigl(R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w)\Bigr)x(S_t),
+$$
+
+which can be written as \(Aw=b\) with
+
+$$
+A=\sum_{t=1}^{T} x(S_t)\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top,
+\qquad
+b=\sum_{t=1}^{T} x(S_t)R_{t+1}.
+$$
+
+So
+
+$$
+w=A^{-1}b =
+\left(\sum_{t=1}^{T} x(S_t)\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} x(S_t)R_{t+1}\right).
+$$
+
+**LSTD(\(\lambda\)).**
+
+Let the TD error be
+
+$$
+\delta_t = R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w),
+$$
+
+and define eligibility vectors (backward view)
+
+$$
+E_t=\gamma\lambda E_{t-1}+x(S_t),
+\qquad E_0=0.
+$$
+
+The fixed-point condition is
+
+$$
+0=\sum_{t=1}^{T}\delta_t\,E_t,
+$$
+
+which again gives \(Aw=b\) with
+
+$$
+A=\sum_{t=1}^{T} E_t\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top,
+\qquad
+b=\sum_{t=1}^{T} E_t R_{t+1},
+$$
+
+and therefore
+
+$$
+w=
+\left(\sum_{t=1}^{T} E_t\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} E_t R_{t+1}\right).
+$$
+
+## Least Squares Control (Policy Iteration)
+
+For control, the goal is to improve the policy, not just evaluate it. A standard template is generalized policy iteration: repeatedly (i) estimate action-values under the current policy, then (ii) make the policy more greedy with respect to those estimates. Here we focus on doing the evaluation step with a least-squares fit of a linear \(Q\)-function.
+
+### Least-squares action-value function approximation
+
+We approximate the action-value function with a linear model over state-action features:
+
+$$
+\hat{q}(s,a,w)=x(s,a)^\top w \approx q_\pi(s,a).
+$$
+
+In a batch setting, we treat collected experience under policy \(\pi\) as a dataset of supervised-style pairs,
+
+$$
+D=\Big\{\langle (s_1,a_1),v_1^\pi\rangle,\ \langle (s_2,a_2),v_2^\pi\rangle,\ \ldots,\ \langle (s_T,a_T),v_T^\pi\rangle\Big\},
+$$
+
+and choose \(w\) to best fit these targets in a least-squares sense (with \(v_t^\pi\) supplied by returns or TD-style targets in practice).
+
+**Least-squares control idea.** Least-squares control combines two goals: use all stored data efficiently (batch evaluation) and improve the policy (control). In practice, the replay buffer often contains data generated by many past policies, so learning is naturally off-policy.
+
+The core idea mirrors Q-learning. From stored experience generated by an old behaviour policy,
+
+$$
+(S_t,A_t,R_{t+1},S_{t+1}) \sim \pi_{\text{old}},
+$$
+
+we imagine acting according to an improved policy at the next state, for example the greedy policy w.r.t. the current estimate,
+
+$$
+A'=\pi_{\text{new}}(S_{t+1}) \;\approx\; \arg\max_{a'} \hat{q}(S_{t+1},a',w).
+$$
+
+Then we push the current estimate \(\hat{q}(S_t,A_t,w)\) toward the bootstrapped target
+
+$$
+R_{t+1}+\gamma \hat{q}(S_{t+1},A',w).
+$$
+
+Least-squares methods differ from vanilla Q-learning mainly in how they fit this target: instead of a one-step SGD update, they fit \(w\) using (approximate) least-squares over the whole dataset.
+
+### Least Squares Q-Learning (LSTDQ)
+
+Start from the usual one-step Q-learning-style TD error (using the greedy/improved action at the next state):
+
+$$
+\delta_t =R_{t+1}+\gamma \hat{q}\bigl(S_{t+1},\pi(S_{t+1}),w\bigr)-\hat{q}(S_t,A_t,w),
+$$
+
+and the linear TD update
+
+$$
+\Delta w_t=\alpha\,\delta_t\,x(S_t,A_t).
+$$
+
+LSTDQ replaces many small SGD steps with a single batch solution by asking for a fixed point: across the dataset, the updates should balance out, i.e.,
+
+$$
+0=\sum_{t=1}^{T}\Delta w_t =\sum_{t=1}^{T}\alpha\,\delta_t\,x(S_t,A_t).
+$$
+
+Dropping the common factor \(\alpha\) and substituting the linear form \(\hat{q}(s,a,w)=x(s,a)^\top w\) gives
+
+$$
+0=\sum_{t=1}^{T}x(S_t,A_t)\Bigl(R_{t+1}+\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)^\top w-x(S_t,A_t)^\top w\Bigr).
+$$
+
+Rearrange into the standard linear system \(Aw=b\) by grouping terms in \(w\):
+
+$$
+\left(\sum_{t=1}^{T}x(S_t,A_t)\Bigl(x(S_t,A_t)-\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)\Bigr)^\top\right)w =
+\sum_{t=1}^{T}x(S_t,A_t)\,R_{t+1}.
+$$
+
+So, when the matrix is invertible,
+
+$$
+w=
+\left(
+\sum_{t=1}^{T}
+x(S_t,A_t)\Bigl(x(S_t,A_t)-\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)\Bigr)^\top
+\right)^{-1}
+\left(
+\sum_{t=1}^{T}x(S_t,A_t)\,R_{t+1}
+\right).
+$$
+
+## Least Squares Policy Iteration Algorithm
+
+LSPI is the batch, least-squares analogue of policy iteration: it uses a fixed dataset \(D\) and alternates between (i) evaluating the current policy using **LSTDQ**, and (ii) improving the policy by acting greedily with respect to the learned \(Q\)-function. The key point is that \(D\) can be collected off-policy (from older behaviour policies), while LSPI keeps reusing it to evaluate newer, improved policies.
+
+**Algorithm (pseudocode).**
+
+    function LSPI(D, pi_0)
+        pi' <- pi_0
+        repeat
+            pi <- pi'
+            Q  <- LSTDQ(pi, D)            # policy evaluation on the fixed batch
+            for all s in S do             # policy improvement
+                pi'(s) <- argmax_{a in A} Q(s,a)
+            end for
+        until (pi approx pi')
+        return pi
+    end function
+
+**Notes.**
+
+- **Policy evaluation:** fit \(\hat{q}^\pi(s,a)=x(s,a)^\top w\) from the dataset \(D\) using LSTDQ (off-policy data is allowed).
+- **Policy improvement:** update greedily:
+
+$$
+\pi_{\text{new}}(s)\in\arg\max_{a\in\mathcal{A}}\hat{q}(s,a,w).
+$$
+
+- **Stopping:** stop when the policy stops changing (or changes are below a chosen threshold).
+
+### Convergence of control algorithms
+
+A rough, practical guide to convergence under different approximations is:
+
+| Algorithm | Table lookup | Linear | Non-linear |
+|---|---|---|---|
+| Monte-Carlo control | \(\checkmark\) | (\(\checkmark\)) | \(\times\) |
+| SARSA (on-policy TD) | \(\checkmark\) | (\(\checkmark\)) | \(\times\) |
+| Q-learning (off-policy TD) | \(\checkmark\) | \(\times\) | \(\times\) |
+| LSPI (via LSTDQ) | \(\checkmark\) | (\(\checkmark\)) | -- |
+
+Here \((\checkmark)\) means the method often behaves well but may chatter (oscillate around a near-optimal solution) rather than converge cleanly. ``--'' means we are not claiming a general guarantee in that setting.
+
+## References
+
+- https://github.com/zyxue/youtube_RL_course_by_David_Silver
