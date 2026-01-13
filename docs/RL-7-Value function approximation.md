@@ -531,9 +531,9 @@ Compared to one-pass SGD, this objective makes the goal explicit: "fit the best 
 1. Sample \(\langle s,v^\pi\rangle \sim \mathcal{D}\) (often uniformly at random).
 2. Update
 
- $$
- \Delta w=\alpha\left(v^\pi-\hat{v}(s,w)\right)\nabla_w \hat{v}(s,w).
- $$
+$$
+\Delta w=\alpha\left(v^\pi-\hat{v}(s,w)\right)\nabla_w \hat{v}(s,w).
+$$
 
 This is called experience replay: we reuse past experience many times, which improves sample efficiency and (with random sampling) reduces the temporal correlations that appear in online trajectories. So far, this is just "supervised learning on stored RL experience." The next step is to apply the same idea to control with action-values: store transitions \((s,a,r,s')\) in a replay buffer and train a Q-function from mini-batches.
 
@@ -626,9 +626,7 @@ $$
 - If there are \(N\) features, solving via a matrix inverse is typically \(O(N^3)\).
 - If data arrive sequentially, we can maintain \(A^{-1}\) incrementally using Sherman-Morrison updates, giving roughly \(O(N^2)\) per new sample.
 
-## Linear Least Squares Prediction Algorithms
-
-In the batch setting we want to fit a value function from stored experience. The catch is that we still do not observe the true values \(v_\pi(S_t)\). Instead, we build targets from experience (returns or TD-style bootstraps) and then solve for the parameters that best match those targets under a linear model. With linear approximation \(\hat{v}(s,w)=x(s)^\top w\), common batch targets are:
+**Linear Least Squares Prediction Algorithms.** In the batch setting we want to fit a value function from stored experience. The catch is that we still do not observe the true values \(v_\pi(S_t)\). Instead, we build targets from experience (returns or TD-style bootstraps) and then solve for the parameters that best match those targets under a linear model. With linear approximation \(\hat{v}(s,w)=x(s)^\top w\), common batch targets are:
 
 - **LSMC (Least-Squares Monte Carlo):** use returns,
 
@@ -650,9 +648,7 @@ $$
 
 In each case, the algorithm finds parameters \(w\) that satisfy the corresponding MC/TD fixed-point condition on the dataset.
 
-### Fixed-point equations and closed forms
-
-Assume a dataset of transitions \((S_t,R_{t+1},S_{t+1})\) for \(t=1,\dots,T\) and linear features \(x(S_t)\).
+**Fixed-point equations and closed forms.** Assume a dataset of transitions \((S_t,R_{t+1},S_{t+1})\) for \(t=1,\dots,T\) and linear features \(x(S_t)\).
 
 **LSMC.**
 
@@ -825,16 +821,16 @@ LSPI is the batch, least-squares analogue of policy iteration: it uses a fixed d
 
 **Algorithm (pseudocode).**
 
-    function LSPI(D, pi_0)
-        pi' <- pi_0
+    function LSPI(D, \pi_0)
+        \pi' <- \pi_0
         repeat
-            pi <- pi'
-            Q  <- LSTDQ(pi, D)            # policy evaluation on the fixed batch
+            \pi <- \pi'
+            Q  <- LSTDQ(\pi, D)            # policy evaluation on the fixed batch
             for all s in S do             # policy improvement
-                pi'(s) <- argmax_{a in A} Q(s,a)
+                \pi'(s) <- argmax_{a in A} Q(s,a)
             end for
-        until (pi approx pi')
-        return pi
+        until (\pi approx \pi')
+        return \pi
     end function
 
 **Notes.**
