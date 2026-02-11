@@ -299,9 +299,35 @@ $$
 for smooth solutions, and the inequality
 \(\eta(u)_t + q(u)_x \le 0\) for weak (entropy) solutions. This is discussed in great detail in chapter 2 (weak solutions) of this series.
 
+**In d-dimensional system**
+
+For a standard \(d\)-dimensional system of conservation laws, we get
+
+$$
+\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} f_i(u) = 0,
+$$
+
+where
+
+- \(u(t,x) \in \mathbb{R}^p\) is the vector of conserved variables,
+- for each spatial direction \(i = 1,\dots,d\),
+  \(f_i : D \subset \mathbb{R}^p \to \mathbb{R}^p\) is the flux in the
+  \(x_i\)-direction.
+
+In entropy terms the original system can be written as a scalar
+conservation law for \(\eta\), i.e.
+
+$$
+\frac{\partial}{\partial t}\eta(u) + \sum_{i=1}^d \frac{\partial}{\partial x_i} g_i(u) = 0,
+$$
+
+The equation above expresses exactly the condition that
+\(\eta,\{g_i\}\) form an entropy / entropy–flux pair compatible
+with the fluxes \(\{f_i\}\).
+
 ### Entropy variables and flux potential
 
-If we extend our analysis to systems (more than one conserved quantity), we can write \(u\) as a vector. We still have our conservation law for smooth solutions in entropy terms as
+We have our conservation law for smooth solutions in entropy terms as
 
 $$
 \eta(u)_t + q(u)_x = 0
@@ -342,6 +368,75 @@ Thus the entropy law can already be written as
 $$
 \eta(u)_t + v^\top f(u)_x = 0.
 $$
+
+**In d-dimensional system**
+
+Since, the entropy function \(\eta\) is strictly convex, the map
+
+$$
+u \;\longmapsto\; v(u) := \bigl(\nabla_{u}\eta(u)\bigr)^\top
+$$
+
+is one–to–one on the domain of interest.  Therefore there exists an inverse map
+
+$$
+\Psi : \mathbb{R}^p \to \mathbb{R}^p, \qquad \Psi(v) = u \quad\text{such that}\quad v = \bigl(\nabla_{u}\eta(u)\bigr)^\top.
+$$
+
+We can now re-express each physical flux \(f_i\) as a function of the entropy
+variables \(v\), by composition with the above function:
+
+$$
+g_i(v) := f_i\!\bigl(\Psi(v)\bigr), \qquad i = 1,\dots,d.
+$$
+
+We can now rewrite the conservation law in terms of entropy variables using the chain rule. As \(u\) depends on \(v\), we have
+
+$$
+\frac{\partial u}{\partial t} = \frac{\partial u}{\partial v} \frac{\partial v}{\partial t} = \nabla_{v}u(v)  \frac{\partial v}{\partial t}.
+$$
+
+Similarly, for each spatial coordinate \(x_i\),
+
+$$
+\frac{\partial}{\partial x_i}f_i(u) = \frac{\partial}{\partial x_i}g_i(v) = \nabla_{v}g_i(v)  \frac{\partial v}{\partial x_i}.
+$$
+
+Substitute these expressions into the conservation law:
+
+$$
+\begin{aligned}
+0 &= \frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i}f_i(u) \\
+0 &= \nabla_{v}u(v)  \frac{\partial v}{\partial t} + \sum_{i=1}^d \nabla_{v}g_i(v)  \frac{\partial v}{\partial x_i}.
+\end{aligned}
+$$
+
+Rearranging, we obtain the symmetrized form
+
+$$
+\nabla_{v}u(v)\frac{\partial v}{\partial t} + \sum_{i=1}^d \nabla_{v}g_i(v)\frac{\partial v}{\partial x_i} = 0.
+$$
+
+Using the inverse map \(\Psi\) introduced above, we can write
+
+$$
+u = \Psi(v),
+$$
+
+$$
+\nabla_{v}\Psi(v)\frac{\partial v}{\partial t} + \sum_{i=1}^d \nabla_{v}g_i(v)\frac{\partial v}{\partial x_i} = 0,
+$$
+
+where
+
+$$
+\nabla_{v}g_i(v) = \nabla_{v}\bigl(f_i(\Psi(v))\bigr) = \nabla_{u}f_i\bigl(\Psi(v)\bigr)\nabla_{v}\Psi(v).
+$$
+
+The above equation is the symmetric form of the original
+conservation law, written entirely in terms of the entropy variables
+\(v\) and the inverse map \(\Psi\).
+
 
 **Interface notation.**
 
@@ -537,8 +632,8 @@ Using \(\hat f_{i+\frac12}\) in our semi-discrete finite volume method, yields t
 semi-discrete scheme
 
 $$
-\frac{d}{dt}\bar{u}_i(t)
-  = -\frac{1}{\Delta x}
+\frac{d}{dt}\bar{u}_i(t) =
+   -\frac{1}{\Delta x}
     \bigl(\hat f_{i+\frac12} - \hat f_{i-\frac12}\bigr).
 $$
 
@@ -559,8 +654,8 @@ The first term is the same as before and equals
 boundary conditions.  Thus
 
 $$
-\frac{d}{dt}\sum_i \eta(\bar u_i)\Delta x
-  = -\frac12\sum_i [v]_{i+\frac12}^\top
+\frac{d}{dt}\sum_i \eta(\bar u_i)\Delta x = -
+   \frac12\sum_i [v]_{i+\frac12}^\top
                     D_{i+\frac12}[v]_{i+\frac12}
   \;\le\; 0,
 $$
@@ -569,19 +664,6 @@ because each quadratic form
 \([v]_{i+\frac12}^\top D_{i+\frac12}[v]_{i+\frac12}\) is nonnegative.
 Hence the total discrete entropy is nonincreasing in time, and the scheme
 is called entropy-stable.
-
-In practice, constructing an entropy-stable finite-volume scheme proceeds
-in two steps:
-
-1. Design an entropy-conservative flux \(f^{\mathrm{ec}}_{i+\frac12}\)
-   satisfying \eqref{eq:ec_condition};
-2. Add symmetric dissipation in the form \eqref{eq:es_flux} with a
-   suitable positive semidefinite matrix \(D_{i+\frac12}\)
-   (often related to the absolute value of the Jacobian \(f'(u)\)).
-
-The resulting method preserves the conservative structure of
-\eqref{eq:fv_numflux} while enforcing a discrete entropy inequality,
-providing nonlinear stability for the numerical solution.
 
 ### Entropy stable flux formulation
 
@@ -663,3 +745,93 @@ construction, i.e. it satisfies
 This is precisely the baseline flux needed in the discrete entropy condition, adding
 the symmetric dissipation term then yields an entropy-stable flux.
 
+## Guarantee entropy stablility and hyperbolicity in solution in d-dimensional case
+
+To guarantee entropy stable solution and hyperbolicity, the requirement that the flux Jacobian has real eigenvalues and
+a complete set of eigenvectors, is a property essential for well-posedness and wavepropagation dynamics. We can restrict the entropy to be convex by certain parameterization (for example parameterizing it as a input convex neural network)
+
+$$
+\eta_\theta : \mathbb{R}^p \to \mathbb{R},
+$$
+
+with parameters \(\theta\) so by construction \(\eta_\theta\) is convex in \(u\). Then the corresponding entropy variables
+
+$$
+v(u) := \bigl(\nabla_{u}\eta_\theta(u)\bigr)^\top.
+$$
+
+has its Hessian
+\(H_{u}\eta_\theta(u)\) as symmetric positive definite, so this map is
+again invertible (at least locally). Now we introduce a scalar potential function
+
+$$
+\phi_{\mu,i} : \mathbb{R}^p \to \mathbb{R},
+$$
+
+with parameters \(\mu\), and define the flux in entropy variables as the gradient of this potential:
+
+$$
+g_i(v) := \nabla_{v}\phi_{\mu,i}(v), \qquad i=1,\dots,d.
+$$
+
+Now we demand this to be symmetric in entropy variables
+\(v\), for this we would like the Jacobians
+
+$$
+\nabla_{v}g_i(v)
+$$
+
+to be symmetric matrices.  A very simple way to guarantee this is to
+represent each \(g_i\) as the gradient of the scalar potential
+\(\phi_{\mu,i}\), because then
+
+$$
+\nabla_{v}g_i(v) = \nabla_{v}\bigl(\nabla_{v}\phi_{\mu,i}(v)\bigr) = H_{v}\phi_{\mu,i}(v),
+$$
+
+which is automatically symmetric. So we are free to choose any parametric form for the flux
+\(g_i\); choosing it as a gradient \(\nabla_{v}\phi_{\mu,i}\) is
+a deliberate design choice that builds the desired symmetry (and hence
+hyperbolic structure) into the model.
+
+We now want a flux written directly in terms of the conserved variables
+\(u\).  Conceptually, we demand that the flux in entropy variables
+\(g_i\) and the flux in conserved variables \(f_i^{\theta,\mu}\) are
+related by
+
+$$
+g_i(v) = f_i^{\theta,\mu}\bigl(\Psi_\theta(v_{\theta}(u))\bigr), \qquad i = 1,\dots,d.
+$$
+
+Equivalently, if we start from a given \(u\), we compute
+\(v_\theta(u) = (\nabla_{u}\eta_\theta(u))^\top\) and plug
+this into \(g_i\).  This defines the parametric flux in conserved variables:
+
+$$
+f_i^{\theta,\mu}(u) := g_i\bigl(v_\theta(u)\bigr) = \left.\nabla_{v}\phi_{\mu,i}(v)\right|_{v = (\nabla_{u}\eta_\theta(u))^\top}.
+$$
+
+Remember, that this is only a definition: we have chosen a particular parametric form for
+the flux and the flux-potential function.
+Finally, we return to the original conservative form
+and replace the unknown fluxes \(f_i\) by the
+parametric fluxes \(f_i^{\theta,\mu}\). This gives
+
+$$
+\begin{aligned}
+\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} f_i^{\theta,\mu}(u) &= 0, \\
+\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} \nabla_{v}\phi_{\mu,i}\!\bigl(\nabla_{u}\eta_\theta(u)\bigr) &= 0.
+\end{aligned}
+$$
+
+$$
+\boxed{
+\frac{\partial u}{\partial t} +
+ \sum_{i=1}^d
+  \frac{\partial}{\partial x_i}
+  \underbrace{
+    \nabla_{v}\phi_{\mu,i}\!\bigl(\nabla_{u}\eta_\theta(u)\bigr)
+  }_{\displaystyle f_i^{\theta,\mu}(u)}
+= 0.
+}
+$$
