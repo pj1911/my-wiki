@@ -18,6 +18,7 @@ nav:
         - Neural network methods for partial differential equations:
           - 1 - Hamilton Jacobi Equation: Hamilton-Jacobi equations.md
           - 2 - Weak Solutions: Hyperbolic PDEs-1-weak solutions.md
+          - 3 - Entropy Stable and Hyperbolic solution: Hyperbolic PDEs-2-Conservation laws and entropy form.md
   - Reinforcement Learning:
       - 1 - Introduction: RL-1-Introduction.md
       - 2 - Markov Decision Processes: RL-2-Markov Decision Processes.md
