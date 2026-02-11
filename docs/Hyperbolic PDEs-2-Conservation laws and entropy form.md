@@ -830,3 +830,7 @@ $$
 = 0.
 }
 $$
+
+## References
+
+- Liu, L., Zhang, L., & Gelb, A. (2026). Parametric Hyperbolic Conservation Laws: A Unified Framework for Conservation, Entropy Stability, and Hyperbolicity. arXiv preprint arXiv:2601.21080.
