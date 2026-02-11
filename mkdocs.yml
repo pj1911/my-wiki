@@ -17,16 +17,16 @@ nav:
         - Fuzzy Inference Systems: Fuzzy Inference Systems.md
         - Neural network methods for partial differential equations:
           - 1 - Hamilton Jacobi Equation: Hamilton-Jacobi equations.md
-          - 2 - Weak Solutions: Hyperbolic PDEs-1-weak solutions.md
-          - 3 - Entropy Stable and Hyperbolic solution: Hyperbolic PDEs-2-Conservation laws and entropy form.md
+          - 2 - Weak solutions: Hyperbolic PDEs-1-weak solutions.md
+          - 3 - Entropy Stable and Hyperbolic Solutions: Hyperbolic PDEs-2-Conservation laws and entropy form.md
   - Reinforcement Learning:
       - 1 - Introduction: RL-1-Introduction.md
       - 2 - Markov Decision Processes: RL-2-Markov Decision Processes.md
       - 3 - Partially Observable MDP: RL-3-Partially Observable MDP.md
       - 4 - Planning with Dynamic Programming: RL-4-Planning with Dynamic Programming.md
-      - 5 - Model free prediction: RL-5-Model free prediction.md
-      - 6 - Model free Control: RL-6-Model free control.md
-      - 7 - Value function approximation: RL-7-Value function approximation.md
+      - 5 - Model Free Prediction: RL-5-Model free prediction.md
+      - 6 - Model Free Control: RL-6-Model free control.md
+      - 7 - Value Function Approximation: RL-7-Value function approximation.md
 
 markdown_extensions:
   - admonition
