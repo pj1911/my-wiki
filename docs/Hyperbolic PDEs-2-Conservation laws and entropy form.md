@@ -682,15 +682,14 @@ at each interface with
 \([v]_{i+\frac12} := v_{i+\frac12}^+ - v_{i+\frac12}^-\) and
 \([\phi(v)]_{i+\frac12} := \phi(v_{i+\frac12}^+) - \phi(v_{i+\frac12}^-)\).
 
-1. Start from a centered flux and add a correction.  
-   Take the arithmetic average of the physical fluxes
+We start from a centered flux and add a correction by taking the arithmetic average of the physical fluxes
 
 $$
 f^{\mathrm{c}}_{i+\frac12} :=
  \tfrac12\Big(f(u_{i+\frac12}^+)+f(u_{i+\frac12}^-)\Big),
 $$
 
-   and look for \(f^{\mathrm{ec}}_{i+\frac12}\) of the form
+and look for \(f^{\mathrm{ec}}_{i+\frac12}\) of the form
 
 $$
 f^{\mathrm{ec}}_{i+\frac12} =
@@ -698,16 +697,13 @@ f^{\mathrm{ec}}_{i+\frac12} =
     \alpha_{i+\frac12}[v]_{i+\frac12},
 $$
 
-   where \(\alpha_{i+\frac12}\) is a scalar to be determined.  
-   Only the component of the correction parallel to \([v]_{i+\frac12}\)
-   can change the scalar product
-   \([v]_{i+\frac12}^\top f^{\mathrm{ec}}_{i+\frac12}\), so this is the
-   minimal modification needed to enforce the entropy condition.
+where \(\alpha_{i+\frac12}\) is a scalar to be determined.  
+Only the component of the correction parallel to \([v]_{i+\frac12}\)
+can change the scalar product
+\([v]_{i+\frac12}^\top f^{\mathrm{ec}}_{i+\frac12}\), so this is the
+minimal modification needed to enforce the entropy condition.
 
-2. Impose the discrete entropy condition.  
-   Plug the ansatz into
-   \([v]_{i+\frac12}^\top f^{\mathrm{ec}}_{i+\frac12} =
-      [\phi(v)]_{i+\frac12}\):
+Now we impose the discrete entropy condition and plug the ansatz into \([v]_{i+\frac12}^\top f^{\mathrm{ec}}_{i+\frac12} = [\phi(v)]_{i+\frac12}\):
 
 $$
 [v]_{i+\frac12}^\top f^{\mathrm{c}}_{i+\frac12} +
@@ -715,7 +711,7 @@ $$
  [\phi(v)]_{i+\frac12}.
 $$
 
-   Hence
+Hence
 
 $$
 \alpha_{i+\frac12}= \frac{[\phi(v)]_{i+\frac12} -
@@ -723,8 +719,7 @@ $$
         {\|[v]_{i+\frac12}\|_2^2}.
 $$
 
-3. Insert \(\alpha_{i+\frac12}\) back into the flux.  
-   Using the expression for \(f^{\mathrm{c}}_{i+\frac12}\), we obtain
+Insert \(\alpha_{i+\frac12}\) back into the flux. Using the expression for \(f^{\mathrm{c}}_{i+\frac12}\), we obtain
 
 $$
 f^{\mathrm{ec}}_{i+\frac12} =
