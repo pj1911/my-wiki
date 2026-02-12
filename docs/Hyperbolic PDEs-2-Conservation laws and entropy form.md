@@ -740,6 +740,68 @@ construction, i.e. it satisfies
 This is precisely the baseline flux needed in the discrete entropy condition, adding
 the symmetric dissipation term then yields an entropy-stable flux.
 
+### Rusanov-type entropy-stable flux
+
+Consider a hyperbolic system
+
+$$
+u_t + f(u)_x = 0.
+$$
+
+The classical Rusanov (local Lax--Friedrichs) numerical flux can be written as a central flux plus a scalar dissipation proportional to the state jump,
+
+$$
+f^{\mathrm{Rus}}(u^-,u^+) = \frac{f(u^-)+f(u^+)}{2} - \frac{1}{2}\,\lambda^{\max}\,(u^+-u^-),
+$$
+
+where \(\lambda^{\max}\) is a local estimate of the largest characteristic speed (typically the spectral radius of the flux Jacobian).
+
+To obtain entropy stability, we mimic this structure but add dissipation in the direction of the entropy--variable jump. This yields a Rusanov--type (local Lax--Friedrichs) entropy--stable flux
+
+$$
+\tilde f_{i+1/2}^{\theta,\mu} = f_{i+1/2}^{\theta,\mu,ec} - \frac{1}{2}\,\lambda^{\max}_{i+1/2}
+  \Big( H_u \eta_\theta(\bar u_{i+1/2}) \Big)^{-1}
+  \Big(
+    \nabla_u \eta_\theta(u_{i+1/2}^+) -
+     \nabla_u \eta_\theta(u_{i+1/2}^-)
+  \Big).
+$$
+
+Here \(\bar u_{i+1/2}\) denotes a suitable average state (e.g., the arithmetic mean of \(u_{i+1/2}^-\) and \(u_{i+1/2}^+\)). Defining the diffusion matrix
+
+$$
+D_{i+1/2} :=
+ \lambda^{\max}_{i+1/2}
+   \Big( H_u \eta_\theta(\bar u_{i+1/2}) \Big)^{-1},
+$$
+
+the added term is of local Lax-Friedrichs type: a scalar maximum wave speed \(\lambda^{\max}_{i+1/2}\) multiplied by a (symmetric) positive semidefinite diffusion operator acting on the entropy-variable jump. Indeed, \(H_u\eta_\theta(\bar u_{i+1/2})\) is symmetric positive definite, and \(\lambda^{\max}_{i+1/2}\ge 0\), hence \(D_{i+1/2}\) is symmetric positive semidefinite.
+
+The local maximum wave speed is chosen as the spectral radius
+
+$$
+\lambda^{\max}_{i+1/2} = \rho\!\big( B^{1/2} A B^{1/2} \big), \qquad
+A = H_v \varphi_\mu(\bar v_{i+1/2}),\quad
+B = H_u \eta_\theta(\bar u_{i+1/2}),
+$$
+
+where \(\rho(M)\) denotes the spectral radius of a square matrix \(M\),
+
+$$
+\rho(M) := \max\{\,|\lambda| : \lambda \in \sigma(M)\,\},
+$$
+
+with \(\sigma(M)\) the set of eigenvalues of \(M\), \(\bar v_{i+1/2} = \nabla_u\eta_\theta(\bar u_{i+1/2})^\top\).
+Since \(B^{1/2} A B^{1/2}\) is symmetric, its eigenvalues are real, and
+\(\lambda^{\max}_{i+1/2}\) provides a local approximation of the largest characteristic speed of the learned hyperbolic system. Consequently, \(\tilde f_{i+1/2}^{\theta,\mu}\) reduces to the entropy--conservative flux in smooth regions (when jumps are small) and adds the minimal upwind diffusion aligned with
+
+$$
+[[\nabla_u\eta_\theta(u)]]_{i+1/2}
+$$
+
+needed to enforce the discrete entropy inequality.
+
+
 ## Guarantee entropy stablility and hyperbolicity in solution in d-dimensional case
 
 To guarantee entropy stable solution and hyperbolicity, the requirement that the flux Jacobian has real eigenvalues and
@@ -814,8 +876,7 @@ parametric fluxes \(f_i^{\theta,\mu}\). This gives
 
 $$
 \begin{aligned}
-\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} f_i^{\theta,\mu}(u) &= 0, \\
-\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} \nabla_{v}\phi_{\mu,i}\!\bigl(\nabla_{u}\eta_\theta(u)\bigr) &= 0.
+\frac{\partial u}{\partial t} + \sum_{i=1}^d \frac{\partial}{\partial x_i} f_i^{\theta,\mu}(u) &= 0,
 \end{aligned}
 $$
 
@@ -830,6 +891,20 @@ $$
 = 0.
 }
 $$
+
+**Hyperbolicity by construction.**
+
+The flux Jacobian in direction \(i\) is
+
+$$
+\nabla_u f_i^{\theta,\mu}(u) = H_v \phi_{\mu,i}(v)\, H_u \eta_\theta(u) =: A_i B,
+$$
+
+where \(A_i\) is symmetric and \(B\) is symmetric positive definite.
+The product \(A_i B\) is similar to the symmetric matrix
+\(B^{1/2} A_i B^{1/2}\), hence has real eigenvalues and a complete set
+of eigenvectors. Therefore the system is hyperbolic, with
+\(\eta_\theta\) serving as a strictly convex entropy.
 
 ## References
 
