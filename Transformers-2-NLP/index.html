@@ -1,0 +1,2580 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Transformers-1-Introduction/">
+      
+      
+        <link rel="next" href="../Transformers-3-LLMs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>2 – Natural Language Processing - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#natural-language-processing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 – Natural Language Processing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#word-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word embedding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Word embedding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methods-for-learning-word2vec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods for learning: Word2vec
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods for learning: Word2vec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cbow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CBOW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skip-gram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokenization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bag-of-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bag of words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoregressive-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autoregressive models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoregressive models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#n-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n-gram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hmm-for-a-word-sequence-n-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HMM for a word sequence (n-gram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recurrent-neural-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recurrent neural networks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backpropagation-through-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backpropagation through time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backpropagation through time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-range-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long range dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#word-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Word embedding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Word embedding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methods-for-learning-word2vec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods for learning: Word2vec
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods for learning: Word2vec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cbow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CBOW
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skip-gram
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokenization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bag-of-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bag of words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoregressive-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autoregressive models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoregressive models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#n-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n-gram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hmm-for-a-word-sequence-n-gram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HMM for a word sequence (n-gram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recurrent-neural-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recurrent neural networks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backpropagation-through-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backpropagation through time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backpropagation through time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-range-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long range dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="natural-language-processing">Natural Language Processing</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Transformers can process language data made of words, sentences, and paragraphs. They were first developed for text, but are now state-of-the-art models for many other kinds of input data. Many languages, such as English, are sequences of words separated by white space, together with punctuation symbols making them sequential data. For now we focus only on the words and ignore punctuation.</p>
+<p><strong>Representation.</strong> To use words in a deep neural network, we must first turn each word into numbers. A simple method is to choose a fixed dictionary (vocabulary) of words and represent each word by a vector whose length equals the dictionary size. We then use a one-hot representation: the <span class="arithmatex">\(\,k\,\)</span>th word in the dictionary has a vector with a 1 in position <span class="arithmatex">\(k\)</span> and 0 in all other positions. For example, if aardwolf is the third word in the dictionary, its vector is <span class="arithmatex">\((0, 0, 1, 0, \ldots, 0)\)</span>.</p>
+<p><strong>Two issues.</strong> This one-hot scheme has two main problems. First, a realistic dictionary may have several hundred thousand words, so the vectors are very high dimensional. Second, these vectors do not express any similarity or relationship between words. </p>
+<h2 id="word-embedding">Word embedding</h2>
+<p>We address both the above issues using word embeddings, which map each word into a dense vector in a lower-dimensional space, typically of a few hundred dimensions. The embedding process uses a matrix <span class="arithmatex">\(\mathbf{E}\)</span> of size <span class="arithmatex">\(D \times K\)</span>, where <span class="arithmatex">\(D\)</span>
+is the dimensionality of the embedding space and <span class="arithmatex">\(K\)</span> is the size of the
+dictionary. For each one-hot encoded input vector <span class="arithmatex">\(\mathbf{x}_n\)</span> of shape <span class="arithmatex">\(K \times 1\)</span>, we compute the
+embedding vector as:</p>
+<div class="arithmatex">\[
+\mathbf{v}_n = \mathbf{E}\mathbf{x}_n .
+\]</div>
+<p>Here, <span class="arithmatex">\(\mathbf{v}_n \in \mathbb{R}^D\)</span> is the dense embedding (or distributed representation) of the <span class="arithmatex">\(n\)</span>-th word in the vocabulary. In particular, words that appear in similar contexts in the corpus tend to have embedding vectors that are close to each other in this <span class="arithmatex">\(D\)</span>-dimensional space, so geometric relationships between vectors reflect semantic similarity. Because <span class="arithmatex">\(\mathbf{x}_n\)</span> is one-hot, <span class="arithmatex">\(\mathbf{v}_n\)</span> of shape <span class="arithmatex">\(D \times 1\)</span> is simply the corresponding
+column of <span class="arithmatex">\(\mathbf{E}\)</span>. We learn this <span class="arithmatex">\(\mathbf{E}\)</span> from a corpus (a large data set) of text.</p>
+<h3 id="methods-for-learning-word2vec">Methods for learning: Word2vec</h3>
+<p>A simple two-layer neural network. The training set is built by taking a
+``window'' of <span class="arithmatex">\(M\)</span> adjacent words in the text, with a typical value <span class="arithmatex">\(M = 5\)</span>.
+Each window gives one training sample. The samples are treated as independent,
+and the overall error is the sum of the error terms for all samples.</p>
+<p>There are two variants. In <em>continuous bag of words</em> (CBOW), the target to
+be predicted is the middle word, and the remaining <em>context</em> words are the
+inputs, so the network is trained to 'fill in the blank'. In the
+<em>skip-gram</em> model, the roles are reversed: the centre word is the input and
+the context words are the targets.</p>
+<p>This training can be viewed as <em>self-supervised</em> learning. The data is a
+large corpus of unlabelled text, from which many small windows of word
+sequences are sampled at random. The labels come from the text itself by
+masking the word whose value the network should predict. After training, the embedding matrix <span class="arithmatex">\(\mathbf{E}\)</span> is obtained from the network
+weights: it is the transpose of the second-layer weight matrix for the CBOW
+model, and the first-layer weight matrix for the skip-gram model. Here is a compact derivation for both CBOW and skip-gram.</p>
+<p><strong>Embedding matrix in CBOW and Skip gram</strong></p>
+<p><strong>Setup</strong></p>
+<p>Let</p>
+<ul>
+<li><span class="arithmatex">\(K\)</span> = vocabulary size,</li>
+<li><span class="arithmatex">\(D\)</span> = embedding dimension,</li>
+<li><span class="arithmatex">\(\mathbf{x}(w) \in \mathbb{R}^K\)</span> = one-hot input vector for word <span class="arithmatex">\(w\)</span>,</li>
+<li><span class="arithmatex">\(\mathbf{E} \in \mathbb{R}^{D \times K}\)</span> = embedding matrix,</li>
+<li><span class="arithmatex">\(\mathbf{v}(w) = \mathbf{E}\,\mathbf{x}(w)\)</span> = embedding of word <span class="arithmatex">\(w\)</span> (a column of <span class="arithmatex">\(\mathbf{E}\)</span>).</li>
+</ul>
+<h4 id="cbow">CBOW</h4>
+<p>We predict a target word <span class="arithmatex">\(w_t\)</span> from its <span class="arithmatex">\(M\)</span> context words.</p>
+<p><strong>Architecture</strong></p>
+<p>(i) <strong>First layer (input <span class="arithmatex">\(\to\)</span> hidden).</strong></p>
+<p>Weight matrix <span class="arithmatex">\(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\)</span>. For one context word <span class="arithmatex">\(w\)</span>,</p>
+<div class="arithmatex">\[
+\mathbf{h}(w) = \mathbf{W}^{(1)} \mathbf{x}(w).
+\]</div>
+<p>For a window of <span class="arithmatex">\(M\)</span> context words <span class="arithmatex">\(w_1,\dots,w_M\)</span>, CBOW uses the average</p>
+<div class="arithmatex">\[
+\mathbf{h} = \frac{1}{M} \sum_{i=1}^M \mathbf{W}^{(1)} \mathbf{x}(w_i).
+\]</div>
+<p>(ii) <strong>Second layer (hidden <span class="arithmatex">\(\to\)</span> output).</strong></p>
+<p>Weight matrix <span class="arithmatex">\(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\)</span>. Let <span class="arithmatex">\(\mathbf{w}^{(2)}_k{}^{\!\top}\)</span> be the <span class="arithmatex">\(k\)</span>th row of <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>.
+   The logit for predicting word <span class="arithmatex">\(k\)</span> is</p>
+<div class="arithmatex">\[
+z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
+\]</div>
+<p>and the output distribution is</p>
+<div class="arithmatex">\[
+p(k \mid \text{context}) =
+  \frac{\exp(z_k)}{\sum_{j=1}^K \exp(z_j)}.
+\]</div>
+<p>Training adjusts <span class="arithmatex">\(\mathbf{W}^{(1)}\)</span> and <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span> so that the true
+target word <span class="arithmatex">\(t\)</span> has high probability.</p>
+<p><strong>Where is the embedding matrix?</strong></p>
+<p>In CBOW we have a hidden vector <span class="arithmatex">\(\mathbf{h}\)</span> that summarizes the <em>context</em>
+words. From this context we must decide which vocabulary word best fills the
+blank (the <em>target</em> word). For each possible target word <span class="arithmatex">\(k\)</span> we therefore want a score that says
+“how well does word <span class="arithmatex">\(k\)</span> fit this context?  or a similarity measure”. A simple way to get such a similarity measure is to compute a dot product between a vector for the context, <span class="arithmatex">\(\mathbf{h}\)</span>, and a vector attached to word <span class="arithmatex">\(k\)</span>, call it <span class="arithmatex">\(\mathbf{v}(k)\)</span>.</p>
+<p>So conceptually we want</p>
+<div class="arithmatex">\[
+z_k = \mathbf{v}(k)^\top \mathbf{h}.
+\]</div>
+<p>Now look at what the network actually does. The last linear layer has weights
+<span class="arithmatex">\(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\)</span> and computes</p>
+<div class="arithmatex">\[
+z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{w}^{(2)}_k{}^{\!\top}\)</span> is the <span class="arithmatex">\(k\)</span>th row of <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>.</p>
+<p>Compare the two expressions for <span class="arithmatex">\(z_k\)</span>. They will be identical for all <span class="arithmatex">\(\mathbf{h}\)</span> if we simply <em>define</em></p>
+<div class="arithmatex">\[
+\mathbf{v}(k) = \mathbf{w}^{(2)}_k .
+\]</div>
+<p>Thus the word vector for word <span class="arithmatex">\(k\)</span> is exactly the <span class="arithmatex">\(k\)</span>th row of
+<span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>. If we stack these word vectors as columns we obtain the
+embedding matrix</p>
+<div class="arithmatex">\[
+\mathbf{E} =
+\begin{bmatrix}
+\mathbf{v}(1) &amp; \cdots &amp; \mathbf{v}(K)
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf{w}^{(2)}_1 &amp; \cdots &amp; \mathbf{w}^{(2)}_K
+\end{bmatrix}
+= \mathbf{W}^{(2)\top}.
+\]</div>
+<p>So in CBOW the “learned embeddings” are
+the parameters of the output layer that connect the context representation
+<span class="arithmatex">\(\mathbf{h}\)</span> to each possible target word.</p>
+<h4 id="skip-gram">Skip-gram</h4>
+<p>Lets assume we have a corpus <span class="arithmatex">\(w_1, w_2, \dots, w_T\)</span>. At each position <span class="arithmatex">\(t\)</span> we treat <span class="arithmatex">\(w_t\)</span> as
+the <em>centre</em> word. With window size <span class="arithmatex">\(M\)</span> (e.g.<span class="arithmatex">\(M=5\)</span>), the <em>context</em>
+of <span class="arithmatex">\(w_t\)</span> is</p>
+<div class="arithmatex">\[
+w_{t+j} \quad \text{for} \quad j \in \{-M,\dots,-1,1,\dots,M\},
+\]</div>
+<p>restricted to indices in <span class="arithmatex">\(\{1,\dots,T\}\)</span>. For each valid <span class="arithmatex">\(j\)</span> we form a training
+pair</p>
+<div class="arithmatex">\[
+(\text{input } w_t,\; \text{target } w_{t+j}),
+\]</div>
+<p>using all such pairs or a random subset we perform the following operations.</p>
+<p><strong>Architecture</strong></p>
+<p>(i) <strong>First layer (input <span class="arithmatex">\(\to\)</span> hidden).</strong></p>
+<p>Weight matrix <span class="arithmatex">\(\mathbf{W}^{(1)} \in \mathbb{R}^{D \times K}\)</span>.</p>
+<p>Input is the one-hot vector <span class="arithmatex">\(\mathbf{x}(w_t)\)</span> with shape <span class="arithmatex">\(K \times 1\)</span> for the centre word <span class="arithmatex">\(w_t\)</span>.
+   The hidden vector for the input (center) word is given by:</p>
+<div class="arithmatex">\[
+\mathbf{h} = \mathbf{W}^{(1)} \mathbf{x}(w_t).
+\]</div>
+<p>Because <span class="arithmatex">\(\mathbf{x}(w_t)\)</span> has a single 1 and all zeros, <span class="arithmatex">\(\mathbf{h}\)</span> is the <span class="arithmatex">\(t\)</span>-th column
+   of <span class="arithmatex">\(\mathbf{W}^{(1)}\)</span> and has the shape <span class="arithmatex">\(D \times 1\)</span>. This give a <span class="arithmatex">\(D\)</span> dimensional representation vector for the input word.</p>
+<p>(ii) <strong>Second layer (hidden <span class="arithmatex">\(\to\)</span> output).</strong></p>
+<p>Weight matrix <span class="arithmatex">\(\mathbf{W}^{(2)} \in \mathbb{R}^{K \times D}\)</span>.</p>
+<p>For all context position <span class="arithmatex">\(j\)</span> we use the same hidden vector
+   <span class="arithmatex">\(\mathbf{h} \in \mathbb{R}^D\)</span> and the same <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>. Let
+   <span class="arithmatex">\(\mathbf{w}^{(2)}_k{}^{\!\top}\)</span> be the <span class="arithmatex">\(k\)</span>th row of <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>,
+   so <span class="arithmatex">\(\mathbf{w}^{(2)}_k \in \mathbb{R}^D\)</span> is a feature vector for
+   candidate word <span class="arithmatex">\(k\)</span>. The logit (a scalar) is</p>
+<div class="arithmatex">\[
+z_k = \mathbf{w}^{(2)}_k{}^{\!\top} \mathbf{h},
+\]</div>
+<p>We compute their dot product, so if these two vectors point in a similar direction (high similarity in context),
+   <span class="arithmatex">\(z_k\)</span> is large and word <span class="arithmatex">\(k\)</span> becomes more likely, given the center or target word.</p>
+<p>Collecting all <span class="arithmatex">\(z_k\)</span> into <span class="arithmatex">\(\mathbf{z} \in \mathbb{R}^K\)</span> gives a single
+   distribution</p>
+<div class="arithmatex">\[
+p(k \mid w_t) = \text{softmax}_k(\mathbf{z}),
+\]</div>
+<p>which depends only on the centre word <span class="arithmatex">\(w_t\)</span>. Each context position <span class="arithmatex">\(j\)</span>
+   uses this same distribution but has its own target label <span class="arithmatex">\(w_{t+j}\)</span>.</p>
+<p>Training adjusts <span class="arithmatex">\(\mathbf{W}^{(1)}\)</span> and <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span> so that, for every
+pair <span class="arithmatex">\((w_t, w_{t+j})\)</span> with
+<span class="arithmatex">\(j \in \{-M,\dots,-1,1,\dots,M\}\)</span>, the probability <span class="arithmatex">\(p(k \mid w_t)\)</span> is high
+when <span class="arithmatex">\(k\)</span> is the index of the true context word <span class="arithmatex">\(w_{t+j}\)</span>. Thus the model learns
+a distribution <span class="arithmatex">\(p(\cdot \mid w_t)\)</span> that places high mass on all typical
+neighbours of <span class="arithmatex">\(w_t\)</span>.</p>
+<p><strong>What skip-gram actually models</strong></p>
+<p>Skip-gram does <em>not</em> model</p>
+<div class="arithmatex">\[
+p(w_{t+j} \mid w_t, j).
+\]</div>
+<p>It models</p>
+<div class="arithmatex">\[
+p(c \mid w_t),
+\]</div>
+<p>where <span class="arithmatex">\(c\)</span> is any word appearing within the window around <span class="arithmatex">\(w_t\)</span>. For each centre
+position <span class="arithmatex">\(t\)</span> and each valid offset <span class="arithmatex">\(j \neq 0\)</span> we create an independent pair</p>
+<div class="arithmatex">\[
+(\text{input} = w_t,\; \text{target} = w_{t+j}).
+\]</div>
+<p><strong>Why this still learns useful embeddings</strong></p>
+<p>For a fixed centre word <span class="arithmatex">\(w_t\)</span>, the model sees many targets <span class="arithmatex">\(w_{t+j}\)</span> sampled
+from words that tend to occur near <span class="arithmatex">\(w_t\)</span>. Gradients move the centre embedding <span class="arithmatex">\(\mathbf{v}(w_t)\)</span> closer (dot product)
+to the output vectors of these neighbours. If two words <span class="arithmatex">\(w\)</span> and <span class="arithmatex">\(w'\)</span> share similar sets of neighbours, they receive
+similar updates and end up with similar embeddings.</p>
+<p>Note that, the model does not answer “what word is at offset <span class="arithmatex">\(j=-2\)</span>?”. It answers “which
+words are likely to appear near this centre word?”. Skip-gram is built to learn
+from co-occurrence patterns, not exact positions.</p>
+<p><strong>Why the same distribution for all <span class="arithmatex">\(j\)</span> is reasonable</strong></p>
+<p>Using the same <span class="arithmatex">\(\mathbf{h}\)</span> and <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span> for all <span class="arithmatex">\(j\)</span> means</p>
+<div class="arithmatex">\[
+p(\cdot \mid w_t) \text{ is the same for every context position.}
+\]</div>
+<p>This matches the modelling choice: the <span class="arithmatex">\(M\)</span> context positions are treated as an
+unordered bag of neighbours. Distance information is discarded; the goal is to
+capture “which words tend to co-occur”, not “where they appear”.</p>
+<p><strong>Where is the embedding matrix now?</strong></p>
+<p>In skip-gram the network only represents the input word <span class="arithmatex">\(w_t\)</span> by the hidden
+vector <span class="arithmatex">\(\mathbf{h}\)</span>. Thus we define the embedding of <span class="arithmatex">\(w_t\)</span> as</p>
+<div class="arithmatex">\[
+\mathbf{v}(w_t) = \mathbf{h}.
+\]</div>
+<p>The first layer is linear, with weights <span class="arithmatex">\(\mathbf{W}^{(1)} \in \mathbb{R}^{D
+\times K}\)</span> and one-hot input <span class="arithmatex">\(\mathbf{x}(w_t)\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{h} = \mathbf{W}^{(1)} \mathbf{x}(w_t).
+\]</div>
+<p>Since <span class="arithmatex">\(\mathbf{x}(w_t)\)</span> has a single 1 at position <span class="arithmatex">\(t\)</span>,</p>
+<div class="arithmatex">\[
+\mathbf{h} = \mathbf{W}^{(1)}_{:,t},
+\]</div>
+<p>so</p>
+<div class="arithmatex">\[
+\mathbf{v}(w_t) = \mathbf{W}^{(1)}_{:,t},
+\]</div>
+<p>and all word embeddings are the columns of <span class="arithmatex">\(\mathbf{W}^{(1)}\)</span>. Therefore</p>
+<div class="arithmatex">\[
+\mathbf{E} = \mathbf{W}^{(1)}.
+\]</div>
+<p><strong>Summary</strong></p>
+<ul>
+<li>
+<p>In CBOW, the embedding of a <em>predicted</em> word <span class="arithmatex">\(k\)</span> is the vector used
+  to score that word at the output. Those vectors are the rows of
+  <span class="arithmatex">\(\mathbf{W}^{(2)}\)</span>, so
+  <span class="arithmatex">\(\mathbf{E} = \mathbf{W}^{(2)\top}\)</span>.</p>
+</li>
+<li>
+<p>In skip-gram, the embedding of an <em>input</em> word <span class="arithmatex">\(k\)</span> is the hidden
+  vector produced by its one-hot input. Those vectors are the columns of
+  <span class="arithmatex">\(\mathbf{W}^{(1)}\)</span>, so
+  <span class="arithmatex">\(\mathbf{E} = \mathbf{W}^{(1)}\)</span>.</p>
+</li>
+</ul>
+<p>Words that
+are semantically related are mapped to nearby positions in the embedding space.
+This happens because related words tend to occur with similar context words
+more often than unrelated words. For example, the words 'city' and
+'capital' appear more often as context for target words such as 'Paris' or
+'London' than for 'orange' or 'polynomial'. The network can then more
+easily predict the missing words if 'Paris' and 'London' are mapped to
+nearby embedding vectors.</p>
+<p>The learned embedding space often has richer semantic structure than simple
+closeness of related words, and it supports simple vector arithmetic. For
+example, the relation 'Paris is to France as Rome is to Italy' can be
+expressed in terms of embedding vectors. Writing <span class="arithmatex">\(\mathbf{v}(\text{word})\)</span> for
+the embedding of <em>word</em>, we find</p>
+<div class="arithmatex">\[
+\mathbf{v}(\text{Paris}) - \mathbf{v}(\text{France})
++ \mathbf{v}(\text{Italy}) \simeq \mathbf{v}(\text{Rome})
+\]</div>
+<p>Word embeddings were first developed as stand-alone tools for natural language
+processing. Today they are more often used as pre-processing steps for deep
+neural networks, and can be viewed as the first layer of such a network. The
+embedding matrix may be fixed, using some standard pre-trained embeddings, or
+treated as an adaptive layer that is learned during end-to-end training of the
+whole system. In the adaptive case, the embedding layer can be initialized with
+random weights or with a standard pre-trained embedding matrix.</p>
+<h2 id="tokenization">Tokenization</h2>
+<p>A fixed dictionary of whole words has problems. It cannot handle unseen or
+misspelled words, and it ignores punctuation and other character sequences such
+as computer code.</p>
+<p>A pure character-level approach fixes these issues by defining the dictionary as
+all characters: upper- and lower-case letters, digits, punctuation, and white-space
+symbols such as spaces and tabs. But this approach throws away explicit word
+structure. The neural network must then learn words from raw characters, and the
+sequence becomes much longer, increasing computation.</p>
+<p>We can combine the advantages of word- and character-level views by adding a
+pre-processing step called <em>tokenization</em>. This converts the original string of
+words and punctuation symbols into a string of <em>tokens</em>. Tokens are short
+character sequences. They may be complete common words, fragments of longer
+words, or even individual characters, which can be combined to represent rare
+words. Tokenization naturally handles punctuation,
+computer code, and other symbol sequences. It can also extend to other modalities
+such as images. Variants of the same word can share tokens: for example,
+'cook', 'cooks', 'cooked', 'cooking', and 'cooker' can all include the token
+'cook', so their representations are related.</p>
+<p>There are many tokenization methods. One important example is byte pair
+encoding (BPE), originally used for data compression and adapted to text by
+merging characters instead of bytes. The
+procedure is:</p>
+<ol>
+<li>Start with a token list that contains all individual characters.</li>
+<li>In a large text corpus, find the most frequent adjacent pair of tokens.</li>
+<li>Replace each occurrence of this pair with a new, single token.</li>
+<li>To avoid merging across word boundaries, do not create a new token from
+   a pair if the second token begins with a white-space character.</li>
+<li>Repeat the merge steps</li>
+</ol>
+<p>Initially, the number of tokens in the vocabulary equals the number of distinct
+characters, which is small. As merges are applied, the vocabulary size grows.
+If we continue long enough, the tokens approach whole words. In practice, we
+fix a maximum vocabulary size in advance as a compromise between character-
+level and word-level representations and stop the algorithm when this size is
+reached.</p>
+<p>In most deep learning applications to natural language, input text is first mapped
+to a tokenized sequence. However, for the rest of this chapter we will use
+word-level representations because they make the main ideas easier to present.</p>
+<h2 id="bag-of-words">Bag of words</h2>
+<p>The task is to calculate the likelihood (probability) of a specific sequence of words occurring. We now model the joint distribution <span class="arithmatex">\(p(\mathbf{x}_1,\ldots,\mathbf{x}_N)\)</span> of this
+ordered sequence of vectors (words/ token in our case). The simplest
+assumption is that all words are drawn independently from the same
+distribution (ignoring the order). Then</p>
+<div class="arithmatex">\[
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \prod_{n=1}^N p(\mathbf{x}_n)
+\]</div>
+<p>The distribution <span class="arithmatex">\(p(\mathbf{x})\)</span> is the same for all positions or tokens and can be
+represented as a table of probabilities over the dictionary of words or tokens where each word or token has a fixed probability independent of its position.
+The maximum-likelihood estimate simply sets each table entry equal to the
+fraction of times that word occurs in the training set. This is called a
+bag of words model because it ignores word order completely.</p>
+<p>We can use the bag-of-words idea to build a simple text classifier. For
+instance, in sentiment analysis a review is classified as positive or negative.
+The naive Bayes classifier assumes that, within each class <span class="arithmatex">\(C_k\)</span>, the
+words are independent, but that each class has its own distribution. Thus</p>
+<div class="arithmatex">\[
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)
+= \prod_{n=1}^N p(\mathbf{x}_n \mid C_k)
+\]</div>
+<p>Now apply Bayes’ rule to get the posterior over the class:</p>
+<div class="arithmatex">\[
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \frac{p(\mathbf{x}_1,\ldots,\mathbf{x}_N \mid C_k)\,p(C_k)}
+       {p(\mathbf{x}_1,\ldots,\mathbf{x}_N)}.
+\]</div>
+<p>Substitute the likelihood:</p>
+<div class="arithmatex">\[
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \frac{\Bigl[\prod_{n=1}^N p(\mathbf{x}_n \mid C_k)\Bigr]\,p(C_k)}
+       {p(\mathbf{x}_1,\ldots,\mathbf{x}_N)}.
+\]</div>
+<p>The denominator</p>
+<div class="arithmatex">\[
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+\]</div>
+<p>does not depend on <span class="arithmatex">\(k\)</span> (it is the same for all classes), so when we compare or
+normalize over <span class="arithmatex">\(k\)</span> we can treat it as a constant. Therefore we write</p>
+<div class="arithmatex">\[
+p(C_k \mid \mathbf{x}_1,\ldots,\mathbf{x}_N)
+\propto p(C_k)\prod_{n=1}^N p(\mathbf{x}_n \mid C_k),
+\]</div>
+<p>Both the class-conditional distributions <span class="arithmatex">\(p(\mathbf{x}\mid C_k)\)</span> and the priors
+<span class="arithmatex">\(p(C_k)\)</span> can be estimated from training frequencies. For a new sequence, we
+multiply the corresponding table entries to obtain posterior scores. If a word
+appears in the test set but never appeared in the training set for a given
+class, then its estimated probability for that class is zero, and the whole
+product becomes zero. To avoid this, the probability tables are usually
+smoothed after training by adding a small amount of probability
+uniformly across all entries so that no entry is exactly zero.</p>
+<h2 id="autoregressive-models">Autoregressive models</h2>
+<p>A major limitation of the bag-of-words model is that it ignores word order. To
+include order we use an <em>autoregressive</em> factorization. Without loss of
+generality we can write the joint distribution over a sequence as</p>
+<div class="arithmatex">\[
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= \prod_{n=1}^N p(\mathbf{x}_n \mid \mathbf{x}_1,\ldots,\mathbf{x}_{n-1})
+\]</div>
+<p>Each conditional <span class="arithmatex">\(p(\mathbf{x}_n \mid \mathbf{x}_1,\ldots,\mathbf{x}_{n-1})\)</span> could
+be stored as a table whose entries are estimated from frequency counts in the
+training corpus. But the size of these tables grows exponentially with the
+sequence length, so this direct approach is not feasible. Let us try to prove this in the following setup.</p>
+<p><strong>Setup</strong></p>
+<p>Assume a vocabulary of size <span class="arithmatex">\(K\)</span> (number of distinct words or tokens), a sequence length <span class="arithmatex">\(N\)</span> and each <span class="arithmatex">\(x_i\)</span> being a discrete random variable taking one of these <span class="arithmatex">\(K\)</span> values:</p>
+<div class="arithmatex">\[
+x_i \in \{1,2,\ldots,K\}.
+\]</div>
+<p>The full autoregressive factorization is</p>
+<div class="arithmatex">\[
+p(x_1,\ldots,x_N) = \prod_{n=1}^N p(x_n \mid x_1,\ldots,x_{n-1}).
+\]</div>
+<p>We want to store each conditional <span class="arithmatex">\(p(x_n \mid x_1,\ldots,x_{n-1})\)</span> in a table.
+Here we are counting how many model parameters (independent
+probability values) are needed to specify this conditional distribution. Consider a specific position <span class="arithmatex">\(n\)</span> and let us count how big that parameter table
+must be.</p>
+<p><strong>1. Counting possible histories <span class="arithmatex">\((x_1,\ldots,x_{n-1})\)</span>.</strong></p>
+<p>A <em>history</em> for position <span class="arithmatex">\(n\)</span> is any concrete sequence of values</p>
+<div class="arithmatex">\[
+h = (x_1,\ldots,x_{n-1})
+  = (i_1,\ldots,i_{n-1}),
+\]</div>
+<p>where each <span class="arithmatex">\(i_j\)</span> is one of <span class="arithmatex">\(\{1,\ldots,K\}\)</span> token.</p>
+<div class="arithmatex">\[
+\{\text{number of possible histories of length } n-1\}
+= \underbrace{K \times K \times \cdots \times K}_{n-1 \text{ factors}}
+= K^{n-1}.
+\]</div>
+<p><strong>2. What is stored for one fixed history?</strong></p>
+<p>Take one specific history</p>
+<div class="arithmatex">\[
+h = (x_1=i_1,\ldots,x_{n-1}=i_{n-1}).
+\]</div>
+<p>For this history we need the conditional distribution of <span class="arithmatex">\(x_n\)</span>:</p>
+<div class="arithmatex">\[
+p(x_n \mid h).
+\]</div>
+<p>The variable <span class="arithmatex">\(x_n\)</span> can again be any of the <span class="arithmatex">\(K\)</span> vocabulary items. So we must
+store <span class="arithmatex">\(K\)</span> probabilities, one for each possible value of <span class="arithmatex">\(x_n\)</span>:</p>
+<div class="arithmatex">\[
+p(x_n = 1 \mid h),\; p(x_n = 2 \mid h),\;\ldots,\; p(x_n = K \mid h).
+\]</div>
+<p>If we wrote this as a row in a table, that row would contain exactly these <span class="arithmatex">\(K\)</span>
+numbers. These numbers are exactly the parameters that define the model’s
+behaviour for this history.</p>
+<p><strong>3. <span class="arithmatex">\(K-1\)</span> free parameters per history.</strong></p>
+<p>For each fixed history <span class="arithmatex">\(h\)</span>, the <span class="arithmatex">\(K\)</span> probabilities must obey:</p>
+<p><em>(i) Non-negativity:</em></p>
+<div class="arithmatex">\[
+0 \le p(x_n = k \mid h) \le 1
+\qquad \text{for all } k=1,\ldots,K.
+\]</div>
+<p><em>(ii) Normalization:</em></p>
+<div class="arithmatex">\[
+\sum_{k=1}^K p(x_n = k \mid h) = 1.
+\]</div>
+<p>The normalization constraint removes one degree of freedom. Once we choose
+any <span class="arithmatex">\(K-1\)</span> of the probabilities, the last one is forced to make the sum 1:</p>
+<div class="arithmatex">\[
+p(x_n = K \mid h)
+= 1 - \sum_{k=1}^{K-1} p(x_n = k \mid h).
+\]</div>
+<p>So although there are <span class="arithmatex">\(K\)</span> numbers in the row, only <span class="arithmatex">\(K-1\)</span> of them can be chosen
+independently. We say the distribution for this history has <span class="arithmatex">\(K-1\)</span> free
+parameters.</p>
+<p><strong>4. Total number of parameters for the table at step <span class="arithmatex">\(n\)</span>.</strong></p>
+<ul>
+<li>Number of distinct histories <span class="arithmatex">\(h\)</span> of length <span class="arithmatex">\(n-1\)</span>: <span class="arithmatex">\(K^{n-1}\)</span>.</li>
+<li>Free parameters for each history’s row: <span class="arithmatex">\(K-1\)</span></li>
+</ul>
+<p>Therefore, the total number of free parameters needed to specify the whole
+conditional table is</p>
+<div class="arithmatex">\[
+\underbrace{K^{n-1}}_{\text{rows (histories)}} \times
+\underbrace{(K-1)}_{\text{free params per row}}
+= (K-1)K^{n-1}.
+\]</div>
+<p>This quantity grows proportionally to <span class="arithmatex">\(K^{n-1}\)</span>, which increases
+<em>exponentially</em> as <span class="arithmatex">\(n\)</span> increases. That is why storing these conditionals as
+raw tables quickly becomes infeasible for realistic vocabulary sizes <span class="arithmatex">\(K\)</span> and
+sequence lengths <span class="arithmatex">\(n\)</span>.</p>
+<p><strong>5. Total size up to length <span class="arithmatex">\(N\)</span>.</strong></p>
+<p>To model all positions <span class="arithmatex">\(n=1,\ldots,N\)</span>, we need all these tables:</p>
+<div class="arithmatex">\[
+\text{total parameters}
+= \sum_{n=1}^N (K-1)K^{n-1}
+= (K-1)\frac{K^{N}-1}{K-1}
+= K^{N}-1.
+\]</div>
+<p>So the total number of table entries is on the order of <span class="arithmatex">\(K^{N}\)</span>, which grows
+exponentially with the sequence length <span class="arithmatex">\(N\)</span>. Hence representing the
+autoregressive model directly with probability tables is infeasible for realistic
+<span class="arithmatex">\(K\)</span> and <span class="arithmatex">\(N\)</span>.</p>
+<h3 id="n-gram">n-gram</h3>
+<p>We simplify the model by assuming that the conditional for step <span class="arithmatex">\(n\)</span> depends
+only on the last <span class="arithmatex">\(L\)</span> observations. For example, if <span class="arithmatex">\(L=2\)</span> then</p>
+<div class="arithmatex">\[
+p(\mathbf{x}_1,\ldots,\mathbf{x}_N)
+= p(\mathbf{x}_1)p(\mathbf{x}_2 \mid \mathbf{x}_1)
+  \prod_{n=3}^N p(\mathbf{x}_n \mid \mathbf{x}_{n-1},\mathbf{x}_{n-2})
+\]</div>
+<p>The conditional distributions <span class="arithmatex">\(p(\mathbf{x}_n \mid
+\mathbf{x}_{n-1},\mathbf{x}_{n-2})\)</span> are shared across all positions and can be
+represented as tables whose entries are estimated from statistics of successive
+triplets of words in a corpus. The case with <span class="arithmatex">\(L=1\)</span> is a <em>bi-gram</em> model, which depends on pairs of adjacent
+words. The case <span class="arithmatex">\(L=2\)</span> is a <em>tri-gram</em> model, involving triplets. More
+generally these are called <em><span class="arithmatex">\(n\)</span>-gram</em> models.</p>
+<p>All the models in this section can be run <em>generatively</em> to create text.
+For example, given the first two words we can sample the third from
+<span class="arithmatex">\(p(\mathbf{x}_n \mid \mathbf{x}_{n-1},\mathbf{x}_{n-2})\)</span>, then use the second
+and third words to sample the fourth, and so on. The resulting text will
+usually be incoherent, because each word depends only on a short context. Good
+text models must capture long-range dependencies in language. Simply increasing
+<span class="arithmatex">\(L\)</span> is not practical, because the size of the probability tables grows
+exponentially in <span class="arithmatex">\(L\)</span>, making models beyond tri-grams prohibitively expensive.
+Nevertheless, the autoregressive factorization will remain central when we move
+to modern language models based on deep neural networks, such as transformers.</p>
+<p>One way to extend the effective context for language, without the exponential
+number of parameters of <span class="arithmatex">\(n\)</span>-gram tables, is to add <em>latent</em> (hidden)
+variables and use a <em>hidden Markov model</em> (HMM).</p>
+<h3 id="hmm-for-a-word-sequence-n-gram">HMM for a word sequence (n-gram)</h3>
+<p>Consider a sequence of <span class="arithmatex">\(N\)</span> words (or tokens)</p>
+<div class="arithmatex">\[
+x_1, x_2, \dots, x_N.
+\]</div>
+<p>For each <em>position</em> <span class="arithmatex">\(n\)</span> in the sequence we introduce a hidden state <span class="arithmatex">\(z_n \in \{ z_1, z_2, \dots, z_N\}\)</span>, which can take one of <span class="arithmatex">\(S\)</span> discrete values (for example, <span class="arithmatex">\(S\)</span> different latent
+“topics’’ or parts of speech such as noun, verb, adjective), and an observed
+word <span class="arithmatex">\(x_n\)</span> that takes one of <span class="arithmatex">\(K\)</span> vocabulary values. The model defines:</p>
+<ul>
+<li><strong>Initial state distribution <span class="arithmatex">\(p(z_1)\)</span>.</strong><br />
+  This is a categorical distribution over the <span class="arithmatex">\(S\)</span> possible values of
+  <span class="arithmatex">\(z_1\)</span>, so it is a length-<span class="arithmatex">\(S\)</span> vector:</li>
+</ul>
+<div class="arithmatex">\[
+p(z_1)
+= \big(p(z_1=1),\dots,p(z_1=S)\big), \quad
+\sum_{s=1}^S p(z_1=s)=1.
+\]</div>
+<ul>
+<li><strong>Transition distribution <span class="arithmatex">\(p(z_n \mid z_{n-1})\)</span>.</strong><br />
+  For each previous state <span class="arithmatex">\(i \in \{1,\dots,S\}\)</span> we need a full
+  distribution over the next state <span class="arithmatex">\(j \in \{1,\dots,S\}\)</span>. Thus we have
+  <span class="arithmatex">\(S\)</span> rows (one per <span class="arithmatex">\(i\)</span>) and <span class="arithmatex">\(S\)</span> columns (one per <span class="arithmatex">\(j\)</span>):</li>
+</ul>
+<div class="arithmatex">\[
+p(z_n \mid z_{n-1})
+= \big[p(z_n=j \mid z_{n-1}=i)\big]_{i,j=1}^S,
+\]</div>
+<p>an <span class="arithmatex">\(S \times S\)</span> matrix whose each row sums to 1.</p>
+<ul>
+<li><strong>Emission distribution <span class="arithmatex">\(p(x_n \mid z_n)\)</span>.</strong><br />
+  For each hidden state <span class="arithmatex">\(s\)</span> we need a distribution over all <span class="arithmatex">\(K\)</span> words
+  <span class="arithmatex">\(k \in \{1,\dots,K\}\)</span>. So we have <span class="arithmatex">\(S\)</span> rows and <span class="arithmatex">\(K\)</span> columns:</li>
+</ul>
+<div class="arithmatex">\[
+p(x_n \mid z_n)
+= \big[p(x_n=k \mid z_n=s)\big]_{s=1,\dots,S;\;k=1,\dots,K},
+\]</div>
+<p>an <span class="arithmatex">\(S \times K\)</span> matrix whose each row sums to 1.</p>
+<p>Now, we want the joint distribution over all hidden states and observations:</p>
+<div class="arithmatex">\[
+p(x_{1:N}, z_{1:N}) = p(z_1, x_1, z_2, x_2, \dots, z_N, x_N).
+\]</div>
+<p>This can be done in the following steps:</p>
+<p><strong>1. Chain rule.</strong></p>
+<p>Apply the chain rule in the time order:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+p(x_{1:N}, z_{1:N})
+&amp;= p(z_1)\,
+   p(x_1 \mid z_1)\,
+   p(z_2 \mid z_1, x_1)\,
+   p(x_2 \mid z_1, x_1, z_2)\,\cdots \\
+&amp;\quad \cdots\,
+   p(z_N \mid z_{1:N-1}, x_{1:N-1})\,
+   p(x_N \mid z_{1:N}, x_{1:N-1}).
+\end{aligned}
+\]</div>
+<p><strong>2. HMM assumptions.</strong></p>
+<p>An HMM imposes two conditional independence assumptions:</p>
+<p>(i) Markov property for hidden states</p>
+<div class="arithmatex">\[
+p(z_n \mid z_{1:n-1}, x_{1:n-1}) = p(z_n \mid z_{n-1})
+\quad\text{for } n \ge 2.
+\]</div>
+<p>(ii) Emission depends only on current state</p>
+<div class="arithmatex">\[
+p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n)
+\quad\text{for } n \ge 1.
+\]</div>
+<p><strong>3. Simplify each factor.</strong></p>
+<p>Apply these to the chain rule factors:</p>
+<ul>
+<li>For <span class="arithmatex">\(n=1\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+p(z_1) \quad\text{(unchanged)}, \qquad
+p(x_1 \mid z_1) \quad\text{(already of the form } p(x_1 \mid z_1)\text{)}.
+\]</div>
+<ul>
+<li>For <span class="arithmatex">\(n=2\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+p(z_2 \mid z_1, x_1) = p(z_2 \mid z_1),
+\]</div>
+<div class="arithmatex">\[
+p(x_2 \mid z_1, x_1, z_2) = p(x_2 \mid z_2).
+\]</div>
+<ul>
+<li>In general, for <span class="arithmatex">\(n = 2,\dots,N\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+p(z_n \mid z_{1:n-1}, x_{1:n-1}) = p(z_n \mid z_{n-1}),
+\]</div>
+<div class="arithmatex">\[
+p(x_n \mid z_{1:n}, x_{1:n-1}) = p(x_n \mid z_n).
+\]</div>
+<p><strong>4. Collect all terms.</strong></p>
+<p>Replacing every factor in the chain rule by its simplified HMM form gives</p>
+<div class="arithmatex">\[
+\begin{aligned}
+p(x_{1:N}, z_{1:N})
+&amp;= p(z_1)\, p(x_1 \mid z_1)\,
+   \prod_{n=2}^N p(z_n \mid z_{n-1})\, p(x_n \mid z_n) \\
+&amp;= p(z_1)\,\Bigg[\prod_{n=2}^N p(z_n \mid z_{n-1})\Bigg]\,
+           \Bigg[\prod_{n=1}^N p(x_n \mid z_n)\Bigg].
+\end{aligned}
+\]</div>
+<div class="arithmatex">\[
+p(x_{1:N}, z_{1:N})
+= p(z_1)\,\prod_{n=2}^N p(z_n \mid z_{n-1})\,
+  \prod_{n=1}^N p(x_n \mid z_n).
+\]</div>
+<p>Operationally, the model generates a sequence as follows:</p>
+<p>(i) Sample the first hidden state</p>
+<div class="arithmatex">\[
+z_1 \sim p(z_1).
+\]</div>
+<p>(ii) Emit the first word from this state</p>
+<div class="arithmatex">\[
+x_1 \sim p(x_1 \mid z_1).
+\]</div>
+<p>(iii) For each later position <span class="arithmatex">\(n=2,\dots,N\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+  z_n &amp;\sim p(z_n \mid z_{n-1}) &amp;&amp; \text{(move to a new hidden state)}\\
+  x_n &amp;\sim p(x_n \mid z_n)     &amp;&amp; \text{(emit the next word).}
+\end{aligned}
+\]</div>
+<p>This step-by-step process corresponds exactly to the factorization</p>
+<div class="arithmatex">\[
+p(x_{1:N}, z_{1:N})
+= p(z_1)\,\prod_{n=2}^N p(z_n \mid z_{n-1})\,
+  \prod_{n=1}^N p(x_n \mid z_n).
+\]</div>
+<p>Since <span class="arithmatex">\(p(z_1)\)</span> has <span class="arithmatex">\(O(S)\)</span> parameters, the <span class="arithmatex">\(S \times S\)</span> transition matrix <span class="arithmatex">\(p(z_n \mid z_{n-1})\)</span> has <span class="arithmatex">\(O(S^2)\)</span>
+parameters, and the <span class="arithmatex">\(S \times K\)</span> emission matrix <span class="arithmatex">\(p(x_n \mid z_n)\)</span> has <span class="arithmatex">\(O(SK)\)</span> parameters, the total number of learnable parameters scales as</p>
+<div class="arithmatex">\[
+O(S^2 + SK),
+\]</div>
+<p>which depends only on the number of states <span class="arithmatex">\(S\)</span> and vocabulary size <span class="arithmatex">\(K\)</span>, but
+<em>not</em> on the sequence length <span class="arithmatex">\(N\)</span>. In this way an HMM can model long
+sequences without the <span class="arithmatex">\(O(K^L)\)</span> parameter blow-up of an <span class="arithmatex">\(L\)</span>-gram table.</p>
+<p><strong>Long-range dependencies.</strong></p>
+<p>We want to see how <span class="arithmatex">\(x_n\)</span> can depend on <em>all</em> earlier words in an HMM.</p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+\]</div>
+<p><strong>1. By definition of conditional probability.</strong></p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \frac{p(x_n, x_{1:n-1})}{p(x_{1:n-1})}.
+\]</div>
+<p><strong>2. Insert the hidden variable by marginalization.</strong></p>
+<p>The joint probability of <span class="arithmatex">\((x_n, x_{1:n-1})\)</span> can be written by summing over all
+possible values of the hidden state <span class="arithmatex">\(z_n\)</span> (from law of total probability):</p>
+<div class="arithmatex">\[
+p(x_n, x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n, x_{1:n-1}).
+\]</div>
+<p>Substitute this into the conditional:</p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \frac{1}{p(x_{1:n-1})}
+  \sum_{z_n} p(x_n, z_n, x_{1:n-1}).
+\]</div>
+<p>Now divide inside the sum:</p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} \frac{p(x_n, z_n, x_{1:n-1})}{p(x_{1:n-1})}
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}).
+\]</div>
+<p>This gives:</p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}).
+\]</div>
+<p><strong>3. Apply the product rule to the conditional joint.</strong></p>
+<p>For any random variables <span class="arithmatex">\(A,B,C\)</span>,</p>
+<div class="arithmatex">\[
+p(A,B \mid C) = p(A \mid B,C)\,p(B \mid C).
+\]</div>
+<p>This is just the chain rule applied to the conditional distribution given <span class="arithmatex">\(C\)</span>:</p>
+<div class="arithmatex">\[
+p(A,B,C)
+= p(A \mid B,C)\,p(B \mid C)\,p(C),
+\]</div>
+<p>and dividing both sides by <span class="arithmatex">\(p(C)\)</span> gives the conditional form.</p>
+<p>Now take</p>
+<div class="arithmatex">\[
+A = x_n,\quad B = z_n,\quad C = x_{1:n-1}.
+\]</div>
+<p>Then</p>
+<div class="arithmatex">\[
+p(x_n, z_n \mid x_{1:n-1})
+= p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+\]</div>
+<p>Substitute this into the previous sum:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+p(x_n \mid x_{1:n-1})
+&amp;= \sum_{z_n} p(x_n, z_n \mid x_{1:n-1}) \\
+&amp;= \sum_{z_n} p(x_n \mid z_n, x_{1:n-1})\,p(z_n \mid x_{1:n-1}).
+\end{aligned}
+\]</div>
+<p>By the HMM emission assumption, the observation depends only on the current
+state:</p>
+<div class="arithmatex">\[
+p(x_n \mid z_n, x_{1:n-1}) = p(x_n \mid z_n).
+\]</div>
+<p>So</p>
+<div class="arithmatex">\[
+p(x_n \mid x_{1:n-1})
+= \sum_{z_n} p(x_n \mid z_n)\,p(z_n \mid x_{1:n-1}).
+\]</div>
+<p>Here <span class="arithmatex">\(p(z_n \mid x_{1:n-1})\)</span> is the <em>belief</em> over the current hidden state
+given all previous words. This belief is updated recursively from
+<span class="arithmatex">\(p(z_{n-1} \mid x_{1:n-2})\)</span> using the transition and emission distributions. In
+principle, every past word <span class="arithmatex">\(x_1,\dots,x_{n-1}\)</span> can influence <span class="arithmatex">\(p(z_n \mid
+x_{1:n-1})\)</span>, and therefore <span class="arithmatex">\(p(x_n \mid x_{1:n-1})\)</span>.</p>
+<p><strong>How new observations overwrite older information.</strong></p>
+<p>We want an explicit formula for our <em>updated belief</em> about the current
+hidden state after seeing the new observation at time <span class="arithmatex">\(t\)</span>; this belief is the
+filtering distribution</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t}).
+\]</div>
+<p><strong>1. Start from Bayes’ rule.</strong><br />
+Treat <span class="arithmatex">\(x_t\)</span> as the new observation and <span class="arithmatex">\(x_{1:t-1}\)</span> as given context:
+We have:</p>
+<div class="arithmatex">\[
+p(A \mid B,C)
+= \frac{p(B \mid A,C)\,p(A \mid C)}{p(B \mid C)}.
+\]</div>
+<p>Where,</p>
+<div class="arithmatex">\[
+A = z_t,\quad B = x_t,\quad C = x_{1:t-1}.
+\]</div>
+<p>So</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1}, x_t)
+= \frac{p(x_t \mid z_t, x_{1:t-1})\,p(z_t \mid x_{1:t-1})}
+       {p(x_t \mid x_{1:t-1})}.
+\]</div>
+<p>Finally, note that</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t})
+= p(z_t \mid x_{1:t-1}, x_t),
+\]</div>
+<p><strong>2. Use the emission assumption.</strong><br />
+In an HMM, <span class="arithmatex">\(x_t\)</span> depends only on <span class="arithmatex">\(z_t\)</span>:</p>
+<div class="arithmatex">\[
+p(x_t \mid z_t, x_{1:t-1}) = p(x_t \mid z_t).
+\]</div>
+<p>So</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t})
+= \frac{p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1})}
+       {p(x_t \mid x_{1:t-1})}.
+\]</div>
+<p>The denominator does not depend on <span class="arithmatex">\(z_t\)</span>, so it is a normalizing constant.
+Thus</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}).
+\]</div>
+<p><strong>3. Expand the predictive term.</strong></p>
+<p>In the previous step we obtained</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}),
+\]</div>
+<p>so to complete the update we need an explicit expression for the
+<em>predictive</em> distribution <span class="arithmatex">\(p(z_t \mid x_{1:t-1})\)</span> in terms of quantities
+at time <span class="arithmatex">\(t-1\)</span>. This is where the Markov structure of the HMM enters.</p>
+<p><strong>(i) Start from the definition of the predictive term.</strong></p>
+<p>By definition of conditional probability,</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1})
+= \frac{p(z_t, x_{1:t-1})}{p(x_{1:t-1})}.
+\]</div>
+<p><strong>(ii) Introduce <span class="arithmatex">\(z_{t-1}\)</span> by marginalization.</strong></p>
+<p>Use the law of total probability on the joint:</p>
+<div class="arithmatex">\[
+p(z_t, x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t, z_{t-1}, x_{1:t-1}).
+\]</div>
+<p>Substitute into the conditional:</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1})
+= \frac{1}{p(x_{1:t-1})}
+  \sum_{z_{t-1}} p(z_t, z_{t-1}, x_{1:t-1}).
+\]</div>
+<p>Bring the constant denominator inside the sum:</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} \frac{p(z_t, z_{t-1}, x_{1:t-1})}{p(x_{1:t-1})}
+= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}).
+\]</div>
+<p>This gives</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}).
+\]</div>
+<p><strong>(iii) Apply the product rule inside the sum.</strong></p>
+<p>For any variables <span class="arithmatex">\(A,B,C\)</span>,</p>
+<div class="arithmatex">\[
+p(A,B \mid C) = p(A \mid B,C)\,p(B \mid C).
+\]</div>
+<p>Let</p>
+<div class="arithmatex">\[
+A = z_t,\quad B = z_{t-1},\quad C = x_{1:t-1}.
+\]</div>
+<p>Then</p>
+<div class="arithmatex">\[
+p(z_t, z_{t-1} \mid x_{1:t-1})
+= p(z_t \mid z_{t-1}, x_{1:t-1})\,
+  p(z_{t-1} \mid x_{1:t-1}).
+\]</div>
+<p>Substitute back:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+p(z_t \mid x_{1:t-1})
+&amp;= \sum_{z_{t-1}} p(z_t, z_{t-1} \mid x_{1:t-1}) \\
+&amp;= \sum_{z_{t-1}}
+   p(z_t \mid z_{t-1}, x_{1:t-1})\,
+   p(z_{t-1} \mid x_{1:t-1}).
+\end{aligned}
+\]</div>
+<p>This is the desired expression of the predictive term in terms of the previous
+belief <span class="arithmatex">\(p(z_{t-1} \mid x_{1:t-1})\)</span> and the state dynamics.</p>
+<p><strong>4. Use the Markov assumption.</strong><br />
+In an HMM, the next state depends only on the previous state:</p>
+<div class="arithmatex">\[
+p(z_t \mid z_{t-1}, x_{1:t-1}) = p(z_t \mid z_{t-1}).
+\]</div>
+<p>So</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t-1})
+= \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}).
+\]</div>
+<p><strong>5. Combine the pieces.</strong></p>
+<p>Substitute the expression for <span class="arithmatex">\(p(z_t \mid x_{1:t-1})\)</span> back into the proportional
+form:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+p(z_t \mid x_{1:t})
+&amp;\propto p(x_t \mid z_t)\,p(z_t \mid x_{1:t-1}) \\
+&amp;= p(x_t \mid z_t)
+   \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}).
+\end{aligned}
+\]</div>
+<p>This gives</p>
+<div class="arithmatex">\[
+p(z_t \mid x_{1:t})
+\propto p(x_t \mid z_t)
+        \sum_{z_{t-1}} p(z_t \mid z_{t-1})\,p(z_{t-1} \mid x_{1:t-1}),
+\]</div>
+<p>with the proportionality constant chosen so that
+<span class="arithmatex">\(\sum_{z_t} p(z_t \mid x_{1:t}) = 1\)</span>.
+This is the standard forward (filtering) update: the belief over <span class="arithmatex">\(z_t\)</span> after
+seeing <span class="arithmatex">\(x_t\)</span>.</p>
+<p>It is often useful to view this update at time <span class="arithmatex">\(t+1\)</span> as two steps:</p>
+<p>(i) <strong>Prediction (from <span class="arithmatex">\(t\)</span> to <span class="arithmatex">\(t+1\)</span>):</strong></p>
+<div class="arithmatex">\[
+\tilde{p}(z_{t+1} \mid x_{1:t})
+= \sum_{z_t} p(z_{t+1} \mid z_t)\,p(z_t \mid x_{1:t}),
+\]</div>
+<p>which uses only the transition probabilities and the previous belief.</p>
+<p>(ii) <strong>Correction (using <span class="arithmatex">\(x_{t+1}\)</span>):</strong></p>
+<div class="arithmatex">\[
+p(z_{t+1} \mid x_{1:t+1})
+\propto p(x_{t+1} \mid z_{t+1})\,
+         \tilde{p}(z_{t+1} \mid x_{1:t}),
+\]</div>
+<div class="arithmatex">\[
+p(z_{t+1} \mid x_{1:t+1})
+\propto p(x_{t+1} \mid z_{t+1})\,
+          \sum_{z_t} p(z_{t+1} \mid z_t)\,p(z_t \mid x_{1:t}),
+\]</div>
+<p>which reweights the predicted belief using the likelihood of the new
+   observation.</p>
+<p>Thus, all past observations <span class="arithmatex">\(x_{1:t}\)</span> affect <span class="arithmatex">\(p(z_{t+1} \mid x_{1:t+1})\)</span> only
+through the current summary <span class="arithmatex">\(p(z_t \mid x_{1:t})\)</span>. At each new time step this
+summary is first mixed by the transition probabilities and then reshaped by the
+new word. After many such updates, different early histories produce almost the
+same state distribution. In practice, this means that the influence of very old
+observations on future predictions becomes very small very quickly.</p>
+<h2 id="recurrent-neural-networks">Recurrent neural networks</h2>
+<p><span class="arithmatex">\(n\)</span>-gram models scale badly with sequence length because they store large,
+unstructured tables of conditional probabilities. We can get much better scaling
+by using parameterized models based on neural networks. But if we try to apply a standard feed-forward network directly to word sequences,
+two problems appear:</p>
+<ul>
+<li>The network expects a fixed number of inputs and outputs, but real
+  sequences have variable length in both training and test data.</li>
+<li>A word (or phrase) that appears in different positions should usually
+  represent the same concept, but a plain feed-forward network would
+  treat each position with separate parameters.</li>
+</ul>
+<p>Ideally, we want an architecture that:</p>
+<ol>
+<li>shares parameters across all positions in the sequence (an equivariance property), and</li>
+<li>can handle sequences of different lengths.</li>
+</ol>
+<p>To achieve this, we take inspiration from the hidden Markov model and introduce
+a hidden state <span class="arithmatex">\(z_n\)</span> for each step <span class="arithmatex">\(n\)</span> in the sequence. At each step the network
+takes as input</p>
+<div class="arithmatex">\[
+(x_n, z_{n-1})
+\]</div>
+<p>where <span class="arithmatex">\(x_n\)</span> is the current word and <span class="arithmatex">\(z_{n-1}\)</span> is the previous hidden state, and
+it outputs</p>
+<div class="arithmatex">\[
+(y_n, z_n),
+\]</div>
+<p>where <span class="arithmatex">\(y_n\)</span> is the network output at that step (for example, a predicted word)
+and <span class="arithmatex">\(z_n\)</span> is the updated hidden state. Instead of building a different network for each time step, we use <em>one</em>
+neural network cell and apply it repeatedly along the sequence. Formally, if the cell has parameters
+<span class="arithmatex">\(\theta\)</span> (weights and biases), then at every step <span class="arithmatex">\(n\)</span> we compute</p>
+<div class="arithmatex">\[
+(z_n, y_n) = f_\theta(x_n, z_{n-1}),
+\]</div>
+<p>using the <em>same</em> <span class="arithmatex">\(\theta\)</span> for all <span class="arithmatex">\(n\)</span>. The
+resulting architecture is called a <em>recurrent neural network</em> (RNN). A common choice is to initialize the hidden state to a
+default value such as</p>
+<div class="arithmatex">\[
+z_0 = (0,0,\ldots,0)^\top.
+\]</div>
+<p>As a concrete example, consider translating sentences from English to Dutch.
+Input and output sentences have variable length, and the output length may differ
+from the input length. The model may also need to see the entire English
+sentence before producing any Dutch words.</p>
+<p>With an RNN we can:</p>
+<ol>
+<li>Feed the whole English sentence word by word.</li>
+<li>Then feed a special token <span class="arithmatex">\(\langle\text{start}\rangle\)</span> to signal the
+   beginning of the translation.</li>
+</ol>
+<p>During training, the network learns that <span class="arithmatex">\(\langle\text{start}\rangle\)</span>
+indicates the point at which it should begin generating the translated sentence.
+At each subsequent time step:</p>
+<ul>
+<li>the RNN outputs the next Dutch word,</li>
+<li>we feed that output word back as the next input.</li>
+</ul>
+<p>The network is also trained to emit a special token
+<span class="arithmatex">\(\langle\text{stop}\rangle\)</span> that marks the end of the translation. We now describe the encoder--decoder RNN more explicitly. Let the English input sentence be</p>
+<div class="arithmatex">\[
+(e_1, e_2, \ldots, e_T),
+\]</div>
+<p>and the Dutch output sentence be</p>
+<div class="arithmatex">\[
+(d_1, d_2, \ldots, d_M).
+\]</div>
+<p><strong>Encoder (reads English, no outputs used).</strong></p>
+<p>We start with a hidden state</p>
+<div class="arithmatex">\[
+z_0 = \mathbf{0}.
+\]</div>
+<p>For each English word <span class="arithmatex">\(e_t\)</span> we apply the recurrent update</p>
+<div class="arithmatex">\[
+z_t = f_{\text{enc}}(z_{t-1}, e_t), \qquad t = 1,\ldots,T,
+\]</div>
+<p>where <span class="arithmatex">\(f_{\text{enc}}\)</span> is the RNN cell (e.g. a simple RNN, LSTM, or GRU).
+During this phase:</p>
+<ul>
+<li><em>inputs</em>: <span class="arithmatex">\((z_{t-1}, e_t)\)</span>,</li>
+<li><em>outputs</em>: intermediate <span class="arithmatex">\(z_t\)</span>; we ignore any word-level outputs.</li>
+</ul>
+<p>After the last English word we keep only the final hidden state</p>
+<div class="arithmatex">\[
+z^\ast = z_T.
+\]</div>
+<p>This <span class="arithmatex">\(z^\ast\)</span> is a fixed-length vector that summarizes the whole English
+sentence. It is the <em>encoder representation</em>.</p>
+<p><strong>Decoder (generates Dutch, uses <span class="arithmatex">\(z^\ast\)</span>).</strong></p>
+<p>The decoder is another RNN (often with the same form of cell) that starts from
+the encoder state. We set</p>
+<div class="arithmatex">\[
+h_0 = z^\ast,
+\]</div>
+<p>and feed a special start token <span class="arithmatex">\(\langle\text{start}\rangle\)</span> as the first input.
+At step <span class="arithmatex">\(m = 1,2,\ldots\)</span> we compute</p>
+<div class="arithmatex">\[
+h_m = f_{\text{dec}}(h_{m-1}, u_m),
+\]</div>
+<p>where:</p>
+<ul>
+<li>for <span class="arithmatex">\(m=1\)</span>, <span class="arithmatex">\(u_1 = \langle\text{start}\rangle\)</span>,</li>
+<li>for <span class="arithmatex">\(m&gt;1\)</span>, <span class="arithmatex">\(u_m = d_{m-1}\)</span>, the <em>previous</em> Dutch word.</li>
+</ul>
+<p>From <span class="arithmatex">\(h_m\)</span> the decoder produces a distribution over the next Dutch word:</p>
+<div class="arithmatex">\[
+p(d_m \mid h_m) = \text{softmax}(W h_m + b).
+\]</div>
+<p>During training we use the true previous word <span class="arithmatex">\(d_{m-1}\)</span> as input; at test time
+we instead feed back the word sampled (or chosen) from <span class="arithmatex">\(p(d_m \mid h_m)\)</span>. The decoder continues until it outputs a special stop token
+<span class="arithmatex">\(\langle\text{stop}\rangle\)</span>. Thus:</p>
+<ul>
+<li><em>inputs to decoder</em>: <span class="arithmatex">\(z^\ast\)</span> (via <span class="arithmatex">\(h_0\)</span>) and the sequence
+  <span class="arithmatex">\((\langle\text{start}\rangle, d_1, d_2,\ldots)\)</span>,</li>
+<li><em>outputs from decoder</em>: the Dutch words
+  <span class="arithmatex">\((d_1, d_2,\ldots,d_M,\langle\text{stop}\rangle)\)</span>.</li>
+</ul>
+<p><strong>Autoregressive structure.</strong></p>
+<p>Conditioned on the English sentence <span class="arithmatex">\(e_{1:T}\)</span> (summarized by <span class="arithmatex">\(z^\ast\)</span>), the
+decoder defines</p>
+<div class="arithmatex">\[
+p(d_1,\ldots,d_M \mid e_{1:T})
+= \prod_{m=1}^M p\bigl(d_m \mid d_{1:m-1}, e_{1:T}\bigr),
+\]</div>
+<p>because each step <span class="arithmatex">\(m\)</span> takes as input the previous hidden state <span class="arithmatex">\(h_{m-1}\)</span> and
+previous output word <span class="arithmatex">\(d_{m-1}\)</span>. This is exactly an autoregressive factorization
+over the Dutch sequence, with the entire English sentence influencing each term
+through <span class="arithmatex">\(z^\ast\)</span> and the hidden states <span class="arithmatex">\(h_m\)</span>.</p>
+<h2 id="backpropagation-through-time">Backpropagation through time</h2>
+<p>We fix a simple language-model RNN that predicts the next token at each time
+step. We train RNNs with stochastic gradient descent, using gradients computed by
+backpropagation and automatic differentiation, just as for standard neural
+networks.</p>
+<p><strong>Data, inputs, and outputs</strong> Consider Vocabulary size <span class="arithmatex">\(K\)</span>, a training sequence is <span class="arithmatex">\(x_{1:N} = (x_1,\dots,x_N)\)</span>, with <span class="arithmatex">\(x_n \in \{1,\dots,K\}\)</span>. The target at step <span class="arithmatex">\(n\)</span> is the next token <span class="arithmatex">\(t_n = x_{n+1}\)</span> (or a special end token).</p>
+<p>Each token is mapped to a vector <span class="arithmatex">\(\mathbf{x}_n\)</span> either via a one-hot vector in <span class="arithmatex">\(\mathbb{R}^K\)</span> or an embedding <span class="arithmatex">\(\mathbf{x}_n = \mathbf{E}\,\mathbf{e}(x_n) \in \mathbb{R}^D\)</span>,
+where <span class="arithmatex">\(\mathbf{E} \in \mathbb{R}^{D\times K}\)</span> is the embedding matrix.</p>
+<p>The RNN cell has hidden state <span class="arithmatex">\(\mathbf{h}_n \in \mathbb{R}^H\)</span>, output logits <span class="arithmatex">\(\mathbf{o}_n \in \mathbb{R}^K\)</span> and output probabilities <span class="arithmatex">\(\mathbf{y}_n \in \mathbb{R}^K\)</span>.</p>
+<p><strong>Forward pass through time</strong></p>
+<p>At each time step <span class="arithmatex">\(n\)</span> the RNN computes</p>
+<div class="arithmatex">\[
+\mathbf{h}_n = f(\mathbf{W}_{xh}\mathbf{x}_n + \mathbf{W}_{hh}\mathbf{h}_{n-1} + \mathbf{b}_h),
+\]</div>
+<div class="arithmatex">\[
+\mathbf{o}_n = \mathbf{W}_{ho}\mathbf{h}_n + \mathbf{b}_o,
+\]</div>
+<div class="arithmatex">\[
+\mathbf{y}_n = \text{softmax}(\mathbf{o}_n),
+\]</div>
+<p>with initial state <span class="arithmatex">\(\mathbf{h}_0\)</span> (often <span class="arithmatex">\(\mathbf{0}\)</span>). Unrolling this gives a
+chain</p>
+<div class="arithmatex">\[
+(\mathbf{x}_1,\mathbf{h}_0) \to \mathbf{h}_1 \to \mathbf{o}_1 \to \mathbf{y}_1,
+\quad
+(\mathbf{x}_2,\mathbf{h}_1) \to \mathbf{h}_2 \to \mathbf{o}_2 \to \mathbf{y}_2,
+\quad \dots
+\]</div>
+<p>All steps share the same parameters</p>
+<div class="arithmatex">\[
+\theta = \{\mathbf{E},\mathbf{W}_{xh},\mathbf{W}_{hh},\mathbf{W}_{ho},\mathbf{b}_h,\mathbf{b}_o\}.
+\]</div>
+<p><strong>Loss definition</strong></p>
+<p>At step <span class="arithmatex">\(n\)</span>, the target is a one-hot vector <span class="arithmatex">\(\mathbf{t}_n \in \mathbb{R}^K\)</span>
+with components <span class="arithmatex">\(t_{n,k}\)</span> and <span class="arithmatex">\(\sum_k t_{n,k}=1\)</span>. The cross-entropy loss at
+that step is</p>
+<div class="arithmatex">\[
+L_n = - \sum_{k=1}^K t_{n,k}\log y_{n,k}.
+\]</div>
+<p>The total loss for the sequence (over <span class="arithmatex">\(N'\)</span> training steps) is</p>
+<div class="arithmatex">\[
+L = \sum_{n=1}^{N'} L_n
+  = - \sum_{n=1}^{N'} \sum_{k=1}^K t_{n,k}\log y_{n,k}.
+\]</div>
+<p>Because <span class="arithmatex">\(\mathbf{t}_n\)</span> is one-hot, there is a unique index <span class="arithmatex">\(t_n\)</span> with
+<span class="arithmatex">\(t_{n,t_n}=1\)</span> and zero for all other, so</p>
+<div class="arithmatex">\[
+L_n = -\log y_{n,t_n}.
+\]</div>
+<p>Thus, the total loss can also be written as</p>
+<div class="arithmatex">\[
+L = - \sum_{n=1}^{N'} \log y_{n,t_n}.
+\]</div>
+<p><strong>Backward pass</strong></p>
+<p>To compute gradients we view the unrolled RNN over <span class="arithmatex">\(N'\)</span> steps as one large
+feed-forward network and apply standard backpropagation. Gradients at each step flow</p>
+<div class="arithmatex">\[
+L_n \;\to\; \mathbf{y}_n \;\to\; \mathbf{o}_n \;\to\; \mathbf{h}_n
+\;\to\; \mathbf{h}_{n-1} \;\to\; \theta.
+\]</div>
+<ul>
+<li>The recurrent connection <span class="arithmatex">\(\mathbf{h}_{n-1} \to \mathbf{h}_n\)</span> causes the
+  gradient at time <span class="arithmatex">\(n\)</span> to contribute to the gradient at all earlier times. Since the same parameters <span class="arithmatex">\(\theta\)</span> are reused at every time step, the total
+  gradient is the sum of contributions from all steps:</li>
+</ul>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial \theta}
+= \sum_{n=1}^{N'} \frac{\partial L}{\partial \theta}\Big|_{\text{via step }n}.
+\]</div>
+<p>Running this backward pass over the unrolled network is called
+<em>backpropagation through time (BPTT)</em>. Conceptually it is straightforward,
+but in practice very long sequences cause training difficulties: gradients can
+either vanish or explode, just as in very deep feed-forward networks.</p>
+<h3 id="long-range-dependencies">Long range dependencies</h3>
+<p>Standard RNNs also struggle with long-range dependencies. Natural language
+often contains concepts introduced early in a passage that strongly influence
+words much later. In the encoder–decoder architecture described earlier, the
+entire meaning of the English sentence must be stored in a single fixed-length
+hidden vector <span class="arithmatex">\(z^\ast\)</span>. As sequences grow longer, compressing all relevant
+information into <span class="arithmatex">\(z^\ast\)</span> becomes harder. This is called a <em>bottleneck</em>
+problem: an arbitrarily long input sequence must be summarized into one hidden
+vector before the network can start producing the output translation.</p>
+<p>To address both vanishing/exploding gradients and limited long-range memory,
+we can change the recurrent cell to include additional pathways that let signals
+bypass many intermediate computations. This helps information persist over more
+time steps. The most prominent examples are <em>long short-term memory</em>
+(LSTM) networks and <em>gated recurrent
+units</em> (GRU). These architectures improve performance over
+standard RNNs, but they still have restricted ability to capture very long-range
+dependencies. Their more complex cells also make them slower to train. All recurrent models, including LSTMs and GRUs, share two structural
+limitations:</p>
+<ul>
+<li>The length of the signal path between distant time steps grows
+  linearly with the sequence length. To see this, look at the unrolled RNN:</li>
+</ul>
+<div class="arithmatex">\[
+ (\mathbf{x}_1,\mathbf{h}_0) \to \mathbf{h}_1 \to \mathbf{h}_2 \to \cdots \to \mathbf{h}_N \to \mathbf{y}_N.
+\]</div>
+<p>Any influence from time step <span class="arithmatex">\(i\)</span> on time step <span class="arithmatex">\(j&gt;i\)</span> must pass through the
+  chain</p>
+<div class="arithmatex">\[
+ \mathbf{x}_i \to \mathbf{h}_i \to \mathbf{h}_{i+1} \to \cdots \to \mathbf{h}_j \to \mathbf{y}_j.
+\]</div>
+<p>This path contains <span class="arithmatex">\((j-i)\)</span> recurrent transitions
+  <span class="arithmatex">\(\mathbf{h}_{t-1}\to\mathbf{h}_t\)</span> (plus a constant number of input/output
+  edges), so its length is proportional to <span class="arithmatex">\(j-i\)</span>. For two positions that are
+  <span class="arithmatex">\(L\)</span> steps apart, the signal must traverse <span class="arithmatex">\(O(L)\)</span> nonlinear transformations.</p>
+<ul>
+<li>Computation within a single sequence is inherently sequential, so
+  different time steps cannot be processed in parallel.</li>
+</ul>
+<p>As a result, RNNs cannot exploit modern highly parallel hardware (such as GPUs)
+efficiently. These limitations motivate replacing RNNs with transformer
+architectures.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Bishop, C. M., &amp; Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

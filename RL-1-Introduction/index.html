@@ -1,0 +1,1684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
+      
+      
+        <link rel="next" href="../RL-2-Markov%20Decision%20Processes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>1 - Introduction - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-reinforcement-learning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 - Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-for-winning-rewards-and-reward-hypothesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation for winning: Rewards and Reward Hypothesis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Motivation for winning: Rewards and Reward Hypothesis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-decision-making-a-unifying-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential Decision Making (a Unifying Framework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-environment-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent-Environment Interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent-Environment Interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fully-observable-environments-assumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fully Observable Environments (Assumption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partially-observable-environments-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partially Observable Environments (Reality)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#major-components-of-an-rl-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major Components of an RL Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Major Components of an RL Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categorizing-rl-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categorizing RL Agents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Categorizing RL Agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classification-of-rl-agents-by-learned-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classification of RL Agents by Learned Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categorizing-rl-agents-model-free-vs-model-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categorizing RL Agents: Model-Free vs. Model-Based
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploration-and-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploration and Exploitation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploration and Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prediction-and-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction and Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-for-winning-rewards-and-reward-hypothesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation for winning: Rewards and Reward Hypothesis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Motivation for winning: Rewards and Reward Hypothesis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-decision-making-a-unifying-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential Decision Making (a Unifying Framework)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-environment-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent-Environment Interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent-Environment Interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fully-observable-environments-assumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fully Observable Environments (Assumption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partially-observable-environments-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partially Observable Environments (Reality)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#major-components-of-an-rl-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major Components of an RL Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Major Components of an RL Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categorizing-rl-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categorizing RL Agents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Categorizing RL Agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classification-of-rl-agents-by-learned-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classification of RL Agents by Learned Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categorizing-rl-agents-model-free-vs-model-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categorizing RL Agents: Model-Free vs. Model-Based
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploration-and-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploration and Exploitation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploration and Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prediction-and-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction and Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="introduction-to-reinforcement-learning">Introduction to Reinforcement Learning</h1>
+<p>Reinforcement Learning (RL) is the science of decision making: an agent learns what to do by interacting with an environment, trying to maximize it's reward over time. What makes RL different from many other machine learning methods is the kind of feedback it receives. Instead of a supervisor telling the correct answer, the agent only sees a reward signal, and that signal may be delayed, meaning the effect of an action might show up much later. Time is therefore central: the data comes as a sequence, not as independent samples (so it is not i.i.d.), and the agent's actions actively influence what it experiences next. Typical examples of RL includes learning to play games (like Atari or Chess), training robots to walk or manipulate objects, optimizing long-term choices in recommender systems, and controlling real-world systems such as traffic lights, resource allocation, or scheduling.</p>
+<h2 id="motivation-for-winning-rewards-and-reward-hypothesis">Motivation for winning: Rewards and Reward Hypothesis</h2>
+<p>A natural next step is to talk about rewards. In RL, the reward is usually written as <span class="arithmatex">\(R_t\)</span>. It is a scalar value that acts as a feedback signal for the agent at time step <span class="arithmatex">\(t\)</span>. The agent's job is to maximize the cumulative (over time) reward.</p>
+<p>This naturally motivates the reward hypothesis: all goals can be described as maximizing the expected cumulative reward. This is a very strong assumption because it says that any notion of a goal can always be turned into an objective of maximizing the expected cumulative reward. But this assumption may not always hold: many goals are hard to compress into a single number. Many real objectives often include multiple preferences, safety constraints, fairness considerations, or instructions like do not do X,. These can be awkward to express with one reward signal. When the reward is an imperfect proxy, an agent may optimize the number while missing the real intent.</p>
+<p>For example, consider an autonomous car with the goal get to the destination quickly, but never endanger pedestrians, obey traffic rules, and keep passengers comfortable. Speed, safety, legality, and comfort can conflict, and turning all of that into one reward number is tricky. A poorly chosen reward might push the car to drive aggressively to gain time, or to exploit loopholes in the definition of safe, which shows why reducing a rich goal to a single reward can be fragile.</p>
+<p>In application, when the real objective is complex, RL still forces a simplification: the agent must ultimately make decisions by comparing actions using a single objective. Even if we care about many things at once (speed, safety, cost, comfort), the standard RL view is that these preferences must be converted into one scalar reward signal. In practice, the hard part is not the optimization itself, but choosing a reward function that correctly represents what we actually want, since any mismatch can push the agent to optimize the number rather than the intended goal.</p>
+<h3 id="sequential-decision-making-a-unifying-framework">Sequential Decision Making (a Unifying Framework)</h3>
+<p>The key observation from the above examples is that RL problems are rarely one-shot decisions. They are sequential: an agent repeatedly chooses actions, those actions can have long-term consequences, and rewards can arrive later. Because of this, it can be optimal to give up an immediate reward if it leads to a larger total reward in the future.</p>
+<p>This is where the unifying framework comes in. RL models tasks as sequential decision-making problems where, at each time step <span class="arithmatex">\(t\)</span>, the agent observes the situation, takes an action, and receives a reward <span class="arithmatex">\(R_t\)</span>. The objective is not to maximize <span class="arithmatex">\(R_t\)</span> at a single step, but to maximize the expected total future reward accumulated over time. This viewpoint lets very different problems share the same mathematical structure: investing money (pay a cost now, gain later), or blocking an opponent in a game (sacrifice a move now to improve winning chances later). In the next part, we will formalize this idea with the standard RL model used to describe the environment and the agent's interaction with it.</p>
+<h2 id="agent-environment-interaction">Agent-Environment Interaction</h2>
+<p>RL starts with a simple setup: an agent interacts with an environment over time. The agent is the decision-maker we want to control (think of it as the brain), and the environment is everything outside the agent that reacts to its actions. Note, the agent does not directly control the environment.</p>
+<p>As a sequential decision process, let time is split into steps <span class="arithmatex">\(t = 1,2,3,\dots\)</span>. At each step <span class="arithmatex">\(t\)</span>:
+the agent receives an observation <span class="arithmatex">\(O_t\)</span> (what it can currently sense), uses it to choose an action <span class="arithmatex">\(A_t\)</span>, and then the environment responds by producing a reward and the next observation. A common way to write this is:</p>
+<div class="arithmatex">\[
+O_t \xrightarrow{\text{agent chooses}} A_t \xrightarrow{\text{environment responds}} (R_{t+1}, O_{t+1}).
+\]</div>
+<p>Then, <span class="arithmatex">\(O_{t+1}\)</span> becomes the input for the next decision process. This loop repeats, so decisions can have long-term effects through how they change future observations and rewards. Over time, these interactions produce a history (full time-ordered record) of what the agent has observed, done, and received so far. One way to write the history at time <span class="arithmatex">\(t\)</span> is</p>
+<div class="arithmatex">\[
+H_t = (O_1, R_1, A_1, \dots, A_{t-1}, O_t, R_t),
+\]</div>
+<p>which we can think of as all observable variables up to time <span class="arithmatex">\(t\)</span>. This is the only information the agent can directly use. The environment may contain many hidden variables (for example, internal physics, other agents' intentions, or unobserved noise) that affect what happens next, but the agent does not get to see them. A completely general agent could choose actions as a function of the entire history, i.e., a decision rule of the form <span class="arithmatex">\(A_t = \pi(H_t)\)</span>. The problem is that histories grow longer over time, which makes them inconvenient to store and reason about.</p>
+<p>This motivates the idea of a state: a compressed summary of the history that keeps the information needed to decide what to do next. Formally, we define the state at time <span class="arithmatex">\(t\)</span> as a function of history,</p>
+<div class="arithmatex">\[
+S_t = f(H_t),
+\]</div>
+<p>so the agent can act using <span class="arithmatex">\(S_t\)</span> instead of the full <span class="arithmatex">\(H_t\)</span>. The main goal is to choose <span class="arithmatex">\(f\)</span> so that <span class="arithmatex">\(S_t\)</span> captures what matters the most for predicting the future, while remaining much smaller and easier to work with than the entire history.</p>
+<h3 id="state">State</h3>
+<p>The word state is overloaded in RL, and it helps to separate three related ideas.</p>
+<ul>
+<li>First, the environment state <span class="arithmatex">\(S_t^{e}\)</span> is the environment's private description of the world: whatever internal variables it uses to generate the next observation and reward. The agent typically cannot see <span class="arithmatex">\(S_t^{e}\)</span> directly. Even if it could, parts of it might be irrelevant for decision making, so having access to the full environment state is not always necessary.</li>
+<li>Second, the agent state <span class="arithmatex">\(S_t^{a}\)</span> is the agent's internal representation of what is going on. This is what the agent actually stores and updates while interacting with the environment. In general, it can be any function of the observable history,</li>
+</ul>
+<div class="arithmatex">\[
+S_t^{a} = f(H_t),
+\]</div>
+<p>and actions are chosen based on this internal state. This is usually the most practical notion of state in application, because it is under the agent's control.
+- Third, an information state (or Markov state) is a special kind of state that contains all useful information from the history for predicting the future. One common way to express this is</p>
+<div class="arithmatex">\[
+\mathbb{P}(S_{t+1}\mid S_t) = \mathbb{P}(S_{t+1}\mid S_1,\dots,S_t),
+\]</div>
+<p>which is the Markov property. When a state is Markov, we can treat it as a sufficient summary: in principle, we can throw away the full history and still act optimally using only <span class="arithmatex">\(S_t\)</span>.</p>
+<h3 id="fully-observable-environments-assumption">Fully Observable Environments (Assumption)</h3>
+<p>For most of our discussion, we will focus on the simplest and most common setting: fully observable environments. Full observability means the agent directly observes the underlying state of the environment, so there is no hidden information from the agent's point of view. In this case, the observation is the state:</p>
+<div class="arithmatex">\[
+O_t = S_t.
+\]</div>
+<p>Because the agent can see the full state, we can treat the agent state, environment state, and information (Markov) state as the same object:</p>
+<div class="arithmatex">\[
+O_t = S_t^{a} = S_t^{e}.
+\]</div>
+<p>This is important because it makes the problem much easier to model and solve: the current state contains all the information needed to predict what happens next, so we do not need to carry the entire history. Formally, this setting is called a Markov decision process (MDP), and it will be the main framework used in the discussions that follow.</p>
+<h3 id="partially-observable-environments-reality">Partially Observable Environments (Reality)</h3>
+<p>In many realistic settings, the agent cannot directly observe the true environment state. This is called partial observability: the agent only gets an observation signal that provides an indirect view of the environment. Typical examples are a robot with a camera that is not told its absolute location or a trading agent that only observes current prices not the trends.</p>
+<p>In this setting, the environment has an internal (often hidden) state <span class="arithmatex">\(S_t^{e}\)</span>, but the agent does not observe it directly. Instead, it receives observations <span class="arithmatex">\(O_t\)</span>. As a result, the agent's internal state is generally not equal to the environment state:</p>
+<div class="arithmatex">\[
+S_t^{a} \neq S_t^{e}.
+\]</div>
+<p>Formally, this setup is modeled as a partially observable Markov decision process (POMDP). Even if the environment dynamics are Markov in <span class="arithmatex">\(S_t^{e}\)</span>, the agent only sees <span class="arithmatex">\(O_t\)</span>, so it must build its own state representation to decide well.</p>
+<p>A few common choices for the agent state <span class="arithmatex">\(S_t^{a}\)</span> are:</p>
+<p>(1) Complete history:</p>
+<div class="arithmatex">\[
+ S_t^{a} = H_t,
+\]</div>
+<p>where <span class="arithmatex">\(H_t\)</span> is the full sequence of observations, actions, and rewards up to time <span class="arithmatex">\(t\)</span>.</p>
+<p>(2) Belief over environment states:</p>
+<div class="arithmatex">\[
+S_t^{a} = \big(\mathbb{P}[S_t^{e}=s^1], \ldots, \mathbb{P}[S_t^{e}=s^n]\big),
+\]</div>
+<p>which is a probability distribution over possible environment states. This is often called the belief state, and it summarizes uncertainty about what the true hidden state might be.</p>
+<p>(3) Learned memory (recurrent neural network)</p>
+<div class="arithmatex">\[
+S_t^{a} = \sigma\!\left(S_{t-1}^{a} W_s + O_t W_o\right),
+\]</div>
+<p>where <span class="arithmatex">\(\sigma(\cdot)\)</span> is a nonlinear function and <span class="arithmatex">\(W_s, W_o\)</span> are parameters. Here the agent compresses the past into a compact internal representation that is updated every step.</p>
+<p>All three approaches aim for the same goal: construct an internal state <span class="arithmatex">\(S_t^{a}\)</span> that contains enough information from the history to choose good actions, even when the true environment state is not directly observable.</p>
+<h2 id="major-components-of-an-rl-agent">Major Components of an RL Agent</h2>
+<p>An RL agent is usually described in terms of a few core components that play different roles in decision making. Depending on the algorithm, an agent may use one or more of the following: a policy, a value function, and a model of the environment. Different RL methods emphasize different components, but these ideas form a common language across the field.</p>
+<h3 id="policy">Policy</h3>
+<p>A policy describes the agent’s behavior. It specifies how the agent chooses actions based on the current state. In other words, it is a mapping from states to actions. In the simplest case, the policy is deterministic, meaning it always picks the same action in a given state:</p>
+<div class="arithmatex">\[
+a = \pi(s).
+\]</div>
+<p>More generally, policies are stochastic. A stochastic policy defines a probability distribution over actions given a state:</p>
+<div class="arithmatex">\[
+\pi(a \mid s) = \mathbb{P}[A_t = a \mid S_t = s].
+\]</div>
+<p>Stochastic policies are useful when the environment is uncertain, when exploration is needed, or when randomization itself is beneficial.</p>
+<h3 id="value-functions">Value Functions</h3>
+<p>Value functions predict future reward and are used to evaluate how good it is to be in a given situation. There are two closely related types.</p>
+<ul>
+<li>The state-value function evaluates a state <span class="arithmatex">\(s\)</span> under policy <span class="arithmatex">\(\pi\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+v_\pi(s) = \mathbb{E}_\pi \big[ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \mid S_t = s \big],
+\]</div>
+<p>where <span class="arithmatex">\(\gamma \in [0,1]\)</span> is the discount factor.</p>
+<ul>
+<li>The action-value function (also called the <span class="arithmatex">\(Q\)</span>-function) evaluates a state--action pair. It answers: if I am in state <span class="arithmatex">\(s\)</span>, take action <span class="arithmatex">\(a\)</span> now, and then follow policy <span class="arithmatex">\(\pi\)</span>, what long-term reward should I expect?</li>
+</ul>
+<div class="arithmatex">\[
+q_\pi(s,a) = \mathbb{E}_\pi \big[ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \mid S_t = s,\; A_t = a \big].
+\]</div>
+<p>Action-value functions are especially useful for action selection, since they directly compare which action looks better in the same state.</p>
+<h3 id="model">Model</h3>
+<p>A model captures how the environment behaves. While a policy tells the agent what action to take and a value function predicts long-term reward, a model predicts what the environment will do next. Having a model allows the agent to reason about the consequences of actions without directly interacting with the real environment.</p>
+<p>In the standard RL setting, a model consists of two parts.</p>
+<ul>
+<li>The transition model predicts the next state given the current state and action:</li>
+</ul>
+<div class="arithmatex">\[
+\mathcal{P}^{a}_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s,\; A_t = a].
+\]</div>
+<ul>
+<li>The reward model predicts the expected immediate reward for taking an action in a state:</li>
+</ul>
+<div class="arithmatex">\[
+\mathcal{R}^{a}_{s} = \mathbb{E}[R_{t+1} \mid S_t = s,\; A_t = a].
+\]</div>
+<p>Together, these components describe the dynamics of the environment as seen by the agent. Algorithms that explicitly learn or use <span class="arithmatex">\(\mathcal{P}\)</span> and <span class="arithmatex">\(\mathcal{R}\)</span> are called model-based methods. In contrast, model-free methods do not build an explicit model of the environment. They learn a policy and/or value functions directly from experience. Most of our discussion will focus on model-free RL, since it is often simpler to implement and is widely used in practice.</p>
+<h2 id="categorizing-rl-agents">Categorizing RL Agents</h2>
+<h3 id="classification-of-rl-agents-by-learned-components">Classification of RL Agents by Learned Components</h3>
+<p>RL algorithms can be categorized by what they explicitly learn: a value function, a policy, or both. This classification helps clarify the differences between methods and when each is most appropriate.</p>
+<ul>
+<li>Value-based agents focus on learning a value function, usually an action-value function <span class="arithmatex">\(q(s,a)\)</span>. They do not explicitly learn a policy. Instead, the policy is implicit: at each time step, actions are chosen by comparing values and picking the best one (for example, choosing the action with the highest <span class="arithmatex">\(q(s,a)\)</span>). Classic examples like Q-learning fall into this category.</li>
+<li>Policy-based agents directly learn a policy <span class="arithmatex">\(\pi(a \mid s)\)</span> without maintaining a value function. The policy is optimized to maximize expected cumulative reward, often using gradient-based methods. These approaches are natural for continuous action spaces and stochastic policies, but they do not explicitly evaluate how good states or actions are.</li>
+<li>Actor-critic agents combine both ideas. The actor is the policy, which selects actions, while the critic is a value function that evaluates how good those actions are. The critic provides feedback to improve the actor, making learning more stable and efficient. Many modern RL algorithms use this structure because it balances the strengths of value-based and policy-based methods.</li>
+</ul>
+<h3 id="categorizing-rl-agents-model-free-vs-model-based">Categorizing RL Agents: Model-Free vs. Model-Based</h3>
+<p>Another common way to categorize RL agents is based on whether they use an explicit model of the environment. As seen in the previous sectoin we can define these as:</p>
+<ul>
+<li>Model-free agents do not try to learn how the environment works internally. Instead, they learn a policy, a value function, or both, directly from experience. All learning happens through trial and error, using observed rewards and transitions, without explicitly predicting the next state or reward. Most standard RL algorithms fall into this category, and most of this discussion focuses on model-free methods because they are simple, flexible, and widely used in practice.</li>
+<li>Model-based agents, on the other hand, explicitly learn or are given a model of the environment. In addition to learning a policy and/or value function, they also learn how states transition and what rewards to expect. This allows the agent to plan ahead by simulating future outcomes before acting. Model-based methods can be more data-efficient, but they are often harder to design and computationally more expensive.</li>
+</ul>
+<p>This distinction also clarifies the difference between learning and planning in sequential decision making: both aim to improve the agent's policy, but they differ in what information is available. In model-free reinforcement learning, the environment is initially unknown, so the agent must learn through interaction and trial and error. In planning (model-based), a model of the environment is known or already learned, allowing the agent to simulate future trajectories and improve its policy internally through deliberation, reasoning, or search.</p>
+<h2 id="exploration-and-exploitation">Exploration and Exploitation</h2>
+<p>Reinforcement learning is often described as trial-and-error learning. The agent must discover a good policy by interacting with the environment and learning from the outcomes of its actions. At the same time, it wants to collect as much reward as possible while learning, rather than performing poorly for a long time.</p>
+<p>This leads to a fundamental trade-off. Exploration refers to taking actions that may not seem optimal right now, but help the agent gather more information about the environment. Exploitation, on the other hand, means using the information the agent already has to choose actions that are expected to give high reward.</p>
+<p>Both are necessary. If the agent only exploits, it may get stuck with a suboptimal policy because it never tries alternatives. If it only explores, it may learn a lot but fail to accumulate reward. Effective RL algorithms balance exploration and exploitation so that the agent learns about the environment while still performing reasonably well along the way.</p>
+<h3 id="prediction-and-control">Prediction and Control</h3>
+<p>Many problems in reinforcement learning can be viewed through the lens of prediction and control. These are two closely related, but distinct, objectives.</p>
+<ul>
+<li>Prediction asks: given a fixed policy, how good is it? The goal is to evaluate the future by estimating expected rewards when the agent follows a particular policy. This is typically done using value functions, which predict long-term reward without changing the policy itself.</li>
+<li>Control goes one step further. Instead of just evaluating a policy, the goal is to improve it. Control is about optimizing the future by finding the best possible policy, one that maximizes expected cumulative reward. Most RL algorithms alternate between prediction (evaluating how good things are) and control (using that information to choose better actions).</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

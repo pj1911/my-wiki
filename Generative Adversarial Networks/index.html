@@ -1,0 +1,1511 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../linearRegression/">
+      
+      
+        <link rel="next" href="../Transformers-1-Introduction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Generative Adversarial Networks - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#generative-adversarial-networks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Generative Adversarial Networks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generative-modeling-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative modeling problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative modeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fix-learn-sampling-procedure-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix: Learn sampling procedure directly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-adversarial-networks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative adversarial networks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generative adversarial networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loss-for-generator-and-discriminator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loss for generator and discriminator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-train-gans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to train GANs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-gans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of GANs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generative-modeling-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative modeling problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative modeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fix-learn-sampling-procedure-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix: Learn sampling procedure directly
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generative-adversarial-networks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generative adversarial networks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generative adversarial networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loss-for-generator-and-discriminator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loss for generator and discriminator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-train-gans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to train GANs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-gans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of GANs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="generative-adversarial-networks">Generative Adversarial Networks</h1>
+<h3 id="generative-modeling-problem">Generative modeling problem</h3>
+<p>The generative modeling problem (GMP) is the task of learning a probability distribution from data so that we can generate new, realistic samples that look like they came from the real dataset. GANs are a kind of AI algorithm that are designed to solve GMPs. They are especially famous for how good they are at creating realistic, high-resolution images.</p>
+<h3 id="generative-modeling">Generative modeling</h3>
+<p>Generative modeling is an unsupervised approach where we observe samples <span class="arithmatex">\(\mathbf{x}\)</span> from unknown distribution (<span class="arithmatex">\(\mathbf{x} \sim p_{\text{data}}(\mathbf{x})\)</span>) and learn a model
+<span class="arithmatex">\(p_{\text{model}}(\mathbf{x})\)</span> that matches this distribution. We choose a
+parametric form <span class="arithmatex">\(p_{\text{model}}(\mathbf{x}; \theta)\)</span> and fit <span class="arithmatex">\(\theta\)</span> so
+<span class="arithmatex">\(p_{\text{model}}\)</span> resembles <span class="arithmatex">\(p_{\text{data}}\)</span>, typically by maximum
+likelihood, i.e., minimizing
+<span class="arithmatex">\(\mathrm{KL}\big(p_{\text{data}} \,\|\, p_{\text{model}}\big)\)</span>. </p>
+<p>In many applications, we are interested in conditional generative models of the form
+<span class="arithmatex">\(p(\mathbf{x} \mid \mathbf{c}, \mathbf{w})\)</span>, where <span class="arithmatex">\(\mathbf{c}\)</span> is a vector of
+conditioning variables. For instance, in a generative model for animal images,
+<span class="arithmatex">\(\mathbf{c}\)</span> can indicate which animal we want, such as a cat or a dog, so the
+model generates images that matches the chosen class.</p>
+<h3 id="common-issues">Common issues</h3>
+<p>Explicit density models work nicely in classic statistics, where we use simple
+distributions over a few variables. In modern deep learning, however, we often
+use complex neural networks, and their exact density can be intractable. People
+have mostly tried two fixes: (1) design models with tractable densities, or
+(2) use approximate methods to learn intractable ones. Both are hard and still
+struggle on tasks like generating realistic high-resolution images.</p>
+<p>To be concrete, sometimes we do not specify <span class="arithmatex">\(p_{\text{model}}(\mathbf{x}; \theta)\)</span> directly. Instead, we introduce a latent variable <span class="arithmatex">\(\mathbf{z}\)</span>: a hidden variable that we never observe in the data but that describes how <span class="arithmatex">\(\mathbf{x}\)</span> is generated. We choose a simple prior over <span class="arithmatex">\(\mathbf{z}\)</span>, for example <span class="arithmatex">\(p(\mathbf{z}) = \mathcal{N}(\mathbf{z} \mid 0, I)\)</span>, and a nonlinear generator function <span class="arithmatex">\(\mathbf{x} = g(\mathbf{z}, \theta)\)</span> given by a neural network (introduced in the next section). We can then generate samples by first drawing <span class="arithmatex">\(\mathbf{z} \sim p(\mathbf{z})\)</span> and then setting <span class="arithmatex">\(\mathbf{x} = g(\mathbf{z}, \theta)\)</span>. In this way, the distribution over <span class="arithmatex">\(\mathbf{x}\)</span> is defined implicitly, meaning it is specified by the sampling procedure rather than by an explicit closed-form formula.</p>
+<p>The model defines a joint distribution</p>
+<div class="arithmatex">\[
+p(\mathbf{x}, \mathbf{z}; \theta) = p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta).
+\]</div>
+<p>The marginal distribution over <span class="arithmatex">\(\mathbf{x}\)</span> is obtained by marginalizing out the latent variable <span class="arithmatex">\(\mathbf{z}\)</span> and using the continuous version of the law of total probability:</p>
+<div class="arithmatex">\[
+p_{\text{model}}(\mathbf{x}; \theta) = \int p(\mathbf{x}, \mathbf{z}; \theta)\, d\mathbf{z} = \int p(\mathbf{z})\, p(\mathbf{x} \mid \mathbf{z}; \theta)\, d\mathbf{z}.
+\]</div>
+<p>For a deterministic generator, once <span class="arithmatex">\(\mathbf{z}\)</span> and <span class="arithmatex">\(\theta\)</span> are fixed, <span class="arithmatex">\(\mathbf{x}\)</span> is completely determined by <span class="arithmatex">\(\mathbf{x} = g(\mathbf{z}, \theta)\)</span>. This means that, conditioned on <span class="arithmatex">\(\mathbf{z}\)</span>, all probability mass is concentrated at the point <span class="arithmatex">\(g(\mathbf{z}, \theta)\)</span>. In continuous space, this is written using a Dirac delta:</p>
+<div class="arithmatex">\[
+p(\mathbf{x} \mid \mathbf{z}; \theta) = \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big).
+\]</div>
+<p>Plugging this into the marginalization formula gives</p>
+<div class="arithmatex">\[
+p_{\text{model}}(\mathbf{x}; \theta) = \int p(\mathbf{z})\, \delta\big(\mathbf{x} - g(\mathbf{z}, \theta)\big)\, d\mathbf{z}.
+\]</div>
+<p>For a general deep nonlinear <span class="arithmatex">\(g\)</span>, this integral has no closed-form solution, so <span class="arithmatex">\(p_{\text{model}}(\mathbf{x}; \theta)\)</span> is intractable, and we cannot directly optimize <span class="arithmatex">\(\theta\)</span> using maximum likelihood.</p>
+<h3 id="fix-learn-sampling-procedure-directly">Fix: Learn sampling procedure directly</h3>
+<p>An alternative to these explicit density models is to skip the tractable density entirely and learn only a
+tractable sampling procedure. These are called <em>implicit generative models</em> and
+GANs belong to this family. Before GANs, the leading deep implicit model was the
+generative stochastic network, which produced approximate samples via a
+Markov chain. GANs were proposed to instead generate high-quality samples in
+a <em>single</em> step, avoiding the incremental and approximate nature of
+Markov-chain sampling.</p>
+<h2 id="generative-adversarial-networks_1">Generative adversarial networks</h2>
+<p>GANs are built in the game-theory sense, a game between two models,
+usually neural networks, which are trained jointly and where the second network (discriminator)
+provides a training signal to update the weights of the first network (generator). The <em>generator</em>, implicitly defines <span class="arithmatex">\(p_{\text{model}}(\mathbf{x})\)</span>. In general, it cannot compute this density as we saw in the previous section, but
+it <em>can</em> draw samples from it. The generator starts from a simple prior <span class="arithmatex">\(p(\mathbf{z})\)</span> over a latent vector <span class="arithmatex">\(\mathbf{z}\)</span> (for example, a multivariate Gaussian or a uniform distribution
+over a hypercube). A sample <span class="arithmatex">\(\mathbf{z} \sim p(\mathbf{z})\)</span> is just noise. The
+generator is a function <span class="arithmatex">\(G(\mathbf{z}; \theta_G)\)</span> that learns to transform this
+noise into realistic samples, with <span class="arithmatex">\(\theta_G\)</span> representing its learnable
+parameters or “strategy’’ in the game.</p>
+<p>The other player, the <em>discriminator</em>, looks at a sample
+<span class="arithmatex">\(\mathbf{x}\)</span> and outputs a score <span class="arithmatex">\(D(\mathbf{x}; \theta_D)\)</span> estimating whether
+<span class="arithmatex">\(\mathbf{x}\)</span> is real (from the training data) or fake (from
+<span class="arithmatex">\(p_{\text{model}}\)</span>, via the generator). In the original GAN, this score is the
+probability that <span class="arithmatex">\(\mathbf{x}\)</span> is real, assuming real and fake examples are shown
+equally often.</p>
+<p>Each player has its own cost: <span class="arithmatex">\(J_G(\theta_G, \theta_D)\)</span> for the generator and
+<span class="arithmatex">\(J_D(\theta_G, \theta_D)\)</span> for the discriminator, and each tries to minimize
+its own cost. The discriminator’s cost pushes it to classify correctly and the
+generator’s cost pushes it to make fake samples that the discriminator classifies as real working against each other, hence the name 'Adversarial'.</p>
+<h3 id="loss-for-generator-and-discriminator">Loss for generator and discriminator</h3>
+<p>In the original GAN, the discriminator sees two kinds of examples:
+real data <span class="arithmatex">\(\mathbf{x} \sim p_{\text{data}}\)</span> with label 1, and generated data
+<span class="arithmatex">\(G(\mathbf{z})\)</span> with label 0.</p>
+<p>We interpret the discriminator output as the probability that a data point <span class="arithmatex">\(\mathbf{x}\)</span> is real:</p>
+<div class="arithmatex">\[
+P(target = 1 \mid \mathbf{x}) = D(\mathbf{x}; \theta_D).
+\]</div>
+<p>Its loss is just the usual binary cross-entropy:</p>
+<div class="arithmatex">\[
+J_D(\theta_D, \theta_G)
+= - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} \big[\log D(\mathbf{x})\big]
+  - \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})} \big[\log \big(1 - D(G(\mathbf{z}))\big)\big].
+\]</div>
+<p>The first term says “real samples should have <span class="arithmatex">\(D(\mathbf{x})\)</span> close to 1,”
+and the second says “fake samples should have <span class="arithmatex">\(D(G(\mathbf{z}))\)</span> close to 0.”
+So <span class="arithmatex">\(D\)</span> is trained exactly like a standard real-vs-fake classifier.
+For the generator, two options are usually proposed:</p>
+<ul>
+<li>
+<p><strong>Minimax GAN (M-GAN):</strong> <span class="arithmatex">\(J_G = -J_D\)</span>, giving a clean minimax game.
+    This makes GAN training a standard zero-sum game: whenever the
+    discriminator gets better, the generator “loses,” and vice versa., and at equilibrium this
+    setup corresponds to minimizing a well-defined divergence between
+    <span class="arithmatex">\(p_{\text{data}}\)</span> and <span class="arithmatex">\(p_{\text{model}}\)</span>.</p>
+</li>
+<li>
+<p><strong>Non-saturating GAN (NS-GAN):</strong>
+In the original minimax version, the generator minimizes</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+J_G^{\text{minimax}}(\theta_G, \theta_D)
+= \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})}
+  \big[\log\big(1 - D(G(\mathbf{z}))\big)\big],
+\]</div>
+<p>By minimizing <span class="arithmatex">\(\log(1 - D(G(\mathbf{z})))\)</span>, the generator effectively tries to make <span class="arithmatex">\(D(G(\mathbf{z}))\)</span> large (so its fakes look real). However, early in training we typically have <span class="arithmatex">\(D(G(\mathbf{z})) \approx 0\)</span>. In this regime the sigmoid in <span class="arithmatex">\(D\)</span> is saturated, so <span class="arithmatex">\(\partial D(G(\mathbf{z}))/\partial \theta_G \approx 0\)</span>, and the gradient of <span class="arithmatex">\(\log(1 - D(G(\mathbf{z})))\)</span> with respect to <span class="arithmatex">\(\theta_G\)</span> is very small. As a result, the generator receives almost no learning signal.</p>
+<p>In NS-GAN, we “flip the labels’’ for the generator: it acts as if its fake
+samples were real and tries to push <span class="arithmatex">\(D(G(\mathbf{z}))\)</span> toward 1. Its loss is</p>
+<div class="arithmatex">\[
+J_G^{\text{NS}}(\theta_G, \theta_D)
+= - \mathbb{E}_{\mathbf{z} \sim p(\mathbf{z})}
+  \big[\log D(G(\mathbf{z}))\big],
+\]</div>
+<p>the negative log-likelihood of the “real’’ label for fake samples. This gives
+stronger gradients when the discriminator is confident (i.e., <span class="arithmatex">\(D(G(\mathbf{z}))\)</span>
+is small), so the generator keeps learning instead of getting stuck.</p>
+<p>NS-GAN is often preferred in practice because it helps avoid gradient
+saturation during training.</p>
+<p>We can think of GANs like counterfeiters and police. The generator is the
+counterfeiter, making fake money and the discriminator is the police, trying to
+catch fakes while letting real money through. As they compete, the fakes get
+better and better until, in the ideal case, the police can no longer tell real
+from fake. The twist is that, in GANs, the generator learns from the
+discriminator’s gradient, as if the counterfeiters had a mole inside the police
+force explaining exactly how they spot fakes.</p>
+<h3 id="how-to-train-gans">How to train GANs</h3>
+<p>GANs use game-theoretic ideas in a challenging setting: the losses are
+non-convex, and both actions and policies live in continuous, high-dimensional
+spaces (whether we view an action as choosing parameters <span class="arithmatex">\(\theta_G\)</span> or as
+producing a sample <span class="arithmatex">\(\mathbf{x}\)</span>). The learning goal is to reach a
+<em>local Nash equilibrium</em>: a point where each player’s loss is at a local
+minimum with respect to its own parameters. In such a state, with only small
+(local) changes and holding the other player fixed, no player can further
+reduce its loss.</p>
+<p>The most common way to train a GAN is simple: use a gradient-based optimizer
+to update both players’ parameters in turn, each trying to reduce its own
+loss. When this works well, the trained generator can produce very realistic
+samples, even for complex datasets with high-resolution images.
+A high-level reason GANs can be so effective is that they avoid many of the
+approximations used in other generative models. We never have to approximate
+an intractable density, instead, we directly train the generator to fool the
+discriminator. The main sources of error are then just statistical (finite
+data) and optimization-related (not reaching the ideal equilibrium), rather
+than additional approximation errors from Markov chains, variational bounds,
+and so on.</p>
+<h3 id="convergence-of-gans">Convergence of GANs</h3>
+<p>Convergence for a GAN means that training settles
+into a stable state: the generator’s samples and the discriminator’s
+predictions stop changing (up to small noise), and neither player can improve
+its loss by making a small change in its parameters. The original GAN paper gave two key (idealized) results regarding this:</p>
+<ol>
+<li>In the space of all possible density functions <span class="arithmatex">\(p_{\text{model}}\)</span> and
+        discriminators <span class="arithmatex">\(D\)</span>, there is only <em>one</em> local Nash equilibrium:
+        the point where the model matches the data perfectly,
+        <span class="arithmatex">\(p_{\text{model}} = p_{\text{data}}\)</span>.</li>
+<li>If we had an ideal optimizer that, for any fixed <span class="arithmatex">\(p_{\text{model}}\)</span>,
+        could find the best possible discriminator <span class="arithmatex">\(D^\ast\)</span>, then the
+        following loop would converge to that equilibrium:<ol>
+<li>fix <span class="arithmatex">\(p_{\text{model}}\)</span> and optimize <span class="arithmatex">\(D\)</span> all the way to
+            <span class="arithmatex">\(D^\ast\)</span>;</li>
+<li>
+<p>then take a small gradient step on <span class="arithmatex">\(p_{\text{model}}\)</span> to
+            reduce its loss, keeping <span class="arithmatex">\(D^\ast\)</span> fixed.</p>
+<p>Repeating these steps would eventually make
+<span class="arithmatex">\(p_{\text{model}}\)</span> equal to <span class="arithmatex">\(p_{\text{data}}\)</span>.</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>In practice, things are messier. We do not move directly in the space of all
+distributions. Instead, both <span class="arithmatex">\(p_{\text{model}}\)</span> and <span class="arithmatex">\(D\)</span> are neural
+networks with finitely many parameters, trained with noisy, alternating
+gradient steps. The losses are highly non-convex, and each update of one
+player changes the landscape seen by the other. Because of this, training can
+oscillate, diverge, or collapse to poor solutions rather than neatly settling
+to the nice equilibrium guaranteed in the idealized theory.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., ... &amp; Bengio, Y. (2020). Generative adversarial networks. Communications of the ACM, 63(11), 139-144.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

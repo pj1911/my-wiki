@@ -1,0 +1,1687 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Fuzzy%20Inference%20Systems/">
+      
+      
+        <link rel="next" href="../Hyperbolic%20PDEs-1-weak%20solutions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>1 - Hamilton Jacobi Equation - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 - Hamilton Jacobi Equation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implicit-function-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implicit function theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-value-problem-characteristics-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial value problem: Characteristics curves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initial value problem: Characteristics curves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-pde-to-odes-along-characteristic-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a PDE to ODEs along characteristic curves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-transport-equation-why-characteristics-feel-natural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: the transport equation (why characteristics feel natural)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nonlinearity-when-characteristics-can-collide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nonlinearity: when characteristics can collide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nonlinearity: when characteristics can collide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-first-order-pdes-and-the-full-characteristic-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General first-order PDEs and the full characteristic system
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-to-several-space-variables-the-step-needed-for-hamilton-jacobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moving to several space variables (the step needed for Hamilton-Jacobi)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving to several space variables (the step needed for Hamilton-Jacobi)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-hamilton-jacobi-equation-as-a-special-first-order-pde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hamilton-Jacobi equation as a special first-order PDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#characteristics-of-hamilton-jacobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characteristics of Hamilton-Jacobi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implicit-function-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implicit function theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-value-problem-characteristics-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial value problem: Characteristics curves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initial value problem: Characteristics curves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-pde-to-odes-along-characteristic-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a PDE to ODEs along characteristic curves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-transport-equation-why-characteristics-feel-natural" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: the transport equation (why characteristics feel natural)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nonlinearity-when-characteristics-can-collide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nonlinearity: when characteristics can collide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nonlinearity: when characteristics can collide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-first-order-pdes-and-the-full-characteristic-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General first-order PDEs and the full characteristic system
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-to-several-space-variables-the-step-needed-for-hamilton-jacobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moving to several space variables (the step needed for Hamilton-Jacobi)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving to several space variables (the step needed for Hamilton-Jacobi)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-hamilton-jacobi-equation-as-a-special-first-order-pde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hamilton-Jacobi equation as a special first-order PDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#characteristics-of-hamilton-jacobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Characteristics of Hamilton-Jacobi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>1 - Hamilton Jacobi Equation</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>A first-order PDE is an equation for an unknown function <span class="arithmatex">\(u\)</span> of several variables where the highest derivatives that appear are only first derivatives. For <span class="arithmatex">\(u=u(x,t)\)</span>, the most general way to write such an equation is</p>
+<div class="arithmatex">\[
+F\!\big(x,t,\,u(x,t),\,u_x(x,t),\,u_t(x,t)\big)=0,
+\]</div>
+<p>meaning: at each point <span class="arithmatex">\((x,t)\)</span>, if we substitute the numbers <span class="arithmatex">\(x,t,u,u_x,u_t\)</span> into the function <span class="arithmatex">\(F\)</span>, the result must be zero. This is called writing the PDE implicitly, as in this case the equation is not arranged to isolate any derivatives, it is just a constraint relating the variables and derivatives. Sometimes, we can rearrange the same PDE into an explicit form where one derivative is isolated, for example</p>
+<div class="arithmatex">\[
+u_t = G(x,t,u,u_x)
+\qquad\text{or equivalently}\qquad
+u_t + a(x,t,u)\,u_x = b(x,t,u),
+\]</div>
+<p>but this rearrangement is not always possible globally (or it may become messy or ambiguous), so the implicit form is the most general starting point. </p>
+<h3 id="implicit-function-theorem">Implicit function theorem</h3>
+<p>But an implicit first-order PDE cannot always be rewritten in the explicit form. For example, say we have the implicit form</p>
+<div class="arithmatex">\[
+F(x,t,u,u_x,u_t)=0.
+\]</div>
+<p>For many initial-value problems we would like to isolate the time derivative and write an ``evolution law''</p>
+<div class="arithmatex">\[
+u_t = G(x,t,u,u_x),
+\]</div>
+<p>meaning: once <span class="arithmatex">\(x,t,u,u_x\)</span> are given, the equation selects one value of <span class="arithmatex">\(u_t\)</span> (at least locally). The key tool for deciding when an implicit PDE can be solved locally for a chosen derivative (or can be written explicitly) is the
+Implicit Function Theorem (IFT) (we do not prove it here). But, for a general understanding, let <span class="arithmatex">\(F\)</span> be smooth and suppose at <span class="arithmatex">\((x_0,t_0)\)</span> we have</p>
+<div class="arithmatex">\[
+F(x_0,t_0,u_0,p_0,q_0)=0,
+\qquad
+u_0=u(x_0,t_0),\; p_0=u_x(x_0,t_0),\; q_0=u_t(x_0,t_0).
+\]</div>
+<p>If, in addition,</p>
+<div class="arithmatex">\[
+\frac{\partial F}{\partial u_t}(x_0,t_0,u_0,p_0,q_0)\neq 0,
+\]</div>
+<p>then the IFT guarantees that near this point one can solve uniquely for <span class="arithmatex">\(u_t\)</span> as a smooth function of the other variables. This is plausible because if we freeze <span class="arithmatex">\((x,t,u,p)\)</span> and view</p>
+<div class="arithmatex">\[
+\phi(q)=F(x,t,u,p,q)
+\]</div>
+<p>as a one-variable function. At the base point, <span class="arithmatex">\(\phi(q_0)=0\)</span> (because <span class="arithmatex">\(F(...)=0\)</span>) and <span class="arithmatex">\(\phi'(q_0)\neq 0\)</span>, so <span class="arithmatex">\(\phi\)</span> crosses <span class="arithmatex">\(0\)</span> transversely and is locally monotone, hence the zero is isolated and unique. Small perturbations of <span class="arithmatex">\((x,t,u,p)\)</span> change <span class="arithmatex">\(\phi\)</span> only slightly, so a nearby zero persist, the nonvanishing of <span class="arithmatex">\(\partial F/\partial u_t\)</span> keeps the crossing monotone, preserving uniqueness. Consequently, by IFT there is a smooth function <span class="arithmatex">\(G\)</span> such that, on some neighborhood of the base point <span class="arithmatex">\((x_0,t_0,u_0,p_0,q_0)\)</span>, the equation <span class="arithmatex">\(F(x,t,u,p,q)=0\)</span> can be solved uniquely for <span class="arithmatex">\(q=u_t\)</span> in terms of the other variables, i.e. <span class="arithmatex">\(q=G(x,t,u,p)\)</span>. In other words, for <span class="arithmatex">\((x,t,u,u_x)\)</span> sufficiently close to <span class="arithmatex">\((x_0,t_0,u_0,p_0)\)</span>, there exists exactly one <span class="arithmatex">\(u_t\)</span> near <span class="arithmatex">\(q_0\)</span> satisfying <span class="arithmatex">\(F=0\)</span>, and this <span class="arithmatex">\(u_t\)</span> depends smoothly on <span class="arithmatex">\((x,t,u,u_x)\)</span>, so locally</p>
+<div class="arithmatex">\[
+F(x,t,u,u_x,u_t)=0 \quad\Longleftrightarrow\quad u_t=G(x,t,u,u_x).
+\]</div>
+<p>If the condition fails, uniqueness (or even existence) can break. For example,</p>
+<div class="arithmatex">\[
+u_t^2-u_x=0 \quad\Rightarrow\quad u_t=\pm\sqrt{u_x},
+\]</div>
+<p>so there are two branches for <span class="arithmatex">\(u_x&gt;0\)</span>, no real solutions for <span class="arithmatex">\(u_x&lt;0\)</span>, and branching occurs precisely where
+<span class="arithmatex">\(\frac{\partial F}{\partial u_t}=2u_t=0\)</span>.</p>
+<h2 id="initial-value-problem-characteristics-curves">Initial value problem: Characteristics curves</h2>
+<p>Once a first-order PDE is in an explicit (or at least locally explicit) form, the most common problem type is an initial value problem (Cauchy problem): we provide the value of the unknown along an initial curve and ask the PDE to extend it away from that curve. For <span class="arithmatex">\(u=u(x,t)\)</span> a standard explicit model is the quasi-linear equation</p>
+<div class="arithmatex">\[
+u_t + a(x,t,u)\,u_x = b(x,t,u),
+\]</div>
+<p>together with initial data at (say) <span class="arithmatex">\(t=0\)</span>,</p>
+<div class="arithmatex">\[
+u(x,0)=\phi(x).
+\]</div>
+<p>Now a simple question arises why is this not just a “plug and solve” type of equation? Because the PDE does not directly tell us <span class="arithmatex">\(u\)</span>. It tells us how <span class="arithmatex">\(u\)</span> must change when we move in <span class="arithmatex">\((x,t)\)</span> while keeping the relation between the partial slopes <span class="arithmatex">\(u_t\)</span> and <span class="arithmatex">\(u_x\)</span>.</p>
+<p>The key observation here is that the particular combination <span class="arithmatex">\(u_t+a\,u_x\)</span> has a very concrete meaning: it is the directional derivative of <span class="arithmatex">\(u\)</span> in the <span class="arithmatex">\((x,t)\)</span>-plane along a direction that tilts with slope <span class="arithmatex">\(a\)</span>. To see this, pick any differentiable curve in the <span class="arithmatex">\((x,t)\)</span>-plane, written as <span class="arithmatex">\(t\mapsto (x(t),t)\)</span>. Along this curve we can track how the value of the field changes by defining a single-variable function</p>
+<div class="arithmatex">\[
+U(t):=u(x(t),t).
+\]</div>
+<p>By the ordinary chain rule,</p>
+<div class="arithmatex">\[
+\frac{dU}{dt}=\frac{d}{dt}u(x(t),t)=u_x(x(t),t)\,x'(t)+u_t(x(t),t).
+\]</div>
+<p>So the rate of change of <span class="arithmatex">\(u\)</span> that an observer would measure while moving along the curve is</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(x(t),t)=u_t+ x'(t)\,u_x.
+\]</div>
+<p>Now compare this with the PDE term <span class="arithmatex">\(u_t+a\,u_x\)</span>: if we choose the curve so that its slope satisfies</p>
+<div class="arithmatex">\[
+x'(t)=a(x(t),t,u(x(t),t)),
+\]</div>
+<p>then the observed change along that curve becomes exactly</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(x(t),t)=u_t+a\,u_x.
+\]</div>
+<p>This is why, along those special curves, a PDE like <span class="arithmatex">\(u_t+a\,u_x=b\)</span> turns into the single ODE <span class="arithmatex">\(\frac{d}{dt}u=b\)</span>.
+ Indeed, along any differentiable curve <span class="arithmatex">\(t\mapsto (x(t),t)\)</span>, if we choose <span class="arithmatex">\(x'(t)=a(x,t,u)\)</span>, the PDE becomes the ODE</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(x(t),t)=b(x,t,u).
+\]</div>
+<p>Thus the PDE can be attacked by finding special curves in the <span class="arithmatex">\((x,t)\)</span>-plane (later called characteristics) that start on the initial line <span class="arithmatex">\(t=0\)</span> and carry the initial values <span class="arithmatex">\(\phi(x)\)</span> forward by an ODE.</p>
+<h3 id="from-a-pde-to-odes-along-characteristic-curves">From a PDE to ODEs along characteristic curves</h3>
+<p>The previous identity suggests a strategy: instead of trying to solve for <span class="arithmatex">\(u(x,t)\)</span> everywhere at once, we try to trace curves in the <span class="arithmatex">\((x,t)\)</span>-plane along which the PDE becomes an ODE. Let's take an example of the quasi-linear PDE</p>
+<div class="arithmatex">\[
+u_t + a(x,t,u)\,u_x = b(x,t,u),
+\qquad u(x,0)=\phi(x).
+\]</div>
+<p>Pick a starting point on the initial line, say <span class="arithmatex">\(x(t=0)=\xi\)</span> then <span class="arithmatex">\(u(\xi,0)=\phi(\xi)\)</span>. Now, look for a curve <span class="arithmatex">\(t\mapsto (x(t),t)\)</span> and the value of the solution along it, <span class="arithmatex">\(t\mapsto u(t):=u(x(t),t)\)</span>, such that the PDE holds along that curve. Using the chain rule,</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(x(t),t)=u_t(x(t),t)+x'(t)\,u_x(x(t),t).
+\]</div>
+<p>If we choose the curve so that</p>
+<div class="arithmatex">\[
+x'(t)=a\big(x(t),t,u(t)\big),
+\]</div>
+<p>then substituting into the chain rule and using the PDE gives</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(t)=b\big(x(t),t,u(t)\big),
+\qquad u(0)=\phi(\xi).
+\]</div>
+<p>So each initial point <span class="arithmatex">\(\xi\)</span> generates a pair of coupled ODEs,</p>
+<div class="arithmatex">\[
+\begin{cases}
+x'(t)=a(x,t,u), &amp; x(0)=\xi,\\
+u'(t)=b(x,t,u), &amp; u(0)=\phi(\xi).
+\end{cases}
+\]</div>
+<p>Solving the characteristic ODEs does not immediately give <span class="arithmatex">\(u\)</span> as an explicit function of <span class="arithmatex">\((x,t)\)</span>.
+Instead it gives a family of curves and values, indexed by the starting point <span class="arithmatex">\((\xi)\)</span> on the initial line <span class="arithmatex">\((t=0)\)</span>. For each fixed <span class="arithmatex">\(\xi\)</span> we solve the ODEs and obtain</p>
+<div class="arithmatex">\[
+t\mapsto x(t;\xi), \qquad t\mapsto u(t;\xi),
+\]</div>
+<p>with initial values</p>
+<div class="arithmatex">\[
+x(0;\xi)=\xi, \qquad u(0;\xi)=\phi(\xi).
+\]</div>
+<p>Thus, for a given <span class="arithmatex">\(\xi\)</span>, the curve <span class="arithmatex">\(t \longmapsto (x(t;\xi),\,t)\)</span> 
+is a characteristic in the <span class="arithmatex">\((x,t)\)</span>-plane and <span class="arithmatex">\(u(t;\xi)\)</span> is the value of the solution along that characteristic. To convert this Lagrangian/parametric description into the usual Eulerian form <span class="arithmatex">\(u=u(x,t)\)</span>, we must be able to solve for the label <span class="arithmatex">\(\xi\)</span> from the relation</p>
+<div class="arithmatex">\[
+x = x(t;\xi).
+\]</div>
+<p>Equivalently, we need the map</p>
+<div class="arithmatex">\[
+(\xi,t)\ \longmapsto\ (x(t;\xi),\,t)
+\]</div>
+<p>to be locally invertible, so that <span class="arithmatex">\(\xi=\xi(x,t)\)</span> and then</p>
+<div class="arithmatex">\[
+u(x,t)=u\bigl(t;\xi(x,t)\bigr).
+\]</div>
+<p>In practice this means: for a given point <span class="arithmatex">\((x,t)\)</span>, there should be exactly one label <span class="arithmatex">\(\xi\)</span> such that <span class="arithmatex">\(x=x(t;\xi)\)</span>. If such a unique <span class="arithmatex">\(\xi=\xi(x,t)\)</span> exists, we define the solution by</p>
+<div class="arithmatex">\[
+u(x,t)=u\big(t;\xi(x,t)\big).
+\]</div>
+<p>If instead two different labels <span class="arithmatex">\(\xi_1\neq \xi_2\)</span> produce the same point <span class="arithmatex">\((x,t)\)</span> (i.e. <span class="arithmatex">\(x(t;\xi_1)=x(t;\xi_2)\)</span>), then two characteristic curves ``arrive'' at the same location carrying possibly different values of <span class="arithmatex">\(u\)</span>, so the PDE cannot have a single-valued classical solution there, this is exactly where crossing characteristics signal the breakdown of smooth solutions (and motivates weak solutions/shocks in conservation laws).</p>
+<h3 id="example-the-transport-equation-why-characteristics-feel-natural">Example: the transport equation (why characteristics feel natural)</h3>
+<p>To see the method working in the simplest possible setting, consider the constant-coefficient first-order PDE</p>
+<div class="arithmatex">\[
+u_t + c\,u_x = 0,
+\qquad u(x,0)=\phi(x),
+\]</div>
+<p>where <span class="arithmatex">\(c\)</span> is a constant (a fixed ``speed''). Here <span class="arithmatex">\(a(x,t,u)=c\)</span> and <span class="arithmatex">\(b(x,t,u)=0\)</span>, so the characteristic ODEs become</p>
+<div class="arithmatex">\[
+x'(t)=c,\quad x(0)=\xi
+\qquad\Rightarrow\qquad
+x(t;\xi)=\xi+ct,
+\]</div>
+<p>and</p>
+<div class="arithmatex">\[
+u'(t)=0,\quad u(0)=\phi(\xi)
+\qquad\Rightarrow\qquad
+u(t;\xi)=\phi(\xi)\ \ \text{(constant along the curve).}
+\]</div>
+<p>So each initial point <span class="arithmatex">\(\xi\)</span> launches a straight line in the <span class="arithmatex">\((x,t)\)</span>-plane, <span class="arithmatex">\(x=\xi+ct\)</span>, and a constant solution value is simply carried along that line. To write the answer as <span class="arithmatex">\(u(x,t)\)</span>, solve <span class="arithmatex">\(x=\xi+ct\)</span> for the label: <span class="arithmatex">\(\xi=x-ct\)</span>. Substituting gives the explicit solution</p>
+<div class="arithmatex">\[
+u(x,t)=\phi(x-ct).
+\]</div>
+<p>This formula is worth pausing on: the entire initial profile <span class="arithmatex">\(\phi\)</span> is translated to the right if <span class="arithmatex">\(c&gt;0\)</span> (left if <span class="arithmatex">\(c&lt;0\)</span>) at speed <span class="arithmatex">\(|c|\)</span>, without changing shape. In other words, the PDE does not “create” new values, it moves the data along characteristic lines from the initial points, which is exactly the geometric content hidden inside the derivatives <span class="arithmatex">\(u_t\)</span> and <span class="arithmatex">\(u_x\)</span>.</p>
+<h2 id="nonlinearity-when-characteristics-can-collide">Nonlinearity: when characteristics can collide</h2>
+<p>The transport example worked smoothly because the characteristic speed <span class="arithmatex">\(c\)</span> was constant, so straight characteristic lines never intersect. Things become more interesting (and more realistic) when the speed depends on the solution itself. Consider</p>
+<div class="arithmatex">\[
+u_t+u\,u_x=0,\qquad u(x,0)=\phi(x),
+\]</div>
+<p>the inviscid Burgers equation. Along a characteristic curve <span class="arithmatex">\(t\mapsto (x(t),t),\)</span> we track the solution value on that curve by</p>
+<div class="arithmatex">\[
+U(t):=u(x(t),t).
+\]</div>
+<p>Which is the same as the case in the previous section, hence comparing gives: <span class="arithmatex">\(a(x,t,u)=u\)</span> and <span class="arithmatex">\(b(x,t,u)=0\)</span>, so the pair of characteristic ODEs become</p>
+<div class="arithmatex">\[
+\frac{dx}{dt}=u(t),\qquad \frac{du}{dt}=0.
+\]</div>
+<p>with initial conditions <span class="arithmatex">\(x(0)=\xi\)</span> and <span class="arithmatex">\(u(\xi,0)=\phi(\xi)\)</span>. Since <span class="arithmatex">\(u'(t)=0\)</span>, the carried value along each characteristic is constant (vary across different initial points <span class="arithmatex">\(\xi\)</span>):</p>
+<div class="arithmatex">\[
+u(t;\xi)=\phi(\xi).
+\]</div>
+<p>Then the characteristic curve itself has slope determined by that constant value <span class="arithmatex">\(\xi\)</span>:</p>
+<div class="arithmatex">\[
+x'(t)=\phi(\xi)\quad\Rightarrow\quad x(t;\xi)=x(0;\xi)+\phi(\xi)\,t=\xi+\phi(\xi)\,t.
+\]</div>
+<p>So different parts of the initial profile move at different speeds: the point starting at <span class="arithmatex">\(\xi\)</span> moves with speed <span class="arithmatex">\(\phi(\xi)\)</span>. If <span class="arithmatex">\(\phi\)</span> is larger somewhere, that region travels faster and can catch up to slower regions ahead; mathematically this means that the map <span class="arithmatex">\(\xi\mapsto x(t;\xi)\)</span> can stop being one-to-one. Differentiating,</p>
+<div class="arithmatex">\[
+\frac{\partial x}{\partial \xi}(t;\xi)=1+\phi'(\xi)\,t.
+\]</div>
+<p>When this derivative becomes zero for some <span class="arithmatex">\((t,\xi)\)</span>, two nearby labels <span class="arithmatex">\(\xi\)</span> get mapped to the same <span class="arithmatex">\(x\)</span>, i.e. characteristics collide. After the earliest collision the PDE cannot have a single-valued smooth solution without changing the notion of solution (this is where shocks/weak solutions enter).</p>
+<h3 id="general-first-order-pdes-and-the-full-characteristic-system">General first-order PDEs and the full characteristic system</h3>
+<p>The equations we solved so far had the special quasi-linear form <span class="arithmatex">\(u_t+a(x,t,u)u_x=b(x,t,u)\)</span>. A fully general first-order PDE may depend on <span class="arithmatex">\(u_x\)</span> and <span class="arithmatex">\(u_t\)</span> in a nonlinear way,</p>
+<div class="arithmatex">\[
+F(x,t,u,u_x,u_t)=0.
+\]</div>
+<p>In this setting, choosing <span class="arithmatex">\(x'(t)\)</span> cleverly is not enough, because the PDE does not give <span class="arithmatex">\(u_t\)</span> as a single linear combination of <span class="arithmatex">\(u_x\)</span>, instead, the geometry of the constraint <span class="arithmatex">\(F=0\)</span> tells us how <span class="arithmatex">\((x,t,u)\)</span> and the derivatives <span class="arithmatex">\((u_x,u_t)\)</span> must move together. The method of characteristics introduces additional unknowns to track the derivatives along a curve:</p>
+<div class="arithmatex">\[
+p(t):=u_x(x(t),t),\qquad q(t):=u_t(x(t),t),
+\]</div>
+<p>so that along the curve we have the constraint</p>
+<div class="arithmatex">\[
+F\big(x(t),t,u(t),p(t),q(t)\big)=0,
+\]</div>
+<p>in addition to the chain rule identities (showing how the solution varies along the characteristic curve and the speed of that curve)</p>
+<div class="arithmatex">\[
+\frac{d}{dt}u(t)=u_t(x(t),t)+x'(t)\,u_x(x(t),t)=p(t)\,x'(t)+q(t),\qquad \frac{d}{dt}x(t)=x'(t).
+\]</div>
+<p>The key idea is to choose <span class="arithmatex">\(x'(t)\)</span> (hence the curve) so that the constraint <span class="arithmatex">\(F=0\)</span> remains true as we move. This yields a closed system of ODEs for</p>
+<div class="arithmatex">\[
+(x(t),\,t,\,u(t),\,p(t),\,q(t)),
+\qquad p(t)=u_x(x(t),t),\ \ q(t)=u_t(x(t),t).
+\]</div>
+<p>This is the ``full'' characteristic method: we evolve the point <span class="arithmatex">\((x,t,u)\)</span> together with its local slopes <span class="arithmatex">\((p,q)\)</span> in a way that keeps us on the solution surface <span class="arithmatex">\(F=0\)</span>. Unlike the initial-value construction, we are not parameterizing characteristics by a starting label <span class="arithmatex">\(\xi\)</span> here, we simply follow a single characteristic trajectory determined by an initial state for <span class="arithmatex">\((x,t,u,p,q)\)</span>.</p>
+<h2 id="moving-to-several-space-variables-the-step-needed-for-hamilton-jacobi">Moving to several space variables (the step needed for Hamilton-Jacobi)</h2>
+<p>So far we used one space variable <span class="arithmatex">\(x\)</span> and one time variable <span class="arithmatex">\(t\)</span>. For Hamilton-Jacobi we almost always need many space variables, so let <span class="arithmatex">\(x\in\mathbb{R}^n\)</span> and write the unknown as <span class="arithmatex">\(u(x,t)\)</span>. Then the first derivatives are</p>
+<div class="arithmatex">\[
+u_t=\frac{\partial u}{\partial t},\qquad \nabla u=\left(\frac{\partial u}{\partial x_1},\dots,\frac{\partial u}{\partial x_n}\right),
+\]</div>
+<p>and a general first-order PDE becomes</p>
+<div class="arithmatex">\[
+F\big(x,t,u,\nabla u,u_t\big)=0.
+\]</div>
+<p>Let <span class="arithmatex">\(s\in\mathbb{R}\)</span> be a parameter (think of it as ``time along the characteristic'') and consider a characteristic curve <span class="arithmatex">\(s\longmapsto (x(s),t(s)).\)</span> Along a characteristic, <span class="arithmatex">\(t(s)\)</span> need not be strictly increasing (it could even stay constant), so we introduce this independent parameter <span class="arithmatex">\(s\)</span> that always parametrizes progress along the curve and lets us write the characteristic ODEs uniformly.</p>
+<p>The method of characteristics still says: solve the PDE by following the curves <span class="arithmatex">\((x(s),t(s))\)</span>  carrying the solution value <span class="arithmatex">\(u(s)=u(x(s),t(s))\)</span> along them. But now <span class="arithmatex">\(x(s)\)</span> is a vector curve and the “slope” variable becomes a vector</p>
+<div class="arithmatex">\[
+p(s):=\nabla_x u(x(s),t(s))\in\mathbb{R}^n,\qquad q(s):=u_t(x(s),t(s))\in\mathbb{R}.
+\]</div>
+<p>The same chain rule idea becomes</p>
+<div class="arithmatex">\[
+\frac{du}{ds}=p\cdot \frac{dx}{ds}+q\,\frac{dt}{ds},
+\]</div>
+<p>where <span class="arithmatex">\(\cdot\)</span> is the dot product. Along the curve the PDE becomes the constraint</p>
+<div class="arithmatex">\[
+F\big(x(s),t(s),u(s),p(s),q(s)\big)=0.
+\]</div>
+<p>Differentiating this constraint with respect to <span class="arithmatex">\(s\)</span> gives:</p>
+<div class="arithmatex">\[
+0=\frac{d}{ds}F
+=F_x\cdot x' + F_t\,t' + F_u\,u' + F_p\cdot p' + F_q\,q'.
+\]</div>
+<p>Then, a standard choice for the curve direction is</p>
+<div class="arithmatex">\[
+\frac{dx}{ds}= x'=F_p\in\mathbb{R}^n,\qquad \frac{dt}{ds}=t'=F_q\in\mathbb{R},
+\]</div>
+<p>and the remaining ODEs for <span class="arithmatex">\((u,p,q)\)</span> given by</p>
+<div class="arithmatex">\[
+u'=p\cdot x' + q\,t' = p\cdot F_p + q\,F_q.
+\]</div>
+<div class="arithmatex">\[
+p'=-F_x - F_u\,p,\qquad q'=-F_t - F_u\,q.
+\]</div>
+<p>evolve  so that the constraint <span class="arithmatex">\(F=0\)</span> stays true along the curve. The key point is: even when <span class="arithmatex">\(x\in\mathbb{R}^n\)</span>, a characteristic is still a single parametrized path <span class="arithmatex">\(s\longmapsto (x(s),t(s))\)</span>,
+so it's still <span class="arithmatex">\(1\)</span>-dimensional. To actually solve the PDE, we lift this path to the variables</p>
+<div class="arithmatex">\[
+s\longmapsto \big(x(s),t(s),u(s),p(s),q(s)\big),
+\]</div>
+<p>and evolve them by their respective characteristic ODEs.  The vector <span class="arithmatex">\(p(s)=\nabla_x u(x(s),t(s))\)</span>
+records the spatial slopes of <span class="arithmatex">\(u\)</span> along the path, allowing the PDE condition <span class="arithmatex">\(F=0\)</span>
+to determine how <span class="arithmatex">\((x,t,u,p,q)\)</span> move together.</p>
+<h3 id="the-hamilton-jacobi-equation-as-a-special-first-order-pde">The Hamilton-Jacobi equation as a special first-order PDE</h3>
+<p>With the multi-variable setup in place, we can now introduce the main object. The Hamilton-Jacobi (HJ) equation is a first-order PDE for a scalar function <span class="arithmatex">\(S(x,t)\)</span> (often called the action or phase) of the form</p>
+<div class="arithmatex">\[
+S_t + H\!\big(x,\nabla S,t\big)=0,
+\qquad x\in\mathbb{R}^n,
+\]</div>
+<p>together with an initial condition such as</p>
+<div class="arithmatex">\[
+S(x,0)=S_0(x).
+\]</div>
+<p>Here <span class="arithmatex">\(H\)</span> is a given function (the Hamiltonian), and the PDE is typically nonlinear because <span class="arithmatex">\(\nabla S\)</span> appears inside <span class="arithmatex">\(H\)</span>.</p>
+<h3 id="characteristics-of-hamilton-jacobi">Characteristics of Hamilton-Jacobi</h3>
+<p>Take the Hamilton-Jacobi PDE</p>
+<div class="arithmatex">\[
+S_t+H(x,\nabla S,t)=0,
+\qquad p:=\nabla S,\ q:=S_t,
+\]</div>
+<p>and rewrite it as the constraint</p>
+<div class="arithmatex">\[
+F(x,t,S,p,q):=q+H(x,p,t)=0.
+\]</div>
+<p>Now plug this specific <span class="arithmatex">\(F\)</span> into the symmetric characteristic system</p>
+<div class="arithmatex">\[
+\frac{dx}{ds}=F_p,\quad \frac{dt}{ds}=F_q,\quad \frac{dS}{ds}=p\cdot F_p+qF_q,\quad
+\frac{dp}{ds}=-(F_x+pF_S),\quad \frac{dq}{ds}=-(F_t+qF_S).
+\]</div>
+<p>Because <span class="arithmatex">\(F=q+H(x,p,t)\)</span> we have</p>
+<div class="arithmatex">\[
+F_p=H_p,\qquad F_q=1,\qquad F_x=H_x,\qquad F_t=H_t,\qquad F_S=0.
+\]</div>
+<p>So <span class="arithmatex">\(dt/ds=1\)</span>, meaning we can take <span class="arithmatex">\(s=t\)</span>. The characteristic ODEs become the clean system</p>
+<div class="arithmatex">\[
+\frac{dx}{dt}=H_p(x,p,t),\qquad \frac{dp}{dt}=-\,H_x(x,p,t),
+\]</div>
+<p>which are exactly Hamilton's equations (with <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(p\)</span> evolving along characteristics). The action value <span class="arithmatex">\(S\)</span> is then obtained by integrating along the same curve:</p>
+<div class="arithmatex">\[
+\frac{dS}{dt}=p\cdot \frac{dx}{dt}+q
+= p\cdot H_p(x,p,t)+q.
+\]</div>
+<p>Finally, the constraint <span class="arithmatex">\(F=0\)</span> says <span class="arithmatex">\(q=-H(x,p,t)\)</span>, so</p>
+<div class="arithmatex">\[
+\frac{dS}{dt}=p\cdot H_p(x,p,t)-H(x,p,t).
+\]</div>
+<p>In other words: to solve the HJ PDE, we (i) solve the ODEs for <span class="arithmatex">\((x(t),p(t))\)</span>, and then (ii) recover <span class="arithmatex">\(S\)</span> by a single line integral along those characteristic curves. 
+To solve the Hamilton-Jacobi initial value problem by characteristics, we launch one characteristic from each initial point <span class="arithmatex">\(\xi\in\mathbb{R}^n\)</span> on the surface <span class="arithmatex">\(t=0\)</span>, so <span class="arithmatex">\(x(0)=\xi\)</span>. The initial spatial slope of the solution is fixed by the initial data, giving an initial momentum <span class="arithmatex">\(p(0)=\nabla S_0(\xi)\)</span>, and then <span class="arithmatex">\((x(t),p(t))\)</span> evolve according to the characteristic ODEs determined by the Hamiltonian <span class="arithmatex">\(H\)</span>. This evolution defines a flow map <span class="arithmatex">\(\Phi_t:\xi\mapsto x(t;\xi)\)</span>. As long as <span class="arithmatex">\(\Phi_t\)</span> can be inverted (so each point <span class="arithmatex">\(x\)</span> comes from a unique label <span class="arithmatex">\(\xi\)</span>), we can reconstruct the PDE solution <span class="arithmatex">\(S(x,t)\)</span> by taking the value carried along the corresponding characteristic. The classical construction fails when the flow map folds i.e. when two different labels reach the same point, so the solution becomes multi-valued and one needs a generalized notion of solution beyond that time.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2339 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Transformers-2-NLP/">
+      
+      
+        <link rel="next" href="../Transformers-4-MMT/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>3 – Transformer Language Models - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#transformer-language-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 – Transformer Language Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decoder-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoder transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decoder transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-architecture-and-self-supervised-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network architecture and self-supervised training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preventing-cheating-shifting-and-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preventing cheating: shifting and masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-shifting-and-masking-work-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How shifting and masking work together
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sampling-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sampling strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#greedy-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beam-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beam search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diversity-and-randomness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diversity and randomness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-k-and-nucleus-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-\(K\) and nucleus sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoder-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoder transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-with-masked-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-training with masked tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fine-tuning-for-downstream-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fine-tuning for downstream tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequence-to-sequence-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequence-to-sequence transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequence-to-sequence transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoder-only-transformer-gpt-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoder-only transformer (GPT-style)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoderdecoder-transformer-seq2seq-for-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder–decoder transformer (seq2seq for translation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#large-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Large Language models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decoder-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoder transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Decoder transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-architecture-and-self-supervised-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network architecture and self-supervised training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preventing-cheating-shifting-and-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preventing cheating: shifting and masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-shifting-and-masking-work-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How shifting and masking work together
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sampling-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sampling strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#greedy-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beam-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beam search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diversity-and-randomness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diversity and randomness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-k-and-nucleus-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-\(K\) and nucleus sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoder-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoder transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-with-masked-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-training with masked tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fine-tuning-for-downstream-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fine-tuning for downstream tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequence-to-sequence-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequence-to-sequence transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequence-to-sequence transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decoder-only-transformer-gpt-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decoder-only transformer (GPT-style)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoderdecoder-transformer-seq2seq-for-translation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoder–decoder transformer (seq2seq for translation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#large-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Large Language models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="transformer-language-models">Transformer Language Models</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The transformer layer is a very flexible building block for neural networks, and it works especially well for natural language. When we scale transformers up, we get massive neural networks called <em>large language models (LLMs)</em>, which have turned out to be remarkably capable.</p>
+<p>We can use transformers for many different language tasks, and it helps to think of them in three main categories, based on the kinds of inputs and outputs they handle:</p>
+<ul>
+<li>
+<p><strong>Encoder models.</strong> Here the input is a sequence of words, and the output is a single value or label. For example, in sentiment analysis we feed in a sentence and output one variable that describes its sentiment, such as <em>happy</em> or <em>sad</em>. In this setup, the transformer acts as an <em>encoder</em> of the input sequence.</p>
+</li>
+<li>
+<p><strong>Decoder models.</strong> In this case the input is a single vector, and the output is a sequence of words. A common example is image captioning, where an input image is first mapped to a vector, and then a transformer <em>decoder</em> takes that vector and generates a text caption word by word.</p>
+</li>
+<li>
+<p><strong>Encoder–decoder (sequence-to-sequence) models.</strong> Here both the input and the output are word sequences. A typical example is machine translation, where the model takes a sentence in one language as input and produces a sentence in another language as output. In this setup, we use transformers in both roles: an encoder for the input sequence and a decoder for the output sequence.</p>
+</li>
+</ul>
+<p>In the rest of this chapter, we will look at each of these three classes of language model in turn, using example architectures to show how they are built.</p>
+<h2 id="decoder-transformers">Decoder transformers</h2>
+<p>We now look at decoder-only transformer models. These are used as
+generative models: given a prefix of a sequence, they generate the rest,
+token by token. A key example is the GPT family (generative pre-trained transformer). GPT uses the
+transformer architecture to build an autoregressive model, where each conditional distribution</p>
+<div class="arithmatex">\[
+p(x_n \mid x_1,\ldots,x_{n-1})
+\]</div>
+<p>is represented by the same transformer neural network (meaning same parameters) learned from data. At step <span class="arithmatex">\(n\)</span>, the model conceptually takes the first <span class="arithmatex">\(n-1\)</span> tokens as input and
+outputs the conditional distribution over the vocabulary of size <span class="arithmatex">\(K\)</span> for token <span class="arithmatex">\(n\)</span>. Sampling from this
+distribution extends the sequence to length <span class="arithmatex">\(n\)</span>, and we can repeat this process
+to get token <span class="arithmatex">\(n+1\)</span>, <span class="arithmatex">\(n+2\)</span>, and so on, up to a maximum sequence length set by
+the transformer. This token-by-token view is how we <em>generate</em> text. Training follows a different paradigm defined later in this chapter.</p>
+<h3 id="network-architecture-and-self-supervised-training">Network architecture and self-supervised training</h3>
+<p>A GPT-style model is a stack of transformer layers. The input is a sequence of
+token embeddings</p>
+<div class="arithmatex">\[
+x_1,\ldots,x_N,
+\]</div>
+<p>with each <span class="arithmatex">\(x_n \in \mathbb{R}^D\)</span>. Stacking these row-wise gives
+<span class="arithmatex">\(X \in \mathbb{R}^{N\times D}\)</span>. The transformer stack maps <span class="arithmatex">\(X\)</span> to a sequence of
+hidden vectors</p>
+<div class="arithmatex">\[
+\tilde{x}_1,\ldots,\tilde{x}_N,
+\]</div>
+<p>collected in <span class="arithmatex">\(\tilde{X} \in \mathbb{R}^{N\times D}\)</span>. Each <span class="arithmatex">\(\tilde{x}_n\)</span> is the
+hidden representation used to predict <span class="arithmatex">\(x_n\)</span> given the prefix <span class="arithmatex">\(x_{1:n-1}\)</span>. At every position we want a probability distribution over a vocabulary of <span class="arithmatex">\(K\)</span>
+tokens, but the transformer outputs <span class="arithmatex">\(D\)</span>-dimensional vectors. We therefore apply
+the <em>same</em> linear layer at all positions, with weight matrix
+<span class="arithmatex">\(W^{(p)} \in \mathbb{R}^{D\times K}\)</span>, followed by a softmax:</p>
+<div class="arithmatex">\[
+Y = Softmax\!\bigl(\tilde{X} W^{(p)}\bigr) \in \mathbb{R}^{N\times K},
+\]</div>
+<p>so that the <span class="arithmatex">\(n\)</span>th row <span class="arithmatex">\(y_n^\top\)</span> is a full probability distribution over the
+<span class="arithmatex">\(K\)</span> vocabulary items and is the model’s prediction for token
+<span class="arithmatex">\(x_n\)</span> given <span class="arithmatex">\(x_{1:n-1}\)</span>.</p>
+<p><strong>Self supervised training.</strong></p>
+<p>We train this model on a large corpus of raw text using a
+self-supervised objective, where the input text itself provides the output targets.
+To turn text into something the model can handle, we first map each token to an integer in a fixed vocabulary.
+Let <span class="arithmatex">\(t_n \in \{1,\ldots,K\}\)</span> be the index of <span class="arithmatex">\(x_n\)</span> in the vocabulary.
+Then for a single sequence, the loss is the sum of cross-entropies over all
+positions and can be written as:</p>
+<div class="arithmatex">\[
+\mathcal{L}
+  = - \sum_{n=1}^{N} \log y_{n,t_n}.
+\]</div>
+<p>This means:</p>
+<ul>
+<li>At each position <span class="arithmatex">\(n\)</span>, the model outputs a vector</li>
+</ul>
+<div class="arithmatex">\[
+y_n \in \mathbb{R}^K,
+\]</div>
+<p>which is the <span class="arithmatex">\(n\)</span>th row of <span class="arithmatex">\(Y\)</span>. We can write it as</p>
+<div class="arithmatex">\[
+y_n = (y_{n,1}, y_{n,2}, \ldots, y_{n,K}),
+\]</div>
+<p>where <span class="arithmatex">\(y_{n,k}\)</span> is the predicted probability that the <span class="arithmatex">\(n\)</span>th token is the
+  <span class="arithmatex">\(k\)</span>th vocabulary item.</p>
+<ul>
+<li>The true token at position <span class="arithmatex">\(n\)</span> is <span class="arithmatex">\(x_n\)</span>. We represent it by its
+  vocabulary index <span class="arithmatex">\(t_n \in \{1,\ldots,K\}\)</span> (for example, if “river” is the
+  57th word in the vocabulary, then <span class="arithmatex">\(t_n = 57\)</span> for that position). Then</li>
+</ul>
+<div class="arithmatex">\[
+y_{n,t_n} = \text{``model’s predicted probability of the true token at step } n\text{''}.
+\]</div>
+<ul>
+<li>The cross-entropy loss at that position <span class="arithmatex">\(n\)</span> is then given by:</li>
+</ul>
+<div class="arithmatex">\[
+-\log y_{n,t_n},
+\]</div>
+<p>which is large if the model puts low probability on the correct word, and
+  small if it puts high probability on it, and we want to minimize this loss.</p>
+<p>Summing over all positions <span class="arithmatex">\(n=1,\ldots,N\)</span> gives the total loss
+<span class="arithmatex">\(\mathcal{L}\)</span> for that one sequence where every token in the sequence contributes
+one term: <span class="arithmatex">\(-\log y_{n,t_n}\)</span>.</p>
+<p>Over the whole dataset we have many sequences (sentences, or longer chunks).
+We usually treat them as i.i.d. samples and sum the same loss over all of
+them. If we index the many sequences by <span class="arithmatex">\(s=1,\ldots,S\)</span>, with length <span class="arithmatex">\(N^{(s)}\)</span>, then
+the total loss is</p>
+<div class="arithmatex">\[
+\mathcal{L}_{\text{total}}
+  = \sum_{s=1}^{S} \sum_{n=1}^{N^{(s)}} - \log y^{(s)}_{n,t^{(s)}_n},
+\]</div>
+<p>where <span class="arithmatex">\(y^{(s)}_{n,\cdot}\)</span> is the prediction vector for position <span class="arithmatex">\(n\)</span> in
+sequence <span class="arithmatex">\(s\)</span>, and <span class="arithmatex">\(t^{(s)}_n\)</span> is the true vocabulary index at that position. Intuitively, each token plays two roles:</p>
+<ul>
+<li>it is a <em>target</em> we want the model to predict correctly, and</li>
+<li>it is part of the <em>prefix</em> that helps predict later tokens.</li>
+</ul>
+<p>For example, for the sentence</p>
+<blockquote>
+<p>I swam across the river to get to the other bank.</p>
+</blockquote>
+<p>we embed all tokens into a matrix <span class="arithmatex">\(X\)</span> and feed it through the transformer to get
+predictions <span class="arithmatex">\(y_1,\ldots,y_N\)</span>. At the position of the word “the”, the input
+effectively corresponds to the prefix “I swam across”, and the model output
+<span class="arithmatex">\(y_n\)</span> should put high probability on the vocabulary index of “the”. At the
+next position, the input prefix is “I swam across the”, and the output
+<span class="arithmatex">\(y_{n+1}\)</span> should place high probability on “river”, and so on for all later
+positions.</p>
+<p>However, if during training we let the network use the <em>entire</em> sentence
+at every position, then when predicting the <span class="arithmatex">\(n\)</span>th token it can also see token
+<span class="arithmatex">\(n\)</span> itself (and even later tokens). In that case it can simply learn to copy
+the next word from the input instead of genuinely modelling
+<span class="arithmatex">\(p(x_n \mid x_{1:n-1})\)</span>. This behaviour would give a very low training loss,
+but it would fail at generation time, where future tokens are not available.
+In the next section we will see how the architecture is constrained so that
+each prediction can only depend on earlier tokens in the sequence.</p>
+<h3 id="preventing-cheating-shifting-and-masking">Preventing cheating: shifting and masking</h3>
+<p>We prevent the above issue in two ways:</p>
+<ol>
+<li><strong>Shifted inputs.</strong> We shift the input sequence one step to the
+   right. Input token <span class="arithmatex">\(x_n\)</span> now corresponds to output <span class="arithmatex">\(y_{n+1}\)</span>, with target
+   <span class="arithmatex">\(x_{n+1}\)</span>. We prepend a special start-of-sequence token, <span class="arithmatex">\(\langle\text{start}\rangle\)</span>, at the first input position. Even with this shift, a single training sequence <span class="arithmatex">\((x_1,\dots,x_T)\)</span> still
+   yields many input–target pairs: for each <span class="arithmatex">\(n \ge 1\)</span> we treat the prefix
+   <span class="arithmatex">\((x_1,\dots,x_{n-1})\)</span> (or, after shifting, <span class="arithmatex">\((\langle\text{start}\rangle,x_1,\dots,x_{n-1})\)</span>) as the input and <span class="arithmatex">\(x_n\)</span> as the corresponding target.</li>
+</ol>
+<p><strong>Before shifting.</strong> Conceptually, we were thinking of many separate
+   next-token training pairs, e.g.</p>
+<div class="arithmatex">\[
+(\text{I} \to \text{swam}),\quad
+(\text{I swam} \to \text{across}),\quad \ldots
+\]</div>
+<p>Each pair would be run through the model as its own little training example.</p>
+<p><strong>What we change.</strong> Instead of <span class="arithmatex">\(N\)</span> separate runs for one sentence, we
+   pack everything into a single sequence:</p>
+<ul>
+<li>Start from the raw text tokens:</li>
+</ul>
+<div class="arithmatex">\[
+x_1, x_2, \ldots, x_N.
+\]</div>
+<ul>
+<li>Build the <em>input row</em> by shifting right and inserting the start token:</li>
+</ul>
+<div class="arithmatex">\[
+\underbrace{\langle\text{start}\rangle, x_1, x_2, \ldots, x_{N-1}}_{\text{inputs}}
+\]</div>
+<ul>
+<li>Build the <em>target row</em> by shifting left:</li>
+</ul>
+<div class="arithmatex">\[
+\underbrace{x_1, x_2, \ldots, x_N}_{\text{targets}}.
+\]</div>
+<p>So compared to the original text, we have:</p>
+<ul>
+<li>removed <span class="arithmatex">\(x_N\)</span> from the input side,</li>
+<li>added <span class="arithmatex">\(\langle\text{start}\rangle\)</span> at the front,</li>
+<li>kept the targets as the original sequence.</li>
+</ul>
+<p>With this layout, column <span class="arithmatex">\(n\)</span> of the model sees a prefix ending at <span class="arithmatex">\(x_{n-1}\)</span>
+   and is trained to predict <span class="arithmatex">\(x_n\)</span>. All <span class="arithmatex">\(N\)</span> next-token prediction tasks are now
+   done in one forward pass, and the masking step (described next) makes sure
+   each position only uses past tokens.</p>
+<ol>
+<li><strong>Masked (causal) attention, padding, and efficient generation.</strong></li>
+</ol>
+<p><strong>Before masking.</strong> In plain self-attention, every token can attend to
+   every other token in the sequence. If we used this directly for
+   next-token prediction, token <span class="arithmatex">\(n\)</span> could see token <span class="arithmatex">\(n+1\)</span> and simply copy it,
+   which is useless at generation time when <span class="arithmatex">\(x_{n+1}\)</span> is not known.</p>
+<p><strong>What we change (causal mask).</strong> We force each token to look only at
+   itself and earlier tokens:</p>
+<ul>
+<li>
+<p>In the attention matrix <span class="arithmatex">\(\text{Attention}(Q,K,V)\)</span> we zero out all entries
+     where a token would attend to any <em>later</em> position.</p>
+</li>
+<li>
+<p>In practice we set the corresponding logits to <span class="arithmatex">\(-\infty\)</span>, so the
+     attention softmax gives probability almost <span class="arithmatex">\(0\)</span> there and renormalizes over the allowed
+     positions.</p>
+</li>
+</ul>
+<p>The result is a lower-triangular attention matrix: row <span class="arithmatex">\(n\)</span> only uses columns
+   <span class="arithmatex">\(1,\dots,n\)</span>.</p>
+<p><strong>Handling different lengths.</strong> Real sentences have different lengths, but GPUs work
+   best if we process many sequences together as one batch tensor. Without care,
+   shorter sequences would leave random or empty slots that other tokens might
+   attend to.</p>
+<p><strong>What we change (padding mask).</strong></p>
+<ul>
+<li>
+<p>We pad shorter sequences with a special token
+     <span class="arithmatex">\(\langle\text{pad}\rangle\)</span> so all sequences share the same length.</p>
+</li>
+<li>
+<p>We add a second mask that blocks attention to any position containing
+     <span class="arithmatex">\(\langle\text{pad}\rangle\)</span>. This mask is specific to each sequence in the
+     batch.</p>
+</li>
+</ul>
+<p><strong>Caching.</strong> During generation, we repeatedly:</p>
+<ol>
+<li>feed the current prefix into the model,</li>
+<li>use the softmax output to get a distribution over the next token,</li>
+<li>sample or choose a token, append it, and repeat.</li>
+</ol>
+<p>Naively, this means re-running the whole transformer on the entire prefix for
+   every new token.</p>
+<p><strong>What we change.</strong> Because of the causal mask,
+   the representation of token <span class="arithmatex">\(i\)</span> depends only on tokens <span class="arithmatex">\(1,\dots,i\)</span> and never
+   on future tokens. So when we extend the sequence:</p>
+<ul>
+<li>
+<p>At step <span class="arithmatex">\(t\)</span> we run the full model once for <span class="arithmatex">\(x_1,\dots,x_t\)</span> and cache
+     per-layer key and value tensors <span class="arithmatex">\(K^{(\ell)}_1,\dots,K^{(\ell)}_t\)</span> and
+     <span class="arithmatex">\(V^{(\ell)}_1,\dots,V^{(\ell)}_t\)</span>. Note that we do not cache queries because each query is only used once for its own token at that time step and is never reused later, so caching it would waste memory without reducing computation.</p>
+</li>
+<li>
+<p>At step <span class="arithmatex">\(t+1\)</span> we keep these cached states fixed (earlier tokens are
+     not allowed to change). We only compute the new token’s hidden states and
+     its <span class="arithmatex">\(Q^{(\ell)}_{t+1},K^{(\ell)}_{t+1},V^{(\ell)}_{t+1}\)</span>, then run
+     attention for position <span class="arithmatex">\(t+1\)</span> using the cached keys/values plus the new ones.</p>
+</li>
+</ul>
+<p>Conceptually we still “run the model” at each step, but most computation is
+   reused, making long-sequence generation practical.</p>
+<h3 id="how-shifting-and-masking-work-together">How shifting and masking work together</h3>
+<p>Shifted inputs and causal masking are two separate ideas, but in practice
+<em>they are always used together</em> in decoder-only language models. The
+typical order each forward pass is:</p>
+<div class="arithmatex">\[
+\text{raw tokens} \;\Rightarrow\; \text{shifted inputs + targets}
+\;\Rightarrow\; \text{build mask from positions}
+\;\Rightarrow\; \text{run transformer}.
+\]</div>
+<p>Below is the same sentence at each stage.</p>
+<p><strong>Step 0: The naive case.</strong></p>
+<p>Raw token sequence:</p>
+<div class="arithmatex">\[
+(x_1, x_2, \dots, x_N).
+\]</div>
+<p>If we fed this directly into full self-attention, each position <span class="arithmatex">\(n\)</span> could attend
+to <span class="arithmatex">\(x_{n+1}, \dots, x_N\)</span> and just copy the next token. This would lead to data leakage.</p>
+<p><strong>Step 1: Apply shifted inputs.</strong></p>
+<p>First we turn the raw sequence into an input row and a target row:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\text{inputs} &amp;: (\langle\text{start}\rangle, x_1, x_2, \dots, x_{N-1}), \\
+\text{targets} &amp;: (x_1, x_2, \dots, x_N).
+\end{aligned}
+\]</div>
+<p>Now a single forward pass gives us <span class="arithmatex">\(N\)</span> next-token predictions in parallel:
+at position <span class="arithmatex">\(n\)</span> the model outputs a distribution meant to match target <span class="arithmatex">\(x_n\)</span>. At this stage, if attention were still fully unmasked, position <span class="arithmatex">\(n\)</span> could
+<em>still</em> peek at later inputs and cheat.</p>
+<p><strong>Step 2: Add causal masking.</strong></p>
+<p>We keep the shifted inputs and targets exactly as above. What we change now is
+<em>only</em> the attention pattern. We build a mask matrix <span class="arithmatex">\(M \in \{0,-\infty\}^{N \times N}\)</span>:</p>
+<div class="arithmatex">\[
+M_{ij} =
+\begin{cases}
+0      &amp; \text{if } j \le i, \\
+-\infty &amp; \text{if } j &gt; i.
+\end{cases}
+\]</div>
+<p>This mask is added to the attention logits before the softmax. The final layout looks like this:</p>
+<div class="arithmatex">\[
+\begin{array}{c|cccc}
+\text{position} &amp; 1 &amp; 2 &amp; \cdots &amp; N \\
+\hline
+\text{input token}  &amp; \langle\text{start}\rangle &amp; x_1 &amp; \cdots &amp; x_{N-1} \\
+\text{target token} &amp; x_1                        &amp; x_2 &amp; \cdots &amp; x_N     \\
+\text{may attend to input position}&amp; 1                          &amp; 1,2 &amp; \cdots &amp; 1,\dots,N
+\end{array}
+\]</div>
+<p>So in the final model:</p>
+<ul>
+<li>shifting decides <em>which token we try to predict at each position</em>,</li>
+<li>masking decides <em>which past tokens each position is allowed to use</em>.</li>
+</ul>
+<p>Both are applied every time we run the transformer model.</p>
+<h2 id="sampling-strategies">Sampling strategies</h2>
+<p>As we saw a decoder transformer outputs, at each step, a probability distribution over the
+next token. To extend a sequence we must turn this distribution into a concrete
+choice. For this, several strategies are used.</p>
+<h3 id="greedy-search">Greedy search</h3>
+<p>The simplest method, <em>greedy search</em>, always chooses the token with the
+highest probability. This makes generation deterministic: the same input prefix
+always produces the same continuation.</p>
+<p>Note that choosing the most probable token at each step is <em>not</em> the same
+as choosing the most probable overall sequence. The probability of a full
+sequence <span class="arithmatex">\(y_1,\ldots,y_N\)</span> is</p>
+<div class="arithmatex">\[
+p(y_1,\ldots,y_N)=\prod_{n=1}^N p(y_n \mid y_1,\ldots,y_{n-1})
+\]</div>
+<p>If there are <span class="arithmatex">\(N\)</span> steps and a vocabulary of size <span class="arithmatex">\(K\)</span>, the number of possible
+sequences is <span class="arithmatex">\(\mathcal{O}(K^N)\)</span>, which grows exponentially with <span class="arithmatex">\(N\)</span>, so
+exhaustively finding the single most probable sequence is infeasible. Greedy
+search, by contrast, has cost <span class="arithmatex">\(\mathcal{O}(KN)\)</span>: at each of the <span class="arithmatex">\(N\)</span> steps it
+scores all <span class="arithmatex">\(K\)</span> tokens once and picks the best, so the total work scales
+linearly with <span class="arithmatex">\(N\)</span>.</p>
+<h3 id="beam-search">Beam search</h3>
+<p>To get higher-probability sequences than greedy search, we can use
+<em>beam search</em>. Instead of keeping only one hypothesis, we maintain <span class="arithmatex">\(B\)</span>
+partial sequences at step <span class="arithmatex">\(n\)</span> where <span class="arithmatex">\(B\)</span> is the <em>beam width</em>. We feed all <span class="arithmatex">\(B\)</span>
+sequences through the model and, for each, consider the <span class="arithmatex">\(B\)</span> most probable next
+tokens. Since each of the <span class="arithmatex">\(B\)</span> partial sequences can be extended in <span class="arithmatex">\(B\)</span> ways, this yields <span class="arithmatex">\(B \cdot B = B^2\)</span> candidate sequences, from which we keep the <span class="arithmatex">\(B\)</span>
+sequences with the highest total sequence probability. The algorithm therefore
+tracks <span class="arithmatex">\(B\)</span> alternatives and their probabilities at all times, and finally
+returns the most probable sequence among them. For example, with <span class="arithmatex">\(B=2\)</span> and
+current beam { <code>I</code>, <code>You</code> }, if the top two continuations for
+each are { <code>am</code>,<code>like</code> } and { <code>are</code>,<code>like</code> },
+the <span class="arithmatex">\(B^2=4\)</span> candidates are { <code>I am</code>,<code>I like</code>,<code>You are</code>,<code>You like</code> }, from which we keep the best <span class="arithmatex">\(B=2\)</span>.</p>
+<p>Because the probability of a sequence is a product of stepwise probabilities,
+and each probability is at most one, long sequences tend to have lower raw
+probability than short ones. Beam search is therefore usually combined with a
+length normalization so that different sequence lengths can be compared fairly.
+Its computational cost is <span class="arithmatex">\(\mathcal{O}(BKN)\)</span>, still linear in <span class="arithmatex">\(N\)</span> but <span class="arithmatex">\(B\)</span> times
+more expensive than greedy search. For very large language models this extra
+factor can make beam search unattractive.</p>
+<h3 id="diversity-and-randomness">Diversity and randomness</h3>
+<p>Greedy and beam search both focus on high-probability sequences, but this often
+reduces diversity and can even cause loops in which the same subsequence is
+repeated. Human-written text is often more surprising (lower probability under
+the model) than automatically generated text.</p>
+<p>An alternative is to sample the next token directly from the softmax
+distribution at each step: instead of always taking the single most probable
+token (the argmax), we treat the softmax output as a categorical distribution
+over the <span class="arithmatex">\(K\)</span> tokens and randomly draw one token according to these
+probabilities. This is same as picking one of the <span class="arithmatex">\(K\)</span> outputs from
+the final softmax at each step, but doing so stochastically according to their
+probabilities rather than deterministically choosing the largest. This can give diverse outputs, but with a large
+vocabulary the distribution typically has a long tail of very low-probability
+tokens, and sampling from the full distribution can easily pick poor choices.</p>
+<h3 id="top-k-and-nucleus-sampling">Top-<span class="arithmatex">\(K\)</span> and nucleus sampling</h3>
+<p>To balance between determinism and randomness, we can restrict sampling to the
+most likely tokens. In <em>top-<span class="arithmatex">\(K\)</span> sampling</em> we keep only the <span class="arithmatex">\(K\)</span> tokens with
+highest probability, renormalize their probabilities, and sample from this
+reduced set. This removes the very low-probability tail, which cuts down on
+wild or nonsensical tokens but still allows multiple plausible choices.</p>
+<p>A popular variant is <em>top-<span class="arithmatex">\(p\)</span></em> or <em>nucleus sampling</em>. Here we choose
+the smallest set of tokens whose cumulative probability reaches a threshold <span class="arithmatex">\(p\)</span>,
+then renormalize and sample only from that subset. Unlike top-<span class="arithmatex">\(K\)</span>, the size of
+this set adapts to the model’s confidence: when the model is sure, the nucleus
+is small and more focused; when it is uncertain, the nucleus becomes larger and
+more diverse.</p>
+<h3 id="temperature">Temperature</h3>
+<p>A softer way to control randomness is to introduce a temperature parameter <span class="arithmatex">\(T\)</span>
+into the softmax:</p>
+<div class="arithmatex">\[
+y_i = \frac{\exp(a_i/T)}{\sum_j \exp(a_j/T)}
+\]</div>
+<p>We then sample the next token from this modified distribution.</p>
+<ul>
+<li><span class="arithmatex">\(T=0\)</span> concentrates all probability on the most likely token
+  (greedy selection).</li>
+<li><span class="arithmatex">\(T=1\)</span> recovers the original softmax distribution.</li>
+<li><span class="arithmatex">\(T \to \infty\)</span> gives a uniform distribution over all tokens.</li>
+<li>For <span class="arithmatex">\(0 &lt; T &lt; 1\)</span>, probability mass is pushed towards higher-probability
+  tokens.</li>
+</ul>
+<p><strong>Training vs. generation (exposure bias).</strong></p>
+<p>During training, the model sees <em>human</em>-generated sequences as input.
+During generation, however, the input prefix is itself model-generated. Over
+time, this mismatch can cause the model to drift away from the distribution of
+sequences present in the training data, which is an important challenge in
+sequence generation.</p>
+<h2 id="encoder-transformers">Encoder transformers</h2>
+<p>Encoder-based transformer language models take a whole sequence as input and
+turn it into one or more fixed-size vectors. These vectors can then be used to
+predict a discrete category (a <em>class label</em>), such as <em>positive</em> vs.\
+<em>negative</em> sentiment, or <em>spam</em> vs. <em>not spam</em>. In other
+words, they <em>encode</em> the entire sentence into one or more summary
+representations, but they do not generate text by themselves. This contrasts
+with <em>decoder</em> models, which are trained to predict the next token and can
+therefore generate sequences, and with <em>encoder–decoder</em> models, which
+first encode an input sequence and then use a decoder to generate a separate
+output sequence (as in machine translation). A key example
+is <em>BERT</em> (bidirectional encoder representations from transformers). The idea is:</p>
+<ul>
+<li>pre-train a transformer encoder on a huge text corpus,</li>
+<li>then apply <em>transfer learning</em> by fine-tuning it on many downstream
+  tasks, each with a much smaller task-specific data set.</li>
+</ul>
+<h3 id="pre-training-with-masked-tokens">Pre-training with masked tokens</h3>
+<p>Our goal in the pre-training stage is to teach the encoder a rich, general
+understanding of language using only raw text (no human labels). To do this we
+use a self-supervised prediction task that encourages the model to use both the
+preceding and following words around a token, so it learns <em>bidirectional</em>
+representations. This turns plain text into its own source of supervision:
+by hiding some words and asking the model to guess them, we create huge numbers
+of training examples for free while directly teaching it to understand how
+words fit together in context.</p>
+<p>BERT achieves this with a <em>masked language modelling</em> objective. Every
+input sequence begins with a special token <span class="arithmatex">\(\langle\text{class}\rangle\)</span> whose
+output is ignored during pre-training but will be used later. The model is then
+trained on sequences of tokens where a random subset (e.g. <span class="arithmatex">\(15\%\)</span> of tokens) is
+replaced by a special <span class="arithmatex">\(\langle\text{mask}\rangle\)</span> token. The task is then to predict
+the original tokens at the corresponding output positions. For example take the input sequence:</p>
+<div class="arithmatex">\[
+\text{I } \langle\text{mask}\rangle \text{ across the river to get to the }
+\langle\text{mask}\rangle \text{ bank.}
+\]</div>
+<p>The network should output “swam” at position <span class="arithmatex">\(2\)</span> and “other” at position
+<span class="arithmatex">\(10\)</span> while all other outputs are ignored for computing the loss. As a result of bidirection:</p>
+<ul>
+<li>we do not shift inputs to the right (no autoregressive structure),</li>
+<li>we do not need causal masks to hide future tokens.</li>
+</ul>
+<p>Compared with decoder models, this is less efficient for training, because only
+a subset of tokens provide supervised targets, and the encoder alone cannot
+generate sequences. If we always replaced the chosen tokens by <span class="arithmatex">\(\langle\text{mask}\rangle\)</span> during pre-training, the model would mainly learn to handle inputs that contain many <span class="arithmatex">\(\langle\text{mask}\rangle\)</span> symbols. At fine-tuning and test time, however, it is given normal sentences with no <span class="arithmatex">\(\langle\text{mask}\rangle\)</span> tokens, so the input distribution looks very different from what it saw during pre-training. This <em>mismatch</em> can make the learned representations less useful, because the model has had much less practice dealing with real words in those positions. To reduce this gap, we can adjust the <span class="arithmatex">\(15\%\)</span> selected tokens as
+follows:</p>
+<ul>
+<li><span class="arithmatex">\(80\%\)</span> are replaced by <span class="arithmatex">\(\langle\text{mask}\rangle\)</span>,</li>
+<li><span class="arithmatex">\(10\%\)</span> are replaced by a random vocabulary token,</li>
+<li><span class="arithmatex">\(10\%\)</span> are left unchanged (but the model is still trained to predict
+  them).</li>
+</ul>
+<h3 id="fine-tuning-for-downstream-tasks">Fine-tuning for downstream tasks</h3>
+<p>Once the encoder is pre-trained, we attach a task-specific output layer and
+fine-tune the whole model.</p>
+<ul>
+<li><strong>Sequence-level classification (e.g. sentiment).</strong><br />
+  The input can be a whole sentence or multiple paragraphs, tokenized and fed through
+  the encoder with the <span class="arithmatex">\(\langle\text{class}\rangle\)</span> token at the first
+  position. After the final encoder layer we get one output vector for each
+  input token <span class="arithmatex">\(h_0, h_1, \cdots , h_n\)</span>. The first one, <span class="arithmatex">\(h_{0} \in \mathbb{R}^D\)</span> is treated as a summary of the entire sequence.</li>
+</ul>
+<p>To turn this summary into a label, we attach a small task-specific
+  classifier on top. The simplest choice is a linear layer with parameter
+  matrix <span class="arithmatex">\(W \in \mathbb{R}^{K \times D}\)</span> and bias <span class="arithmatex">\(b \in \mathbb{R}^K\)</span>,
+  giving logits</p>
+<div class="arithmatex">\[
+z = W h_{\text{class}} + b .
+\]</div>
+<p>For <span class="arithmatex">\(K\)</span>-way classification we apply a softmax to <span class="arithmatex">\(z\)</span> to get class
+  probabilities. For binary classification (<span class="arithmatex">\(K=2\)</span>) like positive or negative sentiment, a common variant is
+  to use a single output score <span class="arithmatex">\(s = w^\top h_{\text{class}} + b\)</span> followed
+  by a logistic sigmoid. This linear head is just a minimal example, in practice we can replace
+  it with a small MLP or any other differentiable module that maps
+  <span class="arithmatex">\(h_{0}\)</span> to the desired label space.</p>
+<ul>
+<li><strong>Token-level classification (e.g. tagging each word as person,
+  place, colour, etc.).</strong><br />
+  Here the input is again a full sequence as above with the <span class="arithmatex">\(\langle\text{class}\rangle\)</span> token at the beginning. After passing this
+  sequence through the encoder, we obtain one hidden vector for each input
+  position as well:</li>
+</ul>
+<div class="arithmatex">\[
+h_0, h_1, \ldots, h_N \in \mathbb{R}^D,
+\]</div>
+<p>where <span class="arithmatex">\(h_0\)</span> corresponds to <span class="arithmatex">\(\langle\text{class}\rangle\)</span> and
+  <span class="arithmatex">\(h_1,\ldots,h_N\)</span> correspond to the actual tokens in the sentence.</p>
+<p>For token-level labelling we ignore <span class="arithmatex">\(h_0\)</span> and attach the <em>same</em>
+  linear classifier to each of the remaining hidden states. Concretely, we
+  use a weight matrix <span class="arithmatex">\(W \in \mathbb{R}^{K \times D}\)</span> and bias
+  <span class="arithmatex">\(b \in \mathbb{R}^K\)</span> (shared across positions). For each token position
+  <span class="arithmatex">\(i = 1,\ldots,N\)</span> we compute</p>
+<div class="arithmatex">\[
+z_i = W h_i + b,
+\]</div>
+<p>and apply a softmax to <span class="arithmatex">\(z_i\)</span> to obtain a probability distribution over
+  <span class="arithmatex">\(K\)</span> possible labels for that token (e.g. <code>PERSON</code>, <code>LOC</code>,
+  <code>COLOR</code>, etc.).</p>
+<p>During training, each token in the input sequence has a ground-truth
+  label, and we sum the cross-entropy loss over all token positions
+  (optionally skipping special tokens such as padding). At test time, we
+  simply pick the most likely label for each position, giving a predicted
+  tag sequence aligned with the original input tokens.</p>
+<p>During fine-tuning, all parameters, including the new output layer, are
+updated using stochastic gradient descent to maximize the log probability of the
+correct labels. Finally, instead of a simple classifier head, the encoder’s representations can
+also be fed into a more advanced generative model, for example in text-to-image
+synthesis systems.</p>
+<h2 id="sequence-to-sequence-transformers">Sequence-to-sequence transformers</h2>
+<p>The third family of transformer models combines an encoder with a decoder, as in
+the original transformer paper of Vaswani et al. (2017). A typical example is
+machine translation, say from English to Dutch. Let:</p>
+<ul>
+<li><span class="arithmatex">\(x_1,\dots,x_M\)</span> = tokens of the <strong>English</strong> sentence </li>
+<li><span class="arithmatex">\(y_1,\dots,y_N\)</span> = tokens of the <strong>Dutch</strong> sentence </li>
+</ul>
+<h3 id="decoder-only-transformer-gpt-style">Decoder-only transformer (GPT-style)</h3>
+<p>Here we model a single sequence only, lets say english:</p>
+<ul>
+<li>Input tokens: <span class="arithmatex">\(x_1,\dots,x_M\)</span>.</li>
+<li>Each <span class="arithmatex">\(x_t\)</span> is embedded to a vector <span class="arithmatex">\(e_t\)</span> with <span class="arithmatex">\(e_t \in \mathbb{R}^D\)</span>, using an embedding matrix <span class="arithmatex">\(E \in \mathbb{R}^{K \times D}\)</span>.</li>
+<li>Masked self-attention processes <span class="arithmatex">\((e_1,\dots,e_{t-1})\)</span> to produce a
+  hidden state <span class="arithmatex">\(h_t\)</span> for position <span class="arithmatex">\(t\)</span> (with <span class="arithmatex">\(h_t \in \mathbb{R}^D\)</span>).</li>
+<li>A linear+softmax layer turns <span class="arithmatex">\(h_t\)</span> into a distribution over the English
+  vocabulary:</li>
+</ul>
+<div class="arithmatex">\[
+p(x_t \mid x_1,\dots,x_{t-1}).
+\]</div>
+<p>Concretely, a weight matrix <span class="arithmatex">\(W^{\text{out}} \in \mathbb{R}^{D \times K}\)</span>
+  and bias <span class="arithmatex">\(b^{\text{out}} \in \mathbb{R}^K\)</span> map <span class="arithmatex">\(h_t\)</span> to logits in
+  <span class="arithmatex">\(\mathbb{R}^K\)</span>, which are then passed through a softmax to get a length-<span class="arithmatex">\(K\)</span>
+  probability vector. So, for this we only have one sequence and one language. Each token is predicted from the
+  previous tokens in that same sequence.</p>
+<h3 id="encoderdecoder-transformer-seq2seq-for-translation">Encoder–decoder transformer (seq2seq for translation)</h3>
+<p>Now we truly have <em>two</em> sequences:</p>
+<div class="arithmatex">\[
+x_1,\dots,x_M \ (\text{English source}), \qquad
+y_1,\dots,y_N \ (\text{Dutch target}).
+\]</div>
+<p><strong>Encoder (English side).</strong></p>
+<p>(i) Each English token <span class="arithmatex">\(x_m\)</span> is embedded to <span class="arithmatex">\(e^{\text{src}}_m\)</span>
+  (with <span class="arithmatex">\(e^{\text{src}}_m \in \mathbb{R}^D\)</span>, using a source embedding matrix
+  <span class="arithmatex">\(E^{\text{src}} \in \mathbb{R}^{K_{\text{src}} \times D}\)</span>).</p>
+<p>(ii) Bidirectional self-attention over all <span class="arithmatex">\(e^{\text{src}}_1,\dots,e^{\text{src}}_M\)</span>
+  produces encoder states <span class="arithmatex">\(z_1,\dots,z_M\)</span>
+  (each <span class="arithmatex">\(z_m \in \mathbb{R}^D\)</span>).
+  Each <span class="arithmatex">\(z_m\)</span> summarizes information about the <em>whole</em> English
+  sentence, but is still tied to position <span class="arithmatex">\(m\)</span>.</p>
+<p><strong>Decoder (Dutch side).</strong></p>
+<p>(i) We have a target (Dutch) sequence with tokens <span class="arithmatex">\(y_1,\dots,y_N\)</span>. During training
+  we feed the decoder the <em>shifted</em> input sequence
+  <span class="arithmatex">\((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\)</span> and train it to predict
+  <span class="arithmatex">\((y_1,\dots,y_N)\)</span>.</p>
+<p>(ii) Each token in this decoder input is embedded
+  to <span class="arithmatex">\(e^{\text{tgt}}_n\)</span> (with <span class="arithmatex">\(e^{\text{tgt}}_n \in \mathbb{R}^D\)</span>, via a target embedding matrix <span class="arithmatex">\(E^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}} \times D}\)</span>).</p>
+<p>(iii) Masked self-attention over these target embeddings produces intermediate
+  states <span class="arithmatex">\(\hat{h}_n\)</span>, where each <span class="arithmatex">\(\hat{h}_n\)</span> can only attend to earlier positions in
+  the decoder input, i.e. to <span class="arithmatex">\(y_1,\dots,y_{n-1}\)</span> (no peeking at future Dutch
+  tokens). Each <span class="arithmatex">\(\hat{h}_n \in \mathbb{R}^D\)</span>.</p>
+<p>(iv) Now we use Cross-attention where the key and query comes from different datasets or sequences (here English and Dutch). In this for each position <span class="arithmatex">\(n\)</span> we:</p>
+<ul>
+<li>use <span class="arithmatex">\(\hat{h}_n\)</span> as a <em>query</em> <span class="arithmatex">\(q_n\)</span>,</li>
+<li>use all encoder states <span class="arithmatex">\(z_1,\dots,z_M\)</span> as <em>keys</em> and <em>values</em>.</li>
+</ul>
+<p>Concretely, we apply learned projection matrices
+  <span class="arithmatex">\(W^Q, W^K, W^V \in \mathbb{R}^{D \times D}\)</span> to obtain</p>
+<div class="arithmatex">\[
+  q_n = \hat{h}_n W^Q,\quad
+  k_m = z_m W^K,\quad
+  v_m = z_m W^V,
+\]</div>
+<p>where <span class="arithmatex">\(q_n, k_m, v_m \in \mathbb{R}^D\)</span>. The attention scores are first computed from the <em>query</em> <span class="arithmatex">\(q_n\)</span> and each
+  <em>key</em> <span class="arithmatex">\(k_m\)</span>:</p>
+<div class="arithmatex">\[
+  s_{n,m} = q_n^\top k_m,
+\]</div>
+<p>so <span class="arithmatex">\(s_{n,m}\)</span> is a scalar, and the score matrix <span class="arithmatex">\(S = [s_{n,m}]\)</span> has shape
+  <span class="arithmatex">\(\mathbb{R}^{N \times M}\)</span>. We then turn these scores into attention weights by applying a softmax over
+  <span class="arithmatex">\(m\)</span>:</p>
+<div class="arithmatex">\[
+  \alpha_{n,m}
+  = \frac{\exp(s_{n,m})}{\sum_{j=1}^M \exp(s_{n,j})}
+  \;\;\propto\;\; \exp(q_n^\top k_m).
+\]</div>
+<p>Each <span class="arithmatex">\(\alpha_{n,m}\)</span> is a scalar, and for fixed <span class="arithmatex">\(n\)</span> the vector
+  <span class="arithmatex">\((\alpha_{n,1},\dots,\alpha_{n,M})\)</span> lies in <span class="arithmatex">\(\mathbb{R}^M\)</span> and sums to <span class="arithmatex">\(1\)</span>. Finally, the cross-attention output at position <span class="arithmatex">\(n\)</span> is a weighted average of
+  the <em>value</em> vectors <span class="arithmatex">\(v_m\)</span>:</p>
+<div class="arithmatex">\[
+  c_n = \sum_{m=1}^M \alpha_{n,m} v_m,
+\]</div>
+<p>so <span class="arithmatex">\(c_n \in \mathbb{R}^D\)</span>, and the representation at position <span class="arithmatex">\(n\)</span> can directly “look at” <em>any</em>
+  English position <span class="arithmatex">\(m\)</span> via its weight <span class="arithmatex">\(\alpha_{n,m}\)</span>.</p>
+<p>(v) <span class="arithmatex">\(c_n\)</span> is then combined with <span class="arithmatex">\(\hat{h}_n\)</span> using the usual transformer
+  block structure: first a residual (skip) connection, then layer
+  normalization, and then a feed-forward network. Concretely, we can write</p>
+<div class="arithmatex">\[
+  u_n = \mathrm{LayerNorm}(\hat{h}_n + c_n), \qquad
+  h_n = \mathrm{FFN}(u_n),
+\]</div>
+<p>where <span class="arithmatex">\(\mathrm{FFN}\)</span> is a small position-wise MLP that maps
+  <span class="arithmatex">\(\mathbb{R}^D \to \mathbb{R}^D\)</span>. Both <span class="arithmatex">\(u_n\)</span> and <span class="arithmatex">\(h_n\)</span> are in
+  <span class="arithmatex">\(\mathbb{R}^D\)</span>. The final state
+  <span class="arithmatex">\(h_n\)</span> then goes through a linear+softmax layer to produce</p>
+<div class="arithmatex">\[
+  p(y_n \mid y_1,\dots,y_{n-1}, x_1,\dots,x_M).
+\]</div>
+<p>Here a projection <span class="arithmatex">\(W^{\text{tgt}} \in \mathbb{R}^{D \times K_{\text{tgt}}}\)</span> and bias
+  <span class="arithmatex">\(b^{\text{tgt}} \in \mathbb{R}^{K_{\text{tgt}}}\)</span> map <span class="arithmatex">\(h_n\)</span> to logits in
+  <span class="arithmatex">\(\mathbb{R}^{K_{\text{tgt}}}\)</span>, followed by a softmax over the <span class="arithmatex">\(K_{\text{tgt}}\)</span> target tokens.</p>
+<p>(vi) The encoder and decoder are <em>trained together, end-to-end</em>. A
+  training pair <span class="arithmatex">\((x_{1:M}, y_{1:N})\)</span> consists of a source sequence <span class="arithmatex">\(x_{1:M}\)</span> (e.g. an English sentence) and
+  its corresponding target sequence <span class="arithmatex">\(y_{1:N}\)</span> (e.g. the Dutch translation).
+  For each training pair, we:</p>
+<ul>
+<li>run the encoder on the <em>entire</em> source sequence <span class="arithmatex">\(x_{1:M}\)</span>,</li>
+<li>feed the shifted target sequence
+    <span class="arithmatex">\((\langle\text{start}\rangle, y_1,\dots,y_{N-1})\)</span> into the decoder,</li>
+<li>obtain a predicted distribution for every position in the target
+    sequence and compute a cross-entropy loss at each step <span class="arithmatex">\(n\)</span> for <span class="arithmatex">\(y_n\)</span>.</li>
+</ul>
+<p>In this way, every part of the target sequence contributes to the loss, and
+  gradients update all parameters (encoder, decoder, and
+  cross-attention) jointly. </p>
+<p><strong>Key points:</strong></p>
+<ul>
+<li>We <strong>still</strong> never allow <span class="arithmatex">\(y_n\)</span> to see future <span class="arithmatex">\(y_{n+1},y_{n+2},\dots\)</span>,
+  so there is no data leakage.</li>
+<li>What <strong>changes</strong> compared to the decoder-only model is that each
+  target token <span class="arithmatex">\(y_n\)</span> can now attend to <em>all</em> encoder states
+  <span class="arithmatex">\(z_1,\dots,z_M\)</span>, i.e. to the entire English sentence <span class="arithmatex">\(x_1,\dots,x_M\)</span>,
+  via cross-attention.</li>
+</ul>
+<p>Intuitively, this is like a user sending their query to a different streaming
+service: the service compares the query with its own library of key vectors and
+returns the best-matching movie as the value vector. When we wire the encoder and decoder together in this way we obtain the classic
+sequence-to-sequence transformer architecture. The model is trained in a supervised way using <em>sentence pairs</em>: for each
+English input sentence <span class="arithmatex">\(x_1,\dots,x_M\)</span> we provide the corresponding Dutch output
+sentence <span class="arithmatex">\(y_1,\dots,y_N\)</span>, and the network learns to map the full source sentence
+to its correct translated target sentence.</p>
+<h2 id="large-language-models">Large Language models</h2>
+<p>One of the biggest shifts in modern machine learning has been the rise of very
+large transformer-based neural networks for language, called <em>large
+language models</em> (LLMs). Here 'large' refers to the number of learnable
+weights and biases, which at the time of writing can reach around one trillion
+<span class="arithmatex">\((10^{12})\)</span>. These models are expensive to train, but their extraordinary
+capabilities make them worth the effort.</p>
+<p>Several trends made LLMs possible:</p>
+<ul>
+<li>huge text data sets,</li>
+<li>massively parallel hardware, especially GPUs and related accelerators,
+  organized in large clusters with fast interconnects and lots of memory,</li>
+<li>the transformer architecture, which uses this hardware very efficiently.</li>
+</ul>
+<p>In practice, simply scaling up data and parameter count often improves
+performance more than clever architectures or hand-built domain knowledge. For example, the big performance jumps in
+the GPT series have mainly come from increased scale. This has led to a new kind of “Moore’s law”
+for ML: since about 2012, the compute needed to train a state-of-the-art model
+has grown exponentially, with a doubling time of roughly about <span class="arithmatex">\(3.4\)</span> months.</p>
+<p><strong>From supervised to self-supervised training</strong></p>
+<p>Early language models were trained with <em>supervised learning</em>. For
+instance, to build a translation system one would use many pairs of aligned
+sentences in two languages. The problem is that such labelled data must be
+curated by humans, so it is scarce. This forces strong inductive biases (feature
+engineering, rigid architectures) just to reach decent performance.</p>
+<p>LLMs instead use <em>self-supervised learning</em> on very large unlabelled data
+sets of text (and often other token sequences such as source code). As we saw
+with decoder transformers, we can treat each token in a sequence as a labelled
+target, with the previous tokens as input, and learn a conditional probability
+distribution over the next token. This “self-labelling” turns raw text into a
+massive training set and makes it practical to exploit deep networks with huge
+numbers of parameters.</p>
+<p><strong>Pre-training, fine-tuning, and foundation models.</strong></p>
+<p>This self-supervised approach led to a new training paradigm:</p>
+<ol>
+<li><strong>Pre-train</strong> a large model on unlabelled data.</li>
+<li><strong>Fine-tune</strong> it with supervised learning on a much smaller
+   labelled data set for a particular task.</li>
+</ol>
+<p>This is a form of transfer learning, and the same pre-trained model can be
+reused across many downstream applications. A broadly capable model that
+can be fine-tuned for many tasks is called a foundation model. Fine-tuning can be done in various ways:</p>
+<ul>
+<li>add new layers on top and train them on labelled data,</li>
+<li>or replace the last few layers with new parameters and train only those.</li>
+</ul>
+<p>During fine-tuning, the main network weights can be frozen or allowed small
+adjustments. In either case, the compute cost of fine-tuning is usually tiny
+compared with pre-training.</p>
+<p><strong>Low-rank adaptation (LoRA).</strong></p>
+<p>A very efficient fine-tuning method is low-rank adaptation. It is motivated by the observation that over-parameterized models
+often have low intrinsic dimensionality for fine-tuning: useful parameter
+changes lie on a much lower-dimensional manifold than the full space.</p>
+<p>LoRA keeps the original model weights fixed and adds small trainable
+low-rank matrices to each transformer layer, usually only in the attention
+blocks (MLP layers stay fixed). Consider a weight matrix
+<span class="arithmatex">\(\mathbf{W}_0 \in \mathbb{R}^{D\times D}\)</span>, representing, say, the combined
+query/key/value matrix for all attention heads. LoRA introduces a parallel set
+of weights <span class="arithmatex">\(\mathbf{A} \in \mathbb{R}^{D\times R}\)</span> and
+<span class="arithmatex">\(\mathbf{B} \in \mathbb{R}^{R\times D}\)</span> freezing the weights <span class="arithmatex">\(W_0\)</span>, and the layer output becomes</p>
+<div class="arithmatex">\[
+X\mathbf{W}_0 + X\mathbf{A}\mathbf{B}.
+\]</div>
+<p>The added matrix <span class="arithmatex">\(\mathbf{A}\mathbf{B}\)</span> has <span class="arithmatex">\(2RD\)</span> parameters, compared with the
+<span class="arithmatex">\(D^2\)</span> parameters of <span class="arithmatex">\(\mathbf{W}_0\)</span>. When <span class="arithmatex">\(R \ll D\)</span>, the number of parameters
+that must be trained is much smaller than in the original transformer, often by
+up to a factor of <span class="arithmatex">\(10{,}000\)</span> in practice. After fine-tuning, the adapted weights
+are simply merged into the original matrix:</p>
+<div class="arithmatex">\[
+\widehat{\mathbf{W}} = \mathbf{W}_0 + \mathbf{A}\mathbf{B}
+\]</div>
+<p>so at inference time there is no extra computational cost and the model size is
+the same as before. As LLMs grow more powerful, we can increasingly skip fine-tuning altogether and
+instead solve many tasks directly through text-based interaction.</p>
+<p><strong>Zero-shot and few-shot capabilities.</strong></p>
+<p>Zero-shot learning means the model is asked to do a task that it has never
+seen explicitly in training, and we give it only an instruction or pattern in
+the prompt (no examples). <em>Few-shot learning</em> is similar, but we also give a
+small number of input–output examples in the prompt to guide the model.</p>
+<p>As a simple zero-shot example, suppose we give the following text to a
+generative language model:</p>
+<blockquote>
+<p><strong>English:</strong> the cat sat on the mat. <strong>French:</strong></p>
+</blockquote>
+<p>Here the French part is <em>intentionally</em> left blank, this is the task we
+want the model to solve. If this whole line is used as the input sequence, an
+autoregressive language model will continue generating tokens until it produces
+a special <span class="arithmatex">\(\langle\text{stop}\rangle\)</span> token. The generated continuation will
+typically be a French translation of the English sentence. Crucially, the model
+was never directly trained as a translation system, it acquired this ability
+indirectly by being pre-trained on a very large corpus of text that includes
+many different languages.</p>
+<p><strong>Interaction, RLHF, and ChatGPT.</strong></p>
+<p>Users can interact with such models via natural language dialogue, making them
+highly accessible. To improve user experience and output quality, LLMs are often
+<em>aligned</em> using human feedback. A popular approach is
+reinforcement learning through human feedback (RLHF), where humans rate model outputs and these ratings are used to further
+train the model. These techniques have enabled easy-to-use conversational
+systems such as OpenAI’s <em>ChatGPT</em>.</p>
+<p><strong>Prompts and prompt engineering.</strong></p>
+<p>The sequence of input tokens provided by the user is called a <em>prompt</em>. It
+might be:</p>
+<ul>
+<li>the opening of a story for the model to complete,</li>
+<li>a question the model should answer,</li>
+<li>a request such as “write Python code that …” or “compose a
+  rhyme about …”.</li>
+</ul>
+<p>By changing the prompt, the same underlying network can perform many tasks:
+code generation from a plain-text description, poetry on demand, and much more.
+Model performance therefore depends strongly on how we phrase the prompt. This
+has led to a new field, prompt engineering, which
+focuses on designing prompts that yield high-quality outputs.</p>
+<p>We can also modify behaviour by automatically editing the user’s prompt before
+it reaches the model. A common method is to prepend an additional token sequence
+called a <em>prefix prompt</em>. For instance, the prefix might contain
+instructions in standard English telling the model to avoid offensive language.
+The main prompt then follows this prefix.</p>
+<p>This mechanism lets us solve new tasks simply by including a few examples or
+instructions in the prompt, without changing model parameters, an ability known
+as <em>few-shot learning</em>.</p>
+<p><strong>Current state and outlook.</strong></p>
+<p>State-of-the-art models such as GPT-5 already show striking capabilities that
+some authors describe as early signs of artificial general intelligence. They are driving a major new wave of technological innovation,
+and their abilities continue to advance at an impressive pace.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Bishop, C. M., &amp; Bishop, H. (2023). Transformers. In Deep Learning: Foundations and Concepts (pp. 357-406). Cham: Springer International Publishing.</li>
+<li>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... and Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

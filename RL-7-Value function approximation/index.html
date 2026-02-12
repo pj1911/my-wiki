@@ -1,0 +1,2492 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-6-Model%20free%20control/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>7 - Value Function Approximation - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#motivation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7 - Value Function Approximation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solution: function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution: function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-of-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-methods-for-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning methods for value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning methods for value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-descent-and-stochastic-gradient-descent-sgd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient descent and stochastic gradient descent (SGD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#incremental-prediction-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental prediction with value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Incremental prediction with value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monte-carlo-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#td-learning-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD learning with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tdlambda-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(\(\lambda\)) with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control with value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control with value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policy Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-improvement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Improvement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-td-learning-and-its-convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient TD learning and it's convergence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient TD learning and it&#39;s convergence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-td" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient TD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-control-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of control algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-reinforcement-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch reinforcement learning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deep-q-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Q-network
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deep Q-network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experience-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experience replay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-q-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed Q-targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear-least-squares-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Least Squares Prediction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#least-squares-control-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Control (Policy Iteration)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Least Squares Control (Policy Iteration)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#least-squares-action-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least-squares action-value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#least-squares-q-learning-lstdq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Q-Learning (LSTDQ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#least-squares-policy-iteration-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Policy Iteration Algorithm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Least Squares Policy Iteration Algorithm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-control-algorithms_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of control algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solution: function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution: function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-of-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-methods-for-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning methods for value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning methods for value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-descent-and-stochastic-gradient-descent-sgd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient descent and stochastic gradient descent (SGD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#incremental-prediction-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental prediction with value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Incremental prediction with value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monte-carlo-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#td-learning-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD learning with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tdlambda-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(\(\lambda\)) with value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-with-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control with value function approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control with value function approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policy Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-improvement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Improvement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-td-learning-and-its-convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient TD learning and it's convergence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient TD learning and it&#39;s convergence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gradient-td" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient TD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-control-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of control algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-reinforcement-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch reinforcement learning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deep-q-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep Q-network
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deep Q-network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experience-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experience replay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-q-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed Q-targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear-least-squares-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linear Least Squares Prediction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#least-squares-control-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Control (Policy Iteration)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Least Squares Control (Policy Iteration)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#least-squares-action-value-function-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least-squares action-value function approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#least-squares-q-learning-lstdq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Q-Learning (LSTDQ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#least-squares-policy-iteration-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Least Squares Policy Iteration Algorithm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Least Squares Policy Iteration Algorithm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-control-algorithms_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of control algorithms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>7 - Value Function Approximation</h1>
+
+<h2 id="motivation">Motivation</h2>
+<p>Reinforcement learning is often used in settings where the state space is enormous (or even continuous). For instance, backgammon has about <span class="arithmatex">\(10^{20}\)</span> states, computer Go has about <span class="arithmatex">\(10^{170}\)</span> states, and helicopter control lives in a continuous state space. In such problems, we would like model-free methods to still work well for both prediction and control. However, the standard way we have represented value functions so far with a lookup table with one entry per state <span class="arithmatex">\(V(s)\)</span>, or one entry per state-action pair <span class="arithmatex">\(Q(s,a)\)</span>, does not scale: there are simply too many states and/or actions to store in memory, and learning each value independently is too slow.</p>
+<h2 id="solution-function-approximation">Solution: function approximation</h2>
+<p>To handle large (or continuous) state spaces, we stop storing one number per state (or state--action pair) and instead predict values with a parameter vector <span class="arithmatex">\(w\)</span>:</p>
+<div class="arithmatex">\[
+\hat{v}(s,w) \approx v_{\pi}(s),
+\qquad
+\hat{q}(s,a,w) \approx q_{\pi}(s,a).
+\]</div>
+<p>Here <span class="arithmatex">\(w\)</span> are the model's internal parameters (e.g., weights of a linear model or a neural network). Function approximation also enables generalization because many states share the same parameters <span class="arithmatex">\(w\)</span>: updating <span class="arithmatex">\(w\)</span> using experience from some states can also change the predicted values of other, possibly unseen, states. We update <span class="arithmatex">\(w\)</span> using the same ideas as before (Monte Carlo or Temporal-Difference learning), but instead of editing a table entry, we adjust <span class="arithmatex">\(w\)</span> so that <span class="arithmatex">\(\hat{v}(s,w)\)</span> or <span class="arithmatex">\(\hat{q}(s,a,w)\)</span> moves toward a chosen target (an MC return or a TD target).</p>
+<h3 id="types-of-value-function-approximation">Types of value function approximation</h3>
+<p>A value-function approximator maps inputs (a state, and sometimes an action) to value estimates. The common setups are: <strong>(1) state-value function approximation</strong>, where the input is <span class="arithmatex">\(s\)</span> and the output is a single number <span class="arithmatex">\(\hat{v}(s,w)\)</span>, <strong>(2) state-action value function approximation for a single action</strong>, where the input is <span class="arithmatex">\((s,a)\)</span> and the output is one number <span class="arithmatex">\(\hat{q}(s,a,w)\)</span>, useful when we only care about the value of a specific action at a specific state and <strong>(3) state-action values for all actions</strong>, where the input is <span class="arithmatex">\(s\)</span> and the output is a vector <span class="arithmatex">\(\big(\hat{q}(s,a_1,w),\ldots,\hat{q}(s,a_m,w)\big)\)</span>, which is especially convenient for discrete action spaces because we get all action-values in one forward pass.</p>
+<p><strong>Models for function approximation.</strong> Many models can approximate value functions, including linear feature combinations, neural networks, decision trees, nearest-neighbour methods, Fourier/wavelet bases, etc. In this chapter we focus on differentiable approximators (like linear models and neural networks). Differentiability matters because it gives us gradients: it tells us how the prediction changes when we change the parameters <span class="arithmatex">\(w\)</span>, which is exactly what we need for gradient-based learning. One extra wrinkle in reinforcement learning is that the data are usually not i.i.d. They come from trajectories, so consecutive samples are temporally correlated. In control, things are even less stable: as the policy improves, the data distribution can shift over time. So our training methods must cope with non-i.i.d. and non-stationary data. Later in this chapter we will look into how we handle these issues.</p>
+<h2 id="learning-methods-for-value-function-approximation">Learning methods for value function approximation</h2>
+<p>When learning with function approximation, updates are usually done in one of two ways: batch methods and incremental methods. Batch methods collect many samples and then update using the whole dataset (or large chunks of it). Incremental methods update continuously, using one sample (or a small mini-batch) at a time. Reinforcement learning most often uses the incremental style, since data arrive sequentially from interaction. We therefore begin with incremental, gradient-based updates like gradient descent and its stochastic variants, before returning to batch-style methods.</p>
+<h3 id="gradient-descent-and-stochastic-gradient-descent-sgd">Gradient descent and stochastic gradient descent (SGD)</h3>
+<p>To learn the parameter <span class="arithmatex">\(w\)</span>, we need a systematic way to improve our approximation. Concretely, we are fitting a parameterized function that takes a state (or a state and action) as input and produces a value prediction that should match the targets generated from experience. The standard approach is to define an objective function that measures how wrong our current value predictions are, and then adjust <span class="arithmatex">\(w\)</span> to reduce that error. When the objective is differentiable, gradient-based methods give a simple and effective update rule. Let <span class="arithmatex">\(J(w)\)</span> be a differentiable objective function of the parameter vector <span class="arithmatex">\(w\)</span>. Its gradient is the vector of partial derivatives</p>
+<div class="arithmatex">\[
+\nabla_w J(w) =
+\begin{pmatrix}
+\frac{\partial J(w)}{\partial w_1}\\
+\vdots\\
+\frac{\partial J(w)}{\partial w_n}
+\end{pmatrix}.
+\]</div>
+<p>To reduce <span class="arithmatex">\(J(w)\)</span>, we move parameters in the direction of the negative gradient:</p>
+<div class="arithmatex">\[
+\Delta w = -\frac{1}{2}\alpha \nabla_w J(w),
+\]</div>
+<p>where <span class="arithmatex">\(\alpha&gt;0\)</span> is the step size.</p>
+<p><strong>Value function approximation via SGD.</strong> We want parameters <span class="arithmatex">\(w\)</span> that minimize the mean-squared error between the approximation <span class="arithmatex">\(\hat{v}(s,w)\)</span> and the true value <span class="arithmatex">\(v_\pi(s)\)</span>:</p>
+<div class="arithmatex">\[
+J(w) = \mathbb{E}_{\pi}\!\left[\left(v_\pi(S) - \hat{v}(S,w)\right)^2\right].
+\]</div>
+<p>Gradient descent gives</p>
+<div class="arithmatex">\[
+\Delta w
+= -\frac{1}{2}\alpha \nabla_w J(w)
+= \alpha\, \mathbb{E}_{\pi}\!\left[\left(v_\pi(S) - \hat{v}(S,w)\right)\nabla_w \hat{v}(S,w)\right].
+\]</div>
+<p><strong>Incremental (stochastic) update.</strong> Computing the expectation in the gradient update is usually infeasible, so we approximate it by sampling. Concretely, we generate a trajectory by following policy <span class="arithmatex">\(\pi\)</span>, take the current visited state <span class="arithmatex">\(S\)</span>, and use it as a sample from the state distribution induced by <span class="arithmatex">\(\pi\)</span>. Replacing the expectation with this single sample gives the incremental (stochastic) update:</p>
+<div class="arithmatex">\[
+\Delta w
+= \alpha \left(v_\pi(S) - \hat{v}(S,w)\right)\nabla_w \hat{v}(S,w).
+\]</div>
+<p>If we generate experience by following <span class="arithmatex">\(\pi\)</span>, then each visited state <span class="arithmatex">\(S\)</span> can be viewed as a sample from the state distribution induced by <span class="arithmatex">\(\pi\)</span>. Then SGD replaces this expectation with a single sampled term,</p>
+<div class="arithmatex">\[
+\alpha\left(v_\pi(S)-\hat{v}(S,w)\right)\nabla_w \hat{v}(S,w),
+\]</div>
+<p>so each step uses only the current state from the trajectory. Individual updates are noisy because <span class="arithmatex">\(S\)</span> changes from step to step, and some states may appear more often than others. But because the samples come from the same distribution used in the expectation, the sampled update is unbiased: if we average these incremental updates over many time steps, we recover the expected (full-gradient) update direction. This is why SGD still minimizes <span class="arithmatex">\(J(w)\)</span> in expectation, while avoiding the cost of computing the full average at every step.</p>
+<h3 id="linear-value-function-approximation">Linear value function approximation</h3>
+<p>Instead of working with the raw state, we describe each state using a feature vector</p>
+<div class="arithmatex">\[
+x(S)=
+\begin{pmatrix}
+x_1(S)\\
+\vdots\\
+x_n(S)
+\end{pmatrix}.
+\]</div>
+<p>We can think of features as measurements that summarize what matters about each state <span class="arithmatex">\(S\)</span>, for example a robot's distance to landmarks, indicators from the stock market, or patterns of pieces in chess. Features can make learning practical, but they may also discard information about the original state. For the remaining of this chapter, we assume we have a reasonably good feature representation.</p>
+<p><strong>Linear model.</strong> A simple and widely used differentiable approximator is a linear model:</p>
+<div class="arithmatex">\[
+\hat{v}(S,w)=x(S)^\top w=\sum_{j=1}^n x_j(S)\,w_j.
+\]</div>
+<p>Using mean-squared error,</p>
+<div class="arithmatex">\[
+J(w)=\mathbb{E}_{\pi}\!\left[\left(v_\pi(S)-x(S)^\top w\right)^2\right],
+\]</div>
+<p>the objective is quadratic in <span class="arithmatex">\(w\)</span>. This is nice: for linear approximation, SGD converges (under standard conditions) to a global minimizer of <span class="arithmatex">\(J(w)\)</span>. Then the gradient is especially clean:</p>
+<div class="arithmatex">\[
+\nabla_w \hat{v}(S,w)=x(S),
+\]</div>
+<p>so the incremental update becomes</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(v_\pi(S)-\hat{v}(S,w)\right)x(S),
+\qquad\text{or}\qquad
+\Delta w_j=\alpha\left(v_\pi(S)-\hat{v}(S,w)\right)x_j(S).
+\]</div>
+<p><strong>Interpretation of the update.</strong> Each step has the intuitive form</p>
+<div class="arithmatex">\[
+\text{update}=\text{step size}\times\text{prediction error}\times\text{feature value}.
+\]</div>
+<p>If a feature is inactive (<span class="arithmatex">\(x_j(S)=0\)</span>), its weight does not change. If a feature has large magnitude, it drives a larger update. Even when the linear model cannot represent <span class="arithmatex">\(v_\pi\)</span> perfectly, good features can still capture enough structure for accurate and useful predictions.</p>
+<p><strong>Table lookup as a special case.</strong> A lookup table is a special case of linear approximation, it is linear approximation with one-hot features. If the finite state space is <span class="arithmatex">\(\{s_1,\dots,s_n\}\)</span>, define</p>
+<div class="arithmatex">\[
+x^{\text{table}}(S)=
+\begin{pmatrix}
+\mathbb{I}(S=s_1)\\
+\vdots\\
+\mathbb{I}(S=s_n)
+\end{pmatrix},
+\]</div>
+<p>where <span class="arithmatex">\(\mathbb{I}(\cdot)\)</span> is <span class="arithmatex">\(1\)</span> if its argument is true and <span class="arithmatex">\(0\)</span> otherwise. Then</p>
+<div class="arithmatex">\[
+\hat{v}(S,w)=\big(x^{\text{table}}(S)\big)^\top w =
+\sum_{i=1}^n \mathbb{I}(S=s_i)\,w_i = w_i \quad \text{if } S=s_i.
+\]</div>
+<p>In this case we create one feature per state. So the model simply picks the single parameter tied to the current state, which is exactly what a lookup table does.</p>
+<h2 id="incremental-prediction-with-value-function-approximation">Incremental prediction with value function approximation</h2>
+<p>Till now, we assumed, the objective used the true value <span class="arithmatex">\(v_\pi(s)\)</span> as if an oracle provided it. But, in reinforcement learning we generally do not have such information, we only see rewards (and next state). The practical fix is simple: replace <span class="arithmatex">\(v_\pi(S_t)\)</span> with a target computed from experience, and do an incremental SGD update:</p>
+<div class="arithmatex">\[
+\Delta w
+= \alpha\left(\text{target}_t-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>The only thing that changes across methods is how we choose <span class="arithmatex">\(\text{target}_t\)</span>:</p>
+<ul>
+<li><strong>Monte Carlo (MC):</strong> use the return <span class="arithmatex">\(G_t\)</span>,</li>
+</ul>
+<div class="arithmatex">\[
+\Delta w
+= \alpha\left(G_t-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<ul>
+<li><strong>TD(0):</strong> use the one-step TD target <span class="arithmatex">\(R_{t+1}+\gamma \hat{v}(S_{t+1},w)\)</span>,</li>
+</ul>
+<div class="arithmatex">\[
+\Delta w
+= \alpha\left(R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<ul>
+<li><strong>TD(<span class="arithmatex">\(\lambda\)</span>):</strong> use the <span class="arithmatex">\(\lambda\)</span>-return <span class="arithmatex">\(G_t^\lambda\)</span>,</li>
+</ul>
+<div class="arithmatex">\[
+\Delta w
+= \alpha\left(G_t^\lambda-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<h3 id="monte-carlo-with-value-function-approximation">Monte Carlo with value function approximation</h3>
+<p>The Monte Carlo return <span class="arithmatex">\(G_t\)</span> is a noisy but unbiased sample of the true value <span class="arithmatex">\(v_\pi(S_t)\)</span> (its expectation equals <span class="arithmatex">\(v_\pi(S_t)\)</span>). This makes MC prediction with function approximation look a lot like supervised learning: from each episode we get training pairs</p>
+<div class="arithmatex">\[
+\langle S_1,G_1\rangle,\ \langle S_2,G_2\rangle,\ \ldots,\ \langle S_T,G_T\rangle.
+\]</div>
+<p>We then apply the generic incremental update with, <span class="arithmatex">\(\text{target}_t=G_t\)</span>:</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(G_t-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>In this setting, we apply the update once per time step <span class="arithmatex">\(t\)</span> (for each visited state <span class="arithmatex">\(S_t\)</span>), using that step's return <span class="arithmatex">\(G_t\)</span> as the target. In an episodic task, <span class="arithmatex">\(G_t\)</span> depends on rewards all the way until the end of the episode, so we typically:</p>
+<ul>
+<li>run an episode to termination,</li>
+<li>compute <span class="arithmatex">\(G_t\)</span> for <span class="arithmatex">\(t=0,1,\dots,T-1\)</span>,</li>
+<li>then update <span class="arithmatex">\(w\)</span> for each time step (either in forward or backward order):</li>
+</ul>
+<div class="arithmatex">\[
+w \leftarrow w + \alpha\left(G_t-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>For a linear approximator <span class="arithmatex">\(\hat{v}(s,w)=x(s)^\top w\)</span> (so <span class="arithmatex">\(\nabla_w \hat{v}(S_t,w)=x(S_t)\)</span>), then this becomes</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(G_t-\hat{v}(S_t,w)\right)x(S_t).
+\]</div>
+<p>With non-linear approximators, the objective is generally non-convex, so MC prediction typically converges to a local optimum rather than guaranteeing a global one.</p>
+<h3 id="td-learning-with-value-function-approximation">TD learning with value function approximation</h3>
+<p>Monte Carlo uses the full return <span class="arithmatex">\(G_t\)</span> as a target, which is unbiased but only available after the episode ends. TD methods trade a bit of bias for faster, online learning by building targets from the next reward and the current value estimate. The TD(0) target</p>
+<div class="arithmatex">\[
+R_{t+1}+\gamma \hat{v}(S_{t+1},w)
+\]</div>
+<p>is a biased estimate of <span class="arithmatex">\(v_\pi(S_t)\)</span> because it bootstraps from the current approximation <span class="arithmatex">\(\hat{v}(\cdot,w)\)</span>. The TD target includes the current value estimate for the next state, and that estimate is generally not exactly correct. As a result, even if we average over many transitions, the target tends to be systematically biased. Still, we can think of TD as supervised learning on moving targets, with training pairs like</p>
+<div class="arithmatex">\[
+\langle S_t,\ R_{t+1}+\gamma \hat{v}(S_{t+1},w)\rangle.
+\]</div>
+<p>Notably, the TD target depends on <span class="arithmatex">\(\hat{v}(\cdot,w)\)</span>, so the "label" changes as <span class="arithmatex">\(w\)</span> changes. To derive the TD(0) update, we start from the generic incremental SGD rule</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(\text{target}_t-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>Substituting the value of the TD(0) target into the generic rule gives</p>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>It is common to name the term in parentheses the TD error,</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w),
+\]</div>
+<p>so the update can be written compactly as <span class="arithmatex">\(\Delta w=\alpha\,\delta_t\,\nabla_w \hat{v}(S_t,w)\)</span>. For a linear model <span class="arithmatex">\(\hat{v}(s,w)=x(s)^\top w\)</span> (so <span class="arithmatex">\(\nabla_w \hat{v}(S_t,w)=x(S_t)\)</span>), this becomes</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\,\delta_t\,x(S_t),
+\qquad
+\delta_t=R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w).
+\]</div>
+<p>A useful practical note: unlike MC, TD(0) can update immediately at each time step because its target does not require waiting for the episode to end.</p>
+<h3 id="tdlambda-with-value-function-approximation">TD(<span class="arithmatex">\(\lambda\)</span>) with value function approximation</h3>
+<p>Like TD(0), the <span class="arithmatex">\(\lambda\)</span>-return <span class="arithmatex">\(G_t^\lambda\)</span> bootstraps from current estimates, so it is also a biased target for <span class="arithmatex">\(v_\pi(S_t)\)</span>. But, we can still think in supervised-learning terms, using pairs</p>
+<div class="arithmatex">\[
+\langle S_1,G_1^\lambda\rangle,\ \langle S_2,G_2^\lambda\rangle,\ \ldots,\ \langle S_{T-1},G_{T-1}^\lambda\rangle.
+\]</div>
+<p><strong>Forward view (linear TD(<span class="arithmatex">\(\lambda\)</span>)).</strong> Using the generic SGD rule with <span class="arithmatex">\(\text{target}_t=G_t^\lambda\)</span> gives</p>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(G_t^\lambda-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w).
+\]</div>
+<p>For a linear approximator <span class="arithmatex">\(\hat{v}(s,w)=x(s)^\top w\)</span> (so <span class="arithmatex">\(\nabla_w \hat{v}(S_t,w)=x(S_t)\)</span>),</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(G_t^\lambda-\hat{v}(S_t,w)\right)x(S_t).
+\]</div>
+<p><strong>Backward view (linear TD(<span class="arithmatex">\(\lambda\)</span>)).</strong> The forward view is conceptually clean, but it still refers to <span class="arithmatex">\(G_t^\lambda\)</span>, which is defined using future rewards. The backward view implements the same idea online by accumulating credit with an eligibility trace. We define the TD error</p>
+<div class="arithmatex">\[
+\delta_t=R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w),
+\]</div>
+<p>and the eligibility trace</p>
+<div class="arithmatex">\[
+E_t=\gamma\lambda E_{t-1}+x(S_t),
+\qquad E_{-1}=0.
+\]</div>
+<p>Then the update is</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\,\delta_t\,E_t.
+\]</div>
+<h2 id="control-with-value-function-approximation">Control with value function approximation</h2>
+<p>In control, the goal is not just to predict values under a fixed policy, but to improve the policy. A common pattern is to alternate between:</p>
+<ul>
+<li><strong>Policy evaluation:</strong> learn an approximation to the action-value function,</li>
+</ul>
+<div class="arithmatex">\[
+\hat{q}(\cdot,\cdot,w)\approx q_\pi,
+\]</div>
+<ul>
+<li><strong>Policy improvement:</strong> make <span class="arithmatex">\(\pi\)</span> more greedy with respect to <span class="arithmatex">\(\hat{q}\)</span> (often via <span class="arithmatex">\(\epsilon\)</span>-greedy).</li>
+</ul>
+<h3 id="policy-evaluation">Policy Evaluation</h3>
+<h4 id="action-value-function-approximation">Action-value function approximation</h4>
+<p>For evaluation, we would ideally choose <span class="arithmatex">\(w\)</span> to minimize the mean-squared error between <span class="arithmatex">\(\hat{q}(S,A,w)\)</span> and the true <span class="arithmatex">\(q_\pi(S,A)\)</span>. Similar to the state-value function approximation we can define:</p>
+<div class="arithmatex">\[
+J(w)=\mathbb{E}_{\pi}\!\left[\left(q_\pi(S,A)-\hat{q}(S,A,w)\right)^2\right].
+\]</div>
+<p>Applying gradient descent gives</p>
+<div class="arithmatex">\[
+\Delta w
+=-\frac{1}{2}\alpha \nabla_w J(w)
+=\alpha\,\mathbb{E}_{\pi}\!\left[\left(q_\pi(S,A)-\hat{q}(S,A,w)\right)\nabla_w \hat{q}(S,A,w)\right].
+\]</div>
+<p>In practice we use a sampled (incremental) version of this update, replacing the expectation and the unknown <span class="arithmatex">\(q_\pi\)</span> with targets estimated from experience (e.g., TD targets). With this target-based, incremental update in mind, we now specify how to represent action-values with a parameterized function—starting with the common linear case.</p>
+<p><strong>Linear action-value function approximation.</strong> For action-values, we can describe a state-action pair with a feature vector</p>
+<div class="arithmatex">\[
+x(S,A)=
+\begin{pmatrix}
+x_1(S,A)\\
+\vdots\\
+x_n(S,A)
+\end{pmatrix},
+\]</div>
+<p>and use a linear model</p>
+<div class="arithmatex">\[
+\hat{q}(S,A,w)=x(S,A)^\top w=\sum_{j=1}^n x_j(S,A)\,w_j.
+\]</div>
+<p>The gradient is immediate:</p>
+<div class="arithmatex">\[
+\nabla_w \hat{q}(S,A,w)=x(S,A).
+\]</div>
+<p>So the incremental SGD update becomes</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(q_\pi(S,A)-\hat{q}(S,A,w)\right)x(S,A).
+\]</div>
+<p>(In practice, <span class="arithmatex">\(q_\pi(S,A)\)</span> is unknown and is replaced by a target estimated from experience.)</p>
+<p><strong>Incremental control algorithms with function approximation.</strong> Just like in prediction, we do not know the true action-value <span class="arithmatex">\(q_\pi(S,A)\)</span>, so we learn from targets built from experience. With a differentiable approximator <span class="arithmatex">\(\hat{q}(S,A,w)\)</span>, the generic incremental update is</p>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(\text{target}_t-\hat{q}(S_t,A_t,w)\right)\nabla_w \hat{q}(S_t,A_t,w).
+\]</div>
+<p>Different control algorithms mainly differ in how they choose <span class="arithmatex">\(\text{target}_t\)</span>:</p>
+<ul>
+<li><strong>MC control:</strong> use the return <span class="arithmatex">\(G_t\)</span>,</li>
+</ul>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(G_t-\hat{q}(S_t,A_t,w)\right)\nabla_w \hat{q}(S_t,A_t,w).
+\]</div>
+<ul>
+<li><strong>TD(0) / SARSA-style:</strong> bootstrap from the next state-action,</li>
+</ul>
+<div class="arithmatex">\[
+\text{target}_t = R_{t+1}+\gamma \hat{q}(S_{t+1},A_{t+1},w),
+\]</div>
+<p>giving</p>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(R_{t+1}+\gamma \hat{q}(S_{t+1},A_{t+1},w)-\hat{q}(S_t,A_t,w)\right)\nabla_w \hat{q}(S_t,A_t,w).
+\]</div>
+<ul>
+<li><strong>Forward-view TD(<span class="arithmatex">\(\lambda\)</span>):</strong> use an action-value <span class="arithmatex">\(\lambda\)</span>-return <span class="arithmatex">\(q_t^\lambda\)</span>,</li>
+</ul>
+<div class="arithmatex">\[
+\Delta w
+=\alpha\left(q_t^\lambda-\hat{q}(S_t,A_t,w)\right)\nabla_w \hat{q}(S_t,A_t,w).
+\]</div>
+<ul>
+<li><strong>Backward-view TD(<span class="arithmatex">\(\lambda\)</span>) (eligibility traces):</strong> define the TD error</li>
+</ul>
+<div class="arithmatex">\[
+\delta_t
+=R_{t+1}+\gamma \hat{q}(S_{t+1},A_{t+1},w)-\hat{q}(S_t,A_t,w),
+\]</div>
+<p>and an eligibility trace</p>
+<div class="arithmatex">\[
+E_t=\gamma\lambda E_{t-1}+\nabla_w \hat{q}(S_t,A_t,w),
+\qquad E_{-1}=0,
+\]</div>
+<p>then update</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\,\delta_t\,E_t.
+\]</div>
+<h3 id="policy-improvement">Policy Improvement</h3>
+<p>Once we have an updated action-value approximation, we improve the policy by following a \epsilon-greedy policy with respect to the current estimate: most of the time we choose the action with the highest estimated value under the current approximator, and with small probability epsilon we choose a random action to keep exploring. This couples naturally with the incremental updates above: as the action-value estimates change online, the epsilon-greedy policy tracks them, gradually shifting behavior toward better actions while still occasionally sampling alternatives to avoid getting stuck with a poor early estimate.</p>
+<h2 id="gradient-td-learning-and-its-convergence">Gradient TD learning and it's convergence</h2>
+<p>With function approximation, it is tempting to think TD is minimizing a single error measure like</p>
+<div class="arithmatex">\[
+J(w)=\mathbb{E}_\pi\!\left[\left(v_\pi(S)-\hat{v}(S,w)\right)^2\right].
+\]</div>
+<p>For Monte Carlo, the update can be seen as (stochastic) gradient descent on this objective, because the target <span class="arithmatex">\(G_t\)</span> is an unbiased sample of <span class="arithmatex">\(v_\pi(S_t)\)</span>. For TD, however, the target</p>
+<div class="arithmatex">\[
+R_{t+1}+\gamma \hat{v}(S_{t+1},w)
+\]</div>
+<p>itself depends on <span class="arithmatex">\(w\)</span>. As a result, the usual TD update</p>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w)\right)\nabla_w \hat{v}(S_t,w)
+\]</div>
+<p>is not, in general, the gradient of a single fixed scalar objective in <span class="arithmatex">\(w\)</span> (especially off-policy, and with non-linear approximation). That is a core reason TD can be unstable or even diverge. The TD update is built from the Bellman equation and a bootstrapped target, e.g.</p>
+<div class="arithmatex">\[
+\Delta w \propto \delta_t \nabla_w \hat{v}(S_t,w),
+\qquad
+\delta_t = R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w).
+\]</div>
+<p>If we try to treat TD as "just doing SGD" on the squared TD error</p>
+<div class="arithmatex">\[
+\ell_t(w) = \frac{1}{2}\,\delta_t^2,
+\]</div>
+<p>its true gradient is</p>
+<div class="arithmatex">\[
+\nabla_w \ell_t(w)=\delta_t\,\nabla_w \delta_t
+=\delta_t\Big(\gamma \nabla_w \hat{v}(S_{t+1},w)-\nabla_w \hat{v}(S_t,w)\Big).
+\]</div>
+<p>But the standard TD update keeps only the second term:</p>
+<div class="arithmatex">\[
+\Delta w \propto \delta_t\,\nabla_w \hat{v}(S_t,w),
+\]</div>
+<p>and drops the <span class="arithmatex">\(\gamma \nabla_w \hat{v}(S_{t+1},w)\)</span> part. This is called a semi-gradient method: it treats the target <span class="arithmatex">\(R_{t+1}+\gamma \hat{v}(S_{t+1},w)\)</span> as if it were a constant, even though it depends on <span class="arithmatex">\(w\)</span>. This keeps the update local and cheap (it avoids "backpropagation through the target"), and it matches the Bellman fixed-point view of TD. Because TD is doing a semi-gradient update. We treat the bootstrapped target</p>
+<div class="arithmatex">\[
+R_{t+1}+\gamma \hat{v}(S_{t+1},w)
+\]</div>
+<p>as a constant at time <span class="arithmatex">\(t\)</span> and only differentiate the prediction <span class="arithmatex">\(\hat{v}(S_t,w)\)</span>.</p>
+<h3 id="gradient-td">Gradient TD</h3>
+<p>Gradient TD methods address this by defining an explicit objective and then performing (stochastic) gradient descent on it. A common choice is the mean-squared projected Bellman error (MSPBE). Let <span class="arithmatex">\(T^\pi\)</span> be the Bellman operator and let <span class="arithmatex">\(\Pi\)</span> denote projection onto the function class (e.g., projection onto the span of features under a chosen norm). For an approximate value <span class="arithmatex">\(\hat{v}_w\)</span>, define</p>
+<div class="arithmatex">\[
+\text{MSPBE}(w)\;=\big\|\Pi T^\pi \hat{v}_w-\hat{v}_w\big\|^2.
+\]</div>
+<p>Intuitively, <span class="arithmatex">\(T^\pi \hat{v}_w\)</span> is the one-step Bellman backup, and <span class="arithmatex">\(\Pi\)</span> projects it back into the representable set, so we measure how far <span class="arithmatex">\(\hat{v}_w\)</span> is from its projected Bellman update. In the linear case <span class="arithmatex">\(\hat{v}_w(s)=x(s)^\top w\)</span>, define the TD error</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1}+\gamma x(S_{t+1})^\top w - x(S_t)^\top w.
+\]</div>
+<p>This leads to two coupled SGD recursions: one for the main weights <span class="arithmatex">\(w\)</span> and one for an auxiliary vector <span class="arithmatex">\(h\)</span> that estimates a correction term needed by the gradient. One popular example is GTD2:</p>
+<div class="arithmatex">\[
+h \leftarrow h + \beta\left(\delta_t - x(S_t)^\top h\right)x(S_t),
+\]</div>
+<div class="arithmatex">\[
+w \leftarrow w + \alpha\left(x(S_t)-\gamma x(S_{t+1})\right)\big(x(S_t)^\top h\big),
+\]</div>
+<p>with step sizes <span class="arithmatex">\(\alpha,\beta&gt;0\)</span> (often with <span class="arithmatex">\(\beta\)</span> larger so <span class="arithmatex">\(h\)</span> adapts faster). We can think of it as: standard TD uses one set of weights but may be unstable off-policy; Gradient TD adds <span class="arithmatex">\(h\)</span> so the update truly follows the gradient, which improves stability (especially off-policy with linear approximation).</p>
+<h3 id="convergence-of-control-algorithms">Convergence of control algorithms</h3>
+<p>When we say an algorithm "converges", we usually mean the parameters <span class="arithmatex">\(w\)</span> approach a fixed point (and hopefully one that is close to the best possible within the chosen function class). A practical summary for control with function approximation is:</p>
+<ul>
+<li><strong>Monte Carlo control:</strong> stable with table lookup; often reasonable with linear approximation but may chatter; no general guarantee with non-linear models.</li>
+<li><strong>SARSA (on-policy TD control):</strong> stable with table lookup; can also chatter with linear approximation; no general guarantee with non-linear models.</li>
+<li><strong>Q-learning (off-policy TD control):</strong> stable with table lookup; can diverge with linear or non-linear approximation.</li>
+<li><strong>Gradient Q-learning:</strong> designed for stability with table lookup and linear approximation; still no general guarantee with non-linear models.</li>
+</ul>
+<p>Here chattering informally means the parameters keep oscillating around a near-optimal solution rather than settling to an exact fixed point.</p>
+<h2 id="batch-reinforcement-learning">Batch reinforcement learning</h2>
+<p>Incremental SGD is convenient, but it often underuses data: a transition is seen once, we update, and then we move on. Batch RL takes the opposite view: collect experience into a dataset and then fit the value function to that dataset as well as possible. This is useful when data are expensive (e.g., real robots) or when we want to squeeze more learning out of past experience.</p>
+<p><strong>Least-squares prediction.</strong> If we can treat learning as supervised regression, a natural goal is to find the parameters that best fit the observed targets in a squared-error sense. Given a dataset</p>
+<div class="arithmatex">\[
+\mathcal{D}=\{\langle s_1,v_1^\pi\rangle,\ \langle s_2,v_2^\pi\rangle,\ \ldots,\ \langle s_T,v_T^\pi\rangle\},
+\]</div>
+<p>and an approximator <span class="arithmatex">\(\hat{v}(s,w)\)</span>, least-squares chooses</p>
+<div class="arithmatex">\[
+w^\pi=\arg\min_w LS(w),
+\qquad
+LS(w)=\sum_{t=1}^{T}\left(v_t^\pi-\hat{v}(s_t,w)\right)^2.
+\]</div>
+<p>Compared to one-pass SGD, this objective makes the goal explicit: "fit the best value function you can, given the data you have."</p>
+<p><strong>Experience replay (SGD on a dataset).</strong> In practice, we may not solve the least-squares problem in closed form, but we can optimize it with SGD by repeatedly replaying samples from <span class="arithmatex">\(\mathcal{D}\)</span>:</p>
+<ol>
+<li>Sample <span class="arithmatex">\(\langle s,v^\pi\rangle \sim \mathcal{D}\)</span> (often uniformly at random).</li>
+<li>Update</li>
+</ol>
+<div class="arithmatex">\[
+\Delta w=\alpha\left(v^\pi-\hat{v}(s,w)\right)\nabla_w \hat{v}(s,w).
+\]</div>
+<p>This is called experience replay: we reuse past experience many times, which improves sample efficiency and (with random sampling) reduces the temporal correlations that appear in online trajectories. So far, this is just "supervised learning on stored RL experience." The next step is to apply the same idea to control with action-values: store transitions <span class="arithmatex">\((s,a,r,s')\)</span> in a replay buffer and train a Q-function from mini-batches.</p>
+<h2 id="deep-q-network">Deep Q-network</h2>
+<p>The idea is simple: replace the lookup table <span class="arithmatex">\(Q(s,a)\)</span> with a neural network <span class="arithmatex">\(Q(s,a;w)\)</span>, and train it so that its outputs satisfy the Bellman optimality equation. However, naively combining Q-learning (bootstrapping) with a non-linear network can be unstable. To handle this, we can introduce deep Q-networks (DQN), it became successful largely because it adds two stabilizing ideas: experience replay and fixed (or slowly changing) Q-targets.</p>
+<h3 id="experience-replay">Experience replay</h3>
+<p>As the agent interacts with the environment, it stores transitions in a replay buffer <span class="arithmatex">\(\mathcal{D}\)</span>:</p>
+<div class="arithmatex">\[
+(s_t,a_t,r_{t+1},s_{t+1})\in\mathcal{D}.
+\]</div>
+<p>Training then samples mini-batches uniformly at random from <span class="arithmatex">\(\mathcal{D}\)</span>. Random sampling breaks strong temporal correlations in consecutive experience and makes learning closer to i.i.d. supervised training, which typically stabilizes SGD and improves data efficiency (each transition can be reused many times).</p>
+<h3 id="fixed-q-targets">Fixed Q-targets</h3>
+<p>A core instability in bootstrapping is the moving target problem: the target depends on the same parameters we are updating. If <span class="arithmatex">\(w\)</span> changes, then both the prediction and the target can change at the same time, which can cause oscillations or divergence.</p>
+<p>DQN reduces this by using a separate set of (older) parameters <span class="arithmatex">\(w^{-}\)</span> to compute targets, while the current network uses <span class="arithmatex">\(w\)</span>. For a sampled transition <span class="arithmatex">\((s,a,r,s')\)</span>, the DQN target is</p>
+<div class="arithmatex">\[
+y = r + \gamma \max_{a'} Q(s',a';w^{-}),
+\]</div>
+<p>and we fit <span class="arithmatex">\(Q(s,a;w)\)</span> to this target by minimizing the squared error</p>
+<div class="arithmatex">\[
+\mathcal{L}(w) =\mathbb{E}_{(s,a,r,s')\sim\mathcal{D}}\Big[\big(y-Q(s,a;w)\big)^2\Big] =
+\mathbb{E}_{(s,a,r,s')\sim\mathcal{D}}
+\Big[\big(r+\gamma \max_{a'} Q(s',a';w^{-})-Q(s,a;w)\big)^2\Big].
+\]</div>
+<p><strong>Stability intuition.</strong> Putting it together, DQN repeatedly:</p>
+<ol>
+<li>collects transitions and stores them in <span class="arithmatex">\(\mathcal{D}\)</span> (often using <span class="arithmatex">\(\epsilon\)</span>-greedy w.r.t. <span class="arithmatex">\(Q(\cdot,\cdot;w)\)</span>),</li>
+<li>samples random mini-batches from <span class="arithmatex">\(\mathcal{D}\)</span>,</li>
+<li>treats <span class="arithmatex">\(y=r+\gamma \max_{a'} Q(s',a';w^{-})\)</span> as a (nearly) fixed label and does supervised-style regression,</li>
+<li>updates the target network occasionally (hard update <span class="arithmatex">\(w^{-}\leftarrow w\)</span> every <span class="arithmatex">\(K\)</span> steps) or slowly (soft updates).</li>
+</ol>
+<h2 id="linear-least-squares-prediction">Linear Least Squares Prediction</h2>
+<p>In the previous section we motivated batch RL: once we store experience in a replay buffer, learning becomes "fit a function to a dataset." Before going deeper into DQN, it is helpful to look at the simplest batch case: linear function approximation. If we use a linear value function,</p>
+<div class="arithmatex">\[
+\hat{v}(s,w)=x(s)^\top w,
+\]</div>
+<p>then least-squares prediction becomes a standard linear regression problem. Experience replay + SGD can eventually reach the best-fitting parameters, but it may require many passes over the data. In case of a linear model, we can often compute the least-squares solution directly (or update it efficiently as new data arrive). We start from the least-squares objective on a dataset <span class="arithmatex">\(D=\{(s_t,v_t^\pi)\}_{t=1}^T\)</span>:</p>
+<div class="arithmatex">\[
+LS(w)=\sum_{t=1}^{T}\bigl(v_t^\pi-x(s_t)^\top w\bigr)^2.
+\]</div>
+<p>At the minimizer, the gradient must be zero:</p>
+<div class="arithmatex">\[
+\nabla_w LS(w)=0.
+\]</div>
+<p>Differentiate:</p>
+<div class="arithmatex">\[
+\nabla_w LS(w) = -2\sum_{t=1}^{T} x(s_t)\bigl(v_t^\pi-x(s_t)^\top w\bigr)=0.
+\]</div>
+<p>Rearranging gives the normal equations:</p>
+<div class="arithmatex">\[
+\sum_{t=1}^{T} x(s_t)\,v_t^\pi =
+\sum_{t=1}^{T} x(s_t)\,x(s_t)^\top w.
+\]</div>
+<p>Define</p>
+<div class="arithmatex">\[
+A\;=\sum_{t=1}^{T} x(s_t)\,x(s_t)^\top,
+\qquad
+b\;=\sum_{t=1}^{T} x(s_t)\,v_t^\pi,
+\]</div>
+<p>so the solution (when <span class="arithmatex">\(A\)</span> is invertible) is</p>
+<div class="arithmatex">\[
+w=A^{-1}b.
+\]</div>
+<ul>
+<li>If there are <span class="arithmatex">\(N\)</span> features, solving via a matrix inverse is typically <span class="arithmatex">\(O(N^3)\)</span>.</li>
+<li>If data arrive sequentially, we can maintain <span class="arithmatex">\(A^{-1}\)</span> incrementally using Sherman-Morrison updates, giving roughly <span class="arithmatex">\(O(N^2)\)</span> per new sample.</li>
+</ul>
+<p><strong>Linear Least Squares Prediction Algorithms.</strong> In the batch setting we want to fit a value function from stored experience. The catch is that we still do not observe the true values <span class="arithmatex">\(v_\pi(S_t)\)</span>. Instead, we build targets from experience (returns or TD-style bootstraps) and then solve for the parameters that best match those targets under a linear model. With linear approximation <span class="arithmatex">\(\hat{v}(s,w)=x(s)^\top w\)</span>, common batch targets are:</p>
+<ul>
+<li><strong>LSMC (Least-Squares Monte Carlo):</strong> use returns,</li>
+</ul>
+<div class="arithmatex">\[
+v_\pi(S_t)\approx G_t.
+\]</div>
+<ul>
+<li><strong>LSTD (Least-Squares TD):</strong> use the one-step TD target,</li>
+</ul>
+<div class="arithmatex">\[
+v_\pi(S_t)\approx R_{t+1}+\gamma \hat{v}(S_{t+1},w).
+\]</div>
+<ul>
+<li><strong>LSTD(<span class="arithmatex">\(\lambda\)</span>):</strong> use the <span class="arithmatex">\(\lambda\)</span>-return,</li>
+</ul>
+<div class="arithmatex">\[
+v_\pi(S_t)\approx G_t^\lambda.
+\]</div>
+<p>In each case, the algorithm finds parameters <span class="arithmatex">\(w\)</span> that satisfy the corresponding MC/TD fixed-point condition on the dataset.</p>
+<p><strong>Fixed-point equations and closed forms.</strong> Assume a dataset of transitions <span class="arithmatex">\((S_t,R_{t+1},S_{t+1})\)</span> for <span class="arithmatex">\(t=1,\dots,T\)</span> and linear features <span class="arithmatex">\(x(S_t)\)</span>.</p>
+<p><strong>LSMC.</strong></p>
+<p>Treat <span class="arithmatex">\(G_t\)</span> as the label and solve the normal equations:</p>
+<div class="arithmatex">\[
+0=\sum_{t=1}^{T}\bigl(G_t-\hat{v}(S_t,w)\bigr)x(S_t).
+\]</div>
+<p>This yields</p>
+<div class="arithmatex">\[
+w =
+\left(\sum_{t=1}^{T} x(S_t)x(S_t)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} x(S_t)G_t\right).
+\]</div>
+<p><strong>LSTD.</strong></p>
+<p>Use the TD target. The fixed-point condition is</p>
+<div class="arithmatex">\[
+0=\sum_{t=1}^{T}\Bigl(R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w)\Bigr)x(S_t),
+\]</div>
+<p>which can be written as <span class="arithmatex">\(Aw=b\)</span> with</p>
+<div class="arithmatex">\[
+A=\sum_{t=1}^{T} x(S_t)\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top,
+\qquad
+b=\sum_{t=1}^{T} x(S_t)R_{t+1}.
+\]</div>
+<p>So</p>
+<div class="arithmatex">\[
+w=A^{-1}b =
+\left(\sum_{t=1}^{T} x(S_t)\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} x(S_t)R_{t+1}\right).
+\]</div>
+<p><strong>LSTD(<span class="arithmatex">\(\lambda\)</span>).</strong></p>
+<p>Let the TD error be</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1}+\gamma \hat{v}(S_{t+1},w)-\hat{v}(S_t,w),
+\]</div>
+<p>and define eligibility vectors (backward view)</p>
+<div class="arithmatex">\[
+E_t=\gamma\lambda E_{t-1}+x(S_t),
+\qquad E_0=0.
+\]</div>
+<p>The fixed-point condition is</p>
+<div class="arithmatex">\[
+0=\sum_{t=1}^{T}\delta_t\,E_t,
+\]</div>
+<p>which again gives <span class="arithmatex">\(Aw=b\)</span> with</p>
+<div class="arithmatex">\[
+A=\sum_{t=1}^{T} E_t\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top,
+\qquad
+b=\sum_{t=1}^{T} E_t R_{t+1},
+\]</div>
+<p>and therefore</p>
+<div class="arithmatex">\[
+w=
+\left(\sum_{t=1}^{T} E_t\bigl(x(S_t)-\gamma x(S_{t+1})\bigr)^\top\right)^{-1}
+\left(\sum_{t=1}^{T} E_t R_{t+1}\right).
+\]</div>
+<h2 id="least-squares-control-policy-iteration">Least Squares Control (Policy Iteration)</h2>
+<p>For control, the goal is to improve the policy, not just evaluate it. A standard template is generalized policy iteration: repeatedly (i) estimate action-values under the current policy, then (ii) make the policy more greedy with respect to those estimates. Here we focus on doing the evaluation step with a least-squares fit of a linear <span class="arithmatex">\(Q\)</span>-function.</p>
+<h3 id="least-squares-action-value-function-approximation">Least-squares action-value function approximation</h3>
+<p>We approximate the action-value function with a linear model over state-action features:</p>
+<div class="arithmatex">\[
+\hat{q}(s,a,w)=x(s,a)^\top w \approx q_\pi(s,a).
+\]</div>
+<p>In a batch setting, we treat collected experience under policy <span class="arithmatex">\(\pi\)</span> as a dataset of supervised-style pairs,</p>
+<div class="arithmatex">\[
+D=\Big\{\langle (s_1,a_1),v_1^\pi\rangle,\ \langle (s_2,a_2),v_2^\pi\rangle,\ \ldots,\ \langle (s_T,a_T),v_T^\pi\rangle\Big\},
+\]</div>
+<p>and choose <span class="arithmatex">\(w\)</span> to best fit these targets in a least-squares sense (with <span class="arithmatex">\(v_t^\pi\)</span> supplied by returns or TD-style targets in practice).</p>
+<p><strong>Least-squares control idea.</strong> Least-squares control combines two goals: use all stored data efficiently (batch evaluation) and improve the policy (control). In practice, the replay buffer often contains data generated by many past policies, so learning is naturally off-policy. The core idea mirrors Q-learning. From stored experience generated by an old behaviour policy,</p>
+<div class="arithmatex">\[
+(S_t,A_t,R_{t+1},S_{t+1}) \sim \pi_{\text{old}},
+\]</div>
+<p>we imagine acting according to an improved policy at the next state, for example the greedy policy w.r.t. the current estimate,</p>
+<div class="arithmatex">\[
+A'=\pi_{\text{new}}(S_{t+1}) \;\approx\; \arg\max_{a'} \hat{q}(S_{t+1},a',w).
+\]</div>
+<p>Then we push the current estimate <span class="arithmatex">\(\hat{q}(S_t,A_t,w)\)</span> toward the bootstrapped target</p>
+<div class="arithmatex">\[
+R_{t+1}+\gamma \hat{q}(S_{t+1},A',w).
+\]</div>
+<p>Least-squares methods differ from vanilla Q-learning mainly in how they fit this target: instead of a one-step SGD update, they fit <span class="arithmatex">\(w\)</span> using (approximate) least-squares over the whole dataset.</p>
+<h3 id="least-squares-q-learning-lstdq">Least Squares Q-Learning (LSTDQ)</h3>
+<p>Start from the usual one-step Q-learning-style TD error (using the greedy/improved action at the next state):</p>
+<div class="arithmatex">\[
+\delta_t =R_{t+1}+\gamma \hat{q}\bigl(S_{t+1},\pi(S_{t+1}),w\bigr)-\hat{q}(S_t,A_t,w),
+\]</div>
+<p>and the linear TD update</p>
+<div class="arithmatex">\[
+\Delta w_t=\alpha\,\delta_t\,x(S_t,A_t).
+\]</div>
+<p>LSTDQ replaces many small SGD steps with a single batch solution by asking for a fixed point: across the dataset, the updates should balance out, i.e.,</p>
+<div class="arithmatex">\[
+0=\sum_{t=1}^{T}\Delta w_t =\sum_{t=1}^{T}\alpha\,\delta_t\,x(S_t,A_t).
+\]</div>
+<p>Dropping the common factor <span class="arithmatex">\(\alpha\)</span> and substituting the linear form <span class="arithmatex">\(\hat{q}(s,a,w)=x(s,a)^\top w\)</span> gives</p>
+<div class="arithmatex">\[
+0=\sum_{t=1}^{T}x(S_t,A_t)\Bigl(R_{t+1}+\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)^\top w-x(S_t,A_t)^\top w\Bigr).
+\]</div>
+<p>Rearrange into the standard linear system <span class="arithmatex">\(Aw=b\)</span> by grouping terms in <span class="arithmatex">\(w\)</span>:</p>
+<div class="arithmatex">\[
+\left(\sum_{t=1}^{T}x(S_t,A_t)\Bigl(x(S_t,A_t)-\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)\Bigr)^\top\right)w =
+\sum_{t=1}^{T}x(S_t,A_t)\,R_{t+1}.
+\]</div>
+<p>So, when the matrix is invertible,</p>
+<div class="arithmatex">\[
+w=
+\left(
+\sum_{t=1}^{T}
+x(S_t,A_t)\Bigl(x(S_t,A_t)-\gamma x\bigl(S_{t+1},\pi(S_{t+1})\bigr)\Bigr)^\top
+\right)^{-1}
+\left(
+\sum_{t=1}^{T}x(S_t,A_t)\,R_{t+1}
+\right).
+\]</div>
+<h2 id="least-squares-policy-iteration-algorithm">Least Squares Policy Iteration Algorithm</h2>
+<p>LSPI is the batch, least-squares analogue of policy iteration: it uses a fixed dataset <span class="arithmatex">\(D\)</span> and alternates between (i) evaluating the current policy using <strong>LSTDQ</strong>, and (ii) improving the policy by acting greedily with respect to the learned <span class="arithmatex">\(Q\)</span>-function. The key point is that <span class="arithmatex">\(D\)</span> can be collected off-policy (from older behaviour policies), while LSPI keeps reusing it to evaluate newer, improved policies.</p>
+<p><strong>Algorithm (pseudocode).</strong></p>
+<pre><code>function LSPI(D, π_0)
+    π' &lt;- π_0
+    repeat
+        π &lt;- π'
+        Q  &lt;- LSTDQ(π, D)            # policy evaluation on the fixed batch
+        for all s in S do             # policy improvement
+            π'(s) &lt;- argmax_{a in A} Q(s,a)
+        end for
+    until (π approx π')
+    return π
+end function
+</code></pre>
+<p><strong>Notes.</strong></p>
+<ul>
+<li><strong>Policy evaluation:</strong> fit <span class="arithmatex">\(\hat{q}^\pi(s,a)=x(s,a)^\top w\)</span> from the dataset <span class="arithmatex">\(D\)</span> using LSTDQ (off-policy data is allowed).</li>
+<li><strong>Policy improvement:</strong> update greedily:</li>
+</ul>
+<div class="arithmatex">\[
+\pi_{\text{new}}(s)\in\arg\max_{a\in\mathcal{A}}\hat{q}(s,a,w).
+\]</div>
+<ul>
+<li><strong>Stopping:</strong> stop when the policy stops changing (or changes are below a chosen threshold).</li>
+</ul>
+<h3 id="convergence-of-control-algorithms_1">Convergence of control algorithms</h3>
+<p>A rough, practical guide to convergence under different approximations is:</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Table lookup</th>
+<th>Linear</th>
+<th>Non-linear</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monte-Carlo control</td>
+<td><span class="arithmatex">\(\checkmark\)</span></td>
+<td>(<span class="arithmatex">\(\checkmark\)</span>)</td>
+<td><span class="arithmatex">\(\times\)</span></td>
+</tr>
+<tr>
+<td>SARSA (on-policy TD)</td>
+<td><span class="arithmatex">\(\checkmark\)</span></td>
+<td>(<span class="arithmatex">\(\checkmark\)</span>)</td>
+<td><span class="arithmatex">\(\times\)</span></td>
+</tr>
+<tr>
+<td>Q-learning (off-policy TD)</td>
+<td><span class="arithmatex">\(\checkmark\)</span></td>
+<td><span class="arithmatex">\(\times\)</span></td>
+<td><span class="arithmatex">\(\times\)</span></td>
+</tr>
+<tr>
+<td>LSPI (via LSTDQ)</td>
+<td><span class="arithmatex">\(\checkmark\)</span></td>
+<td>(<span class="arithmatex">\(\checkmark\)</span>)</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p>Here <span class="arithmatex">\((\checkmark)\)</span> means the method often behaves well but may chatter (oscillate around a near-optimal solution) rather than converge cleanly. "-" means we are not claiming a general guarantee in that setting.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

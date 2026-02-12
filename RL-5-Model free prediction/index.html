@@ -1,0 +1,2870 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-4-Planning%20with%20Dynamic%20Programming/">
+      
+      
+        <link rel="next" href="../RL-6-Model%20free%20control/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>5 - Model Free Prediction - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#model-free-prediction-policy-evaluation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5 - Model Free Prediction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-free-prediction-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free prediction (policy evaluation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Free prediction (policy evaluation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-unknown-mdp-fixed-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting: unknown MDP, fixed policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monte-carlo-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monte Carlo prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-and-value-under-a-fixed-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return and value under a fixed policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-visit-monte-carlo-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First-Visit Monte Carlo policy evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="First-Visit Monte Carlo policy evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-visit-monte-carlo-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Every-Visit Monte Carlo policy evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Every-Visit Monte Carlo policy evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incremental-mean-online-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental mean (online update)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-difference-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal-Difference learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal-Difference learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-bellman-expectation-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the Bellman expectation equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-1-bias-variance-tradeoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (1): Bias-variance tradeoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MC vs. TD (1): Bias-variance tradeoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bias-variance-trade-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias-variance trade-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-2-certainty-equivalence-in-batch-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (2): Certainty Equivalence in batch learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MC vs. TD (2): Certainty Equivalence in batch learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-b-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A-B example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-3-the-markov-property" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (3): The Markov property
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-summaries-mc-vs-td" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Summaries MC vs TD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method Summaries MC vs TD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence-to-the-same-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence to the same value function?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bootstrapping-and-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bootstrapping and Sampling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-step-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \( n \)-Step Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="\( n \)-Step Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#averaging-n-step-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Averaging \( n \)-Step Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lambda-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \( \lambda \)-Return
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eligibility-traces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eligibility Traces
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Eligibility Traces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-of-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view of TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-of-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward view of TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#td1-as-monte-carlo-and-the-forwardbackward-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(1) as Monte Carlo, and the forward/backward equivalence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TD(1) as Monte Carlo, and the forward/backward equivalence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-lambda-return-and-the-case-lambda1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward view: \(\lambda\)-return and the case \(\lambda=1\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-eligibility-traces-and-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view: eligibility traces and equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-case-s-is-visited-only-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special case: \(s\) is visited only once
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telescoping-in-td1-why-it-matches-mc-at-the-episode-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telescoping in TD(1) (why it matches MC at the episode level)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Telescoping in TD(1) (why it matches MC at the episode level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#td1-is-every-visit-mc-when-updates-are-applied-offline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(1) is every-visit MC when updates are applied offline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telescoping-in-tdlambda-and-the-forwardbackward-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telescoping in TD(\(\lambda\)) and the forward/backward match
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Telescoping in TD(\(\lambda\)) and the forward/backward match">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-eligibility-traces-recover-the-same-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view: eligibility traces recover the same target
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#online-vs-offline-when-do-forward-and-backward-tdlambda-agree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online vs. Offline: when do forward and backward TD(\(\lambda\)) agree?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Online vs. Offline: when do forward and backward TD(\(\lambda\)) agree?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#offline-frozen-v-updates-exact-equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline (frozen-\(V\)) updates: exact equality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-updates-why-equality-can-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online updates: why equality can fail
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-forward-and-backward-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Forward and Backward TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#model-free-prediction-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free prediction (policy evaluation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model-Free prediction (policy evaluation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-unknown-mdp-fixed-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting: unknown MDP, fixed policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monte-carlo-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monte Carlo prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monte Carlo prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-and-value-under-a-fixed-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return and value under a fixed policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-visit-monte-carlo-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First-Visit Monte Carlo policy evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="First-Visit Monte Carlo policy evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#every-visit-monte-carlo-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Every-Visit Monte Carlo policy evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Every-Visit Monte Carlo policy evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procedure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incremental-mean-online-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental mean (online update)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-difference-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal-Difference learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Temporal-Difference learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-bellman-expectation-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the Bellman expectation equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-1-bias-variance-tradeoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (1): Bias-variance tradeoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MC vs. TD (1): Bias-variance tradeoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bias-variance-trade-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias-variance trade-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-2-certainty-equivalence-in-batch-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (2): Certainty Equivalence in batch learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MC vs. TD (2): Certainty Equivalence in batch learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-b-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A-B example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mc-vs-td-3-the-markov-property" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MC vs. TD (3): The Markov property
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-summaries-mc-vs-td" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Summaries MC vs TD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method Summaries MC vs TD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence-to-the-same-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence to the same value function?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bootstrapping-and-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bootstrapping and Sampling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-step-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \( n \)-Step Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="\( n \)-Step Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#averaging-n-step-returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Averaging \( n \)-Step Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lambda-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \( \lambda \)-Return
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eligibility-traces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eligibility Traces
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Eligibility Traces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-of-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view of TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-of-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward view of TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#td1-as-monte-carlo-and-the-forwardbackward-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(1) as Monte Carlo, and the forward/backward equivalence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TD(1) as Monte Carlo, and the forward/backward equivalence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-lambda-return-and-the-case-lambda1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward view: \(\lambda\)-return and the case \(\lambda=1\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-eligibility-traces-and-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view: eligibility traces and equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-case-s-is-visited-only-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special case: \(s\) is visited only once
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telescoping-in-td1-why-it-matches-mc-at-the-episode-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telescoping in TD(1) (why it matches MC at the episode level)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Telescoping in TD(1) (why it matches MC at the episode level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#td1-is-every-visit-mc-when-updates-are-applied-offline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD(1) is every-visit MC when updates are applied offline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telescoping-in-tdlambda-and-the-forwardbackward-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Telescoping in TD(\(\lambda\)) and the forward/backward match
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Telescoping in TD(\(\lambda\)) and the forward/backward match">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-eligibility-traces-recover-the-same-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward view: eligibility traces recover the same target
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#online-vs-offline-when-do-forward-and-backward-tdlambda-agree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online vs. Offline: when do forward and backward TD(\(\lambda\)) agree?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Online vs. Offline: when do forward and backward TD(\(\lambda\)) agree?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#offline-frozen-v-updates-exact-equality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline (frozen-\(V\)) updates: exact equality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-updates-why-equality-can-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online updates: why equality can fail
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-forward-and-backward-tdlambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of Forward and Backward TD(\(\lambda\))
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>5 - Model Free Prediction</h1>
+
+<h2 id="model-free-prediction-policy-evaluation">Model-Free prediction (policy evaluation)</h2>
+<p><strong>Recap.</strong> In the last chapter, we planned with dynamic programming to solve a known MDP. In this chapter, we move to model-free prediction, where we estimate a value function in an unknown MDP. In the next chapter, we study model-free control, where we optimize value and aim to find an optimal policy in an unknown MDP.</p>
+<h3 id="setting-unknown-mdp-fixed-policy">Setting: unknown MDP, fixed policy</h3>
+<p>In model-free prediction, we do not know the MDP model (transitions and rewards are unknown), but we can sample experience by interacting with the environment. Here, we focus on policy evaluation: given a fixed policy <span class="arithmatex">\( \pi \)</span>, we estimate its value function. To estimate <span class="arithmatex">\( v_\pi \)</span> in an unknown MDP, we mainly use:</p>
+<ul>
+<li>Monte Carlo (MC) prediction</li>
+<li>Temporal Difference (TD) prediction</li>
+</ul>
+<h2 id="monte-carlo-prediction">Monte Carlo prediction</h2>
+<p>Monte Carlo (MC) prediction estimates the value function of a fixed policy <span class="arithmatex">\( \pi \)</span> using sampled episodes of experience. We do not need the MDP model (transitions or rewards). Instead, we generate episodes by interacting with the environment, following policy <span class="arithmatex">\( \pi \)</span> and learn from what actually happened. We compute returns <span class="arithmatex">\( G_t \)</span> from visited states using rewards until termination. Therefore, this method fits episodic tasks, where each episode terminates at some time <span class="arithmatex">\( T \)</span>. If an episode never ends, the return is not naturally available in this form.</p>
+<h3 id="return-and-value-under-a-fixed-policy">Return and value under a fixed policy</h3>
+<p>Consider one episode generated by following policy <span class="arithmatex">\( \pi \)</span>:</p>
+<div class="arithmatex">\[
+S_1, A_1, R_2, S_2, A_2, R_3, \dots, S_T.
+\]</div>
+<p>For a time step <span class="arithmatex">\( t \)</span>, we define the (discounted) return from that time as</p>
+<div class="arithmatex">\[
+G_t = \sum_{k=0}^{T-t-1}\gamma^k R_{t+k+1}
+      = R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{T-1-t}R_T,
+\]</div>
+<p>and the state-value function as the expected return when we start from state <span class="arithmatex">\( s \)</span> and follow <span class="arithmatex">\( \pi \)</span>:</p>
+<div class="arithmatex">\[
+v_\pi(s) = \mathbb{E}_\pi\!\left[G_t \mid S_t=s\right].
+\]</div>
+<p>Each time we visit a state <span class="arithmatex">\( s \)</span> while following <span class="arithmatex">\( \pi \)</span>, we can compute a return sample starting from that visit. Let <span class="arithmatex">\( G^{(1)}(s), G^{(2)}(s), \dots, G^{(N(s))}(s) \)</span> be the returns observed from <span class="arithmatex">\( N(s) \)</span> number of visits to <span class="arithmatex">\( s \)</span>.<br />
+Then MC estimates the value by the sample mean:</p>
+<div class="arithmatex">\[
+V(s) = \frac{1}{N(s)}\sum_{i=1}^{N(s)} G^{(i)}(s)
+\approx v_\pi(s).
+\]</div>
+<p>As <span class="arithmatex">\( N(s) \)</span> grows, this average becomes a better estimate of the true expectation. In short, MC policy evaluation replaces the expected return in <span class="arithmatex">\( v_\pi(s) \)</span> with an empirical mean computed from experience.</p>
+<h2 id="first-visit-monte-carlo-policy-evaluation">First-Visit Monte Carlo policy evaluation</h2>
+<p>In first-visit MC, we update each state using the return from its first occurrence in an episode, and then average these returns across episodes to approximate <span class="arithmatex">\( v_\pi(s) \)</span>. For each state <span class="arithmatex">\( s \)</span>, we maintain:</p>
+<div class="arithmatex">\[
+N(s)\ \#\{\text{episodes in which } s \text{ is visited at least once}\},\qquad S(s)\ \text{(sum of returns)},\qquad V(s)=\frac{S(s)}{N(s)}.
+\]</div>
+<h3 id="procedure">Procedure</h3>
+<p>For each episode generated by following <span class="arithmatex">\( \pi \)</span> until termination,</p>
+<div class="arithmatex">\[
+S_1, A_1, R_2, S_2, \dots, S_T,
+\]</div>
+<p>we do the following for every state <span class="arithmatex">\( s \)</span> that appears in the episode:</p>
+<ol>
+<li>Find the first time step <span class="arithmatex">\( t^\star \)</span> in the episode such that <span class="arithmatex">\( S_{t^\star}=s \)</span>.</li>
+<li>Compute the return from that first visit:</li>
+</ol>
+<div class="arithmatex">\[
+G_{t^\star} = \sum_{k=0}^{T-t^\star-1}\gamma^k R_{t^\star+k+1}.
+\]</div>
+<ol>
+<li>Update totals and counts after each episode:</li>
+</ol>
+<div class="arithmatex">\[
+N(s)\leftarrow N(s)+1,\qquad S(s)\leftarrow S(s)+G_{t^\star},\qquad V(s)\leftarrow \frac{S(s)}{N(s)}.
+\]</div>
+<p><strong>Practical notes.</strong>
+Episodes start from an initial-state distribution, which is typically set by the environment reset rule (sometimes a fixed start state, sometimes random). During an episode, a state <span class="arithmatex">\( s \)</span> may appear multiple times, and first-visit MC means we update <span class="arithmatex">\( s \)</span> using only the first time it appears in that episode (we do not need to return to <span class="arithmatex">\( s \)</span> again within the same episode). Across episodes, we count how often <span class="arithmatex">\( s \)</span> appears at least once and form <span class="arithmatex">\( V(s)=S(s)/N(s) \)</span> by averaging the first-visit returns. This immediately tells us what we can estimate: if <span class="arithmatex">\( s \)</span> is never visited, then <span class="arithmatex">\( N(s)=0 \)</span> and we cannot evaluate <span class="arithmatex">\( v_\pi(s) \)</span> from data. If <span class="arithmatex">\( s \)</span> is rarely visited, the estimate has high variance and may be unreliable. If some states are unlikely under <span class="arithmatex">\( \pi \)</span>, or returns have high variance we do not care much about them, because we mainly care about the states we actually encounter under <span class="arithmatex">\( \pi \)</span> (exploration or visiting more states becomes central in later chapters on control), and for any state that is visited infinitely often, the law of large numbers gives convergence:</p>
+<div class="arithmatex">\[
+V(s)\to v_\pi(s)\quad \text{as}\quad N(s)\to\infty.
+\]</div>
+<p>Note that, we cannot stop the process once all the states have been visited once, as we still need the episode to terminate because the return <span class="arithmatex">\( G_{t^\star} \)</span> for a state's first visit depends on rewards after that time step, all the way to the end of the episode.</p>
+<h2 id="every-visit-monte-carlo-policy-evaluation">Every-Visit Monte Carlo policy evaluation</h2>
+<p>In every-visit MC, we estimate <span class="arithmatex">\( v_\pi(s) \)</span> from complete episodes by averaging all returns observed after every visit to <span class="arithmatex">\( s \)</span> (not just the first visit within an episode). This usually gives more samples per episode for visited states, at the cost of using correlated returns from the same trajectory.</p>
+<h3 id="procedure_1">Procedure</h3>
+<p>Across episodes generated by following policy <span class="arithmatex">\( \pi \)</span> to termination, we maintain for each state <span class="arithmatex">\( s \)</span>:</p>
+<div class="arithmatex">\[
+N(s)\ \text{(number of visits to state s)},\qquad S(s)\ \text{(sum of returns)},\qquad V(s)=\frac{S(s)}{N(s)}.
+\]</div>
+<p>In one episode, for every time step <span class="arithmatex">\( t \)</span> such that <span class="arithmatex">\( S_t=s \)</span>:</p>
+<div class="arithmatex">\[
+N(s)\leftarrow N(s)+1,\qquad S(s)\leftarrow S(s)+G_t,\qquad V(s)\leftarrow \frac{S(s)}{N(s)}.
+\]</div>
+<p>Here, <span class="arithmatex">\( N(s) \)</span> counts all visits to <span class="arithmatex">\( s \)</span> (over all episodes and all time steps). As <span class="arithmatex">\( N(s)\to\infty \)</span>, we have <span class="arithmatex">\( V(s)\to v_\pi(s) \)</span> under standard sampling assumptions.</p>
+<h3 id="incremental-mean-online-update">Incremental mean (online update)</h3>
+<p>To compute averages from a stream of data without storing all past samples (which is exactly what we need in MC), we use an incremental mean update. If we observe samples <span class="arithmatex">\( x_1,x_2,\dots \)</span>, the sample mean after <span class="arithmatex">\( k \)</span> samples is</p>
+<div class="arithmatex">\[
+\mu_k = \frac{1}{k}\sum_{j=1}^k x_j,
+\]</div>
+<p>and we can update it without storing history:</p>
+<div class="arithmatex">\[
+\mu_k \leftarrow \mu_{k-1} + \frac{1}{k}\bigl(x_k-\mu_{k-1}\bigr).
+\]</div>
+<p>We can read this as an "error-correction" update:</p>
+<div class="arithmatex">\[
+\mu_k \leftarrow \mu_{k-1} + \alpha_k\cdot \text{error},\qquad
+\alpha_k=\frac{1}{k},\ \ \text{error}=x_k-\mu_{k-1}.
+\]</div>
+<p>Here, <span class="arithmatex">\( k \)</span> is the number of samples seen so far. We start from an initial <span class="arithmatex">\( \mu_0 \)</span> (often <span class="arithmatex">\( 0 \)</span>) and update as samples arrive. This lets us update <span class="arithmatex">\( V(s) \)</span> online across episodes without storing past returns: once an episode ends and we compute a new sample <span class="arithmatex">\( G \)</span>, we immediately fold it into <span class="arithmatex">\( V(s) \)</span> via <span class="arithmatex">\( V(s)\leftarrow V(s)+\frac{1}{N(s)}(G-V(s)) \)</span>. So we store only <span class="arithmatex">\( (N(s),V(s)) \)</span> per state, not the entire history.</p>
+<p><strong>Incremental Monte Carlo value updates.</strong> After the episode ends and all required returns are available:</p>
+<ul>
+<li>First-visit MC: for each state <span class="arithmatex">\( s \)</span> that appears in the episode, take only its earliest occurrence <span class="arithmatex">\( t^\star \)</span> and use the sample <span class="arithmatex">\( (s,\; G_{t^\star}) \)</span> to update <span class="arithmatex">\( V(s) \)</span> once.</li>
+<li>Every-visit MC: after the episode terminates, compute all <span class="arithmatex">\( G_t \)</span> and update <span class="arithmatex">\( V(S_t) \)</span> for each <span class="arithmatex">\( t=1,\dots,T-1 \)</span>.</li>
+</ul>
+<p><strong>Forgetting old episodes.</strong> If the environment is non-stationary (its dynamics or reward distribution can change over time), a long-run average may lag behind to what is currently happening. In that case, we use a constant step size <span class="arithmatex">\( \alpha \)</span> instead of <span class="arithmatex">\( 1/N(s) \)</span>:</p>
+<div class="arithmatex">\[
+V(s)\leftarrow V(s)+\alpha\bigl(G - V(s)\bigr).
+\]</div>
+<p>This creates an exponential moving average, so recent returns influence <span class="arithmatex">\( V(s) \)</span> more than older ones.</p>
+<h2 id="temporal-difference-learning">Temporal-Difference learning</h2>
+<p>Temporal-Difference (TD) learning is another model-free way to estimate <span class="arithmatex">\( v_\pi \)</span> from experience. Again, we only need sampled interaction trajectories generated by following a fixed policy <span class="arithmatex">\( \pi \)</span>. Compared to Monte Carlo, the key difference is timing: TD updates during an episode, before termination, unlike MC which requires termination of episodes.</p>
+<p><strong>The basic TD idea: learn from one transition.</strong> At time step <span class="arithmatex">\( t \)</span>, we observe a single transition while following <span class="arithmatex">\( \pi \)</span>:</p>
+<div class="arithmatex">\[
+S_t,\ A_t,\ R_{t+1},\ S_{t+1}.
+\]</div>
+<p>We then approximate the unknown "rest of the future" after <span class="arithmatex">\( S_{t+1} \)</span> by our current estimate <span class="arithmatex">\( V(S_{t+1}) \)</span>. Therefore, instead of waiting for the full return <span class="arithmatex">\( G_t \)</span>, TD builds a one-step estimate of the return:</p>
+<div class="arithmatex">\[
+\text{TD target} = R_{t+1}+\gamma V(S_{t+1}).
+\]</div>
+<p>This target is available immediately: <span class="arithmatex">\( R_{t+1} \)</span> is observed after the transition, and <span class="arithmatex">\( V(S_{t+1}) \)</span> is the current stored estimate for the observed next state <span class="arithmatex">\( (S_{t+1}) \)</span>, this allows the update before the episode terminates. We then move the current stored estimate at the present state, <span class="arithmatex">\( V(S_t) \)</span>, toward this target using step size <span class="arithmatex">\( \alpha \)</span>:</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t)+\alpha\Bigl(\delta_t\Bigr),
+\qquad
+\delta_t = R_{t+1}+\gamma V(S_{t+1})-V(S_t),
+\]</div>
+<p>where <span class="arithmatex">\( \delta_t \)</span> is the TD error.</p>
+<h3 id="connection-to-the-bellman-expectation-equation">Connection to the Bellman expectation equation</h3>
+<p>For a fixed policy <span class="arithmatex">\( \pi \)</span>, the Bellman expectation equation says:</p>
+<div class="arithmatex">\[
+v_\pi(s)=\mathbb{E}_\pi\!\left[\,R_{t+1}+\gamma v_\pi(S_{t+1})\mid S_t=s\right].
+\]</div>
+<p>TD(0) is the sample-based version of this identity: we replace the expectation by the single observed reward <span class="arithmatex">\( R_{t+1} \)</span> and replace the unknown <span class="arithmatex">\( v_\pi(S_{t+1}) \)</span> with our current estimate <span class="arithmatex">\( V(S_{t+1}) \)</span>, then update <span class="arithmatex">\( V(S_t) \)</span> toward that one-step target. This technique of updating is know as bootstrapping (discussed later in more details).</p>
+<h2 id="mc-vs-td-1-bias-variance-tradeoff">MC vs. TD (1): Bias-variance tradeoff</h2>
+<p>Both Monte Carlo (MC) and Temporal Difference (TD) methods estimate the same object, <span class="arithmatex">\( v_\pi \)</span>, from experience under a fixed policy <span class="arithmatex">\( \pi \)</span>. The difference is the learning signal: MC uses a full-return target and updates after the episode ends, while TD updates during the episode using a bootstrapped one-step target.</p>
+<h3 id="bias-variance-trade-off">Bias-variance trade-off</h3>
+<p><strong>Unbiased targets (if we had the truth).</strong>
+For MC, the return is an unbiased sample of the value:</p>
+<div class="arithmatex">\[
+\mathbb{E}_\pi\!\left[G_t\mid S_t\right]=v_\pi(S_t).
+\]</div>
+<p>Meanwhile for TD, the ideal one-step target would also be unbiased:</p>
+<div class="arithmatex">\[
+\mathbb{E}_\pi\!\left[R_{t+1}+\gamma v_\pi(S_{t+1})\mid S_t\right]=v_\pi(S_t).
+\]</div>
+<p>But, in practice we do not know <span class="arithmatex">\( v_\pi \)</span>, so TD uses</p>
+<div class="arithmatex">\[
+R_{t+1}+\gamma V(S_{t+1}),
+\]</div>
+<p>and this is generally a biased target because typically <span class="arithmatex">\( V(S_{t+1})\neq v_\pi(S_{t+1}) \)</span>.</p>
+<h2 id="mc-vs-td-2-certainty-equivalence-in-batch-learning">MC vs. TD (2): Certainty Equivalence in batch learning</h2>
+<p>So far, we assumed we can keep collecting new experience. With enough data, both MC and TD can converge to the true value:</p>
+<div class="arithmatex">\[
+V(s)\to v_\pi(s)\qquad \text{as experience }\to\infty.
+\]</div>
+<p>In the batch setting, we instead get a fixed dataset of <span class="arithmatex">\( K \)</span> episodes and we must learn only by reusing it:</p>
+<div class="arithmatex">\[
+\mathcal{D}=\{\tau^{(1)},\dots,\tau^{(K)}\},\qquad
+\tau^{(k)}=(S^{(k)}_1,A^{(k)}_1,R^{(k)}_2,\dots,S^{(k)}_{T_k}).
+\]</div>
+<p>We repeatedly sweep through <span class="arithmatex">\( \mathcal{D} \)</span> (or sample episodes from it) and apply updates to the same data until the values stop changing.</p>
+<h3 id="a-b-example">A-B example</h3>
+<p><strong>Environment and dataset.</strong> We consider an episodic process with <span class="arithmatex">\( \gamma=1 \)</span> and two non-terminal states <span class="arithmatex">\( A \)</span> and <span class="arithmatex">\( B \)</span>. Our fixed dataset contains <span class="arithmatex">\( 8 \)</span> episodes:</p>
+<div class="arithmatex">\[
+(A,0,B,0),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,1),\quad (B,0).
+\]</div>
+<p>So:</p>
+<ul>
+<li>Episode 1 visits <span class="arithmatex">\( A\to B \)</span> and then terminates with reward <span class="arithmatex">\( 0 \)</span> from <span class="arithmatex">\( B \)</span>.</li>
+<li>Episodes 2--7 start at <span class="arithmatex">\( B \)</span> and terminate with reward <span class="arithmatex">\( 1 \)</span>.</li>
+<li>Episode 8 starts at <span class="arithmatex">\( B \)</span> and terminates with reward <span class="arithmatex">\( 0 \)</span>.</li>
+</ul>
+<p><strong>Batch MC: empirical mean of observed returns.</strong> Batch MC converges to the value function that best fits the observed Monte Carlo returns in the dataset, i.e., it treats each sampled return as a supervised target and solves a least-squares regression:</p>
+<div class="arithmatex">\[
+V_{\text{MC}}
+\in \arg\min_V \;\sum_{k=1}^{K}\sum_{t=1}^{T_k}\Bigl(G_t^{(k)} - V(s_t^{(k)})\Bigr)^2.
+\]</div>
+<p>Here the dataset consists of <span class="arithmatex">\( K \)</span> recorded episodes (trajectories), indexed by <span class="arithmatex">\( k=1,\dots,K \)</span>. Episode <span class="arithmatex">\( k \)</span> has length <span class="arithmatex">\( T_k \)</span> time steps (i.e., it contains states <span class="arithmatex">\( s^{(k)}_1,\dots,s^{(k)}_{T_k} \)</span>), so the inner sum ranges over all time indices within episode <span class="arithmatex">\( k \)</span> and the outer sum aggregates the squared errors over all time steps in all episodes. In our tabular example, each state value <span class="arithmatex">\( V(s) \)</span> is an independent parameter, so the objective separates by state. Group all terms with the same state <span class="arithmatex">\( s \)</span>:</p>
+<div class="arithmatex">\[
+\sum_{k=1}^{K}\sum_{t=1}^{T_k}\bigl(G_t^{(k)}-V(s_t^{(k)})\bigr)^2
+=\sum_{s}\sum_{i=1}^{n(s)}\bigl(G_i(s)-V(s)\bigr)^2 .
+\]</div>
+<p>Thus we can minimize each state’s sum of squares independently:</p>
+<div class="arithmatex">\[
+V_{\text{MC}}(s)\in\arg\min_{v}\;\sum_{i=1}^{n(s)}\bigl(G_i(s)-v\bigr)^2 .
+\]</div>
+<p>Differentiate w.r.t. <span class="arithmatex">\( v \)</span> and set to zero:</p>
+<div class="arithmatex">\[
+\frac{d}{dv}\sum_{i=1}^{n(s)}(G_i(s)-v)^2
+=-2\sum_{i=1}^{n(s)}(G_i(s)-v)=0
+\;\Rightarrow\;
+v=\frac{1}{n(s)}\sum_{i=1}^{n(s)}G_i(s).
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+V_{\text{MC}}(s)=\frac{1}{n(s)}\sum_{i=1}^{n(s)} G_i(s).
+\]</div>
+<p>where <span class="arithmatex">\( n(s) \)</span> is the number of occurrences of state <span class="arithmatex">\( s \)</span> in the dataset and <span class="arithmatex">\( G_i(s) \)</span> are the corresponding sampled returns. For <span class="arithmatex">\( A \)</span>: <span class="arithmatex">\( n(A)=1 \)</span> and the single observed return is <span class="arithmatex">\( G_1(A)=0 \)</span>, so</p>
+<div class="arithmatex">\[
+V_{\text{MC}}(A)=\frac{1}{1}\bigl(0\bigr)=0.
+\]</div>
+<p>For <span class="arithmatex">\( B \)</span>: <span class="arithmatex">\( n(B)=8 \)</span> and the observed returns are <span class="arithmatex">\( \{1,1,1,1,1,1,0,0\} \)</span>, so</p>
+<div class="arithmatex">\[
+V_{\text{MC}}(B)=\frac{1}{8}\bigl(1+1+1+1+1+1+0+0\bigr)
+=\frac{6}{8}=0.75.
+\]</div>
+<p><strong>Batch TD(0): fixed point induced by the dataset.</strong> Batch TD(0) behaves differently: with a fixed dataset, it effectively treats the data as an empirical MDP and converges to the value function that satisfies the Bellman equations of that estimated model under <span class="arithmatex">\( \pi \)</span>. In particular, the dataset induces maximum-likelihood one-step estimates</p>
+<div class="arithmatex">\[
+\hat{P}^{a}_{s,s'}=
+\frac{\#\{(s_t=s,\ a_t=a,\ s_{t+1}=s')\}}{\#\{(s_t=s,\ a_t=a)\}},
+\qquad
+\hat{R}^{a}_{s}=
+\frac{\sum_{t:\,s_t=s,\ a_t=a} r_{t+1}}{\#\{(s_t=s,\ a_t=a)\}},
+\]</div>
+<p>and TD(0) converges to the fixed point of the Bellman expectation equation for the estimated MDP
+<span class="arithmatex">\( \langle \mathcal{S},\mathcal{A},\hat{P},\hat{R},\gamma\rangle \)</span>. In our dataset, <span class="arithmatex">\( A \)</span> always transitions to <span class="arithmatex">\( B \)</span> with reward <span class="arithmatex">\( 0 \)</span>, so</p>
+<div class="arithmatex">\[
+V_{\text{TD}}(A)=0+\gamma V_{\text{TD}}(B),
+\]</div>
+<p>and from <span class="arithmatex">\( B \)</span> the empirical mean terminal reward is <span class="arithmatex">\( 0.75 \)</span> (with terminal value <span class="arithmatex">\( 0 \)</span>), hence</p>
+<div class="arithmatex">\[
+V_{\text{TD}}(B)=0.75.
+\]</div>
+<p>Therefore <span class="arithmatex">\( V_{\text{TD}}(A)=0.75 \)</span> when <span class="arithmatex">\( \gamma=1 \)</span> (and more generally <span class="arithmatex">\( V_{\text{TD}}(A)=\gamma\cdot 0.75 \)</span>).</p>
+<p><strong>Why the answers differ.</strong> With a finite dataset, MC updates <span class="arithmatex">\( A \)</span> using only the single observed return following <span class="arithmatex">\( A \)</span> (here it happened to be <span class="arithmatex">\( 0 \)</span>), so it keeps <span class="arithmatex">\( V(A)=0 \)</span>, whereas TD bootstraps through <span class="arithmatex">\( B \)</span> and propagates the dataset's average outcome at <span class="arithmatex">\( B \)</span> back through the observed transition <span class="arithmatex">\( A\!\to\!B \)</span>, yielding <span class="arithmatex">\( V(A)=V(B)=0.75 \)</span>. In batch learning (no new data), repeated passes over the same <span class="arithmatex">\( K \)</span> episodes drive the methods to different stable solutions: MC converges to empirical mean returns, while TD converges to the fixed point induced by the dataset's empirical transition and reward estimates.</p>
+<h2 id="mc-vs-td-3-the-markov-property">MC vs. TD (3): The Markov property</h2>
+<p>In an MDP, the future is conditionally independent of the past given the current state <span class="arithmatex">\( S_t \)</span>, and TD(0) exploits this one-step Markov structure by updating from a single transition <span class="arithmatex">\( (S_t,R_{t+1},S_{t+1}) \)</span> via</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t)+\alpha\bigl(R_{t+1}+\gamma V(S_{t+1})-V(S_t)\bigr),
+\]</div>
+<p>which lets information propagate efficiently along observed state-to-state transitions without waiting for complete outcomes. In contrast, MC uses the full return <span class="arithmatex">\( G_t \)</span> as a black-box target that bundles the entire future into one number, this can work well, but it does not explicitly leverage the Markov conditional-independence structure and instead learns only from complete episode outcomes. As a rule of thumb, in standard Markov settings TD is often more data-efficient because it aligns with the environment's one-step dynamics, whereas with non-Markov signals (e.g. partial observability) MC can sometimes help because the full return may implicitly carry information from the episode history when the current state representation is incomplete.</p>
+<h2 id="method-summaries-mc-vs-td">Method Summaries MC vs TD</h2>
+<p><strong>Monte Carlo (MC).</strong></p>
+<ul>
+<li>Unbiased target: MC uses the actual return <span class="arithmatex">\( G_t \)</span>, so</li>
+</ul>
+<div class="arithmatex">\[
+\mathbb{E}_\pi\!\left[G_t\mid S_t=s\right]=v_\pi(s).
+\]</div>
+<ul>
+<li>Higher variance: <span class="arithmatex">\( G_t \)</span> aggregates many random future steps (actions, transitions, rewards).</li>
+<li>Often stable with approximation: MC looks like supervised learning on observed returns, which is usually numerically stable.</li>
+<li>Less sensitive to initialization: early errors in <span class="arithmatex">\( V \)</span> do not affect the target (the target is <span class="arithmatex">\( G_t \)</span>).</li>
+<li>Simple mental model: we "average returns" to estimate value.</li>
+</ul>
+<p><strong>Temporal Difference (TD).</strong></p>
+<ul>
+<li>Bootstrapped (biased during learning): TD(0) uses the target</li>
+</ul>
+<div class="arithmatex">\[
+R_{t+1}+\gamma V(S_{t+1}),
+\]</div>
+<p>which is biased when <span class="arithmatex">\( V(S_{t+1})\neq v_\pi(S_{t+1}) \)</span>.</p>
+<ul>
+<li>Lower variance: the target depends only on one transition plus a lookup of <span class="arithmatex">\( V(S_{t+1}) \)</span>.</li>
+<li>More sample-efficient: we update after each step and do not need to wait for termination.</li>
+<li>Tabular convergence: with a fixed <span class="arithmatex">\( \pi \)</span> and suitable step sizes, TD(0) converges to <span class="arithmatex">\( v_\pi \)</span>.</li>
+<li>Can be unstable with approximation: bootstrapping + function approximation can cause divergence in some settings.</li>
+<li>More sensitive to initialization: poor initial <span class="arithmatex">\( V \)</span> can propagate through the TD target.</li>
+</ul>
+<h3 id="convergence-to-the-same-value-function">Convergence to the same value function?</h3>
+<p>In a stationary tabular setting where each relevant state is visited infinitely often under <span class="arithmatex">\( \pi \)</span>, MC with sample-mean updates and TD(0) with suitable step-size conditions both converge to the same value function <span class="arithmatex">\( v_\pi(s) \)</span>. In practice, with finite data, noisy returns, or function approximation, they can yield noticeably different estimates because their targets differ (full returns vs. bootstrapped) and they propagate information differently. An example of this can be seen in the next section.</p>
+<h2 id="bootstrapping-and-sampling">Bootstrapping and Sampling</h2>
+<p>Dynamic Programming, TD, and MC can be compared along two independent axes: bootstrapping (whether the update target uses the current estimate <span class="arithmatex">\( V \)</span>) and sampling (whether expectations are approximated from data or computed exactly from a known model). MC is sampled but non-bootstrapped, using the complete return <span class="arithmatex">\( G_t \)</span> as its target. TD is sampled and bootstrapped, using the one-step target <span class="arithmatex">\( R_{t+1}+\gamma V(S_{t+1}) \)</span>, and DP is bootstrapped but not sampled, using a full expected Bellman target such as <span class="arithmatex">\( \sum_{s'}P(s'|s,a)\bigl(R(s,a,s')+\gamma V(s')\bigr) \)</span>. Equivalently, all three are backups that move <span class="arithmatex">\( V(s) \)</span> toward a target: DP performs a full expected backup using the model, while TD and MC perform sample backups using observed experience, TD uses a shallow one-step backup that propagates information via bootstrapping, whereas MC uses a deep backup to episode end with no bootstrapping. Many multi-step methods (e.g., TD(<span class="arithmatex">\( \lambda \)</span>)) interpolate between TD(0) and MC by trading off backup depth against the amount of bootstrapping.</p>
+<h2 id="n-step-prediction"><span class="arithmatex">\( n \)</span>-Step Prediction</h2>
+<p><span class="arithmatex">\( n \)</span>-step prediction provides a simple continuum between TD(0) and Monte-Carlo (MC). TD(0) uses a 1-step, bootstrapped target, updating immediately from <span class="arithmatex">\( (R_{t+1},S_{t+1}) \)</span>, while MC avoids bootstrapping by waiting for the episode to finish and using the full observed return. The idea of <span class="arithmatex">\( n \)</span>-step methods is to look ahead for <span class="arithmatex">\( n \)</span> steps: use <span class="arithmatex">\( n \)</span> actual rewards, then bootstrap once at step <span class="arithmatex">\( n \)</span>. As <span class="arithmatex">\( n \)</span> increases, the target depends less on the current value estimates and more on observed rewards, in the limit <span class="arithmatex">\( n\to\infty \)</span> (for episodic tasks) the method reduces to MC.</p>
+<p><strong><span class="arithmatex">\( n \)</span>-step return.</strong>
+For a trajectory generated under <span class="arithmatex">\( \pi \)</span>, define</p>
+<div class="arithmatex">\[
+G_t^{(n)}=
+\sum_{i=1}^{n}\gamma^{i-1}R_{t+i}
+\;+\;
+\gamma^{n} V(S_{t+n}).
+\]</div>
+<p>This is an <span class="arithmatex">\( n \)</span>-step backup: accumulate <span class="arithmatex">\( n \)</span> rewards, then terminate the target by bootstrapping from <span class="arithmatex">\( V \)</span> at the state reached after <span class="arithmatex">\( n \)</span> steps. Special cases recover familiar targets:</p>
+<div class="arithmatex">\[
+G_t^{(1)} = R_{t+1} + \gamma V(S_{t+1}) \quad (\text{TD(0)}),\qquad
+G_t^{(\infty)}=\sum_{i=1}^{T-t}\gamma^{i-1}R_{t+i}\quad (\text{MC}).
+\]</div>
+<p>If the episode terminates before <span class="arithmatex">\( t+n \)</span>, the bootstrap term is omitted and the sum truncates naturally at termination.</p>
+<p><strong><span class="arithmatex">\( n \)</span>-step TD update.</strong>
+Using <span class="arithmatex">\( G_t^{(n)} \)</span> yields the standard TD update form</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t)+\alpha\bigl(G_t^{(n)}-V(S_t)\bigr).
+\]</div>
+<p><strong>Choosing <span class="arithmatex">\( n \)</span> (trade-off).</strong>
+Smaller <span class="arithmatex">\( n \)</span> means heavier bootstrapping (typically higher bias but lower variance and more online-friendly updates), while larger <span class="arithmatex">\( n \)</span> uses more real rewards (typically lower bias but higher variance and potentially delayed updates). Intermediate <span class="arithmatex">\( n \)</span> often works well in practice by propagating multi-step information without the full variance of pure MC.</p>
+<h3 id="averaging-n-step-returns">Averaging <span class="arithmatex">\( n \)</span>-Step Returns</h3>
+<p>Rather than choosing a single horizon <span class="arithmatex">\( n \)</span>, we can form a target by mixing multiple <span class="arithmatex">\( n \)</span>-step returns: shorter backups tend to give lower-variance, more stable updates, while longer backups propagate credit farther through the episode. For instance,</p>
+<div class="arithmatex">\[
+\frac{1}{2}G_t^{(2)}+\frac{1}{2}G_t^{(4)}
+\]</div>
+<p>blends a shallow (2-step) and a deeper (4-step) return. In general, we would like a principled mixture over many <span class="arithmatex">\( n \)</span> values without explicitly computing every <span class="arithmatex">\( G_t^{(n)} \)</span>.</p>
+<h3 id="lambda-return"><span class="arithmatex">\( \lambda \)</span>-Return</h3>
+<p>The <span class="arithmatex">\( \lambda \)</span>-return provides exactly such a mixture by averaging all <span class="arithmatex">\( n \)</span>-step returns with geometric weights:</p>
+<div class="arithmatex">\[
+G_t^{\lambda} \;=\; (1-\lambda)\sum_{n=1}^{\infty}\lambda^{n-1}G_t^{(n)}, \qquad \lambda\in[0,1].
+\]</div>
+<p>This yields a proper weighted average over backup depths and introduces a single interpolation parameter: <span class="arithmatex">\( \lambda=0 \)</span> places all weight on <span class="arithmatex">\( n=1 \)</span>, giving <span class="arithmatex">\( G_t^{\lambda}=G_t^{(1)} \)</span> (TD(0)), while <span class="arithmatex">\( \lambda\to 1 \)</span> shifts mass to long horizons and approaches the MC return (less bootstrapping, more reliance on observed rewards).</p>
+<h2 id="eligibility-traces">Eligibility Traces</h2>
+<p>The previous section introduced the <span class="arithmatex">\(\lambda\)</span>-return as a way to assign credit across multiple time steps by blending <span class="arithmatex">\(n\)</span>-step returns. The drawback is efficiency: computing it directly would require explicitly forming many <span class="arithmatex">\(G_t^{(n)}\)</span>. We therefore want an online procedure that achieves the same multi-step credit assignment without enumerating these returns and eligibility traces provide exactly this mechanism. Eligibility traces maintain a decaying "memory" of recently visited states. Each visit boosts a state's trace, which then fades over time while repeated visits reinforce it. When a TD error occurs, we distribute that error backward in proportion to the current trace, so recent and frequently visited states receive larger updates, while distant one-off states receive little.</p>
+<p><strong>Rat example: frequency vs. recency.</strong></p>
+<p>Consider the sequence <span class="arithmatex">\(\text{lever},\text{lever},\text{lever},\text{bell},\text{shock}\)</span>. A pure frequency rule would assign most blame to <span class="arithmatex">\(\text{lever}\)</span> (it appears three times), while a pure recency rule would assign most blame to <span class="arithmatex">\(\text{bell}\)</span> (it is closest to the shock). Eligibility traces do both: <span class="arithmatex">\(\text{bell}\)</span> receives a large share because it is most recent, and <span class="arithmatex">\(\text{lever}\)</span> can still receive substantial blame because its trace has been "topped up" multiple times despite decay.</p>
+<p><strong>State eligibility trace.</strong></p>
+<p>Formally, maintain a trace <span class="arithmatex">\(E_t(s)\)</span> for each state <span class="arithmatex">\(s\)</span>. Each time step applies two operations: (<span class="arithmatex">\(i\)</span>) decay all traces by a factor <span class="arithmatex">\(\gamma\lambda\)</span>, making older visits matter less, and (<span class="arithmatex">\(ii\)</span>) increment the currently visited state by <span class="arithmatex">\(+1\)</span>, marking it as freshly visited. This yields the standard accumulating trace recursion</p>
+<div class="arithmatex">\[
+E_0(s)=0,\qquad
+E_t(s)=\gamma\lambda\,E_{t-1}(s) + \mathbf{1}(S_t=s).
+\]</div>
+<p>Here <span class="arithmatex">\(\gamma\)</span> is the discount factor from the problem definition, and <span class="arithmatex">\(\lambda\in[0,1]\)</span> controls how slowly traces decay: larger <span class="arithmatex">\(\lambda\)</span> makes traces persist longer and allows credit to propagate farther into the past. Equivalently, the effective memory length is governed by the product <span class="arithmatex">\(\gamma\lambda\)</span>: if <span class="arithmatex">\(\gamma\lambda\)</span> is small, traces vanish quickly, if it is near <span class="arithmatex">\(1\)</span>, traces remain significant for many steps.</p>
+<h3 id="backward-view-of-tdlambda">Backward view of TD(<span class="arithmatex">\(\lambda\)</span>)</h3>
+<p>The update above is called the backward view of TD(<span class="arithmatex">\(\lambda\)</span>) because each one-step TD error <span class="arithmatex">\(\delta_t\)</span> is computed locally from <span class="arithmatex">\((S_t,R_{t+1},S_{t+1})\)</span> but its effect is propagated backward through time via the traces: states with larger <span class="arithmatex">\(e_t(s)\)</span> receive a larger portion of the update <span class="arithmatex">\(\alpha\,\delta_t\,e_t(s)\)</span>, while states with small traces receive negligible updates. Thus, traces turn a local error signal into multi-step credit assignment.</p>
+<h3 id="forward-view-of-tdlambda">Forward view of TD(<span class="arithmatex">\(\lambda\)</span>)</h3>
+<p>The forward view describes TD(<span class="arithmatex">\(\lambda\)</span>) in terms of the target each visited state is trying to match. If we could look ahead, then at time <span class="arithmatex">\(t\)</span> we would form the <span class="arithmatex">\(\lambda\)</span>-return</p>
+<div class="arithmatex">\[
+G_t^\lambda \;=\; (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t}G_t^{(T-t)},
+\]</div>
+<p>a geometrically weighted average of the <span class="arithmatex">\(n\)</span>-step returns <span class="arithmatex">\(G_t^{(n)}\)</span>. The forward-view update is then simply</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t)+\alpha\bigl(G_t^{\lambda}-V(S_t)\bigr).
+\]</div>
+<p>This is conceptually clean, but it has its practical limitation: <span class="arithmatex">\(G_t^\lambda\)</span> depends on future rewards and is therefore not directly available at time <span class="arithmatex">\(t\)</span>.</p>
+<p><strong>Summary.</strong></p>
+<p>Eligibility traces turn a one-step TD error into a multi-step learning update by keeping a decaying record of recently (and repeatedly) visited states, so “recent and frequent” states get the most credit.</p>
+<h2 id="td1-as-monte-carlo-and-the-forwardbackward-equivalence">TD(1) as Monte Carlo, and the forward/backward equivalence</h2>
+<p>Consider an episodic trajectory <span class="arithmatex">\(S_0,R_1,S_1,\dots,S_T\)</span> with terminal <span class="arithmatex">\(S_T\)</span> and discount <span class="arithmatex">\(\gamma\in[0,1]\)</span>.
+Let <span class="arithmatex">\(V(\cdot)\)</span> be the current value estimate and define the (one-step) TD error</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1,
+\]</div>
+<p>with <span class="arithmatex">\(V(S_T)=0\)</span> (no bootstrapping past the terminal state).</p>
+<h3 id="forward-view-lambda-return-and-the-case-lambda1">Forward view: <span class="arithmatex">\(\lambda\)</span>-return and the case <span class="arithmatex">\(\lambda=1\)</span></h3>
+<p>The Monte Carlo return from time <span class="arithmatex">\(t\)</span> is</p>
+<div class="arithmatex">\[
+G_t =\; R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{T-t-1}R_T=  \sum_{i=0}^{T-t-1} \gamma^i R_{t+1+i}.
+\]</div>
+<p>In the forward view, TD(<span class="arithmatex">\(\lambda\)</span>) updates <span class="arithmatex">\(V(S_t)\)</span> toward the <span class="arithmatex">\(\lambda\)</span>-return <span class="arithmatex">\(G_t^\lambda\)</span>, a geometrically weighted
+mixture of <span class="arithmatex">\(n\)</span>-step returns.</p>
+<div class="arithmatex">\[
+G_t^\lambda \;=\; (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t}G_t^{(T-t)},
+\]</div>
+<p>Set <span class="arithmatex">\(\lambda=1\)</span>:</p>
+<div class="arithmatex">\[
+G_t^{1}
+= (1-1)\sum_{n=1}^{T-t}1^{\,n-1}G_t^{(n)} \;+\; 1^{\,T-t}G_t^{(T-t)}
+= 0 \;+\; G_t^{(T-t)}
+= G_t^{(T-t)}.
+\]</div>
+<p>Using <span class="arithmatex">\(G_t^{(n)}=\sum_{i=0}^{n-1}\gamma^i R_{t+1+i}+\gamma^n V(S_{t+n})\)</span>, set <span class="arithmatex">\(n=T-t\)</span>:</p>
+<div class="arithmatex">\[
+G_t^{(T-t)}=\sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i}+\gamma^{T-t}V(S_T)
+=\sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i}=G_t
+\]</div>
+<p>since <span class="arithmatex">\(S_T\)</span> is terminal and <span class="arithmatex">\(V(S_T)=0\)</span>. Therefore, when <span class="arithmatex">\(\lambda=1\)</span>, the mixture places all its weight on the longest backup, so the <span class="arithmatex">\(\lambda\)</span>-return reduces to the full
+Monte Carlo return <span class="arithmatex">\(G_t^1=G_t^{(T-t)}=G_t\)</span>.
+Thus the forward-view TD(<span class="arithmatex">\(1\)</span>) update becomes the standard Monte Carlo update</p>
+<div class="arithmatex">\[
+V(S_t) \leftarrow V(S_t) + \alpha\big(G_t - V(S_t)\big).
+\]</div>
+<h3 id="backward-view-eligibility-traces-and-equivalence">Backward view: eligibility traces and equivalence</h3>
+<p>The backward view implements the same overall effect online without explicitly forming <span class="arithmatex">\(G_t^\lambda\)</span>.
+Using accumulating traces,</p>
+<div class="arithmatex">\[
+E_t(s) = \gamma\lambda\,E_{t-1}(s) + \mathbf{1}\{S_t=s\}, \qquad E_{-1}(s)=0,
+\]</div>
+<p>each TD error is distributed to all states proportionally to their current eligibility:</p>
+<div class="arithmatex">\[
+V(s) \leftarrow V(s) + \alpha\,\delta_t\,E_t(s).
+\]</div>
+<p>Summing these per-step increments over an episode gives the net change to state <span class="arithmatex">\(s\)</span>,</p>
+<div class="arithmatex">\[
+\Delta V(s) \;=\; \sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s).
+\]</div>
+<p>A standard way to see the equivalence is to rewrite the forward-view error in terms of TD errors and then swap the order of summation.</p>
+<p><strong>Step 1: <span class="arithmatex">\(n\)</span>-step error as a sum of TD errors (telescoping).</strong></p>
+<p>Starting from the definition,</p>
+<div class="arithmatex">\[
+G_t^{(n)} - V(S_t)
+= \sum_{i=0}^{n-1}\gamma^i R_{t+1+i} + \gamma^n V(S_{t+n}) - V(S_t).
+\]</div>
+<p>Rewrite the rewards using the TD error identity</p>
+<div class="arithmatex">\[
+\delta_{t+i}=R_{t+i+1}+\gamma V(S_{t+i+1})-V(S_{t+i})
+\quad\Longrightarrow\quad
+R_{t+i+1}=\delta_{t+i}-\gamma V(S_{t+i+1})+V(S_{t+i}).
+\]</div>
+<p>Substitute into the return:</p>
+<div class="arithmatex">\[
+G_t^{(n)} - V(S_t)
+= \sum_{i=0}^{n-1}\gamma^i\big(\delta_{t+i}-\gamma V(S_{t+i+1})+V(S_{t+i})\big)
+    +\gamma^n V(S_{t+n})-V(S_t)
+\]</div>
+<div class="arithmatex">\[
+= \sum_{i=0}^{n-1}\gamma^i\delta_{t+i}
+   \;-\;\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})
+   \;+\;\sum_{i=0}^{n-1}\gamma^i V(S_{t+i})
+   \;+\;\gamma^n V(S_{t+n})-V(S_t).
+\]</div>
+<p>Now the value terms telescope: split the last two sums,</p>
+<div class="arithmatex">\[
+\sum_{i=0}^{n-1}\gamma^i V(S_{t+i}) = V(S_t)+\sum_{i=1}^{n-1}\gamma^i V(S_{t+i}),
+\qquad
+\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})=\sum_{i=1}^{n}\gamma^i V(S_{t+i}),
+\]</div>
+<p>Consider the value-only terms:</p>
+<div class="arithmatex">\[
+-\sum_{i=0}^{n-1}\gamma^{i+1}V(S_{t+i+1})
++\sum_{i=0}^{n-1}\gamma^i V(S_{t+i})
++\gamma^n V(S_{t+n})-V(S_t).
+\]</div>
+<p>Substituting:</p>
+<div class="arithmatex">\[
+-\sum_{i=1}^{n}\gamma^i V(S_{t+i}) + V(S_t)+\sum_{i=1}^{n-1}\gamma^i V(S_{t+i}) +\;\gamma^n V(S_{t+n})-V(S_t) =0
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+G_t^{(n)} - V(S_t)=\sum_{i=0}^{n-1}\gamma^i\delta_{t+i}.
+\]</div>
+<p>Finally, re-index with <span class="arithmatex">\(k=t+i\)</span>:</p>
+<div class="arithmatex">\[
+\sum_{i=0}^{n-1}\gamma^i\delta_{t+i}
+=\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k,
+\]</div>
+<p>This gives the result:</p>
+<div class="arithmatex">\[
+G_t^{(n)} - V(S_t) =\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k.
+\]</div>
+<p><strong>Step 2: <span class="arithmatex">\(\lambda\)</span>-return error becomes a discounted sum of TD errors.</strong></p>
+<p>Plug the identity above into the definition of <span class="arithmatex">\(G_t^\lambda\)</span>:</p>
+<div class="arithmatex">\[
+G_t^\lambda - V(S_t)
+= \Bigl[(1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}G_t^{(n)}+\lambda^{T-t}G_t^{(T-t)}\Bigr]-V(S_t)
+\]</div>
+<div class="arithmatex">\[
+= (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}\bigl(G_t^{(n)}-V(S_t)\bigr)
+\;+\;\lambda^{T-t}\bigl(G_t^{(T-t)}-V(S_t)\bigr)
+\]</div>
+<div class="arithmatex">\[
+= (1-\lambda)\sum_{n=1}^{T-t}\lambda^{n-1}\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k
+\;+\;\lambda^{T-t}\sum_{k=t}^{T-1}\gamma^{k-t}\delta_k,
+\]</div>
+<p>where the last equality uses <span class="arithmatex">\(t+(T-t)-1=T-1\)</span>.
+Fix <span class="arithmatex">\(k\ge t\)</span> and collect the coefficient of <span class="arithmatex">\(\gamma^{k-t}\delta_k\)</span>.</p>
+<p>In the first double-sum, <span class="arithmatex">\(\delta_k\)</span> appears whenever <span class="arithmatex">\(k\le t+n-1\)</span>, i.e. <span class="arithmatex">\(n\ge k-t+1\)</span>, so its total weight there is</p>
+<div class="arithmatex">\[
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}.
+\]</div>
+<p>Adding the second term contributes an additional <span class="arithmatex">\(\lambda^{T-t}\)</span>. Hence the total coefficient on <span class="arithmatex">\(\gamma^{k-t}\delta_k\)</span> is</p>
+<div class="arithmatex">\[
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}+\lambda^{T-t}.
+\]</div>
+<p>Evaluate the geometric sum:</p>
+<div class="arithmatex">\[
+\sum_{n=k-t+1}^{T-t}\lambda^{n-1}
+=\sum_{j=k-t}^{T-t-1}\lambda^{j}
+=\lambda^{k-t}\frac{1-\lambda^{T-k}}{1-\lambda}.
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+(1-\lambda)\sum_{n=k-t+1}^{T-t}\lambda^{n-1}+\lambda^{T-t}
+=\lambda^{k-t}(1-\lambda^{T-k})+\lambda^{T-t}
+=\lambda^{k-t}.
+\]</div>
+<p>So the coefficient of <span class="arithmatex">\(\gamma^{k-t}\delta_k\)</span> is <span class="arithmatex">\(\lambda^{k-t}\)</span>, and we obtain</p>
+<div class="arithmatex">\[
+G_t^\lambda - V(S_t)
+=\sum_{k=t}^{T-1}\gamma^{k-t}\lambda^{k-t}\delta_k
+=\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k.
+\]</div>
+<p><strong>Step 3: accumulate forward-view updates and swap sums.</strong></p>
+<p>Sum the forward-view updates affecting a particular state <span class="arithmatex">\(s\)</span>:</p>
+<div class="arithmatex">\[
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}
+= \sum_{t=0}^{T-1}\alpha\,\mathbf{1}\{S_t=s\}\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k
+\]</div>
+<div class="arithmatex">\[
+= \alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} \mathbf{1}\{S_t=s\}(\gamma\lambda)^{k-t}\delta_k
+\]</div>
+<p>Start with the double sum</p>
+<div class="arithmatex">\[
+\alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} \mathbf{1}\{S_t=s\}(\gamma\lambda)^{k-t}\delta_k.
+\]</div>
+<p>The index set here is the triangle</p>
+<div class="arithmatex">\[
+\{(t,k): 0\le t\le T-1,\; t\le k\le T-1\} \;=\; \{(t,k): 0\le k\le T-1,\; 0\le t\le k\}.
+\]</div>
+<p>So we can swap the order:</p>
+<div class="arithmatex">\[
+\alpha\sum_{t=0}^{T-1}\sum_{k=t}^{T-1} (\cdots)
+\;=\;
+\sum_{k=0}^{T-1}\alpha\,\delta_k \sum_{t=0}^{k}(\gamma\lambda)^{k-t}\mathbf{1}\{S_t=s\}.
+\]</div>
+<p><strong>Step 4: the inner sum is exactly the trace.</strong></p>
+<p>Unrolling the accumulating-trace recursion</p>
+<div class="arithmatex">\[
+E_k(s)=\gamma\lambda E_{k-1}(s)+\mathbf{1}\{S_k=s\},\qquad E_{-1}(s)=0,
+\]</div>
+<p>gives</p>
+<div class="arithmatex">\[
+E_k(s)=\sum_{t=0}^{k}(\gamma\lambda)^{k-t}\mathbf{1}\{S_t=s\}.
+\]</div>
+<p>Substitute this into the expression above to obtain</p>
+<div class="arithmatex">\[
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}
+\;=\;
+\sum_{k=0}^{T-1}\alpha\,\delta_k\,E_k(s),
+\]</div>
+<p>which is the desired forward/backward equivalence.</p>
+<p>Therefore the forward view explains what is being optimized (learning toward <span class="arithmatex">\(G_t^\lambda\)</span>), while the backward view
+explains how to realize it incrementally via traces. In particular, when <span class="arithmatex">\(\lambda=1\)</span> we have <span class="arithmatex">\(G_t^\lambda = G_t\)</span>,
+so the episode-level effect of TD(1) matches Monte Carlo.</p>
+<h3 id="special-case-s-is-visited-only-once">Special case: <span class="arithmatex">\(s\)</span> is visited only once</h3>
+<p>Assume a state <span class="arithmatex">\(s\)</span> appears exactly once, at time <span class="arithmatex">\(k\)</span> (i.e., <span class="arithmatex">\(S_k=s\)</span> and <span class="arithmatex">\(S_t\neq s\)</span> for <span class="arithmatex">\(t\neq k\)</span>). For TD(1),
+the trace recursion becomes a pure geometric decay after the visit:</p>
+<div class="arithmatex">\[
+E_t(s)=\gamma E_{t-1}(s)+\mathbf{1}(S_t=s)
+\;=\;
+\begin{cases}
+0, &amp; t&lt;k,\\[2pt]
+\gamma^{t-k}, &amp; t\ge k.
+\end{cases}
+\]</div>
+<p>Hence the total change to <span class="arithmatex">\(V(s)\)</span> over the episode is a discounted sum of subsequent TD errors:</p>
+<div class="arithmatex">\[
+\Delta V(s) \;=\; \alpha\sum_{t=k}^{T-1}\gamma^{t-k}\delta_t.
+\]</div>
+<p>This sum telescopes: the <span class="arithmatex">\(-V(S_t)\)</span> term in <span class="arithmatex">\(\delta_t\)</span> cancels with the <span class="arithmatex">\(+\gamma V(S_{t+1})\)</span> term from the previous step
+once we apply the discount powers. What remains is exactly “observed return minus current estimate”:</p>
+<div class="arithmatex">\[
+\sum_{t=k}^{T-1}\gamma^{t-k}\delta_t =
+\Big(\sum_{i=0}^{T-k-1}\gamma^i R_{k+1+i}\Big) - V(S_k) =
+G_k - V(S_k).
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+\Delta V(s) \;=\; \alpha\big(G_k - V(S_k)\big),
+\]</div>
+<p>which is precisely the Monte Carlo update for the single visit at time <span class="arithmatex">\(k\)</span>.</p>
+<h2 id="telescoping-in-td1-why-it-matches-mc-at-the-episode-level">Telescoping in TD(1) (why it matches MC at the episode level)</h2>
+<p>Let's assume we are working in an episodic setting with discount <span class="arithmatex">\(\gamma\in[0,1]\)</span>, terminal time <span class="arithmatex">\(T\)</span>, and value estimate <span class="arithmatex">\(V\)</span> with the terminal
+convention <span class="arithmatex">\(V(S_T)=0\)</span>. Define the one-step TD error</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+\]</div>
+<p><strong>A telescoping identity.</strong> From the <span class="arithmatex">\(n\)</span>-step derivation already shown earlier (the identity <span class="arithmatex">\(G_t^{(n)}-V(S_t)=\sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k\)</span>),
+take <span class="arithmatex">\(n=T-t\)</span> to obtain</p>
+<div class="arithmatex">\[
+\sum_{k=t}^{T-1}\gamma^{k-t}\delta_k \;=\; G_t^{(T-t)} - V(S_t).
+\]</div>
+<p>Since <span class="arithmatex">\(S_T\)</span> is terminal and <span class="arithmatex">\(V(S_T)=0\)</span>, the <span class="arithmatex">\((T-t)\)</span>-step return is exactly the Monte Carlo return:</p>
+<div class="arithmatex">\[
+G_t^{(T-t)} \;=\; \sum_{i=0}^{T-t-1}\gamma^i R_{t+1+i} \;=\; G_t.
+\]</div>
+<p>Combining these gives the telescoping relation</p>
+<div class="arithmatex">\[
+\delta_t + \gamma\delta_{t+1} + \cdots + \gamma^{T-1-t}\delta_{T-1}
+\;=\;
+G_t - V(S_t).
+\]</div>
+<p>(Note: the explicit term-by-term cancellation expansion is the same telescoping argument used in the earlier
+<span class="arithmatex">\(n\)</span>-step identity, so it is omitted here.)</p>
+<h3 id="td1-is-every-visit-mc-when-updates-are-applied-offline">TD(1) is every-visit MC when updates are applied offline</h3>
+<p>In the backward view, TD(<span class="arithmatex">\(\lambda\)</span>) applies per-step increments</p>
+<div class="arithmatex">\[
+\Delta V(s)\!\mid_t \;=\; \alpha\,\delta_t\,E_t(s),
+\qquad
+E_t(s)=\gamma\lambda E_{t-1}(s)+\mathbf{1}\{S_t=s\},
+\]</div>
+<p>and the episode-level (offline) change is the sum of these increments:</p>
+<div class="arithmatex">\[
+\Delta V(s)\;=\;\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s).
+\]</div>
+<p>For <span class="arithmatex">\(\lambda=1\)</span>, unrolling the trace recursion gives the explicit form</p>
+<div class="arithmatex">\[
+E_u(s)\;=\;\sum_{t=0}^{u}\gamma^{u-t}\mathbf{1}\{S_t=s\},
+\]</div>
+<p>so</p>
+<div class="arithmatex">\[
+\Delta V(s)
+=\sum_{u=0}^{T-1}\alpha\,\delta_u\sum_{t=0}^{u}\gamma^{u-t}\mathbf{1}\{S_t=s\}
+=\sum_{t=0}^{T-1}\alpha\,\mathbf{1}\{S_t=s\}\sum_{u=t}^{T-1}\gamma^{u-t}\delta_u,
+\]</div>
+<p>where we swapped the order of summation over the region <span class="arithmatex">\(0\le t\le u\le T-1\)</span>.</p>
+<p>By the telescoping identity,</p>
+<div class="arithmatex">\[
+\sum_{u=t}^{T-1}\gamma^{u-t}\delta_u \;=\; G_t - V(S_t),
+\]</div>
+<p>hence</p>
+<div class="arithmatex">\[
+\Delta V(s)
+=\sum_{t=0}^{T-1}\alpha\bigl(G_t - V(S_t)\bigr)\mathbf{1}\{S_t=s\},
+\]</div>
+<p>which is exactly the state-wise form of the every-visit Monte Carlo update.</p>
+<p><strong>What differs in practice?</strong></p>
+<p>The equality above is an episode-level statement (often presented for offline/accumulated updates).
+Conceptually, MC computes <span class="arithmatex">\(G_t\)</span> directly from the full reward sequence after the episode ends, while TD(1)
+constructs the same quantity indirectly: it generates one-step TD errors online and uses traces to “route” those errors
+back to earlier states. The end result matches, but the bookkeeping and when information is used are different.</p>
+<h2 id="telescoping-in-tdlambda-and-the-forwardbackward-match">Telescoping in TD(<span class="arithmatex">\(\lambda\)</span>) and the forward/backward match</h2>
+<p>Assume an episodic trajectory <span class="arithmatex">\(S_0,R_1,S_1,\dots,S_T\)</span> with discount <span class="arithmatex">\(\gamma\in[0,1]\)</span> and terminal convention <span class="arithmatex">\(V(S_T)=0\)</span>.
+Define the one-step TD error</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+\]</div>
+<p><strong><span class="arithmatex">\(\lambda\)</span>-return as a weighted sum of <span class="arithmatex">\(n\)</span>-step targets.</strong> The <span class="arithmatex">\(n\)</span>-step return is</p>
+<div class="arithmatex">\[
+G_t^{(n)} = \sum_{i=0}^{n-1}\gamma^i R_{t+1+i} + \gamma^n V(S_{t+n}),
+\]</div>
+<p>and the episodic <span class="arithmatex">\(\lambda\)</span>-return can be written (equivalently) as a geometric mixture over horizons, with the remaining
+probability mass placed on the full return:</p>
+<div class="arithmatex">\[
+G_t^\lambda = (1-\lambda)\sum_{n=1}^{T-t-1}\lambda^{n-1}G_t^{(n)} \;+\; \lambda^{T-t-1}G_t.
+\]</div>
+<p><strong>TD errors telescope to the <span class="arithmatex">\(\lambda\)</span>-error.</strong> Using the identity proved earlier,</p>
+<div class="arithmatex">\[
+G_t^{(n)} - V(S_t) \;=\; \sum_{k=t}^{t+n-1}\gamma^{k-t}\delta_k,
+\]</div>
+<p>one obtains (by substituting into the <span class="arithmatex">\(\lambda\)</span>-return and collecting coefficients) the compact telescoping form</p>
+<div class="arithmatex">\[
+G_t^\lambda - V(S_t)
+\;=\;
+\sum_{k=t}^{T-1}(\gamma\lambda)^{k-t}\delta_k
+\;=\;
+\delta_t + (\gamma\lambda)\delta_{t+1} + \cdots + (\gamma\lambda)^{T-1-t}\delta_{T-1}.
+\]</div>
+<p>(The term-by-term cancellation intuition is the same telescoping argument already used in the <span class="arithmatex">\(n\)</span>-step case, so we omit a second expansion here.)</p>
+<h3 id="backward-view-eligibility-traces-recover-the-same-target">Backward view: eligibility traces recover the same target</h3>
+<p>The backward view implements the update online without explicitly forming <span class="arithmatex">\(G_t^\lambda\)</span>. It maintains accumulating traces</p>
+<div class="arithmatex">\[
+E_t(s) = \gamma\lambda\,E_{t-1}(s) + \mathbf{1}\{S_t=s\}, \qquad E_{-1}(s)=0,
+\]</div>
+<p>and applies the per-step increment</p>
+<div class="arithmatex">\[
+\Delta V(s)\!\mid_t \;=\; \alpha\,\delta_t\,E_t(s).
+\]</div>
+<p>Thus each local TD error <span class="arithmatex">\(\delta_t\)</span> is distributed across previously visited states, with geometric decay controlled by <span class="arithmatex">\(\gamma\lambda\)</span>. To see the link to the forward view without repeating the full derivation, unroll the trace:</p>
+<div class="arithmatex">\[
+E_t(s) \;=\; \sum_{k=0}^{t}(\gamma\lambda)^{t-k}\mathbf{1}\{S_k=s\}.
+\]</div>
+<p>Accumulating increments over an episode (offline) gives</p>
+<div class="arithmatex">\[
+\Delta V(s)
+=\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s)
+\]</div>
+<div class="arithmatex">\[
+=\sum_{t=0}^{T-1}\alpha\,\delta_t\sum_{k=0}^{t}(\gamma\lambda)^{t-k}\mathbf{1}\{S_k=s\}
+\]</div>
+<div class="arithmatex">\[
+=\sum_{k=0}^{T-1}\alpha\,\mathbf{1}\{S_k=s\}\sum_{t=k}^{T-1}(\gamma\lambda)^{t-k}\delta_t,
+\]</div>
+<p>where the last step is just swapping sums over <span class="arithmatex">\(0\le k\le t\le T-1\)</span>. By the telescoping identity,</p>
+<div class="arithmatex">\[
+\sum_{t=k}^{T-1}(\gamma\lambda)^{t-k}\delta_t \;=\; G_k^\lambda - V(S_k),
+\]</div>
+<p>so</p>
+<div class="arithmatex">\[
+\Delta V(s)
+=\sum_{k=0}^{T-1}\alpha\bigl(G_k^\lambda - V(S_k)\bigr)\mathbf{1}\{S_k=s\},
+\]</div>
+<p>which is exactly the episode-level (offline) forward-view update, written state-by-state.</p>
+<h2 id="online-vs-offline-when-do-forward-and-backward-tdlambda-agree">Online vs. Offline: when do forward and backward TD(<span class="arithmatex">\(\lambda\)</span>) agree?</h2>
+<p>Fix an episodic trajectory <span class="arithmatex">\(S_0,R_1,S_1,\dots,S_T\)</span> with discount <span class="arithmatex">\(\gamma\in[0,1]\)</span> and terminal convention <span class="arithmatex">\(V(S_T)=0\)</span>.
+Let</p>
+<div class="arithmatex">\[
+\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t), \qquad t=0,\dots,T-1.
+\]</div>
+<p><strong>What is being compared?</strong> The forward view specifies a target <span class="arithmatex">\(G_t^\lambda\)</span> for each visit and updates <span class="arithmatex">\(V(S_t)\)</span> toward it, the backward view produces
+updates online by distributing each <span class="arithmatex">\(\delta_t\)</span> through eligibility traces. The two views coincide only once we fix when
+<span class="arithmatex">\(V\)</span> is allowed to change.</p>
+<h3 id="offline-frozen-v-updates-exact-equality">Offline (frozen-<span class="arithmatex">\(V\)</span>) updates: exact equality</h3>
+<p>If the episode is generated with <span class="arithmatex">\(V\)</span> held fixed and all changes are applied at the end, then the forward-view and backward-view
+episode updates are identical:</p>
+<div class="arithmatex">\[
+\sum_{t=0}^{T-1}\alpha\,\delta_t\,E_t(s)
+\;=\;
+\sum_{t=0}^{T-1}\alpha\bigl(G_t^\lambda - V(S_t)\bigr)\mathbf{1}\{S_t=s\}.
+\]</div>
+<p>This is exactly the equivalence derived in the previous section (it relies on using the same frozen <span class="arithmatex">\(V\)</span> inside all bootstrapping
+terms and TD errors throughout the episode). The endpoint cases discussed earlier follow immediately: <span class="arithmatex">\(\lambda=0\)</span> gives TD(0), and
+<span class="arithmatex">\(\lambda=1\)</span> gives TD(1), whose episode-level update matches every-visit Monte Carlo via telescoping.</p>
+<h3 id="online-updates-why-equality-can-fail">Online updates: why equality can fail</h3>
+<p>With online learning, <span class="arithmatex">\(V\)</span> is modified after each transition. Then the forward view becomes ambiguous because its target
+<span class="arithmatex">\(G_t^\lambda\)</span> contains bootstrapping terms <span class="arithmatex">\(V(S_{t+n})\)</span>: under online updates there is no single “<span class="arithmatex">\(V\)</span>” to plug in—those values
+depend on which intermediate version of <span class="arithmatex">\(V\)</span> we use. The backward view, meanwhile, propagates each new <span class="arithmatex">\(\delta_t\)</span> through traces
+computed from past visits, but applies it using the current <span class="arithmatex">\(V\)</span>. Because both the TD errors and the bootstrapping values are
+now tied to a moving function, the clean algebraic match from the frozen-<span class="arithmatex">\(V\)</span> case no longer goes through in general. (An exception is <span class="arithmatex">\(\lambda=0\)</span>, where the target is purely one-step and the forward/backward views coincide in the usual way.)</p>
+<p><strong>Restoring exact online equivalence: True Online TD(<span class="arithmatex">\(\lambda\)</span>).</strong> True Online TD(<span class="arithmatex">\(\lambda\)</span>) modifies the trace-based update with a small correction so that, even when <span class="arithmatex">\(V\)</span> changes during the episode, the backward-view recursion matches the corresponding online forward view exactly at each step.</p>
+<h2 id="summary-of-forward-and-backward-tdlambda">Summary of Forward and Backward TD(<span class="arithmatex">\(\lambda\)</span>)</h2>
+<table>
+<thead>
+<tr>
+<th>Offline updates</th>
+<th><span class="arithmatex">\(\lambda = 0\)</span></th>
+<th><span class="arithmatex">\(\lambda \in (0,1)\)</span></th>
+<th><span class="arithmatex">\(\lambda = 1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backward view</td>
+<td><span class="arithmatex">\(\mathrm{TD}(0)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{TD}(\lambda)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{TD}(1)\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+</tr>
+<tr>
+<td>Forward view</td>
+<td><span class="arithmatex">\(\mathrm{TD}(0)\)</span></td>
+<td>Forward <span class="arithmatex">\(\mathrm{TD}(\lambda)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{MC}\)</span></td>
+</tr>
+<tr>
+<td><strong>Online updates</strong></td>
+<td><span class="arithmatex">\(\lambda = 0\)</span></td>
+<td><span class="arithmatex">\(\lambda \in (0,1)\)</span></td>
+<td><span class="arithmatex">\(\lambda = 1\)</span></td>
+</tr>
+<tr>
+<td>Backward view</td>
+<td><span class="arithmatex">\(\mathrm{TD}(0)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{TD}(\lambda)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{TD}(1)\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+<td><span class="arithmatex">\(\nparallel\)</span></td>
+<td><span class="arithmatex">\(\nparallel\)</span></td>
+</tr>
+<tr>
+<td>Forward view</td>
+<td><span class="arithmatex">\(\mathrm{TD}(0)\)</span></td>
+<td>Forward <span class="arithmatex">\(\mathrm{TD}(\lambda)\)</span></td>
+<td><span class="arithmatex">\(\mathrm{MC}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+<td><span class="arithmatex">\(\parallel\)</span></td>
+</tr>
+<tr>
+<td>Exact Online</td>
+<td><span class="arithmatex">\(\mathrm{TD}(0)\)</span></td>
+<td>Exact Online <span class="arithmatex">\(\mathrm{TD}(\lambda)\)</span></td>
+<td>Exact Online <span class="arithmatex">\(\mathrm{TD}(1)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="arithmatex">\(\parallel\)</span> here indicates equivalence in total update at end of episode.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

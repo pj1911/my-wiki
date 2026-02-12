@@ -1,0 +1,1777 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Hamilton-Jacobi%20equations/">
+      
+      
+        <link rel="next" href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>2 - Weak solutions - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-weak-solution-to-hyperbolic-pdes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 - Weak solutions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#partial-differential-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial Differential Equations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-of-pdes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solution of PDEs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution of PDEs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#weak-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weak solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entropy-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entropy solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entropy solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traffic-intuition-lwr-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traffic intuition (LWR model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-inequality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the inequality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-by-parts-in-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration by parts in time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-by-parts-in-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration by parts in space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrapping up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#partial-differential-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial Differential Equations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-of-pdes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solution of PDEs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution of PDEs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#weak-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weak solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entropy-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entropy solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entropy solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traffic-intuition-lwr-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traffic intuition (LWR model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-inequality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the inequality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-by-parts-in-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration by parts in time
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-by-parts-in-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration by parts in space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrapping up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="introduction-weak-solution-to-hyperbolic-pdes">Introduction - weak solution to hyperbolic PDEs</h1>
+<p>This chapter is part of a broader series on neural-network methods for approximating solutions of PDEs. Here we narrow the focus to hyperbolic PDEs and the core analytical issue they raise: solutions can develop discontinuities, so one must work with weak solutions (rather than classical smooth solutions).</p>
+<h2 id="partial-differential-equations">Partial Differential Equations</h2>
+<p>Partial differential equations (PDEs) describe many physical and engineering systems, from traffic flow to electromagnetism, so solving them efficiently and accurately matters, in practice, many applications need results
+that are trustworthy, and the computation fitting within limited time and memory.</p>
+<p>A general time-dependent PDE can be written as</p>
+<div class="arithmatex">\[
+\begin{equation}
+\left\lbrace
+\begin{aligned}
+\partial_t u + Lu &amp;= \xi, &amp;&amp; (t,x)\in [0,T]\times \mathcal U,\\
+u(0,x) &amp;= u_0(x), &amp;&amp; x\in \mathcal U,\\
+u(t,x) &amp;= g(t), &amp;&amp; (t,x)\in [0,T]\times \partial\mathcal U.
+\end{aligned}
+\right.
+\end{equation}
+\]</div>
+<p>Here, <span class="arithmatex">\(t\in[0,T]\)</span> is the time variable, and <span class="arithmatex">\(T&gt;0\)</span> is the final time up to which the evolution is
+studied. The spatial variable is <span class="arithmatex">\(x\in\mathcal U\subset\mathbb R^d\)</span>, where <span class="arithmatex">\(\mathcal U\)</span> is the
+region of interest (an interval in 1D, an area in 2D, or a volume in 3D), and <span class="arithmatex">\(d\)</span> is the number of
+spatial dimensions. The set <span class="arithmatex">\(\partial\mathcal U\)</span> denotes the boundary of <span class="arithmatex">\(\mathcal U\)</span> (endpoints
+in 1D, a curve in 2D, a surface in 3D). The unknown <span class="arithmatex">\(u(t,x)\)</span> is the quantity being solved for, more generally,</p>
+<div class="arithmatex">\[
+u:[0,T]\times\mathcal U \to \mathbb R^n.
+\]</div>
+<p>The set <span class="arithmatex">\([0,T]\times\mathcal U\)</span> is the space--time domain: the <span class="arithmatex">\(\times\)</span> means a Cartesian product, i.e.,
+all pairs <span class="arithmatex">\((t,x)\)</span> with <span class="arithmatex">\(t\in[0,T]\)</span> and <span class="arithmatex">\(x\in\mathcal U\)</span>. Here, <span class="arithmatex">\(u\)</span> can be a scalar (<span class="arithmatex">\(n=1\)</span>, one value at each <span class="arithmatex">\((t,x)\)</span>) or a vector-valued field
+(<span class="arithmatex">\(n&gt;1\)</span>, several coupled values at each <span class="arithmatex">\((t,x)\)</span>). Furthermore, <span class="arithmatex">\(\partial_t u\)</span> denotes the partial derivative of <span class="arithmatex">\(u\)</span> with respect to time:
+it measures how <span class="arithmatex">\(u(t,x)\)</span> changes as <span class="arithmatex">\(t\)</span> varies while keeping <span class="arithmatex">\(x\)</span> fixed. The operator <span class="arithmatex">\(L\)</span> is a spatial differential operator: for each fixed time <span class="arithmatex">\(t\)</span>, it takes the spatial function
+<span class="arithmatex">\(u(t,\cdot):\mathcal U\to\mathbb R^n\)</span> as input and returns another function on <span class="arithmatex">\(\mathcal U\)</span>, built from derivatives with
+respect to <span class="arithmatex">\(x\)</span> (and possibly <span class="arithmatex">\(x\)</span>-dependent coefficients), i.e. <span class="arithmatex">\(L[u(t,\cdot)]:\mathcal U\to\mathbb R^n\)</span>.
+ For example, <span class="arithmatex">\(L\)</span> may contain</p>
+<ul>
+<li>Transport/advection terms (first derivatives), such as <span class="arithmatex">\(a(x)\cdot\nabla u\)</span>, which move the profile of <span class="arithmatex">\(u\)</span>
+  through space at a velocity field <span class="arithmatex">\(a(x)\)</span>.</li>
+<li>Diffusion terms (second derivatives), such as <span class="arithmatex">\(\nabla\!\cdot\!\big(\kappa(x)\nabla u\big)\)</span> (often written like <span class="arithmatex">\(\kappa(x)\Delta u\)</span> in simple cases),
+  which spread and smooth <span class="arithmatex">\(u\)</span> in space where the coefficient <span class="arithmatex">\(\kappa(x)\)</span> controls how strong this smoothing is.</li>
+<li>Reaction/zeroth-order terms (no derivatives), such as <span class="arithmatex">\(c(x)u\)</span>, which locally scale, damp, or amplify <span class="arithmatex">\(u\)</span>
+  without moving it in space.</li>
+</ul>
+<p>The term <span class="arithmatex">\(\xi(t,x)\)</span> is an external input (a source/forcing): it represents effects not captured by transport, diffusion, or other spatial interactions.
+At each point <span class="arithmatex">\((t,x)\)</span> it directly changes the value of <span class="arithmatex">\(u(t,x)\)</span> by adding (a source) or removing (a sink) quantity. For example, if <span class="arithmatex">\(u(t,x)\)</span> is temperature, then <span class="arithmatex">\(\xi(t,x)\)</span> can represent a heater embedded in the material:
+<span class="arithmatex">\(\xi(t,x)&gt;0\)</span> where the heater is active (heat is added there) and <span class="arithmatex">\(\xi(t,x)&lt;0\)</span> where a cooling device removes heat. In other words, <span class="arithmatex">\(\xi\)</span> is a modeled exchange with the environment (energy supplied or extracted). The initial condition <span class="arithmatex">\(u(0,x)=u_0(x)\)</span> fixes the state at time <span class="arithmatex">\(t=0\)</span> for every <span class="arithmatex">\(x\in\mathcal U\)</span>.
+The boundary condition <span class="arithmatex">\(u(t,x)=g(t)\)</span> prescribes values of <span class="arithmatex">\(u\)</span> on the boundary <span class="arithmatex">\(x\in\partial\mathcal U\)</span>
+for all <span class="arithmatex">\(t\in[0,T]\)</span>.</p>
+<h2 id="solution-of-pdes">Solution of PDEs</h2>
+<p>A function <span class="arithmatex">\(u\)</span> is called a solution of the PDE if it satisfies the PDE together with the initial and
+boundary conditions in an appropriate mathematical sense. For smooth solutions, <span class="arithmatex">\(u\)</span>, the needed derivatives (like <span class="arithmatex">\(\partial_t u\)</span> and the spatial derivatives inside <span class="arithmatex">\(Lu\)</span>)
+exist in the usual calculus sense, so the PDE holds at each point <span class="arithmatex">\((t,x)\)</span>, this is a
+classical solution.</p>
+<h3 id="weak-solutions">Weak solutions</h3>
+<p>In hyperbolic PDEs where <span class="arithmatex">\(u\)</span> is not smooth (for example, it has jump discontinuities), pointwise derivatives such as
+<span class="arithmatex">\(\partial_t u\)</span> or <span class="arithmatex">\(\nabla u\)</span> may not exist. In that case, the PDE is interpreted in a
+weak (integral) sense: Instead of requiring the PDE to hold at every single point, it is required to hold after
+being integrated against some smooth test functions. This is justifiable because integration only requires <span class="arithmatex">\(u\)</span> to be integrable (not differentiable).
+Test functions can be chosen to be nonzero only inside a very small space--time region and zero everywhere else, so the integral checks the PDE balance inside that local neighborhood.
+Requiring the identity to hold for all such local tests
+forces the PDE to hold throughout the whole domain, while avoiding pointwise derivatives at jumps. More concretely, the weak form does not check <span class="arithmatex">\(\partial_t u + Lu = \xi\)</span> pointwise, it checks that</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U} \big(\partial_t u + Lu - \xi\big)\,\varphi \,dx\,dt = 0
+\quad \text{for all smooth } \varphi.
+\]</div>
+<p>Equivalently, we can define the PDE residual <span class="arithmatex">\(r:=\partial_t u+Lu-\xi\)</span>. The condition</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U} r\,\varphi \,dx\,dt = 0 \quad \text{for all smooth } \varphi
+\]</div>
+<p>means: no matter how a smooth weight <span class="arithmatex">\(\varphi\)</span> is chosen, the weighted integral of <span class="arithmatex">\(r\)</span> is always
+zero. Intuitively, this means <span class="arithmatex">\(r\)</span> must be zero when viewed through all test-function integrals (so it cannot be
+nonzero on any region without being detected by some choice of <span class="arithmatex">\(\varphi\)</span>).
+Why this is essentially the same as solving the PDE:</p>
+<ul>
+<li>If <span class="arithmatex">\(u\)</span> is smooth, integration by parts turns the identity into the pointwise PDE, so nothing
+  is lost.</li>
+<li>If <span class="arithmatex">\(u\)</span> is not smooth, <span class="arithmatex">\(r\)</span> may not make sense pointwise, but the weighted average
+  <span class="arithmatex">\(\int r\,\varphi\)</span> still makes sense. Requiring the integral to vanish for every test function is a strong and useful condition:
+  if the residual were nonzero on any region of positive size, a test function supported there would
+  detect it, so the residual cannot ``hide'' anywhere in the domain.</li>
+</ul>
+<p>For example: take <span class="arithmatex">\(\varphi\)</span> to be a smooth bump that is <span class="arithmatex">\(1\)</span> in a small space--time neighborhood and
+<span class="arithmatex">\(0\)</span> outside a slightly larger neighborhood. Then the integral above mainly tests whether the PDE
+balances inside that neighborhood. Varying the bump over all locations and sizes enforces the balance everywhere, while avoiding
+undefined pointwise derivatives at jumps. For hyperbolic PDEs, there is an additional issue:
+even the definition of a solution must be handled carefully, since shocks can form and
+classical derivatives can fail. This motivates weak formulations and, to select the physically
+relevant weak solution, entropy conditions.</p>
+<h3 id="entropy-solutions">Entropy solutions</h3>
+<p>Weak solutions are often not unique for hyperbolic conservation laws. A standard example is</p>
+<div class="arithmatex">\[
+\partial_t u + \nabla\!\cdot f(u)=0,
+\]</div>
+<p>where shocks (jumps) can form even from smooth initial data. The weak form alone may admit multiple
+candidates <span class="arithmatex">\(u\)</span> that all satisfy the integral identity, so an extra rule is needed to pick the
+physically relevant one. For this an entropy solution is introduced, it is a weak solution that, in addition to weak solution property, satisfies a family of integral
+inequalities of the form <span class="arithmatex">\(\partial_t \eta(u)+\nabla\!\cdot q(u)\le 0\)</span> (in the weak sense) for every
+convex entropy <span class="arithmatex">\(\eta\)</span> and its associated entropy flux <span class="arithmatex">\(q\)</span>.</p>
+<p>Here, an entropy is a convex scalar function <span class="arithmatex">\(\eta:\mathbb R\to\mathbb R\)</span> applied to the
+state <span class="arithmatex">\(u\)</span>, where <span class="arithmatex">\(u(t,x)\)</span> is a scalar value. An associated entropy flux
+is a function <span class="arithmatex">\(q:\mathbb R\to\mathbb R^d\)</span> (in <span class="arithmatex">\(d\)</span> space dimensions) chosen to be compatible with
+the physical flux <span class="arithmatex">\(f\)</span>. Compatibility means that, for smooth solutions of the conservation law
+<span class="arithmatex">\(\partial_t u+\nabla\!\cdot f(u)=0\)</span>, the quantity <span class="arithmatex">\(\eta(u)\)</span> also satisfies a conservation law
+<span class="arithmatex">\(\partial_t \eta(u)+\nabla\!\cdot q(u)=0\)</span>. To relate <span class="arithmatex">\(\eta(u)\)</span> and <span class="arithmatex">\(q(u)\)</span>, assume the 1D conservation law has a smooth solution <span class="arithmatex">\(u(t,x)\)</span>:</p>
+<div class="arithmatex">\[
+\partial_t u + \partial_x f(u)=0.
+\]</div>
+<p>Since <span class="arithmatex">\(u\)</span> is smooth, the chain rule gives</p>
+<div class="arithmatex">\[
+\partial_x f\big(u(t,x)\big)=f'\big(u(t,x)\big)\,\partial_x u(t,x).
+\]</div>
+<p>Equivalently,</p>
+<div class="arithmatex">\[
+\frac{\partial}{\partial x} f\big(u(t,x)\big)
+=\frac{df}{du}\Big|_{u=u(t,x)}\,\frac{\partial u}{\partial x}(t,x).
+\]</div>
+<p>We can write it as, <span class="arithmatex">\(\partial_x f(u)=f'(u)\,\partial_x u\)</span>, so</p>
+<div class="arithmatex">\[
+\partial_t u + f'(u)\,\partial_x u = 0
+\quad\Longrightarrow\quad
+\partial_t u = -f'(u)\,\partial_x u.
+\]</div>
+<p>Let <span class="arithmatex">\(\eta\)</span> be a smooth entropy and let <span class="arithmatex">\(q\)</span> be an (unknown) flux depending only on <span class="arithmatex">\(u\)</span>.
+By the chain rule,</p>
+<div class="arithmatex">\[
+\partial_t \eta(u)=\eta'(u)\,\partial_t u,
+\qquad
+\partial_x q(u)=q'(u)\,\partial_x u.
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+\partial_t \eta(u)+\partial_x q(u)
+= \eta'(u)\,\partial_t u + q'(u)\,\partial_x u.
+\]</div>
+<p>Substitute <span class="arithmatex">\(\partial_t u = -f'(u)\,\partial_x u\)</span>:</p>
+<div class="arithmatex">\[
+\partial_t \eta(u)+\partial_x q(u)
+= \eta'(u)\big(-f'(u)\,\partial_x u\big) + q'(u)\,\partial_x u
+= \big(q'(u)-\eta'(u)f'(u)\big)\,\partial_x u.
+\]</div>
+<p>So, if <span class="arithmatex">\(q\)</span> is chosen to satisfy</p>
+<div class="arithmatex">\[
+q'(u)=\eta'(u)\,f'(u),
+\]</div>
+<p>then <span class="arithmatex">\(\partial_t \eta(u)+\partial_x q(u)=0\)</span> for smooth solutions. Note, here <span class="arithmatex">\(f'(u)\)</span> and <span class="arithmatex">\(q'(u)\)</span>
+denote derivatives with respect to <span class="arithmatex">\(u\)</span>. In the scalar case,
+these are ordinary derivatives but in multiple spatial dimensions, <span class="arithmatex">\(f'(u)\)</span> and <span class="arithmatex">\(q'(u)\)</span> are
+<span class="arithmatex">\(d\)</span>-dimensional vectors. Equivalently, <span class="arithmatex">\(q\)</span> can be recovered (up to an additive constant) by</p>
+<div class="arithmatex">\[
+q(u)=\int^{u}\eta'(s)\,f'(s)\,ds.
+\]</div>
+<p>This derivation shows how to pair an entropy <span class="arithmatex">\(\eta\)</span> with the correct entropy flux <span class="arithmatex">\(q\)</span>: for
+smooth solutions, the original conservation law automatically implies a conservation law for
+<span class="arithmatex">\(\eta(u)\)</span></p>
+<div class="arithmatex">\[
+\partial_t \eta(u) + \nabla\!\cdot q(u)=0.
+\]</div>
+<p>This is the starting point for the entropy inequality used when shocks appear,
+where the same pair <span class="arithmatex">\((\eta,q)\)</span> is kept but the equality is relaxed to select the physically
+relevant weak solution. Therefore, across shocks, the weak form alone can accept multiple solutions. The entropy condition
+adds an extra rule: pick the solution where entropy does not increase across the shock.</p>
+<h4 id="traffic-intuition-lwr-model">Traffic intuition (LWR model)</h4>
+<p>In <span class="arithmatex">\(\partial_t\rho+\partial_x f(\rho)=0\)</span>, shocks represent compression (cars brake and bunch
+up). Compression can happen abruptly, so a low<span class="arithmatex">\(\to\)</span>high density jump can be an admissible shock.
+The opposite transition, high<span class="arithmatex">\(\to\)</span>low density, is decompression: gaps open up gradually as
+information travels through the flow. A sudden high<span class="arithmatex">\(\to\)</span>low jump (a rarefaction shock) would
+require an instantaneous response, so it is ruled out by the entropy condition. Instead, the model
+produces a rarefaction fan, a smooth spreading wave.</p>
+<p><strong>What the entropy inequality adds (and how it matches the intuition).</strong></p>
+<p>The intuition above says: a compressive jump is allowed, but a decompressive jump is not. The
+entropy inequality is the mathematical way to enforce that idea. It introduces a scalar
+``disorder'' measure <span class="arithmatex">\(\eta(\rho)\)</span> (any convex function) and requires that this quantity cannot be
+created inside the road, except for what enters through the boundaries. Pick any convex entropy function <span class="arithmatex">\(\eta(\rho)\)</span> and its associated entropy flux <span class="arithmatex">\(q(\rho)\)</span>. An entropy
+solution satisfies</p>
+<div class="arithmatex">\[
+\partial_t \eta(\rho) + \partial_x q(\rho)\le 0
+\quad\text{(in the weak sense).}
+\]</div>
+<p>This inequality rules out rarefaction shocks because those jumps would act like an internal
+source of entropy; compressive shocks are allowed because they act like dissipation. The inequality is easiest to read on a road segment <span class="arithmatex">\([a,b]\)</span>. Define the entropy content on <span class="arithmatex">\([a,b]\)</span> by</p>
+<div class="arithmatex">\[
+E(t):=\int_a^b \eta(\rho(t,x))\,dx.
+\]</div>
+<p>Differentiate under the integral sign:</p>
+<div class="arithmatex">\[
+\frac{d}{dt}E(t)=\int_a^b \partial_t \eta(\rho(t,x))\,dx.
+\]</div>
+<p>Now using the entropy inequality</p>
+<div class="arithmatex">\[
+\partial_t \eta(\rho) + \partial_x q(\rho)\le 0
+\quad\Longrightarrow\quad
+\partial_t \eta(\rho)\le -\partial_x q(\rho),
+\]</div>
+<p>we get</p>
+<div class="arithmatex">\[
+\frac{d}{dt}E(t)\le \int_a^b \big(-\partial_x q(\rho(t,x))\big)\,dx.
+\]</div>
+<p>Finally, apply the fundamental theorem of calculus in <span class="arithmatex">\(x\)</span>:</p>
+<div class="arithmatex">\[
+\int_a^b -\partial_x q(\rho(t,x))\,dx
+= -\Big[q(\rho(t,x))\Big]_{x=a}^{x=b}
+= q(\rho(t,a)) - q(\rho(t,b)).
+\]</div>
+<p>So,</p>
+<div class="arithmatex">\[
+\frac{d}{dt}E(t)\;\le\; q(\rho(t,a)) - q(\rho(t,b)).
+\]</div>
+<p>This makes the link to the intuition concrete: the only way entropy inside <span class="arithmatex">\([a,b]\)</span> can increase is
+if more entropy enters at <span class="arithmatex">\(x=a\)</span> than leaves at <span class="arithmatex">\(x=b\)</span>. If the boundaries are not
+injecting entropy, then <span class="arithmatex">\(E(t)\)</span> cannot increase, meaning any shock inside the segment must be
+entropy-dissipating (compressive) rather than entropy-creating (a rarefaction shock).</p>
+<h4 id="understanding-the-inequality">Understanding the inequality</h4>
+<p>The inequality <span class="arithmatex">\(\partial_t\eta(u)+\nabla\!\cdot q(u)\le 0\)</span> is understood in the same weak (integral)
+way as before: derivatives are moved onto a smooth test function. Concretely, for every smooth
+nonnegative test function <span class="arithmatex">\(\varphi(t,x)\ge 0\)</span> (often taken to vanish on the boundary and at
+<span class="arithmatex">\(t=T\)</span>), start from the formal step (valid for smooth <span class="arithmatex">\(u\)</span>)</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U}\big(\partial_t\eta(u)+\nabla\!\cdot q(u)\big)\,\varphi \,dx\,dt \le 0.
+\]</div>
+<p>A practical way to derive the weak (integral) identities is to start from a pointwise product rule,
+integrate it, and then rearrange terms.</p>
+<h4 id="integration-by-parts-in-time">Integration by parts in time</h4>
+<p><strong>Step 1 (pointwise identity).</strong>
+For smooth <span class="arithmatex">\(a(t,x)\)</span> and <span class="arithmatex">\(\varphi(t,x)\)</span>,</p>
+<div class="arithmatex">\[
+\partial_t(a\varphi)= (\partial_t a)\,\varphi + a\,\partial_t\varphi.
+\]</div>
+<p><strong>Step 2 (integrate the identity).</strong>
+Since the equality holds at every point <span class="arithmatex">\((t,x)\)</span>, integrate both sides over the full
+space--time domain <span class="arithmatex">\([0,T]\times\mathcal U\)</span>:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\partial_t\big(a\varphi\big)\,dx\,dt = \int_{0}^{T}\int_{\mathcal U}(\partial_t a)\,\varphi\,dx\,dt
++
+\int_{0}^{T}\int_{\mathcal U}a\,\partial_t\varphi\,dx\,dt.
+\]</div>
+<p>This turns a pointwise statement into a statement about averaged (integrated) quantities, which is
+the form needed later when derivatives of <span class="arithmatex">\(u\)</span> may not exist pointwise.</p>
+<p><strong>Step 3 (evaluate the left-hand side).</strong>
+Focus on</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U}\partial_t(a\varphi)\,dx\,dt.
+\]</div>
+<p>First, fix <span class="arithmatex">\(x\)</span> and integrate in time:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\partial_t(a\varphi)(t,x)\,dt = (a\varphi)(T,x)-(a\varphi)(0,x),
+\]</div>
+<p>by the fundamental theorem of calculus. Now integrate this result over <span class="arithmatex">\(x\in\mathcal U\)</span>:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U}\partial_t(a\varphi)\,dx\,dt = \int_{\mathcal U}(a\varphi)(T,x)\,dx-\int_{\mathcal U}(a\varphi)(0,x)\,dx =
+\Big[\int_{\mathcal U}a\,\varphi\,dx\Big]_{t=0}^{t=T}.
+\]</div>
+<p><strong>Step 4 (rearrange to isolate the term with <span class="arithmatex">\(\partial_t a\)</span>).</strong>
+Combine Step 2 and Step 3:</p>
+<div class="arithmatex">\[
+\Big[\int_{\mathcal U}a\,\varphi\,dx\Big]_{t=0}^{t=T}
+=\int_{0}^{T}\!\!\int_{\mathcal U}(\partial_t a)\,\varphi\,dx\,dt
++\int_{0}^{T}\!\!\int_{\mathcal U}a\,\partial_t\varphi\,dx\,dt.
+\]</div>
+<p>Now subtract the last integral from both sides:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\!\!\int_{\mathcal U}(\partial_t a)\,\varphi\,dx\,dt
+=\Big[\int_{\mathcal U}a\,\varphi\,dx\Big]_{t=0}^{t=T}
+-\int_{0}^{T}\!\!\int_{\mathcal U}a\,\partial_t\varphi\,dx\,dt.
+\]</div>
+<p>This is the time integration-by-parts formula used in the weak form.</p>
+<h4 id="integration-by-parts-in-space">Integration by parts in space</h4>
+<p><strong>Step 1 (pointwise identity).</strong>
+For a smooth vector field <span class="arithmatex">\(F(x)\)</span> and a smooth scalar test function <span class="arithmatex">\(\varphi(x)\)</span>,</p>
+<div class="arithmatex">\[
+\nabla\!\cdot(\varphi F)= (\nabla\varphi)\cdot F + \varphi\,(\nabla\!\cdot F).
+\]</div>
+<p><strong>Step 2 (integrate the identity over space).</strong>
+Integrate both sides over <span class="arithmatex">\(x\in\mathcal U\)</span>:</p>
+<div class="arithmatex">\[
+\int_{\mathcal U}\nabla\!\cdot(\varphi F)\,dx =
+\int_{\mathcal U}(\nabla\varphi)\cdot F\,dx
++
+\int_{\mathcal U}\varphi\,(\nabla\!\cdot F)\,dx.
+\]</div>
+<p><strong>Step 3 (apply the divergence theorem to the left-hand side).</strong>
+The divergence theorem says</p>
+<div class="arithmatex">\[
+\int_{\mathcal U}\nabla\!\cdot(\varphi F)\,dx =
+\int_{\partial\mathcal U}\varphi\,F\cdot n\,dS,
+\]</div>
+<p>where <span class="arithmatex">\(n(x)\)</span> is the outward unit normal vector on the boundary <span class="arithmatex">\(\partial\mathcal U\)</span>, and <span class="arithmatex">\(dS\)</span> is
+the surface measure on <span class="arithmatex">\(\partial\mathcal U\)</span> (a length element in 2D, a surface-area element in 3D).</p>
+<p><strong>Step 4 (rearrange to isolate the term with <span class="arithmatex">\(\nabla\!\cdot F\)</span>).</strong>
+Combine Step 2 and Step 3:</p>
+<div class="arithmatex">\[
+\int_{\partial\mathcal U}\varphi\,F\cdot n\,dS =
+\int_{\mathcal U}(\nabla\varphi)\cdot F\,dx
++
+\int_{\mathcal U}\varphi\,(\nabla\!\cdot F)\,dx.
+\]</div>
+<p>Now move the <span class="arithmatex">\((\nabla\varphi)\cdot F\)</span> term to the other side:</p>
+<div class="arithmatex">\[
+\int_{\mathcal U}\varphi\,(\nabla\!\cdot F)\,dx = \int_{\partial\mathcal U}\varphi\,F\cdot n\,dS -
+\int_{\mathcal U}F\cdot\nabla\varphi\,dx.
+\]</div>
+<p><strong>Step 5 (extend to space-time).</strong>
+Apply the spatial identity at each fixed time <span class="arithmatex">\(t\)</span>, then integrate the whole equation over <span class="arithmatex">\(t\in[0,T]\)</span>:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\varphi\,(\nabla\!\cdot F)\,dx\,dt =
+\int_{0}^{T}\int_{\partial\mathcal U}\varphi\,F\cdot n\,dS\,dt -
+\int_{0}^{T}\int_{\mathcal U}F\cdot\nabla\varphi\,dx\,dt.
+\]</div>
+<p>In the entropy setting, the choice is <span class="arithmatex">\(F=q(u)\)</span>, so</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}(\nabla\!\cdot q(u))\,\varphi\,dx\,dt =
+\int_{0}^{T}\int_{\partial\mathcal U}\varphi\,q(u)\cdot n\,dS\,dt -
+\int_{0}^{T}\int_{\mathcal U}q(u)\cdot\nabla\varphi\,dx\,dt.
+\]</div>
+<p><strong>Step 6 (derive the weak entropy inequality).</strong></p>
+<p>Start from the pointwise entropy inequality (formal, for smooth <span class="arithmatex">\(u\)</span>):</p>
+<div class="arithmatex">\[
+\partial_t\eta(u)+\nabla\!\cdot q(u)\le 0.
+\]</div>
+<p>Multiply by a smooth nonnegative test function <span class="arithmatex">\(\varphi\ge 0\)</span> and integrate over
+<span class="arithmatex">\([0,T]\times\mathcal U\)</span>:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\big(\partial_t\eta(u)+\nabla\!\cdot q(u)\big)\,\varphi\,dx\,dt \le 0.
+\]</div>
+<p>Now apply the two integration-by-parts results:</p>
+<ul>
+<li>For the time term <span class="arithmatex">\(\int\!\!\int \partial_t\eta(u)\,\varphi\)</span>, use the time formula with
+  <span class="arithmatex">\(a=\eta(u)\)</span>.</li>
+<li>For the space term <span class="arithmatex">\(\int\!\!\int (\nabla\!\cdot q(u))\,\varphi\)</span>, use the space formula with
+  <span class="arithmatex">\(F=q(u)\)</span>.</li>
+</ul>
+<p><strong>Step 7 (Substituting the values)</strong></p>
+<p>Start from</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\big(\partial_t\eta(u)+\nabla\!\cdot q(u)\big)\,\varphi\,dx\,dt \le 0,
+\qquad \varphi\ge 0.
+\]</div>
+<p>Split the two terms:</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\partial_t\eta(u)\,\varphi\,dx\,dt
+\;+\;
+\int_{0}^{T}\int_{\mathcal U}(\nabla\!\cdot q(u))\,\varphi\,dx\,dt
+\le 0.
+\]</div>
+<p><strong>Time term (use time integration by parts with <span class="arithmatex">\(a=\eta(u)\)</span>).</strong></p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\partial_t\eta(u)\,\varphi\,dx\,dt =
+\Big[\int_{\mathcal U}\eta(u)\,\varphi\,dx\Big]_{t=0}^{t=T}
+-\int_{0}^{T}\int_{\mathcal U}\eta(u)\,\partial_t\varphi\,dx\,dt.
+\]</div>
+<p>If <span class="arithmatex">\(\varphi(T,\cdot)=0\)</span>, then <span class="arithmatex">\(\int_{\mathcal U}\eta(u(T,x))\,\varphi(T,x)\,dx=0\)</span>, hence</p>
+<div class="arithmatex">\[
+\Big[\int_{\mathcal U}\eta(u)\,\varphi\,dx\Big]_{t=0}^{t=T} =
+0-\int_{\mathcal U}\eta(u(0,x))\,\varphi(0,x)\,dx =
+-\int_{\mathcal U}\eta(u(0,x))\,\varphi(0,x)\,dx.
+\]</div>
+<p>Now use the initial condition <span class="arithmatex">\(u(0,x)=u_0(x)\)</span>, which implies <span class="arithmatex">\(\eta(u(0,x))=\eta(u_0(x))\)</span>, giving</p>
+<div class="arithmatex">\[
+\Big[\int_{\mathcal U}\eta(u)\,\varphi\,dx\Big]_{t=0}^{t=T} =
+-\int_{\mathcal U}\eta(u_0(x))\,\varphi(0,x)\,dx.
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}\partial_t\eta(u)\,\varphi\,dx\,dt =
+-\int_{\mathcal U}\eta(u_0(x))\,\varphi(0,x)\,dx
+-\int_{0}^{T}\int_{\mathcal U}\eta(u)\,\partial_t\varphi\,dx\,dt.
+\]</div>
+<p><strong>Space term (use spatial integration by parts with <span class="arithmatex">\(F=q(u)\)</span>).</strong></p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}(\nabla\!\cdot q(u))\,\varphi\,dx\,dt =
+\int_{0}^{T}\int_{\partial\mathcal U}\varphi\,q(u)\cdot n\,dS\,dt
+-\int_{0}^{T}\int_{\mathcal U}q(u)\cdot\nabla\varphi\,dx\,dt.
+\]</div>
+<p>If <span class="arithmatex">\(\varphi=0\)</span> on <span class="arithmatex">\(\partial\mathcal U\)</span>, then the boundary integral is <span class="arithmatex">\(0\)</span>, so</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}(\nabla\!\cdot q(u))\,\varphi\,dx\,dt =
+-\int_{0}^{T}\int_{\mathcal U}q(u)\cdot\nabla\varphi\,dx\,dt.
+\]</div>
+<p><strong>Put both pieces back into the inequality.</strong></p>
+<div class="arithmatex">\[
+-\int_{\mathcal U}\eta(u_0(x))\,\varphi(0,x)\,dx
+-\int_{0}^{T}\int_{\mathcal U}\eta(u)\,\partial_t\varphi\,dx\,dt
+-\int_{0}^{T}\int_{\mathcal U}q(u)\cdot\nabla\varphi\,dx\,dt
+\le 0.
+\]</div>
+<p>Rearranging,</p>
+<div class="arithmatex">\[
+\int_{\mathcal U}\eta(u_0(x))\,\varphi(0,x)\,dx
++\int_{0}^{T}\int_{\mathcal U}\eta(u)\,\partial_t\varphi\,dx\,dt
++\int_{0}^{T}\int_{\mathcal U}q(u)\cdot\nabla\varphi\,dx\,dt
+\ge 0,
+\]</div>
+<p>i.e.</p>
+<div class="arithmatex">\[
+\int_{0}^{T}\int_{\mathcal U}
+\Big(\eta(u)\,\partial_t \varphi + q(u)\cdot \nabla \varphi \Big)\,dx\,dt
++ \int_{\mathcal U}\eta\big(u_0(x)\big)\,\varphi(0,x)\,dx \ge 0.
+\]</div>
+<p>The goal of these steps is to rewrite the entropy inequality in a form that
+avoids pointwise derivatives of <span class="arithmatex">\(u\)</span>. The final statement is an integral condition involving
+only <span class="arithmatex">\(\eta(u)\)</span> and <span class="arithmatex">\(q(u)\)</span> tested against smooth <span class="arithmatex">\(\varphi\)</span>, so it still makes sense when <span class="arithmatex">\(u\)</span> has
+jumps. This is the standard definition of an entropy solution: a weak solution that also satisfies
+this inequality for all convex entropies (and all nonnegative tests). It is also the form used in
+analysis (for uniqueness/stability) and in practice (to design entropy-stable numerical schemes and
+learning losses that enforce the correct solution selection).</p>
+<p>At this point, two natural technical questions come up about the choice of test function <span class="arithmatex">\(\varphi\)</span>: </p>
+<p><strong>1) Why require <span class="arithmatex">\(\varphi\ge 0\)</span>?</strong>
+Because the starting statement is an inequality (not an equality). Testing it against all
+nonnegative <span class="arithmatex">\(\varphi\)</span> is the standard weak way to encode '<span class="arithmatex">\(\le 0\)</span>' without needing pointwise
+derivatives.</p>
+<p><strong>2) What if <span class="arithmatex">\(\varphi\)</span> does not vanish on <span class="arithmatex">\(\partial\mathcal U\)</span> or at <span class="arithmatex">\(t=T\)</span>?</strong>
+Then the boundary terms kept earlier stay in the formula:</p>
+<div class="arithmatex">\[
+\Big[\int_{\mathcal U}\eta(u)\,\varphi\,dx\Big]_{t=0}^{t=T}
++
+\int_{0}^{T}\int_{\partial\mathcal U}\varphi\,q(u)\cdot n\,dS\,dt
+\]</div>
+<p>and the precise entropy condition depends on how boundary data are imposed. Setting
+<span class="arithmatex">\(\varphi(T,\cdot)=0\)</span> and <span class="arithmatex">\(\varphi|_{\partial\mathcal U}=0\)</span> is mainly a clean choice to present the
+core idea without extra terms.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Connection to the weak formulation:</p>
+<ul>
+<li>The weak form encodes the PDE by integrated balances, so it remains meaningful even
+  when <span class="arithmatex">\(u\)</span> has jumps.</li>
+<li>For hyperbolic problems, the weak form can admit multiple solutions. The
+  entropy condition adds an extra inequality that selects the physically relevant one
+  (and typically gives uniqueness within the right class).</li>
+<li>Many numerical methods are built to be entropy stable, so their discrete solutions
+  respect the same selection principle and avoid converging to a wrong weak solution.</li>
+</ul>
+<p>Intuition: a shock can satisfy the conservation law in an averaged sense, yet still be assembled in
+more than one mathematically valid way. Entropy rules out the nonphysical shock patterns by
+enforcing the correct direction of information flow and the expected dissipation across the jump.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

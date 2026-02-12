@@ -1,0 +1,2506 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-1-Introduction/">
+      
+      
+        <link rel="next" href="../RL-3-Partially%20Observable%20MDP/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>2 - Markov Decision Processes - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-markov-decision-processes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 - Markov Decision Processes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#state-transition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Transition Matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="State Transition Matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-dependent-trasnsition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time dependent trasnsition matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markov-reward-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markov Reward Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Markov Reward Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-total-reward-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return: total reward over time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Return: total reward over time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-discounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why discounting?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-function-expected-return-from-a-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value function: expected return from a state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value function: expected return from a state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bellman-expectation-equation-mrp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman expectation equation (MRP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-equation-for-mrps-recursive-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman equation for MRPs (recursive form)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity-of-solving-the-bellman-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity of solving the Bellman equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-methods-for-large-mrps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation methods for large MRPs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markov-decision-processes-mdps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markov Decision Processes (MDPs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Markov Decision Processes (MDPs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policies-how-the-agent-behaves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policies: how the agent behaves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policies: how the agent behaves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#induced-markov-processes-under-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Induced Markov processes under a policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-functions-in-mdps-state-value-and-action-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value functions in MDPs: state-value and action-value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-expectation-equations-in-mdps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman expectation equations in MDPs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bellman expectation equations in MDPs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matrix-form-of-vpi-and-qpi-finite-mdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matrix form of \(V^\pi\) and \(Q^\pi\) (finite MDP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimality-in-mdps-from-evaluation-to-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimality in MDPs: from evaluation to control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimality in MDPs: from evaluation to control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optimal-value-functions-and-optimal-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimal value functions and optimal policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-optimality-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman optimality equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solving-bellman-optimality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solving Bellman optimality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solving Bellman optimality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-is-a-closed-form-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When is a closed form possible?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterative-solution-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iterative solution methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#state-transition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Transition Matrix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="State Transition Matrix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-dependent-trasnsition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time dependent trasnsition matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markov-reward-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markov Reward Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Markov Reward Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-total-reward-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return: total reward over time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Return: total reward over time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-discounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why discounting?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-function-expected-return-from-a-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value function: expected return from a state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value function: expected return from a state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bellman-expectation-equation-mrp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman expectation equation (MRP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-equation-for-mrps-recursive-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman equation for MRPs (recursive form)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complexity-of-solving-the-bellman-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity of solving the Bellman equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-methods-for-large-mrps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation methods for large MRPs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#markov-decision-processes-mdps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Markov Decision Processes (MDPs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Markov Decision Processes (MDPs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policies-how-the-agent-behaves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policies: how the agent behaves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policies: how the agent behaves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#induced-markov-processes-under-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Induced Markov processes under a policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-functions-in-mdps-state-value-and-action-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value functions in MDPs: state-value and action-value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-expectation-equations-in-mdps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman expectation equations in MDPs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bellman expectation equations in MDPs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#matrix-form-of-vpi-and-qpi-finite-mdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Matrix form of \(V^\pi\) and \(Q^\pi\) (finite MDP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimality-in-mdps-from-evaluation-to-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimality in MDPs: from evaluation to control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimality in MDPs: from evaluation to control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optimal-value-functions-and-optimal-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimal value functions and optimal policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bellman-optimality-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bellman optimality equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solving-bellman-optimality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solving Bellman optimality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solving Bellman optimality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-is-a-closed-form-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When is a closed form possible?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterative-solution-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iterative solution methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="introduction-to-markov-decision-processes">Introduction to Markov Decision Processes</h1>
+<p>In reinforcement learning (RL), interaction with an environment is modeled as a random trajectory</p>
+<div class="arithmatex">\[  
+S_0, A_0, R_1, S_1, A_1, R_2, S_2, \dots  
+\]</div>
+<p>where <span class="arithmatex">\(S_t \in \mathcal{S}\)</span> is the state at time <span class="arithmatex">\(t\)</span>, <span class="arithmatex">\(A_t \in \mathcal{A}\)</span> is the action chosen at time <span class="arithmatex">\(t\)</span>, and <span class="arithmatex">\(R_{t+1} \in \mathbb{R}\)</span> is the reward received after taking <span class="arithmatex">\(A_t\)</span> in <span class="arithmatex">\(S_t\)</span> and moving to <span class="arithmatex">\(S_{t+1}\)</span>.</p>
+<p>A Markov Decision Process (MDP) is a standard mathematical model for the environment in RL. An MDP assumes the environment is fully observable, meaning the agent can observe the true state. Equivalently, the state is intended to summarize all information needed to predict what can happen next, so the past matters only through the current state. Because of this, many RL problems can be formulated as MDPs.</p>
+<p>A key point to note here is that the trajectory variables <span class="arithmatex">\(S_0, A_0, R_1, S_1, A_1, R_2, \dots\)</span> are random variables, so there is a joint distribution over the entire sequence. Equivalently, for any particular full trajectory $
+(S_0, A_0, R_1, S_1, A_1, R_2, \dots),$
+the model assigns a well-defined probability to observing exactly that sequence.</p>
+<div class="arithmatex">\[  
+\Pr(S_{t+1}=s' \mid S_0,A_0,R_1,\dots,S_t=s, A_t=a).  
+\]</div>
+<p>Rather than writing the full joint distribution over an entire trajectory explicitly as above, we usually describe the process through one-step conditional distribution.</p>
+<div class="arithmatex">\[  
+\Pr(S_{t+1}=s' \mid S_0,A_0,R_1,\dots,S_t=s, A_t=a)
+= \Pr(S_{t+1}=s' \mid S_t=s, A_t=a).  
+\]</div>
+<p>This is the Markov property. The key idea here is that the future depends only on the present, not on the full past, assuming a state captures all information from the history that is relevant for predicting the future. Often we also include reward in the Markov property:</p>
+<div class="arithmatex">\[  
+\Pr(S_{t+1}=s', R_{t+1}=r \mid \text{history up to } t,\, S_t=s, A_t=a) =
+\Pr(S_{t+1}=s', R_{t+1}=r \mid S_t=s, A_t=a).  
+\]</div>
+<p>This means the distribution of the next state depends only on the current state. Equivalently, the state is a sufficient statistic of the future.</p>
+<p><strong>Fully observable environment assumption.</strong>
+When the environment is fully observable and we have chosen a state variable <span class="arithmatex">\(S_t\)</span> that captures everything relevant, the Markov property is a reasonable modeling assumption. If our <span class="arithmatex">\(S_t\)</span> omits important information, the process may fail to be Markov (this motivates POMDPs and state augmentation, which will be discussed in a later chapter).</p>
+<h3 id="state-transition-matrix">State Transition Matrix</h3>
+<p>In a Markov process, state changes are described using transition probabilities. Assume a finite state space <span class="arithmatex">\(\mathcal{S}=\{1,2,\dots,n\}\)</span> and (time-homogeneous) transitions. For a current state <span class="arithmatex">\(s\)</span> and a next state <span class="arithmatex">\(s'\)</span>, the state transition probability is given as</p>
+<div class="arithmatex">\[  
+P_{ss'} \;=\; \mathbb{P}(S_{t+1}=s' \mid S_t=s),
+\qquad s,s' \in \{1,\dots,n\}.  
+\]</div>
+<p>Collecting all transition probabilities gives the state transition matrix <span class="arithmatex">\(P \in \mathbb{R}^{n\times n}\)</span>.</p>
+<div class="arithmatex">\[  
+P =
+\begin{bmatrix}
+P_{11} &amp; P_{12} &amp; \cdots &amp; P_{1n} \\
+P_{21} &amp; P_{22} &amp; \cdots &amp; P_{2n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+P_{n1} &amp; P_{n2} &amp; \cdots &amp; P_{nn}
+\end{bmatrix}.  
+\]</div>
+<p>Here, row <span class="arithmatex">\(s\)</span> is the conditional distribution over the next state given the current state <span class="arithmatex">\(s\)</span>, so its entries satisfy <span class="arithmatex">\(P_{ss'} \ge 0\)</span> and</p>
+<div class="arithmatex">\[  
+\sum_{s'=1}^n P_{ss'} = 1.  
+\]</div>
+<p>Meanwhile, column <span class="arithmatex">\(s'\)</span> collects the probabilities of transitioning into <span class="arithmatex">\(s'\)</span> from each possible current state,</p>
+<div class="arithmatex">\[  
+(P_{1s'}, P_{2s'}, \dots, P_{ns'})^\top,  
+\]</div>
+<p>so columns are not required to sum to <span class="arithmatex">\(1\)</span> in general. Instead, they indicate how likely it is to arrive at <span class="arithmatex">\(s'\)</span> from each origin, and in stationary analysis they help interpret how probability mass moves under repeated application of <span class="arithmatex">\(P\)</span>.</p>
+<h4 id="time-dependent-trasnsition-matrix">Time dependent trasnsition matrix</h4>
+<p>Note that the above formulation assumes that the transition probabilities are constant over time and is therefore called a time-homogeneous Markov Process. If the transition law depends on time, we have a time-inhomogeneous Markov process given by:</p>
+<div class="arithmatex">\[  
+\Pr(S_{t+1}=s' \mid S_t=s) = P_t(s' \mid s),  
+\]</div>
+<p>or in matrix form <span class="arithmatex">\(P_t\)</span> instead of a single <span class="arithmatex">\(P\)</span>. It is usually handeled in the following two ways:</p>
+<p><strong>(1) Accept nonstationarity.</strong>
+We explicitly model <span class="arithmatex">\(P_t\)</span>. This is common in nonstationary environments. Many RL algorithms assume stationarity for guarantees. If the environment changes, performance guarantees weaken, but the process can still be treated as Markov-with-time.</p>
+<p><strong>(2) Augment the state to recover stationarity.</strong>
+If the change is systematic and depends on something observable (like time of day, season, or a known mode), we can include that in the state and define an augmented state as:</p>
+<div class="arithmatex">\[  
+\tilde{S}_t = (S_t, t).  
+\]</div>
+<p>Then the process can become time-homogeneous in the augmented space:</p>
+<div class="arithmatex">\[  
+\Pr(\tilde{S}_{t+1} \mid \tilde{S}_t) \;\text{does not need explicit dependence on } t \text{ anymore}  
+\]</div>
+<p>because <span class="arithmatex">\(t\)</span> is now part of the state. More generally, if the environment has a hidden ``mode'' <span class="arithmatex">\(M_t\)</span> that drives changes, we can try to infer and include (an estimate of) <span class="arithmatex">\(M_t\)</span> in the state.</p>
+<p><strong>Key idea.</strong>
+Nonstationarity often signals that our current <span class="arithmatex">\(S_t\)</span> is not capturing all relevant variables. ``Fixing'' it is usually done by adding missing variables to the state representation.</p>
+<h2 id="markov-reward-process">Markov Reward Process</h2>
+<p>A Markov chain models how states evolve. To reason about good and bad states, we add rewards. A Markov Reward Process (MRP) extends a Markov process by attaching a numerical reward and is defined by the tuple <span class="arithmatex">\((\mathcal{S}, P, R, \gamma)\)</span>, where:</p>
+<ul>
+<li><span class="arithmatex">\(\mathcal{S}\)</span> is a finite set of states (the state space).</li>
+<li><span class="arithmatex">\(P\)</span> is the state transition model (matrix form), with entries</li>
+</ul>
+<div class="arithmatex">\[  
+P_{ss'} = \mathbb{P}(S_{t+1} = s' \mid S_t = s).  
+\]</div>
+<ul>
+<li><span class="arithmatex">\(R\)</span> is the reward model. A common convention is state-based reward,</li>
+</ul>
+<div class="arithmatex">\[  
+R_s = \mathbb{E}[R_{t+1} \mid S_t = s],  
+\]</div>
+<p>which gives the expected immediate reward when in state <span class="arithmatex">\(s\)</span>. Another common convention is transition-based reward,</p>
+<div class="arithmatex">\[  
+R(s,s') = \mathbb{E}[R_{t+1}\mid S_t=s,\, S_{t+1}=s'],  
+\]</div>
+<p>which allows the reward to depend on the transition.</p>
+<ul>
+<li><span class="arithmatex">\(\gamma \in [0,1]\)</span> is the discount factor, which controls how much future rewards are valued relative to immediate rewards.</li>
+</ul>
+<p>An MRP can be seen as a Markov chain with rewards attached to states (or, under the transition-based convention, attached to transitions).</p>
+<p><strong>Remark (model-based vs. model-free).</strong>
+In the definition of an MRP, the tuple <span class="arithmatex">\((\mathcal S,P,R,\gamma)\)</span> specifies the environment, so <span class="arithmatex">\(P\)</span> and the reward model <span class="arithmatex">\(R\)</span> are treated as given. In many RL settings, however, <span class="arithmatex">\(P\)</span> and the expected reward model (e.g. <span class="arithmatex">\(R_s=\mathbb{E}[R_{t+1}\mid S_t=s]\)</span>) are unknown. We only observe sampled transitions and realized rewards <span class="arithmatex">\((S_t,R_{t+1},S_{t+1})\)</span>. The discount factor <span class="arithmatex">\(\gamma\)</span> is typically chosen by the practitioner.</p>
+<h3 id="return-total-reward-over-time">Return: total reward over time</h3>
+<p>In reinforcement learning we often consider an episode (also called a trajectory), which is a single sampled sequence of states, actions, and rewards generated by interacting with the environment:</p>
+<div class="arithmatex">\[  
+S_0, A_0, R_1, S_1, A_1, R_2, \dots  
+\]</div>
+<p>The episode may be finite (ending at a terminal time <span class="arithmatex">\(T\)</span>) or infinite. To compute the return at time <span class="arithmatex">\(t\)</span>, we take the discounted sum of rewards received from time <span class="arithmatex">\(t+1\)</span> onward:</p>
+<div class="arithmatex">\[  
+G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+1+k}.  
+\]</div>
+<p>Special cases and common settings:</p>
+<ul>
+<li>Undiscounted return (<span class="arithmatex">\(\gamma=1\)</span>):</li>
+</ul>
+<div class="arithmatex">\[  
+G_t = \sum_{k=0}^{\infty} R_{t+1+k}.  
+\]</div>
+<p>This is used when we want to value rewards at all future times equally (no time preference). In practice it is most common in episodic tasks with terminal states, where the episode ends so the sum is over finitely many rewards and stays well-defined.</p>
+<ul>
+<li>Finite-horizon return (horizon <span class="arithmatex">\(T\)</span>):</li>
+</ul>
+<div class="arithmatex">\[  
+G_t^{(T)} = \sum_{k=0}^{T-t-1} \gamma^k R_{t+1+k}.  
+\]</div>
+<p>This is used when only rewards up to a deadline matter. For example, in problems with a fixed-length episode, limited budget of steps, or a task where performance is evaluated over the next <span class="arithmatex">\(T-t\)</span> time steps, rewards after time <span class="arithmatex">\(T\)</span> are not counted at all.</p>
+<h4 id="why-discounting">Why discounting?</h4>
+<p>Discounting is often motivated by three (compatible) reasons:</p>
+<p><strong>1) Keep returns bounded in cyclic processes.</strong>
+In a Markov process with cycles, we can revisit rewarding states infinitely often.
+If rewards are nonnegative and we use <span class="arithmatex">\(\gamma=1\)</span>, the infinite sum can diverge.</p>
+<p>Example: if <span class="arithmatex">\(R_{t+1}=1\)</span> forever, then</p>
+<div class="arithmatex">\[  
+\sum_{k=0}^{\infty} 1 = \infty,  
+\]</div>
+<p>but with <span class="arithmatex">\(\gamma \in (0,1)\)</span>,</p>
+<div class="arithmatex">\[  
+\sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma} &lt; \infty.  
+\]</div>
+<p>So discounting makes infinite-horizon problems mathematically well-behaved.</p>
+<p><strong>2) Present value (finance analogy).</strong>
+A reward received later is worth less today. Discounting models this by down-weighting future outcomes.</p>
+<p><strong>3) Immediate vs delayed under uncertainty / imperfect models.</strong>
+When the world is uncertain (and our model isn't perfect), far-future predictions are less reliable.
+Discounting implicitly says: optimize what we can predict/control more confidently.</p>
+<h3 id="value-function-expected-return-from-a-state">Value function: expected return from a state</h3>
+<p>The state-value function (or simply value function) of an MRP is the expected discounted return when starting in state <span class="arithmatex">\(s\)</span>:</p>
+<div class="arithmatex">\[  
+V(s) = \mathbb{E}\!\left[G_t \mid S_t=s\right],
+\qquad
+G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+1+k}.  
+\]</div>
+<p>Equivalently, <span class="arithmatex">\(V(s)\)</span> is a function <span class="arithmatex">\(V:\mathcal S\to\mathbb R\)</span> that assigns to each state <span class="arithmatex">\(s\)</span> the long-term utility of being in <span class="arithmatex">\(s\)</span> under the MRP dynamics (no actions), with future rewards geometrically discounted by <span class="arithmatex">\(\gamma\)</span>. This expectation is over the randomness of future transitions (and rewards).</p>
+<h4 id="bellman-expectation-equation-mrp">Bellman expectation equation (MRP)</h4>
+<p>We can split the return into the next reward plus the rest:</p>
+<div class="arithmatex">\[  
+G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+1+k}
+= R_{t+1} + \sum_{k=1}^{\infty} \gamma^k R_{t+1+k}
+= R_{t+1} + \gamma \sum_{j=0}^{\infty} \gamma^j R_{t+2+j}
+= R_{t+1} + \gamma G_{t+1}.  
+\]</div>
+<p>Take conditional expectation given <span class="arithmatex">\(S_t=s\)</span>:</p>
+<div class="arithmatex">\[  
+V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]= \mathbb{E}[R_{t+1}\mid S_t=s] + \gamma\,\mathbb{E}[G_{t+1}\mid S_t=s].  
+\]</div>
+<p>Now use the law of total expectation (proof shown in appendix) over the next state <span class="arithmatex">\(S_{t+1}\)</span>:</p>
+<div class="arithmatex">\[  
+\mathbb{E}[G_{t+1}\mid S_t=s]=
+\sum_{s'} \Pr(S_{t+1}=s'\mid S_t=s)\,\mathbb{E}[G_{t+1}\mid S_{t+1}=s',\,S_t=s].  
+\]</div>
+<p>Since under the Markov property (and a fixed stationary policy) the future return <span class="arithmatex">\(G_{t+1}\)</span> depends on the past only through the current state <span class="arithmatex">\(S_{t+1}\)</span>, we have</p>
+<div class="arithmatex">\[  
+\mathbb{E}[G_{t+1}\mid S_{t+1}=s',\,S_t=s]
+=\mathbb{E}[G_{t+1}\mid S_{t+1}=s']
+=V(s').  
+\]</div>
+<p>Then we can write:</p>
+<div class="arithmatex">\[  
+\mathbb{E}[G_{t+1}\mid S_t=s]
+=\sum_{s'} \Pr(S_{t+1}=s'\mid S_t=s)\,V(s').  
+\]</div>
+<p>Substituting this back into</p>
+<div class="arithmatex">\[  
+V(s)=\mathbb{E}[R_{t+1}\mid S_t=s]+\gamma\,\mathbb{E}[G_{t+1}\mid S_t=s],  
+\]</div>
+<p>gives</p>
+<div class="arithmatex">\[  
+V(s)=\mathbb{E}[R_{t+1}\mid S_t=s]+\gamma\sum_{s'} \Pr(S_{t+1}=s'\mid S_t=s)\,V(s').  
+\]</div>
+<p>Identifying</p>
+<div class="arithmatex">\[  
+\mathcal{R}_s := \mathbb{E}[R_{t+1}\mid S_t=s]
+\quad \text{and} \quad
+\mathcal{P}_{ss'} := \Pr(S_{t+1}=s' \mid S_t=s),  
+\]</div>
+<p>this becomes</p>
+<div class="arithmatex">\[  
+v(s) = \mathcal{R}_s + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}\, v(s'),  
+\]</div>
+<p>which is the Bellman expectation equation.</p>
+<p>In vector form (finite state space <span class="arithmatex">\(\mathcal S\)</span> with <span class="arithmatex">\(|\mathcal S|=n\)</span>), let <span class="arithmatex">\(v\in\mathbb{R}^n\)</span> with entries <span class="arithmatex">\(v_s=v(s)\)</span>, let <span class="arithmatex">\(\mathcal R\in\mathbb{R}^n\)</span> with entries <span class="arithmatex">\(\mathcal R_s\)</span>, and let <span class="arithmatex">\(\mathcal P\in\mathbb{R}^{n\times n}\)</span> with entries <span class="arithmatex">\(\mathcal P_{ss'}\)</span>. Then</p>
+<div class="arithmatex">\[  
+v = \mathcal R + \gamma \mathcal P\,v
+\quad\Longrightarrow\quad
+(I-\gamma \mathcal P)\,v=\mathcal R
+\quad\Longrightarrow\quad
+v=(I-\gamma \mathcal P)^{-1}\mathcal R,  
+\]</div>
+<p>where <span class="arithmatex">\(I\)</span> is the <span class="arithmatex">\(n\times n\)</span> identity matrix. For <span class="arithmatex">\(\gamma\in[0,1)\)</span> and finite MRPs, <span class="arithmatex">\((I-\gamma\mathcal P)\)</span> is invertible.</p>
+<h4 id="bellman-equation-for-mrps-recursive-form">Bellman equation for MRPs (recursive form)</h4>
+<p>The Bellman equation expresses the value function as a recursion: the value of a state <span class="arithmatex">\(s\)</span> is written in terms of the values of its possible successor states. Starting from <span class="arithmatex">\(s\)</span>, the process transitions to a random next state <span class="arithmatex">\(s'\)</span>, yields an immediate reward, and then continues recursively from <span class="arithmatex">\(s'\)</span>. Taking expectations over all possible next states yields a recursive equation for <span class="arithmatex">\(V(s)\)</span>.</p>
+<p><strong>Recursive form (transition-based reward, most general)</strong>
+Starting from the definition</p>
+<div class="arithmatex">\[  
+V(s)=\mathbb{E}[G_t\mid S_t=s],\qquad 
+G_t=R_{t+1}+\gamma G_{t+1},  
+\]</div>
+<p>take conditional expectation given <span class="arithmatex">\(S_t=s\)</span>:</p>
+<div class="arithmatex">\[  
+V(s)=\mathbb{E}[R_{t+1}\mid S_t=s]+\gamma\,\mathbb{E}[G_{t+1}\mid S_t=s].  
+\]</div>
+<p>Apply the law of total expectation over <span class="arithmatex">\(S_{t+1}\)</span>:</p>
+<div class="arithmatex">\[  
+\mathbb{E}[R_{t+1}\mid S_t=s]
+=\sum_{s'}P(s'\mid s)\,\mathbb{E}[R_{t+1}\mid S_t=s,S_{t+1}=s']
+=\sum_{s'}P(s'\mid s)\,R(s,s'),  
+\]</div>
+<p>and (Markov property)</p>
+<div class="arithmatex">\[  
+\mathbb{E}[G_{t+1}\mid S_t=s]
+=\sum_{s'}P(s'\mid s)\,\mathbb{E}[G_{t+1}\mid S_{t+1}=s',S_t=s]
+=\sum_{s'}P(s'\mid s)\,V(s').  
+\]</div>
+<p>Substituting both back gives</p>
+<div class="arithmatex">\[  
+V(s)=\sum_{s'}P(s'\mid s)\Big(R(s,s')+\gamma V(s')\Big).  
+\]</div>
+<p>This equation shows that <span class="arithmatex">\(V(s)\)</span> is obtained as a probability-weighted average of the quantities
+<span class="arithmatex">\(R(s,s')+\gamma V(s')\)</span> associated with each possible successor state <span class="arithmatex">\(s'\)</span>.</p>
+<p><strong>Special case (state-based reward)</strong>
+If rewards depend only on the current state, i.e. <span class="arithmatex">\(R(s,s')\equiv R(s)\)</span>, the equation reduces to</p>
+<div class="arithmatex">\[  
+V(s)=R(s)+\gamma\sum_{s'\in\mathcal S}P(s'\mid s)\,V(s').  
+\]</div>
+<p><strong>Worked example (recursive value computation)</strong>
+Suppose from state <span class="arithmatex">\(s\)</span> the next states are <span class="arithmatex">\(\{a,b,c\}\)</span> with</p>
+<div class="arithmatex">\[  
+P(a\mid s)=0.2,\qquad P(b\mid s)=0.5,\qquad P(c\mid s)=0.3.  
+\]</div>
+<p>Using the transition-based Bellman equation,</p>
+<div class="arithmatex">\[  
+V(s)
+=0.2\big(R(s,a)+\gamma V(a)\big)
++0.5\big(R(s,b)+\gamma V(b)\big)
++0.3\big(R(s,c)+\gamma V(c)\big).  
+\]</div>
+<p>Equivalently, this means compute the quantity <span class="arithmatex">\(R(s,s')+\gamma V(s')\)</span> for each successor <span class="arithmatex">\(s'\in\{a,b,c\}\)</span> and take their probability-weighted average.</p>
+<h4 id="complexity-of-solving-the-bellman-equation">Complexity of solving the Bellman equation</h4>
+<p>For a finite MRP with <span class="arithmatex">\(n=|\mathcal S|\)</span> states, the Bellman equation in vector form is</p>
+<div class="arithmatex">\[  
+v=\mathcal R+\gamma \mathcal P v
+\quad\Longleftrightarrow\quad
+(I-\gamma \mathcal P)v=\mathcal R.  
+\]</div>
+<p><strong>Direct (matrix) solution.</strong>
+If we treat <span class="arithmatex">\(\mathcal P\)</span> as a dense <span class="arithmatex">\(n\times n\)</span> matrix, solving the linear system <span class="arithmatex">\((I-\gamma \mathcal P)v=\mathcal R\)</span> with standard dense methods typically costs <span class="arithmatex">\(\mathcal O(n^3)\)</span> time and storing <span class="arithmatex">\(\mathcal P\)</span> costs <span class="arithmatex">\(\mathcal O(n^2)\)</span> memory. Thus direct solvers are practical mainly for small MRPs (or when <span class="arithmatex">\(\mathcal P\)</span> is very sparse and we can use sparse linear algebra).</p>
+<p><strong>Large MRPs: iterative and sample-based methods.</strong>
+When <span class="arithmatex">\(n\)</span> is large, we usually avoid forming and inverting matrices explicitly. Instead we use iterative methods that repeatedly apply the Bellman recursion (e.g. value iteration / iterative policy evaluation), or model-free methods that estimate <span class="arithmatex">\(v\)</span> from sampled trajectories (e.g. Monte Carlo and temporal-difference learning) without needing an explicit <span class="arithmatex">\(\mathcal P\)</span>.</p>
+<h4 id="evaluation-methods-for-large-mrps">Evaluation methods for large MRPs</h4>
+<p>When the state space is large, directly solving the Bellman equation is often impractical. Instead, value functions are computed approximately using iterative or sample-based methods. The three most common approaches for evaluating the value function of an MRP differ in what is assumed to be known and how the Bellman recursion is used (these will be discussed in detail in later chapters).</p>
+<p><strong>1) Dynamic Programming (DP) / iterative evaluation.</strong>
+Assume the MRP model <span class="arithmatex">\((\mathcal P,\mathcal R)\)</span> is known. Starting from an arbitrary initial estimate <span class="arithmatex">\(v^{(0)}\)</span>, repeatedly apply the Bellman recursion</p>
+<div class="arithmatex">\[  
+v^{(k+1)} = \mathcal R + \gamma \mathcal P\, v^{(k)}.  
+\]</div>
+<p>Component-wise,</p>
+<div class="arithmatex">\[  
+v^{(k+1)}(s)=\mathcal R_s+\gamma\sum_{s'}\mathcal P_{ss'}\,v^{(k)}(s').  
+\]</div>
+<p>Under standard conditions, <span class="arithmatex">\(v^{(k)}\)</span> converges to the true value function <span class="arithmatex">\(v\)</span>.</p>
+<p><strong>2) Monte Carlo (MC) evaluation.</strong>
+Assume the model <span class="arithmatex">\((\mathcal P,\mathcal R)\)</span> is unknown, but sample episodes can be generated. Since
+<span class="arithmatex">\(
+v(s)=\mathbb E[G_t\mid S_t=s],
+\)</span>
+estimate <span class="arithmatex">\(v(s)\)</span> by averaging observed returns. If <span class="arithmatex">\(m\)</span> visits to state <span class="arithmatex">\(s\)</span> are observed, the Monte Carlo estimate is</p>
+<div class="arithmatex">\[  
+\hat v(s)=\frac{1}{m}\sum_{i=1}^{m} G^{(i)},
+\qquad
+G^{(i)}=\sum_{k=0}^{\infty}\gamma^k R^{(i)}_{t_i+1+k}.  
+\]</div>
+<p>Monte Carlo methods are purely sample-based and do not require explicit knowledge of <span class="arithmatex">\(\mathcal P\)</span> or <span class="arithmatex">\(\mathcal R\)</span>.</p>
+<p><strong>3) Temporal-Difference (TD) learning.</strong>
+Temporal-Difference methods combine ideas from DP (bootstrapping) and MC (sampling). From a single observed transition
+<span class="arithmatex">\(
+S_t=s \to S_{t+1}=s'
+\)</span>
+with reward <span class="arithmatex">\(R_{t+1}\)</span>, define the TD error</p>
+<div class="arithmatex">\[  
+\delta_t = R_{t+1} + \gamma v(s') - v(s).  
+\]</div>
+<p>The value estimate is updated incrementally using a step size <span class="arithmatex">\(\alpha\in(0,1]\)</span>:</p>
+<div class="arithmatex">\[  
+v(s)\leftarrow v(s)+\alpha\,\delta_t.  
+\]</div>
+<p>TD methods update values online, do not require full episodes, and do not assume knowledge of the transition model.</p>
+<h2 id="markov-decision-processes-mdps">Markov Decision Processes (MDPs)</h2>
+<p>So far we considered Markov Reward Processes (MRPs), where the dynamics are fixed and there is no control: the process moves according to <span class="arithmatex">\(\mathcal P\)</span> and generates rewards according to <span class="arithmatex">\(\mathcal R\)</span> (or <span class="arithmatex">\(R(s,s')\)</span>). A Markov Decision Process (MDP) generalizes an MRP by introducing actions, so that the transition and reward distributions can depend on the agent's choice. A (finite, discounted) MDP is a tuple</p>
+<div class="arithmatex">\[  
+(\mathcal S,\mathcal A, P, R, \gamma),  
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal S\)</span> is the finite state space, <span class="arithmatex">\(\mathcal A\)</span> is a finite action set, <span class="arithmatex">\(\gamma\in[0,1)\)</span> is the discount factor, and:</p>
+<div class="arithmatex">\[  
+P(s'\mid s,a) = \Pr(S_{t+1}=s'\mid S_t=s, A_t=a)  
+\]</div>
+<p>is the action-dependent transition model. In the finite case, it is convenient to view <span class="arithmatex">\(P(\cdot\mid\cdot,a)\)</span> as a matrix for each action:</p>
+<div class="arithmatex">\[  
+\mathcal P^{a}_{ss'} = P(s'\mid s,a),
+\qquad a\in\mathcal A,  
+\]</div>
+<p>i.e., an MDP has a collection of transition matrices <span class="arithmatex">\(\{\mathcal P^{a}\}_{a\in\mathcal A}\)</span> rather than a single <span class="arithmatex">\(\mathcal P\)</span> as in an MRP. Rewards may also depend on the chosen action. Common conventions are</p>
+<div class="arithmatex">\[  
+\mathcal R(s,a)= \mathbb E[R_{t+1}\mid S_t=s, A_t=a],
+\qquad\text{or}\qquad
+\mathcal R(s,a,s')= \mathbb E[R_{t+1}\mid S_t=s, A_t=a, S_{t+1}=s'],  
+\]</div>
+<p>Thus, compared to an MRP, the new ingredient in an MDP is that both the transition dynamics and the reward distribution can change with the action <span class="arithmatex">\(a\)</span>.</p>
+<h3 id="policies-how-the-agent-behaves">Policies: how the agent behaves</h3>
+<p>In an MDP, the environment specifies what can happen given a state and an action via <span class="arithmatex">\(P(s'\mid s,a)\)</span> and how rewards are generated via <span class="arithmatex">\(R(\cdot)\)</span>. What remains is to specify the agent's behavior: how actions are selected in each state. This is captured by a policy.</p>
+<p><strong>Definition (deterministic policy).</strong>
+A deterministic policy chooses a single action in each state:</p>
+<div class="arithmatex">\[  
+\mu:\mathcal S\to\mathcal A,\qquad A_t=\mu(S_t).  
+\]</div>
+<p><strong>Definition (stochastic policy).</strong>
+A stochastic policy is a mapping from states to distributions over actions:</p>
+<div class="arithmatex">\[  
+\pi(a\mid s)=\Pr(A_t=a\mid S_t=s),
+\qquad s\in\mathcal S,\ a\in\mathcal A.  
+\]</div>
+<p>Thus, for each state <span class="arithmatex">\(s\)</span>, <span class="arithmatex">\(\pi(\cdot\mid s)\)</span> is a probability distribution on <span class="arithmatex">\(\mathcal A\)</span>.</p>
+<p><strong>Stationary vs. non-stationary.</strong>
+A policy is stationary if it does not explicitly depend on time:</p>
+<div class="arithmatex">\[  
+\pi_t(a\mid s)=\pi(a\mid s)\quad \forall t,  
+\]</div>
+<p>and non-stationary if it can vary with time:</p>
+<div class="arithmatex">\[  
+\pi_t(a\mid s)\neq \pi_{t'}(a\mid s)\ \text{for some }t\neq t'.  
+\]</div>
+<p>Non-stationary policies are most common in finite-horizon settings, while discounted infinite-horizon problems typically focus on stationary policies.</p>
+<h4 id="induced-markov-processes-under-a-policy">Induced Markov processes under a policy</h4>
+<p>An MDP specifies how the environment responds to state--action pairs. Once a policy is fixed, the agent's behavior is fully determined, and the remaining randomness comes only from the environment. In this sense, a policy ``removes control'' from the MDP and induces a Markov process. In this section we formalize this idea and show that any fixed policy transforms an MDP into a Markov reward process (MRP).</p>
+<p><strong>State dynamics under a fixed policy.</strong>
+Fix an MDP <span class="arithmatex">\((\mathcal S,\mathcal A,\mathcal P,\mathcal R,\gamma)\)</span> and a (stationary) policy <span class="arithmatex">\(\pi\)</span>. The resulting state sequence <span class="arithmatex">\(\{S_t\}\)</span> is a Markov chain with transition probabilities</p>
+<div class="arithmatex">\[  
+\mathcal P^\pi_{ss'}
+\;=
+\Pr(S_{t+1}=s'\mid S_t=s).  
+\]</div>
+<p>By marginalizing over the action chosen by the policy,</p>
+<div class="arithmatex">\[  
+\mathcal P^\pi_{ss'}
+= \sum_{a\in\mathcal A}
+\Pr(S_{t+1}=s'\mid S_t=s,A_t=a)\Pr(A_t=a\mid S_t=s)
+= \sum_{a\in\mathcal A}\pi(a\mid s)\,\mathcal P^{a}_{ss'}.  
+\]</div>
+<p>Thus, a fixed policy induces a single state-transition matrix <span class="arithmatex">\(\mathcal P^\pi\)</span>.</p>
+<p><strong>Rewards under a fixed policy.</strong>
+Similarly, the expected one-step reward under policy <span class="arithmatex">\(\pi\)</span> is</p>
+<div class="arithmatex">\[  
+\mathcal R^\pi_s
+\;=\;
+\mathbb E[R_{t+1}\mid S_t=s]
+= \sum_{a\in\mathcal A}\pi(a\mid s)\,\mathcal R(s,a),  
+\]</div>
+<p>or, under a transition-based reward convention,</p>
+<div class="arithmatex">\[  
+\mathcal R^\pi_s
+= \sum_{a\in\mathcal A}\pi(a\mid s)\sum_{s'\in\mathcal S}\mathcal P^{a}_{ss'}\,\mathcal R(s,a,s').  
+\]</div>
+<p>Combining the induced transition matrix <span class="arithmatex">\(\mathcal P^\pi\)</span> and reward function <span class="arithmatex">\(\mathcal R^\pi\)</span>, a fixed policy <span class="arithmatex">\(\pi\)</span> turns the MDP into a Markov reward process</p>
+<div class="arithmatex">\[  
+(\mathcal S,\mathcal P^\pi,\mathcal R^\pi,\gamma).  
+\]</div>
+<p>This induced MRP allows us to evaluate the policy using the value-function machinery developed earlier.</p>
+<h3 id="value-functions-in-mdps-state-value-and-action-value">Value functions in MDPs: state-value and action-value</h3>
+<p>We keep the same notion of discounted return as in MRPs:</p>
+<div class="arithmatex">\[  
+G_t = \sum_{k=0}^{\infty}\gamma^k R_{t+1+k}.  
+\]</div>
+<p>Given a fixed policy <span class="arithmatex">\(\pi\)</span>, we evaluate behavior using two closely related value functions.</p>
+<p><strong>State-value function.</strong>
+The state-value function under policy <span class="arithmatex">\(\pi\)</span> is the expected return when starting in state <span class="arithmatex">\(s\)</span> and then following <span class="arithmatex">\(\pi\)</span>:</p>
+<div class="arithmatex">\[  
+V^\pi(s)= \mathbb{E}_\pi\!\left[G_t \mid S_t=s\right].  
+\]</div>
+<p><strong>Action-value function.</strong>
+The action-value function under policy <span class="arithmatex">\(\pi\)</span> is the expected return when starting in state <span class="arithmatex">\(s\)</span>, taking action <span class="arithmatex">\(a\)</span> at time <span class="arithmatex">\(t\)</span>, and then following <span class="arithmatex">\(\pi\)</span> thereafter:</p>
+<div class="arithmatex">\[  
+Q^\pi(s,a)= \mathbb{E}_\pi\!\left[G_t \mid S_t=s,\,A_t=a\right].  
+\]</div>
+<h3 id="bellman-expectation-equations-in-mdps">Bellman expectation equations in MDPs</h3>
+<p>The derivations mirror the MRP case: the return satisfies the recursion <span class="arithmatex">\(G_t=R_{t+1}+\gamma G_{t+1}\)</span>, and we take conditional expectations. The difference is that in an MDP the next state and reward depend on the action, and actions are chosen according to the policy <span class="arithmatex">\(\pi\)</span>.</p>
+<p><strong>Bellman expectation equation for <span class="arithmatex">\(V^\pi\)</span>.</strong>
+Start from</p>
+<div class="arithmatex">\[  
+V^\pi(s)= \mathbb E_\pi[G_t\mid S_t=s],\qquad G_t=R_{t+1}+\gamma G_{t+1}.  
+\]</div>
+<p>Taking <span class="arithmatex">\(\mathbb E_\pi[\cdot\mid S_t=s]\)</span> gives</p>
+<div class="arithmatex">\[  
+V^\pi(s)=\mathbb E_\pi[R_{t+1}\mid S_t=s]+\gamma\,\mathbb E_\pi[G_{t+1}\mid S_t=s].  
+\]</div>
+<p>Condition on the first action <span class="arithmatex">\(A_t\)</span> and use <span class="arithmatex">\(\Pr(A_t=a\mid S_t=s)=\pi(a\mid s)\)</span>:</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[R_{t+1}\mid S_t=s]
+=\sum_{a\in\mathcal A}\pi(a\mid s)\,\mathbb E[R_{t+1}\mid S_t=s,A_t=a]
+=\sum_{a}\pi(a\mid s)\,R(s,a).  
+\]</div>
+<p>Similarly, expand <span class="arithmatex">\(\mathbb E_\pi[G_{t+1}\mid S_t=s]\)</span> by conditioning on the first action and next state. First apply the law of total expectation over <span class="arithmatex">\(A_t\)</span> (proof given in appendix):</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[G_{t+1}\mid S_t=s]
+=\sum_{a\in\mathcal A}\Pr_\pi(A_t=a\mid S_t=s)\,\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a]
+=\sum_{a\in\mathcal A}\pi(a\mid s)\,\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a].  
+\]</div>
+<p>Next, for each fixed <span class="arithmatex">\((s,a)\)</span>, apply the law of total expectation over <span class="arithmatex">\(S_{t+1}\)</span>:</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a]
+=\sum_{s'\in\mathcal S}\Pr(S_{t+1}=s'\mid S_t=s,A_t=a)\,
+\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a,S_{t+1}=s'].  
+\]</div>
+<p>Using the Markov property, once we condition on <span class="arithmatex">\(S_{t+1}=s'\)</span>, the future return from time <span class="arithmatex">\(t+1\)</span> onward does not depend on <span class="arithmatex">\((S_t,A_t)\)</span>, so</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a,S_{t+1}=s']
+=\mathbb E_\pi[G_{t+1}\mid S_{t+1}=s']
+=V^\pi(s').  
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a]
+=\sum_{s'\in\mathcal S}P(s'\mid s,a)\,V^\pi(s'),  
+\]</div>
+<p>and substituting back yields</p>
+<div class="arithmatex">\[  
+\mathbb E_\pi[G_{t+1}\mid S_t=s]
+=\sum_{a\in\mathcal A}\pi(a\mid s)\sum_{s'\in\mathcal S}P(s'\mid s,a)\,V^\pi(s').  
+\]</div>
+<p>Substituting these two expressions yields the Bellman expectation equation:</p>
+<div class="arithmatex">\[  
+V^\pi(s)
+= \sum_{a\in\mathcal A}\pi(a\mid s)\left[\,R(s,a)+\gamma\sum_{s'\in\mathcal S}P(s'\mid s,a)\,V^\pi(s')\right].  
+\]</div>
+<p><strong>Bellman expectation equation for <span class="arithmatex">\(Q^\pi\)</span>.</strong>
+Define</p>
+<div class="arithmatex">\[  
+Q^\pi(s,a)= \mathbb E_\pi[G_t\mid S_t=s,A_t=a].  
+\]</div>
+<p>Using <span class="arithmatex">\(G_t=R_{t+1}+\gamma G_{t+1}\)</span> and conditioning on <span class="arithmatex">\(S_{t+1}\)</span>,</p>
+<div class="arithmatex">\[  
+Q^\pi(s,a)
+=\mathbb E[R_{t+1}\mid S_t=s,A_t=a]+\gamma\,\mathbb E_\pi[G_{t+1}\mid S_t=s,A_t=a]
+=R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\,V^\pi(s').  
+\]</div>
+<p>Using <span class="arithmatex">\(V^\pi(s')=\sum_{a'}\pi(a'\mid s')Q^\pi(s',a')\)</span>, this can be written as a recursion in <span class="arithmatex">\(Q^\pi\)</span> alone:</p>
+<div class="arithmatex">\[  
+Q^\pi(s,a)=R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\sum_{a'}\pi(a'\mid s')\,Q^\pi(s',a').  
+\]</div>
+<p><strong>Relationship between <span class="arithmatex">\(V^\pi\)</span> and <span class="arithmatex">\(Q^\pi\)</span>.</strong>
+Probability-weighted sum of <span class="arithmatex">\(Q^\pi(s,a)\)</span> over the action drawn from <span class="arithmatex">\(\pi(\cdot\mid s)\)</span> recovers <span class="arithmatex">\(V^\pi(s)\)</span>:</p>
+<div class="arithmatex">\[  
+V^\pi(s)=\sum_{a\in\mathcal A}\pi(a\mid s)\,Q^\pi(s,a).  
+\]</div>
+<p>These equations reduce to the original MRP Bellman recursion when there is only one available action (no control).</p>
+<h4 id="matrix-form-of-vpi-and-qpi-finite-mdp">Matrix form of <span class="arithmatex">\(V^\pi\)</span> and <span class="arithmatex">\(Q^\pi\)</span> (finite MDP)</h4>
+<p>Assume <span class="arithmatex">\(|\mathcal S|=n\)</span> and <span class="arithmatex">\(|\mathcal A|=m\)</span>. Stack the state-values into a vector <span class="arithmatex">\(v^\pi\in\mathbb R^n\)</span> with entries <span class="arithmatex">\(v^\pi_s=V^\pi(s)\)</span>.</p>
+<p><strong>Induced MRP (state-value).</strong>
+Define the policy-induced transition matrix <span class="arithmatex">\(\mathcal P^\pi\in\mathbb R^{n\times n}\)</span> and reward vector <span class="arithmatex">\(\mathcal R^\pi\in\mathbb R^n\)</span> by</p>
+<div class="arithmatex">\[  
+\mathcal P^\pi_{ss'}= \sum_{a\in\mathcal A}\pi(a\mid s)\,\mathcal P^{a}_{ss'},
+\qquad
+\mathcal R^\pi_s= \sum_{a\in\mathcal A}\pi(a\mid s)\,\mathcal R(s,a),  
+\]</div>
+<p>(analogously if rewards depend on <span class="arithmatex">\((s,a,s')\)</span>). Then the Bellman expectation equation is</p>
+<div class="arithmatex">\[  
+v^\pi=\mathcal R^\pi+\gamma \mathcal P^\pi v^\pi
+\quad\Longrightarrow\quad
+v^\pi=(I-\gamma \mathcal P^\pi)^{-1}\mathcal R^\pi,  
+\]</div>
+<p>when <span class="arithmatex">\((I-\gamma \mathcal P^\pi)\)</span> is invertible (e.g. for <span class="arithmatex">\(\gamma\in[0,1)\)</span> in the finite case).</p>
+<p><strong>Action-value (state--action form).</strong>
+Stack action-values into a vector <span class="arithmatex">\(q^\pi\in\mathbb R^{nm}\)</span> indexed by <span class="arithmatex">\((s,a)\)</span> with entries <span class="arithmatex">\(q^\pi_{(s,a)}=Q^\pi(s,a)\)</span>. Define</p>
+<div class="arithmatex">\[  
+r_{(s,a)}= \mathcal R(s,a),
+\qquad
+\mathcal P_{(s,a),s'}= P(s'\mid s,a),  
+\]</div>
+<p>and let <span class="arithmatex">\(\Pi\in\mathbb R^{n\times (nm)}\)</span> be the policy-averaging matrix with entries</p>
+<div class="arithmatex">\[  
+\Pi_{s,(s,a)}= \pi(a\mid s).  
+\]</div>
+<p>Then <span class="arithmatex">\(v^\pi=\Pi q^\pi\)</span> and the Bellman equation
+<span class="arithmatex">\(Q^\pi(s,a)=\mathcal R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)V^\pi(s')\)</span>
+becomes</p>
+<div class="arithmatex">\[  
+q^\pi = r + \gamma\,\mathcal P\,v^\pi
+      = r + \gamma\,\mathcal P\,\Pi\,q^\pi
+\quad\Longrightarrow\quad
+q^\pi=(I-\gamma \mathcal P\Pi)^{-1}r,  
+\]</div>
+<p>when the inverse exists.</p>
+<h3 id="policy-evaluation">Policy evaluation</h3>
+<p>In the previous section we derived the Bellman expectation equations for an MDP under a fixed policy
+<span class="arithmatex">\(\pi\)</span>, and we ended by writing them in matrix form. At this point, it helps to pause and make explicit
+what we are actually doing: we are no longer making decisions. The policy <span class="arithmatex">\(\pi\)</span> has already committed
+to how actions are chosen in each state, so the only thing left is to measure how good that
+committed behavior is. This is called Policy evaluation:</p>
+<div class="arithmatex">\[  
+\text{given }\pi,\ \text{compute }V^\pi\text{ and }Q^\pi.  
+\]</div>
+<p>In other words, we are simply asking what long-run discounted return this particular policy achieves.
+In the finite discounted setting, the matrix form is not just a compact way to write the Bellman
+equations: it also tells us something reassuring. There is exactly one function <span class="arithmatex">\(V^\pi\)</span> that
+satisfies them, so policy evaluation is not ambiguous.</p>
+<p><strong>Existence and uniqueness of <span class="arithmatex">\(V^\pi\)</span> (finite discounted case)</strong>
+\label{prop:eval-unique}
+Assume <span class="arithmatex">\(|\mathcal S|&lt;\infty\)</span>, <span class="arithmatex">\(|\mathcal A|&lt;\infty\)</span>, and <span class="arithmatex">\(\gamma\in[0,1)\)</span>. For any fixed policy <span class="arithmatex">\(\pi\)</span>,
+the Bellman expectation equations admit a unique solution <span class="arithmatex">\(V:\mathcal S\to\mathbb R\)</span>. This
+solution is exactly the value function <span class="arithmatex">\(V^\pi\)</span>. The same statement can be made for <span class="arithmatex">\(Q^\pi\)</span>. (Proof is beyond our scope)</p>
+<p>So far, we have been answering: "If I behave according to <span class="arithmatex">\(\pi\)</span>, what do I get?" The next
+step is the real control question: "Can we do better?" That means comparing policies and
+pushing performance as high as possible. This is where optimal value functions and an
+optimal policy enter, and where the Bellman equations change from averaging over actions to
+taking a maximum.</p>
+<h3 id="optimality-in-mdps-from-evaluation-to-control">Optimality in MDPs: from evaluation to control</h3>
+<p>So far we have focused on policy evaluation: given a fixed policy <span class="arithmatex">\(\pi\)</span>, we quantify its long-term performance via</p>
+<div class="arithmatex">\[
+V^\pi(s)=\mathbb{E}_\pi[G_t\mid S_t=s],
+\qquad
+Q^\pi(s,a)=\mathbb{E}_\pi[G_t\mid S_t=s,A_t=a].
+\]</div>
+<p>The control problem asks the complementary question: among all policies, which behavior is best?</p>
+<h4 id="optimal-value-functions-and-optimal-policies">Optimal value functions and optimal policies</h4>
+<p>Let <span class="arithmatex">\(\Pi\)</span> denote the set of all (possibly stochastic) policies. Define the optimal state-value function and optimal action-value function by</p>
+<div class="arithmatex">\[
+\begin{aligned}
+V^*(s)&amp;= \sup_{\pi\in\Pi} V^\pi(s),\\
+Q^*(s,a)&amp;= \sup_{\pi\in\Pi} Q^\pi(s,a).
+\end{aligned}
+\]</div>
+<p>Equivalently,</p>
+<div class="arithmatex">\[
+V^*(s)=\sup_{\pi\in\Pi}\mathbb{E}_\pi\!\left[\sum_{k=0}^{\infty}\gamma^k R_{t+1+k}\,\middle|\,S_t=s\right],
+\]</div>
+<p>and</p>
+<div class="arithmatex">\[
+Q^*(s,a)=\sup_{\pi\in\Pi}\mathbb{E}_\pi\!\left[\sum_{k=0}^{\infty}\gamma^k R_{t+1+k}\,\middle|\,S_t=s,A_t=a\right].
+\]</div>
+<p>Intuitively, <span class="arithmatex">\(Q^*(s,a)\)</span> is the best achievable return if we force the first action to be <span class="arithmatex">\(a\)</span> in state <span class="arithmatex">\(s\)</span>
+and then behave optimally thereafter.</p>
+<p><strong>Optimal policy.</strong>
+A policy <span class="arithmatex">\(\pi^*\)</span> is optimal if it achieves the optimal value from every state:</p>
+<div class="arithmatex">\[
+V^{\pi^*}(s)=V^*(s)\quad\text{for all }s\in\mathcal S.
+\]</div>
+<p>Equivalently,</p>
+<div class="arithmatex">\[
+Q^{\pi^*}(s,a)=Q^*(s,a)\quad\text{for all }(s,a)\in\mathcal S\times\mathcal A.
+\]</div>
+<p><strong>Existence (finite discounted case).</strong>
+In finite discounted MDPs (<span class="arithmatex">\(|\mathcal S|&lt;\infty\)</span>, <span class="arithmatex">\(|\mathcal A|&lt;\infty\)</span>, <span class="arithmatex">\(\gamma\in[0,1)\)</span>), there exists
+at least one optimal policy. Moreover, there always exists an optimal deterministic stationary policy.
+Optimal policies need not be unique: it is common to have multiple distinct policies that all achieve <span class="arithmatex">\(V^*\)</span>.
+(Proof is beyond our scope)</p>
+<p>In particular, in this setting the suprema above are attained, so we may write</p>
+<div class="arithmatex">\[
+V^*(s)=\max_{\pi\in\Pi}V^\pi(s),\qquad Q^*(s,a)=\max_{\pi\in\Pi}Q^\pi(s,a).
+\]</div>
+<p><strong>Why <span class="arithmatex">\(Q^*\)</span> is especially useful.</strong>
+Since <span class="arithmatex">\(Q^*(s,a)\)</span> already accounts for optimal future behavior, choosing an action that maximizes
+<span class="arithmatex">\(Q^*(s,a)\)</span> is optimal for the current state:</p>
+<div class="arithmatex">\[
+a^*(s)\in\arg\max_{a\in\mathcal A} Q^*(s,a),
+\qquad
+\pi^*(a\mid s)=
+\begin{cases}
+1, &amp; a\in\arg\max_{a'} Q^*(s,a'),\\
+0, &amp; \text{otherwise}.
+\end{cases}
+\]</div>
+<h4 id="bellman-optimality-equations">Bellman optimality equations</h4>
+<p>The derivation mirrors the Bellman expectation equations. Start from the return recursion</p>
+<div class="arithmatex">\[
+G_t = R_{t+1}+\gamma G_{t+1},
+\]</div>
+<p>take conditional expectations, and apply the law of total expectation over the next state. The only
+conceptual change is optimality: instead of averaging over actions using <span class="arithmatex">\(\pi(\cdot\mid s)\)</span>, we
+select the action that maximizes the expected continuation value.</p>
+<p><strong>Optimal state-value recursion.</strong>
+If we take action <span class="arithmatex">\(a\)</span> now in state <span class="arithmatex">\(s\)</span> and then behave optimally thereafter, the expected return is</p>
+<div class="arithmatex">\[
+R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\,V^*(s').
+\]</div>
+<p>Choosing the best action gives</p>
+<div class="arithmatex">\[
+V^*(s)=\max_{a\in\mathcal A}\left[R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\,V^*(s')\right].
+\]</div>
+<p><strong>Optimal action-value recursion.</strong>
+If the first action is fixed to be <span class="arithmatex">\(a\)</span> in state <span class="arithmatex">\(s\)</span>, then after transitioning to <span class="arithmatex">\(s'\)</span> optimal behavior
+chooses the best next action:</p>
+<div class="arithmatex">\[
+Q^*(s,a)=R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\,\max_{a'}Q^*(s',a').
+\]</div>
+<p><strong>Consistency and greedy optimality.</strong>
+The link between <span class="arithmatex">\(V^*\)</span> and <span class="arithmatex">\(Q^*\)</span> is immediate:</p>
+<div class="arithmatex">\[
+V^*(s)=\max_{a\in\mathcal A}Q^*(s,a),
+\qquad
+\pi^*(s)\in\arg\max_{a\in\mathcal A}Q^*(s,a).
+\]</div>
+<p>and plugging this into the <span class="arithmatex">\(Q^*\)</span> equation gives the full recursion:</p>
+<div class="arithmatex">\[
+Q^*(s,a) =
+R(s,a)
++
+\gamma \sum_{s'} P(s'\mid s,a)\,V^*(s')
+\quad\text{with}\quad
+V^*(s')=\max_{a'}Q^*(s',a').
+\]</div>
+<p>Indeed, by definition <span class="arithmatex">\(Q^*(s,a)\)</span> is the optimal return conditional on taking <span class="arithmatex">\(a\)</span> first, so the
+best achievable value from <span class="arithmatex">\(s\)</span> is obtained by selecting the best first action, which gives
+<span class="arithmatex">\(V^*(s)=\max_a Q^*(s,a)\)</span>. Conversely, any policy that always picks an action attaining this maximum in
+each state is optimal, because <span class="arithmatex">\(Q^*\)</span> already bakes in optimal behavior after the first step.
+The Bellman optimality equations therefore differ from the expectation equations in one key way: the
+expectation over actions is replaced by a maximization, reflecting the agent's ability to choose.</p>
+<h2 id="solving-bellman-optimality">Solving Bellman optimality</h2>
+<p>The optimality equations include <span class="arithmatex">\(\max\)</span> operators, e.g.</p>
+<div class="arithmatex">\[
+V = \max_a \left(R^a + \gamma P^a V\right),
+\]</div>
+<p>where the max is applied component-wise across actions.<br />
+This makes the system not linear in <span class="arithmatex">\(V\)</span> (unlike the MRP case <span class="arithmatex">\((I-\gamma P)V=R\)</span>). So, in general, there is no single matrix inverse expression like <span class="arithmatex">\((I-\gamma P)^{-1}R\)</span>.</p>
+<h3 id="when-is-a-closed-form-possible">When is a closed form possible?</h3>
+<p>Closed form becomes possible once the <span class="arithmatex">\(\max\)</span> is removed, which effectively happens when:</p>
+<p><strong>(1) The optimal action is known in advance.</strong><br />
+If we already know which action <span class="arithmatex">\(a^*(s)\)</span> is optimal in each state, then the MDP reduces to the MRP induced by the deterministic policy <span class="arithmatex">\(\pi^*(s)=a^*(s)\)</span>:</p>
+<div class="arithmatex">\[
+P^{\pi^*}(s'\mid s)=P(s'\mid s,a^*(s)),\qquad
+R^{\pi^*}(s)=R(s,a^*(s)).
+\]</div>
+<p>Then</p>
+<div class="arithmatex">\[
+V^* = V^{\pi^*} = (I-\gamma P^{\pi^*})^{-1} R^{\pi^*}.
+\]</div>
+<p>But notice: knowing <span class="arithmatex">\(a^*(s)\)</span> is basically the problem we were trying to solve.</p>
+<p><strong>(2) Tiny MDPs with simple structure.</strong><br />
+For very small state spaces, we can solve piecewise: assume a maximizing action in each state, solve the corresponding linear system, then check whether the assumed actions are truly maximizing. This is feasible only for small problems because the number of action-combinations grows exponentially.</p>
+<p><strong>(3) Special cases / restricted classes.</strong><br />
+Some structured MDPs admit analytic solutions (certain deterministic shortest-path forms, special linear-quadratic control in continuous settings, etc.), but for general finite stochastic MDPs the standard approach is iterative computation.</p>
+<h3 id="iterative-solution-methods">Iterative solution methods</h3>
+<p><strong>Model-based vs model-free</strong></p>
+<ul>
+<li>Model-based: uses <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(R\)</span> explicitly (value iteration, policy iteration, DP).</li>
+<li>Model-free: learns from sampled transitions without explicit <span class="arithmatex">\(P\)</span> (Q-learning, SARSA).</li>
+</ul>
+<p><strong>Value Iteration (VI)</strong></p>
+<p>Value iteration applies the Bellman optimality backup repeatedly:</p>
+<div class="arithmatex">\[
+V_{k+1}(s) \leftarrow
+\max_a\left[
+R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)V_k(s')
+\right].
+\]</div>
+<p>Intuition: repeatedly perform one-step lookahead improvements until the values stabilize.</p>
+<p><strong>Policy Iteration (PI)</strong></p>
+<p>Policy iteration alternates two steps:</p>
+<ol>
+<li>Policy evaluation: compute <span class="arithmatex">\(V^{\pi}\)</span> for the current policy <span class="arithmatex">\(\pi\)</span> (this is linear, like an MRP),</li>
+<li>Policy improvement: make the policy greedy w.r.t. current values:</li>
+</ol>
+<div class="arithmatex">\[
+\pi_{\text{new}}(s)\in\arg\max_a\left[R(s,a)+\gamma\sum_{s'}P(s'\mid s,a)V^\pi(s')\right].
+\]</div>
+<p>Repeat until the policy stops changing (then it is optimal).</p>
+<p><strong>Q-learning (off-policy, model-free)</strong></p>
+<p>Q-learning aims to learn <span class="arithmatex">\(Q^*\)</span> directly from samples <span class="arithmatex">\((S_t,A_t,R_{t+1},S_{t+1})\)</span>:</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')-Q(S_t,A_t)\Big).
+\]</div>
+<p>It uses a greedy max in the target, so it can learn the optimal greedy behavior even if the behavior policy explores.</p>
+<p><strong>SARSA (on-policy, model-free)</strong></p>
+<p>SARSA learns the value of the current behavior policy:</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q(S_t,A_t)\Big).
+\]</div>
+<p>Key difference: it uses the next action actually taken <span class="arithmatex">\((A_{t+1})\)</span>, rather than <span class="arithmatex">\(\max_{a'}\)</span>.</p>
+<h2 id="appendix">Appendix</h2>
+<p><strong>Proof of Law of total expectation</strong></p>
+<p>We want to show that:</p>
+<div class="arithmatex">\[
+\mathbb{E}[X \mid Y] = \sum_{z} \Pr(Z=z \mid Y)\,\mathbb{E}[X \mid Z=z, Y].
+\]</div>
+<p>given <span class="arithmatex">\(Z\)</span> is discrete (countable range) and <span class="arithmatex">\(\mathbb{E}[|X|]&lt;\infty\)</span>. We prove the identity pointwise in <span class="arithmatex">\(y\)</span>. Fix any <span class="arithmatex">\(y\)</span> with <span class="arithmatex">\(\Pr(Y=y)&gt;0\)</span>. For simplicity we write conditional probabilities given <span class="arithmatex">\(Y=y\)</span>.</p>
+<p><strong>Proof:</strong></p>
+<p>First, by the definition of conditional expectation for a discrete <span class="arithmatex">\(X\)</span>,</p>
+<div class="arithmatex">\[
+\mathbb{E}[X\mid Y=y]=\sum_{x} x\,\Pr(X=x\mid Y=y).
+\]</div>
+<p>Next, since the events <span class="arithmatex">\(\{Z=z\}\)</span> form a disjoint partition, for each <span class="arithmatex">\(x\)</span> we have</p>
+<div class="arithmatex">\[
+\Pr(X=x\mid Y=y)=\sum_{z}\Pr(X=x, Z=z\mid Y=y).
+\]</div>
+<p>We now use the conditional product rule (chain rule). For events <span class="arithmatex">\(A,C,B\)</span> with <span class="arithmatex">\(\Pr(B)&gt;0\)</span> and <span class="arithmatex">\(\Pr(C\cap B)&gt;0\)</span>,</p>
+<div class="arithmatex">\[
+\Pr(A,C\mid B)=\Pr(C\mid B)\Pr(A\mid C,B),
+\]</div>
+<p>because</p>
+<div class="arithmatex">\[
+\Pr(C\mid B)\Pr(A\mid C,B)
+=\frac{\Pr(C\cap B)}{\Pr(B)}\cdot \frac{\Pr(A\cap C\cap B)}{\Pr(C\cap B)}
+=\frac{\Pr(A\cap C\cap B)}{\Pr(B)}
+=\Pr(A\cap C\mid B).
+\]</div>
+<p>Apply this with <span class="arithmatex">\(A=\{X=x\}\)</span>, <span class="arithmatex">\(C=\{Z=z\}\)</span>, and <span class="arithmatex">\(B=\{Y=y\}\)</span> to get</p>
+<div class="arithmatex">\[
+\Pr(X=x, Z=z\mid Y=y)=\Pr(Z=z\mid Y=y)\,\Pr(X=x\mid Z=z, Y=y).
+\]</div>
+<p>Substituting into the previous expression gives</p>
+<div class="arithmatex">\[
+\Pr(X=x\mid Y=y)=\sum_{z}\Pr(Z=z\mid Y=y)\,\Pr(X=x\mid Z=z, Y=y).
+\]</div>
+<p>Plug this into the definition of <span class="arithmatex">\(\mathbb{E}[X\mid Y=y]\)</span>:</p>
+<div class="arithmatex">\[
+\mathbb{E}[X\mid Y=y]
+=\sum_x x\left[\sum_{z}\Pr(Z=z\mid Y=y)\,\Pr(X=x\mid Z=z, Y=y)\right].
+\]</div>
+<p>Rearrange the sums (justified by integrability; e.g. by applying the argument to <span class="arithmatex">\(X^+\)</span> and <span class="arithmatex">\(X^-\)</span> separately):</p>
+<div class="arithmatex">\[
+\mathbb{E}[X\mid Y=y]
+=\sum_{z}\Pr(Z=z\mid Y=y)\left[\sum_x x\,\Pr(X=x\mid Z=z, Y=y)\right].
+\]</div>
+<p>The bracketed term is the definition of <span class="arithmatex">\(\mathbb{E}[X\mid Z=z, Y=y]\)</span>, so we conclude</p>
+<div class="arithmatex">\[
+\mathbb{E}[X\mid Y=y]=\sum_{z}\Pr(Z=z\mid Y=y)\,\mathbb{E}[X\mid Z=z, Y=y].
+\]</div>
+<p>Since this holds for every <span class="arithmatex">\(y\)</span> with <span class="arithmatex">\(\Pr(Y=y)&gt;0\)</span>, replacing <span class="arithmatex">\(y\)</span> by the random variable <span class="arithmatex">\(Y\)</span> yields the desired identity</p>
+<div class="arithmatex">\[
+\mathbb{E}[X\mid Y]=\sum_{z}\Pr(Z=z\mid Y)\,\mathbb{E}[X\mid Z=z, Y].
+\]</div>
+<h1 id="references">References</h1>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

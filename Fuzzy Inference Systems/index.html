@@ -1,0 +1,1995 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Transformers-4-MMT/">
+      
+      
+        <link rel="next" href="../Hamilton-Jacobi%20equations/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Fuzzy Inference Systems - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fuzzy-inference-systems" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fuzzy Inference Systems
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-care-about-fuzziness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why care about fuzziness?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classical-sets-and-logic-crisp-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical sets and logic (crisp world)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classical sets and logic (crisp world)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crisp-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crisp sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classical-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-crisp-logic-struggles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where crisp logic struggles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vagueness-vs-randomness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vagueness vs randomness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vagueness vs randomness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vagueness-fuzziness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vagueness (fuzziness)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuzzy-sets-gradual-membership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzy sets: gradual membership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fuzzy sets: gradual membership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-indicator-functions-to-membership-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From indicator functions to membership functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-fuzzy-set-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic fuzzy set operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linguistic-variables-and-fuzzy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linguistic variables and fuzzy rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linguistic variables and fuzzy rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linguistic-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linguistic variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuzzy-if-then-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzy IF-THEN rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-fuzzy-inference-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a fuzzy inference system?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-are-fuzzy-inference-systems-useful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When are fuzzy inference systems useful?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="When are fuzzy inference systems useful?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrapping up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-care-about-fuzziness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why care about fuzziness?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classical-sets-and-logic-crisp-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical sets and logic (crisp world)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classical sets and logic (crisp world)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crisp-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crisp sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classical-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-crisp-logic-struggles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where crisp logic struggles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vagueness-vs-randomness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vagueness vs randomness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vagueness vs randomness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vagueness-fuzziness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vagueness (fuzziness)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuzzy-sets-gradual-membership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzy sets: gradual membership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fuzzy sets: gradual membership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-indicator-functions-to-membership-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From indicator functions to membership functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-fuzzy-set-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic fuzzy set operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linguistic-variables-and-fuzzy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linguistic variables and fuzzy rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linguistic variables and fuzzy rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linguistic-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linguistic variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuzzy-if-then-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzy IF-THEN rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-fuzzy-inference-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a fuzzy inference system?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-are-fuzzy-inference-systems-useful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When are fuzzy inference systems useful?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="When are fuzzy inference systems useful?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrapping up
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fuzzy-inference-systems">Fuzzy Inference Systems</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Fuzzy inference systems sound mysterious if we are hearing about 'fuzzy' things for the first time. In reality, they are just a way to let computers handle vague, human-style reasoning like 'temperature is warm' or 'speed is a bit high'. This chapter builds up to fuzzy inference systems, starting with classical sets and logic, then introducing fuzzy sets, and finally showing how fuzzy rules come together into a full fuzzy inference system.</p>
+<h2 id="why-care-about-fuzziness">Why care about fuzziness?</h2>
+<p>Let us start with an everyday question: Is this coffee hot? A typical answer is not just ''yes'' or ''no''. we might say:</p>
+<ul>
+<li>''It's lukewarm'' or ''It's kind of hot, but we can drink it.''</li>
+</ul>
+<p>Human language is full of words like <em>tall</em>, <em>young</em>, <em>expensive</em>, <em>close</em>, <em>fast</em>, etc. These are not crisp categories with sharp boundaries. Classical logic and classical sets, however, are based on sharp yes/no decisions: either <span class="arithmatex">\(x\)</span> is in the set <span class="arithmatex">\(A\)</span>, or it is not. Fuzzy logic and fuzzy inference systems were developed to bridge this gap: they allow us to mathematically model concepts like 'kind of hot' or 'very tall' and use them in reasoning and control. Before we get to fuzzy stuff, let us quickly recall how classical sets and logic work, and why they struggle with vagueness.</p>
+<h2 id="classical-sets-and-logic-crisp-world">Classical sets and logic (crisp world)</h2>
+<h3 id="crisp-sets">Crisp sets</h3>
+<p>Consider some collection of objects we care about, called the <em>universe of discourse</em> and usually denoted by <span class="arithmatex">\(X\)</span>.
+For example:</p>
+<div class="arithmatex">\[
+X = \{\text{all real temperatures between } 0^\circ\mathrm{C} \text{ and } 100^\circ\mathrm{C}\}.
+\]</div>
+<p>A <em>crisp set</em> <span class="arithmatex">\(A\)</span> is a subset of <span class="arithmatex">\(X\)</span>. Membership is all-or-nothing: an element <span class="arithmatex">\(x \in X\)</span> either belongs to <span class="arithmatex">\(A\)</span> or it does not. We can express this with an <em>indicator function</em> (also called a characteristic function):</p>
+<div class="arithmatex">\[
+\chi_A(x) =
+\begin{cases}
+1 &amp; \text{if } x \in A,\\
+0 &amp; \text{if } x \notin A.
+\end{cases}
+\]</div>
+<p>For example, let <span class="arithmatex">\(X\)</span> be temperatures and define the set</p>
+<div class="arithmatex">\[
+A = \{\text{temperatures considered 'hot'}\}.
+\]</div>
+<p>In classical set theory, we must draw a sharp line: maybe <span class="arithmatex">\(A = \{ x \in X : x \ge 60^\circ\mathrm{C} \}\)</span>. Then:</p>
+<div class="arithmatex">\[
+\chi_A(59.9^\circ\mathrm{C}) = 0, \quad \chi_A(60^\circ\mathrm{C}) = 1.
+\]</div>
+<h3 id="classical-logic">Classical logic</h3>
+<p>Classical logic deals with <em>propositions</em> that are either true or false. We use operations like: NOT (<span class="arithmatex">\(\neg\)</span>), AND (<span class="arithmatex">\(\land\)</span>), OR (<span class="arithmatex">\(\lor\)</span>).
+If <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(Q\)</span> are true/false statements, then:</p>
+<ul>
+<li><span class="arithmatex">\(\neg P\)</span> is true when <span class="arithmatex">\(P\)</span> is false.</li>
+<li><span class="arithmatex">\(P \land Q\)</span> is true when both <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(Q\)</span> are true.</li>
+<li><span class="arithmatex">\(P \lor Q\)</span> is true when at least one of them is true.</li>
+</ul>
+<p>This matches the crisp set view nicely: being in a set is a boolean property, and combining sets (intersection, union, complement) mirrors these logical operations.</p>
+<h3 id="where-crisp-logic-struggles">Where crisp logic struggles</h3>
+<p>The problem shows up with vague concepts: 'Is Alice tall?'. If we are forced to answer strictly yes/no, we:</p>
+<ul>
+<li>either draw an arbitrary boundary (e.g., 'tall if height <span class="arithmatex">\(\ge 170\)</span>cm'), or</li>
+<li>end up disagreeing, because different people choose different boundaries.</li>
+</ul>
+<p>There is no natural, universally accepted sharp cut-off where 'not tall' suddenly becomes 'tall'. The concept itself is inherently <em>gradual</em>. This is where fuzzy sets and fuzzy logic come in.</p>
+<h2 id="vagueness-vs-randomness">Vagueness vs randomness</h2>
+<p>Before introducing fuzziness, it is useful to distinguish it from <em>randomness</em>. These are different kinds of uncertainty. Probability theory deals with randomness or lack of knowledge about which outcome will occur. For example, we toss a fair coin. We do not know if it will land heads or tails, but after the toss it is definitely either heads or tails. A probability <span class="arithmatex">\(P(\text{heads}) = 0.5\)</span> does <em>not</em> mean the coin is 'half-heads and half-tails'. It means, roughly, that in the long run we will see heads about half the time.</p>
+<h3 id="vagueness-fuzziness">Vagueness (fuzziness)</h3>
+<p>Consider the question: "Is a <span class="arithmatex">\(168\)</span> cm person tall?". There is no randomness here. We are not uncertain about the height, we already know it exactly. The uncertainty is about how well this precise height fits a vague category like 'tall'. Instead of forcing a yes/no answer, fuzzy logic lets us assign a number that says how well something fits a vague description.
+ For instance, we might say:</p>
+<div class="arithmatex">\[
+\text{"Tall"}(168\text{ cm}) = 0.6,
+\]</div>
+<p>meaning '168 cm is tall to degree <span class="arithmatex">\(0.6\)</span>'. This is a different numerical quantity than a probability. With that distinction in mind, we can now define fuzzy sets.</p>
+<h2 id="fuzzy-sets-gradual-membership">Fuzzy sets: gradual membership</h2>
+<h3 id="from-indicator-functions-to-membership-functions">From indicator functions to membership functions</h3>
+<p>Recall, if <span class="arithmatex">\(X\)</span> is a set defined on temperatures and A is a subset of it, defined as</p>
+<div class="arithmatex">\[
+A = \{\text{temperatures considered "hot"}\}.
+\]</div>
+<p>In classical set theory, we must draw a sharp line: maybe <span class="arithmatex">\(A = \{ x \in X : x \ge 60^\circ\mathrm{C} \}\)</span>. We can express this with an <em>indicator or membership function</em>:</p>
+<div class="arithmatex">\[
+\chi_A(x) =
+\begin{cases}
+1 &amp; \text{if } x \in A,\\
+0 &amp; \text{if } x \notin A.
+\end{cases}
+\]</div>
+<p>But, a <em>fuzzy set</em> <span class="arithmatex">\(A\)</span> on <span class="arithmatex">\(X\)</span> is defined by a <em>membership function</em>:</p>
+<div class="arithmatex">\[
+\mu_A : X \to [0,1].
+\]</div>
+<p>For each element <span class="arithmatex">\(x \in X\)</span>, the value <span class="arithmatex">\(\mu_A(x)\)</span> tells us the <em>degree</em> to which <span class="arithmatex">\(x\)</span> belongs to the fuzzy set <span class="arithmatex">\(A\)</span>:</p>
+<ul>
+<li><span class="arithmatex">\(\mu_A(x) = 0\)</span> means 'definitely not in <span class="arithmatex">\(A\)</span>',</li>
+<li><span class="arithmatex">\(\mu_A(x) = 1\)</span> means 'fully in <span class="arithmatex">\(A\)</span>',</li>
+<li>values between <span class="arithmatex">\(0\)</span> and <span class="arithmatex">\(1\)</span> represent partial membership.</li>
+</ul>
+<h3 id="basic-fuzzy-set-operations">Basic fuzzy set operations</h3>
+<p>Given fuzzy sets <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> with membership functions <span class="arithmatex">\(\mu_A(x)\)</span> and <span class="arithmatex">\(\mu_B(x)\)</span>, we can define operations analogous to union, intersection, and complement. One common choice is:</p>
+<ul>
+<li><strong>Complement:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mu_{\neg A}(x) = 1 - \mu_A(x).
+\]</div>
+<ul>
+<li><strong>Intersection (AND):</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mu_{A \cap B}(x) = \min\big(\mu_A(x), \mu_B(x)\big).
+\]</div>
+<ul>
+<li><strong>Union (OR):</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mu_{A \cup B}(x) = \max\big(\mu_A(x), \mu_B(x)\big).
+\]</div>
+<p>These are not the only possible definitions, but they are intuitive and widely used:</p>
+<ul>
+<li>For '<span class="arithmatex">\(x\)</span> is in both <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span>', the degree is limited by the smaller membership.</li>
+<li>For '<span class="arithmatex">\(x\)</span> is in <span class="arithmatex">\(A\)</span> or <span class="arithmatex">\(B\)</span>', the degree is given by the larger membership.</li>
+</ul>
+<p>So far, we have only talked about static fuzzy sets. To build fuzzy inference systems, we need to connect fuzzy sets with variables and rules.</p>
+<h2 id="linguistic-variables-and-fuzzy-rules">Linguistic variables and fuzzy rules</h2>
+<h3 id="linguistic-variables">Linguistic variables</h3>
+<p>A <em>linguistic variable</em> is a variable whose values are words (or short phrases) rather than numbers. For example, instead of writing Temperature <span class="arithmatex">\(= 25^\circ\mathrm{C}\)</span>, we might describe it as</p>
+<div class="arithmatex">\[
+\texttt{Temperature} \in \{\text{'cold'}, \text{'cool'}, \text{'warm'}, \text{'hot'}\}.
+\]</div>
+<p>Each word here is not just a label, it corresponds to a fuzzy set on the underlying numeric domain. Concretely:</p>
+<ul>
+<li>the <em>universe of discourse</em> is the numeric range of possible temperatures (e.g. <span class="arithmatex">\(0\)</span>--<span class="arithmatex">\(100^\circ\mathrm{C}\)</span>),</li>
+<li>each linguistic term ('cold', 'cool', 'warm', 'hot', etc.) is represented by its own fuzzy set over this range.</li>
+</ul>
+<p>For example, 'cold' might be modeled so that</p>
+<div class="arithmatex">\[
+\mu_{\text{cold}}(10^\circ\mathrm{C}) = 1,\quad
+\mu_{\text{cold}}(15^\circ\mathrm{C}) = 0.5,\quad
+\mu_{\text{cold}}(25^\circ\mathrm{C}) = 0,
+\]</div>
+<p>which means <span class="arithmatex">\(10^\circ\)</span>C is fully cold, <span class="arithmatex">\(15^\circ\)</span>C is 'half cold', and <span class="arithmatex">\(25^\circ\)</span>C is not cold at all.</p>
+<p>Thus a single numeric value, such as <span class="arithmatex">\(25^\circ\mathrm{C}\)</span>, can belong to several of these fuzzy sets at once, but with different degrees of membership.</p>
+<h3 id="fuzzy-if-then-rules">Fuzzy IF-THEN rules</h3>
+<p>Now we can express knowledge in a very natural form using fuzzy sets. For instance, in a simple temperature control scenario, we might want to decide how fast a fan should run based on how warm the room feels. A human would say something like: <strong>IF</strong> temperature is warm <strong>THEN</strong> fan speed is medium. More formally, this is a fuzzy IF-THEN rule of the form:</p>
+<div class="arithmatex">\[
+\text{IF } x \text{ is } A \text{ THEN } y \text{ is } B.
+\]</div>
+<p>Here:</p>
+<ul>
+<li><span class="arithmatex">\(x\)</span> is an input variable (e.g., temperature),</li>
+<li><span class="arithmatex">\(A\)</span> is a fuzzy set on the <span class="arithmatex">\(x\)</span>-domain (e.g., 'warm'),</li>
+<li><span class="arithmatex">\(y\)</span> is an output variable (e.g., fan speed),</li>
+<li><span class="arithmatex">\(B\)</span> is a fuzzy set on the <span class="arithmatex">\(y\)</span>-domain (e.g., 'medium').</li>
+</ul>
+<p>A fuzzy inference system will take a collection of such rules, combine them, and produce an output given specific inputs. To understand how, we need to look at the structure of a fuzzy inference system.</p>
+<h2 id="what-is-a-fuzzy-inference-system">What is a fuzzy inference system?</h2>
+<p>A <em>fuzzy inference system</em> (FIS) is a mapping from inputs to outputs using fuzzy logic. It usually has the following components:</p>
+<ol>
+<li><strong>Fuzzification</strong>: convert numerical inputs into degrees of membership in fuzzy sets.</li>
+<li><strong>Rule evaluation (inference)</strong>: compute how strongly each fuzzy rule is activated by the current inputs.</li>
+<li><strong>Aggregation</strong>: combine the effects of all rules to obtain fuzzy output sets.</li>
+<li><strong>Defuzzification</strong>: convert the fuzzy output sets back into crisp numerical outputs.</li>
+</ol>
+<p>We now walk through one concrete fuzzy inference system from start to finish.</p>
+<p><strong>Setup.</strong>
+We use two inputs and one output:</p>
+<ul>
+<li>Temperature <span class="arithmatex">\(T\)</span> in <span class="arithmatex">\([0,40]\)</span> (<span class="arithmatex">\(^\circ\mathrm{C}\)</span>).</li>
+<li>Humidity <span class="arithmatex">\(H\)</span> in <span class="arithmatex">\([0,100]\)</span> (percent).</li>
+<li>Fan speed <span class="arithmatex">\(S\)</span> in <span class="arithmatex">\([0,10]\)</span> (arbitrary units).</li>
+</ul>
+<p>For <span class="arithmatex">\(T\)</span> we use two fuzzy sets:</p>
+<div class="arithmatex">\[
+\text{"cool"}, \quad \text{"warm"},
+\]</div>
+<p>for <span class="arithmatex">\(H\)</span> we use two:</p>
+<div class="arithmatex">\[
+\text{"dry"}, \quad \text{"humid"},
+\]</div>
+<p>and for <span class="arithmatex">\(S\)</span> we use three:</p>
+<div class="arithmatex">\[
+\text{"low"}, \quad \text{"medium"}, \quad \text{"high"}.
+\]</div>
+<p>We will use the fixed input</p>
+<div class="arithmatex">\[
+T = 24^\circ\mathrm{C}, \qquad H = 55\%.
+\]</div>
+<p><strong>Membership functions.</strong></p>
+<p><strong>Temperature.</strong></p>
+<div class="arithmatex">\[
+\mu_{\text{cool}}(T) =
+\begin{cases}
+1, &amp; T \le 18,\\
+\dfrac{28 - T}{10}, &amp; 18 &lt; T &lt; 28,\\
+0, &amp; T \ge 28,
+\end{cases}
+\qquad
+\mu_{\text{warm}}(T) =
+\begin{cases}
+0, &amp; T \le 20,\\
+\dfrac{T - 20}{10}, &amp; 20 &lt; T &lt; 30,\\
+1, &amp; T \ge 30.
+\end{cases}
+\]</div>
+<p><strong>Humidity.</strong></p>
+<div class="arithmatex">\[
+\mu_{\text{dry}}(H) =
+\begin{cases}
+1, &amp; H \le 40,\\
+\dfrac{60 - H}{20}, &amp; 40 &lt; H &lt; 60,\\
+0, &amp; H \ge 60,
+\end{cases}
+\qquad
+\mu_{\text{humid}}(H) =
+\begin{cases}
+0, &amp; H \le 50,\\
+\dfrac{H - 50}{30}, &amp; 50 &lt; H &lt; 80,\\
+1, &amp; H \ge 80.
+\end{cases}
+\]</div>
+<p><strong>Fan speed.</strong> (triangular shapes)</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mu_{\text{low}}(S) &amp;=
+\begin{cases}
+\dfrac{S}{2}, &amp; 0 &lt; S \le 2,\\
+\dfrac{4 - S}{2}, &amp; 2 &lt; S &lt; 4,\\
+0, &amp; \text{otherwise},
+\end{cases}
+\\
+\mu_{\text{medium}}(S) &amp;=
+\begin{cases}
+\dfrac{S - 3}{2}, &amp; 3 &lt; S \le 5,\\
+\dfrac{7 - S}{2}, &amp; 5 &lt; S &lt; 7,\\
+0, &amp; \text{otherwise},
+\end{cases}
+\\
+\mu_{\text{high}}(S) &amp;=
+\begin{cases}
+\dfrac{S - 6}{2}, &amp; 6 &lt; S \le 8,\\
+\dfrac{10 - S}{2}, &amp; 8 &lt; S &lt; 10,\\
+0, &amp; \text{otherwise}.
+\end{cases}
+\end{aligned}
+\]</div>
+<p><strong>Step 1: Fuzzification.</strong></p>
+<p>For <span class="arithmatex">\(T = 24\)</span>:</p>
+<div class="arithmatex">\[
+\mu_{\text{cool}}(24) = \frac{28 - 24}{10} = 0.4, \qquad
+\mu_{\text{warm}}(24) = \frac{24 - 20}{10} = 0.4.
+\]</div>
+<p>For <span class="arithmatex">\(H = 55\)</span>:</p>
+<div class="arithmatex">\[
+\mu_{\text{dry}}(55) = \frac{60 - 55}{20} = 0.25, \qquad
+\mu_{\text{humid}}(55) = \frac{55 - 50}{30} \approx 0.17.
+\]</div>
+<p>So the crisp input <span class="arithmatex">\((T,H) = (24,55)\)</span> becomes the fuzzy description</p>
+<div class="arithmatex">\[
+\mu_{\text{cool}}(24) = 0.4, \quad
+\mu_{\text{warm}}(24) = 0.4, \quad
+\mu_{\text{dry}}(55) = 0.25, \quad
+\mu_{\text{humid}}(55) \approx 0.17.
+\]</div>
+<p><strong>Step 2: Rule evaluation.</strong></p>
+<p>We use three rules:</p>
+<ul>
+<li><strong>R1:</strong> IF <span class="arithmatex">\(T\)</span> is cool AND <span class="arithmatex">\(H\)</span> is dry THEN <span class="arithmatex">\(S\)</span> is low.</li>
+<li><strong>R2:</strong> IF <span class="arithmatex">\(T\)</span> is warm AND <span class="arithmatex">\(H\)</span> is dry THEN <span class="arithmatex">\(S\)</span> is medium.</li>
+<li><strong>R3:</strong> IF <span class="arithmatex">\(T\)</span> is warm AND <span class="arithmatex">\(H\)</span> is humid THEN <span class="arithmatex">\(S\)</span> is high.</li>
+</ul>
+<p>We take AND as minimum (discussed above). The firing strength <span class="arithmatex">\(\alpha_k\)</span> of rule <span class="arithmatex">\(k\)</span> is then given by:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\alpha_1 &amp;= \min\big(\mu_{\text{cool}}(24), \mu_{\text{dry}}(55)\big)
+        = \min(0.4, 0.25) = 0.25,\\
+\alpha_2 &amp;= \min\big(\mu_{\text{warm}}(24), \mu_{\text{dry}}(55)\big)
+        = \min(0.4, 0.25) = 0.25,\\
+\alpha_3 &amp;= \min\big(\mu_{\text{warm}}(24), \mu_{\text{humid}}(55)\big)
+        = \min(0.4, 0.17) \approx 0.17.
+\end{aligned}
+\]</div>
+<p>So all three rules fire, with different strengths.</p>
+<p><strong>Step 3: Aggregation of rule outputs.</strong></p>
+<p>By this point, each rule <span class="arithmatex">\(R_k\)</span> has:</p>
+<ul>
+<li>a firing strength <span class="arithmatex">\(\alpha_k \in [0,1]\)</span> that says how true its IF-part is for the current input, and</li>
+<li>an output fuzzy set (low, medium and high) that tells, for each possible fan speed <span class="arithmatex">\(S \in [0,10]\)</span>, how well that fan speed fits the label in the THEN-part if the rule were fully true (<span class="arithmatex">\(\mu_{\text{low}}\)</span>, <span class="arithmatex">\(\mu_{\text{medium}}\)</span> and <span class="arithmatex">\(\mu_{\text{high}}\)</span>).</li>
+</ul>
+<p>Step 3 answers the question: <em>Given the firing strengths <span class="arithmatex">\(\alpha_k\)</span> of all rules and their corresponding output fuzzy sets (such as <span class="arithmatex">\(\mu_{\text{low}}\)</span>, <span class="arithmatex">\(\mu_{\text{medium}}\)</span>, and <span class="arithmatex">\(\mu_{\text{high}}\)</span> over fan speeds <span class="arithmatex">\(S\)</span>), how strongly does the rule base as a whole support each possible fan speed <span class="arithmatex">\(S\)</span>?</em> We do this in two stages:</p>
+<p>To keep things concrete, suppose from Step 2 we already have</p>
+<div class="arithmatex">\[
+\alpha_1 = 0.25, \qquad
+\alpha_2 = 0.25, \qquad
+\alpha_3 = 0.17.
+\]</div>
+<p><strong>Inside a single rule:</strong></p>
+<p>Take one rule in isolation, for example</p>
+<div class="arithmatex">\[
+\text{R2: IF } T \text{ is warm AND } H \text{ is dry THEN } S \text{ is medium.}
+\]</div>
+<p>For the current input <span class="arithmatex">\((T,H)\)</span>, the IF-part (the antecedent) is not fully true, its truth is <span class="arithmatex">\(\alpha_2 = 0.25\)</span>. The fuzzy set <span class="arithmatex">\(\mu_{\text{medium}}(S)\)</span> tells us, for each <span class="arithmatex">\(S\)</span>, how 'medium' that speed would be <em>if the rule were completely true</em>. But in reality the rule is only true to degree <span class="arithmatex">\(0.25\)</span>, so its recommendation should be weakened accordingly. For each <span class="arithmatex">\(S\)</span>, we therefore combine:</p>
+<ul>
+<li>the degree to which <span class="arithmatex">\(S\)</span> is 'medium': <span class="arithmatex">\(\mu_{\text{medium}}(S)\)</span>,</li>
+<li>the degree to which the rule is true: <span class="arithmatex">\(\alpha_2 = 0.25\)</span>.</li>
+</ul>
+<p>The standard Mamdani choice (a classic and widely used fuzzy inference scheme, chosen here because it is simple, interpretable, and closely follows human IF-THEN rules) is</p>
+<div class="arithmatex">\[
+\mu_{S|\mathrm{R2}}(S) = \min\big(\alpha_2, \mu_{\text{medium}}(S)\big).
+\]</div>
+<p>For example, imagine that from the output membership function we know:</p>
+<div class="arithmatex">\[
+\mu_{\text{medium}}(4.5) = 0.8, \qquad
+\mu_{\text{medium}}(3.0) = 0.2.
+\]</div>
+<p>Then R2's support for these two speeds becomes</p>
+<div class="arithmatex">\[
+\mu_{S|\mathrm{R2}}(4.5) = \min(0.25, 0.8) = 0.25,\qquad
+\mu_{S|\mathrm{R2}}(3.0) = \min(0.25, 0.2) = 0.2.
+\]</div>
+<p>So:</p>
+<ul>
+<li>At <span class="arithmatex">\(S=4.5\)</span>, the rule would like this speed quite a lot ('medium' to degree <span class="arithmatex">\(0.8\)</span>), but the rule itself is weak (<span class="arithmatex">\(0.25\)</span>), so we cap the support at <span class="arithmatex">\(0.25\)</span>.</li>
+<li>At <span class="arithmatex">\(S=3.0\)</span>, the rule is equally weak (<span class="arithmatex">\(0.25\)</span>) but <span class="arithmatex">\(S=3.0\)</span> is barely 'medium' (<span class="arithmatex">\(0.2\)</span>), so the support is only <span class="arithmatex">\(0.2\)</span>.</li>
+</ul>
+<p>In other words, the rule's support for a particular <span class="arithmatex">\(S\)</span> is always the weaker of:</p>
+<div class="arithmatex">\[
+    "\text{how true is the rule?}" \quad \text{vs.} \quad "\text{how well does } S \text{ fit the label in the THEN-part?}"
+\]</div>
+<p>This minimum operator also has two nice properties:</p>
+<ul>
+<li>If everything is crisp (<span class="arithmatex">\(\alpha_2 \in \{0,1\}\)</span> and <span class="arithmatex">\(\mu_{\text{medium}}(S) \in \{0,1\}\)</span>), this reduces to ordinary logic: the consequent is true only when both the rule fires and <span class="arithmatex">\(S\)</span> satisfies the label.</li>
+<li>Geometrically, it corresponds to 'cutting' the top of the fuzzy set <span class="arithmatex">\(\mu_{\text{medium}}(S)\)</span> at height <span class="arithmatex">\(\alpha_2\)</span>. When plotted, each rule produces a 'truncated hill' over the output axis.</li>
+</ul>
+<p>We do the same thing for every rule, so that each fuzzy IF-THEN rule contributes its own truncated output membership function, i.e. its own partial, weighted opinion about <span class="arithmatex">\(S\)</span>. Formally, in our example:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mu_{S|\mathrm{R1}}(S) &amp;= \min\big(\alpha_1, \mu_{\text{low}}(S)\big),\\
+\mu_{S|\mathrm{R2}}(S) &amp;= \min\big(\alpha_2, \mu_{\text{medium}}(S)\big),\\
+\mu_{S|\mathrm{R3}}(S) &amp;= \min\big(\alpha_3, \mu_{\text{high}}(S)\big).
+\end{aligned}
+\]</div>
+<p><strong>Across rules:</strong></p>
+<p>Now we fix a particular output value <span class="arithmatex">\(S^\star\)</span> (say <span class="arithmatex">\(S^\star=4.5\)</span>). Suppose the truncated fuzzy sets from the three rules give:</p>
+<div class="arithmatex">\[
+\mu_{S|\mathrm{R1}}(4.5) = 0.10, \qquad
+\mu_{S|\mathrm{R2}}(4.5) = 0.25, \qquad
+\mu_{S|\mathrm{R3}}(4.5) = 0.05.
+\]</div>
+<p>This means:</p>
+<ul>
+<li>Rule 1 says: '<span class="arithmatex">\(S^\star\)</span> is low' to degree <span class="arithmatex">\(0.10\)</span>.</li>
+<li>Rule 2 says: '<span class="arithmatex">\(S^\star\)</span> is medium' to degree <span class="arithmatex">\(0.25\)</span>.</li>
+<li>Rule 3 says: '<span class="arithmatex">\(S^\star\)</span> is high' to degree <span class="arithmatex">\(0.05\)</span>.</li>
+</ul>
+<p>The question is: <em>overall, how acceptable is <span class="arithmatex">\(S^\star\)</span> as an output according to the whole rule base?</em> The intuitive answer is: <span class="arithmatex">\(S^\star\)</span> is acceptable if at least one rule supports it, and the more strongly any rule supports it, the more acceptable it is. This is a fuzzy version of logical OR over rules. In standard fuzzy logic, OR is modeled by the maximum of the truth degrees, so we take:</p>
+<div class="arithmatex">\[
+\mu_{\text{out}}(S^\star)
+= \max\big(\mu_{S|\mathrm{R1}}(S^\star), \mu_{S|\mathrm{R2}}(S^\star), \mu_{S|\mathrm{R3}}(S^\star)\big)
+= \max(0.10, 0.25, 0.05) = 0.25.
+\]</div>
+<p>Doing this for every <span class="arithmatex">\(S\)</span> gives the final aggregated output fuzzy set:</p>
+<div class="arithmatex">\[
+\mu_{\text{out}}(S)
+= \max\big(\mu_{S|\mathrm{R1}}(S), \mu_{S|\mathrm{R2}}(S), \mu_{S|\mathrm{R3}}(S)\big).
+\]</div>
+<p>Geometrically, this means we place all the truncated hills from the individual rules on the same axis and, at each <span class="arithmatex">\(S\)</span>, take the highest one. The resulting outline is the combined fuzzy belief about <span class="arithmatex">\(S\)</span> after considering all rules.</p>
+<p><strong>Why this min-max scheme, and what else is possible?</strong></p>
+<p>The min-inside / max-across pattern is the classic Mamdani choice because:</p>
+<ul>
+<li>it is easy to interpret: each rule's influence is limited by its truth, and the system accepts an output if any rule supports it.</li>
+<li>it matches crisp logic when all memberships are <span class="arithmatex">\(0\)</span> or <span class="arithmatex">\(1\)</span>.</li>
+<li>it is very easy to visualize and implement.</li>
+</ul>
+<p>However, it is not the only design:</p>
+<ul>
+<li>Instead of <span class="arithmatex">\(\min(\alpha_k, \mu(S))\)</span> inside a rule, one can use product <span class="arithmatex">\(\alpha_k \cdot \mu(S)\)</span>. For example, if <span class="arithmatex">\(\alpha_2 = 0.25\)</span> and <span class="arithmatex">\(\mu_{\text{medium}}(4.5) = 0.8\)</span>, product inference would give <span class="arithmatex">\(0.25 \cdot 0.8 = 0.20\)</span> instead of <span class="arithmatex">\(\min(0.25,0.8)=0.25\)</span>, smoothly scaling the fuzzy set rather than flat-cutting it.</li>
+<li>Instead of combining rules with <span class="arithmatex">\(\max\)</span>, one can use other aggregation operators that behave like a soft OR and give slightly different shapes to <span class="arithmatex">\(\mu_{\text{out}}(S)\)</span>.</li>
+<li>We also have another type of system known as Sugeno-type systems, the consequents are not fuzzy sets at all but crisp functions of the inputs. For example, each rule might have</li>
+</ul>
+<div class="arithmatex">\[
+\text{R}_k: \ \text{IF (conditions)} \ \text{THEN } S = f_k(T,H) = a_k T + b_k H + c_k.
+\]</div>
+<p>After computing the firing strengths <span class="arithmatex">\(\alpha_k\)</span> of all rules, the final output is a weighted average of these rule outputs:</p>
+<div class="arithmatex">\[
+S^\ast = \frac{\sum_k \alpha_k \, f_k(T,H)}{\sum_k \alpha_k}.
+\]</div>
+<p>So if two rules fire with <span class="arithmatex">\(\alpha_1 = 0.6\)</span>, <span class="arithmatex">\(\alpha_2 = 0.4\)</span> and give <span class="arithmatex">\(f_1(T,H)=5\)</span>, <span class="arithmatex">\(f_2(T,H)=8\)</span>, then</p>
+<div class="arithmatex">\[
+S^\ast = \frac{0.6 \cdot 5 + 0.4 \cdot 8}{0.6 + 0.4} = 6.2.
+\]</div>
+<p>We stick to the Mamdani min-max style here because it gives a clean first mental model: each rule draws a fuzzy bump over the output axis, cut at the level of its truth, and the system as a whole takes the upper envelope of all these bumps as its final fuzzy recommendation.</p>
+<p><strong>Step 4: Defuzzification.</strong></p>
+<p>To obtain a single crisp fan speed, we use the centroid (center of gravity) of <span class="arithmatex">\(\mu_{\text{out}}\)</span>:</p>
+<div class="arithmatex">\[
+S^\ast =
+\frac{\displaystyle \int_0^{10} S \, \mu_{\text{out}}(S)\, dS}
+     {\displaystyle \int_0^{10}     \mu_{\text{out}}(S)\, dS}.
+\]</div>
+<p>For the specific shapes and firing strengths above, this centroid is numerically around</p>
+<div class="arithmatex">\[
+S^\ast \approx 4.7.
+\]</div>
+<p>So, given <span class="arithmatex">\(T = 24^\circ\mathrm{C}\)</span> and <span class="arithmatex">\(H = 55\%\)</span>, the fuzzy inference system suggests a fan speed a bit below the center of 'medium'. Each step (fuzzification, rule evaluation, aggregation, defuzzification) is just an explicit, numerical way of turning vague rules into a concrete control action.</p>
+<h2 id="when-are-fuzzy-inference-systems-useful">When are fuzzy inference systems useful?</h2>
+<p>Fuzzy inference systems shine in situations where:</p>
+<ul>
+<li>Human expertise is available in the form of fuzzy rules like 'IF <span class="arithmatex">\(A\)</span> is high AND <span class="arithmatex">\(B\)</span> is low THEN ...'.</li>
+<li>The system is too complex or poorly understood to model precisely with differential equations or detailed physics.</li>
+<li>Inputs and outputs can be reasonably described using linguistic terms (e.g., control systems, decision support, heuristic policies).</li>
+</ul>
+<p>They are common in:</p>
+<ul>
+<li>Consumer products (e.g., washing machines, cameras, air conditioners).</li>
+<li>Control and automation.</li>
+<li>Decision-making and ranking systems.</li>
+</ul>
+<h3 id="limitations">Limitations</h3>
+<p>Fuzzy inference systems also have limitations:</p>
+<ul>
+<li>Designing good membership functions and rules can be somewhat artful and domain-specific.</li>
+<li>They do not magically 'learn' from data unless combined with learning methods (e.g., neuro-fuzzy systems).</li>
+<li>For very high-dimensional problems with many inputs, the rule base can explode combinatorially.</li>
+</ul>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>We started from classical sets and logic, where membership and truth are crisp, and saw that they struggle with inherently vague concepts like 'tall' or 'warm'. Fuzzy sets extend the idea of set membership to degrees in <span class="arithmatex">\([0,1]\)</span>, which can capture how well a specific value fits a vague category. Using fuzzy sets, we defined linguistic variables and fuzzy IF-THEN rules. A fuzzy inference system then:</p>
+<ol>
+<li>fuzzifies numerical inputs,</li>
+<li>evaluates fuzzy rules,</li>
+<li>aggregates their fuzzy outputs,</li>
+<li>and defuzzifies the aggregated result to get a crisp output.</li>
+</ol>
+<p>The result is a system that can reason in a way that resembles human use of language.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

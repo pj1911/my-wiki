@@ -1,0 +1,2468 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-5-Model%20free%20prediction/">
+      
+      
+        <link rel="next" href="../RL-7-Value%20function%20approximation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>6 - Model Free Control - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-model-free-control" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6 - Model Free Control
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-model-free-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to Model-Free Control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-dp-policy-iteration-to-mc-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From DP Policy Iteration to MC Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From DP Policy Iteration to MC Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-free-fix-improve-using-the-action-value-function-qsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free Fix: Improve Using the Action-Value Function \(Q(s,a)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploration-vs-greedy-improvement-varepsilon-greedy-mc-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploration vs Greedy Improvement: \(\varepsilon\)-Greedy MC Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploration vs Greedy Improvement: \(\varepsilon\)-Greedy MC Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varepsilon-greedy-policy-improvement-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(\varepsilon\)-Greedy Policy Improvement (Proof)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#greedy-in-the-limit-with-infinite-exploration-glie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy in the Limit with Infinite Exploration (GLIE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Greedy in the Limit with Infinite Exploration (GLIE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#glie-monte-carlo-control-episode-by-episode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GLIE Monte-Carlo Control (episode-by-episode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-mc-control-to-td-control-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From MC Control to TD Control: SARSA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From MC Control to TD Control: SARSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#td-evaluation-on-action-values-the-sarsa-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD evaluation on action-values: the SARSA update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-td-target-makes-sense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this TD target makes sense
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sarsa-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SARSA algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-sarsa-tabular-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of SARSA (tabular setting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-step-sarsa-and-sarsalambda-forward-view-vs-backward-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(n\)-Step SARSA and SARSA(\(\lambda\)): Forward View vs Backward View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="\(n\)-Step SARSA and SARSA(\(\lambda\)): Forward View vs Backward View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#n-step-returns-for-action-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(n\)-step returns for action-values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-sarsalambda-averaging-over-all-horizons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward-view SARSA(\(\lambda\)): averaging over all horizons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-sarsalambda-eligibility-traces-for-online-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward-view SARSA(\(\lambda\)): eligibility traces for online learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#off-policy-learning-and-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-Policy Learning and Importance Sampling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Off-Policy Learning and Importance Sampling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-policy-vs-off-policy-what-changed-and-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On-policy vs. off-policy: what changed, and why it matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importance-sampling-correcting-distribution-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Importance sampling: correcting distribution mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#off-policy-monte-carlo-via-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-policy Monte-Carlo via importance sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#off-policy-td-single-step-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-policy TD: single-step correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q-learning-off-policy-control-with-a-greedy-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q-Learning: Off-Policy Control with a Greedy Target
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q-Learning: Off-Policy Control with a Greedy Target">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#greedy-target-and-why-the-update-does-not-use-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy target and why the update does not use importance sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-rule-optimality-style-td-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update rule (optimality-style TD target)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-bellman-optimality-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the Bellman optimality equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-between-dp-and-td-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between DP and TD Learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Between DP and TD Learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-value-prediction-v_pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-value prediction (\(v_\pi\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-value-prediction-on-policy-control-q_pi-and-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value prediction / on-policy control (\(q_\pi\) and SARSA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimal-control-q_star-and-q-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimal control (\(q_\star\) and Q-learning)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-model-free-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to Model-Free Control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-dp-policy-iteration-to-mc-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From DP Policy Iteration to MC Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From DP Policy Iteration to MC Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-free-fix-improve-using-the-action-value-function-qsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model-Free Fix: Improve Using the Action-Value Function \(Q(s,a)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploration-vs-greedy-improvement-varepsilon-greedy-mc-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploration vs Greedy Improvement: \(\varepsilon\)-Greedy MC Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploration vs Greedy Improvement: \(\varepsilon\)-Greedy MC Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#varepsilon-greedy-policy-improvement-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(\varepsilon\)-Greedy Policy Improvement (Proof)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#greedy-in-the-limit-with-infinite-exploration-glie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy in the Limit with Infinite Exploration (GLIE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Greedy in the Limit with Infinite Exploration (GLIE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#glie-monte-carlo-control-episode-by-episode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GLIE Monte-Carlo Control (episode-by-episode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-mc-control-to-td-control-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From MC Control to TD Control: SARSA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From MC Control to TD Control: SARSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#td-evaluation-on-action-values-the-sarsa-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TD evaluation on action-values: the SARSA update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-td-target-makes-sense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this TD target makes sense
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sarsa-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SARSA algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convergence-of-sarsa-tabular-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence of SARSA (tabular setting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#n-step-sarsa-and-sarsalambda-forward-view-vs-backward-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(n\)-Step SARSA and SARSA(\(\lambda\)): Forward View vs Backward View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="\(n\)-Step SARSA and SARSA(\(\lambda\)): Forward View vs Backward View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#n-step-returns-for-action-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        \(n\)-step returns for action-values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forward-view-sarsalambda-averaging-over-all-horizons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forward-view SARSA(\(\lambda\)): averaging over all horizons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backward-view-sarsalambda-eligibility-traces-for-online-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward-view SARSA(\(\lambda\)): eligibility traces for online learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#off-policy-learning-and-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-Policy Learning and Importance Sampling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Off-Policy Learning and Importance Sampling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-policy-vs-off-policy-what-changed-and-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On-policy vs. off-policy: what changed, and why it matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importance-sampling-correcting-distribution-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Importance sampling: correcting distribution mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#off-policy-monte-carlo-via-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-policy Monte-Carlo via importance sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#off-policy-td-single-step-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-policy TD: single-step correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q-learning-off-policy-control-with-a-greedy-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q-Learning: Off-Policy Control with a Greedy Target
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q-Learning: Off-Policy Control with a Greedy Target">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#greedy-target-and-why-the-update-does-not-use-importance-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy target and why the update does not use importance sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-rule-optimality-style-td-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update rule (optimality-style TD target)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-bellman-optimality-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the Bellman optimality equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-between-dp-and-td-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Between DP and TD Learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Between DP and TD Learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-value-prediction-v_pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-value prediction (\(v_\pi\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-value-prediction-on-policy-control-q_pi-and-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value prediction / on-policy control (\(q_\pi\) and SARSA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimal-control-q_star-and-q-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimal control (\(q_\star\) and Q-learning)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>6 - Model Free Control</h1>
+
+<h2 id="introduction-to-model-free-control">Introduction to Model-Free Control</h2>
+<p>Model-free control means learning to maximise the value function of an unknown MDP. The main idea is simple: we do not build or use an explicit transition/reward model. Instead, we learn directly from experience samples, i.e. observed tuples <span class="arithmatex">\((S_t, A_t, R_{t+1}, S_{t+1})\)</span>.</p>
+<p>In practice, model-free methods show up in two common regimes. First, the MDP model is unknown but we can sample experience by interacting with the environment, so learning is naturally driven by collected trajectories. Second, the MDP model is known in principle (we could write down <span class="arithmatex">\(P(s'|s,a)\)</span> and <span class="arithmatex">\(R(s,a)\)</span>), but the state-action space is so large that exact dynamic programming updates are not feasible. In that case, we still fall back to sampled experiences.</p>
+<p><strong>On-Policy vs Off-Policy Learning.</strong></p>
+<p>To talk about how data is collected, it helps to distinguish two policies. The target policy <span class="arithmatex">\(\pi\)</span> is the policy we want to evaluate or improve, while the behaviour policy <span class="arithmatex">\(\mu\)</span> is the policy that actually generates the data.</p>
+<ul>
+<li>In on-policy learning, we "learn on the job": we learn about <span class="arithmatex">\(\pi\)</span> using experience produced by <span class="arithmatex">\(\pi\)</span> itself. Equivalently, the data distribution matches the policy being learned:</li>
+</ul>
+<div class="arithmatex">\[
+  (S_t, A_t) \sim \pi(\cdot \mid S_t).
+\]</div>
+<ul>
+<li>In off-policy learning, we "look over someone's shoulder": we learn about <span class="arithmatex">\(\pi\)</span> using experience generated by a different policy <span class="arithmatex">\(\mu\)</span>. Here the trajectories come from <span class="arithmatex">\(\mu\)</span>, but the objective is still to optimise or evaluate <span class="arithmatex">\(\pi\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+  (S_t, A_t) \sim \mu(\cdot \mid S_t), \quad \text{while optimising/evaluating } \pi.
+\]</div>
+<h2 id="from-dp-policy-iteration-to-mc-control">From DP Policy Iteration to MC Control</h2>
+<p>In dynamic programming (DP), policy iteration alternates between two ideas: first, policy evaluation, where we compute <span class="arithmatex">\(v_\pi\)</span> (for example via iterative policy evaluation), and then policy improvement, where we construct a better policy <span class="arithmatex">\(\pi' \ge \pi\)</span> (often by making <span class="arithmatex">\(\pi'\)</span> greedy with respect to the current value estimate). A natural model-free question is whether we can keep the same loop, but replace DP evaluation with Monte Carlo (MC) evaluation:</p>
+<p>At a high level, the answer is yes: this fits the idea of Generalised Policy Iteration (GPI), where evaluation and improvement are interleaved even when evaluation is only approximate. With MC, we can estimate the value of <span class="arithmatex">\(\pi\)</span> directly from sampled experience, using returns:</p>
+<div class="arithmatex">\[
+v_\pi(s) = \mathbb{E}_\pi\!\left[G_t \mid S_t=s\right],
+\qquad
+G_t = \sum_{k=0}^{T-t-1}\gamma^k R_{t+k+1}.
+\]</div>
+<p>So the evaluation step can be done without knowing the model. The catch is the improvement step. In DP, "greedy improvement over <span class="arithmatex">\(V\)</span>" is typically implemented by a one-step lookahead:</p>
+<div class="arithmatex">\[
+\pi'(s) \in \arg\max_{a\in\mathcal{A}} \sum_{s'} P(s'\mid s,a)\Big(R(s,a,s') + \gamma V(s')\Big).
+\]</div>
+<p>Even if MC gives a good estimate <span class="arithmatex">\(V(s)\approx v_\pi(s)\)</span>, this greedy update still needs <span class="arithmatex">\(P(s'\mid s,a)\)</span> (and the expected rewards). So MC evaluation + DP-style greedy improvement is not fully model-free: the evaluation is sample-based, but the improvement step still assumes access to the dynamics.</p>
+<h3 id="model-free-fix-improve-using-the-action-value-function-qsa">Model-Free Fix: Improve Using the Action-Value Function <span class="arithmatex">\(Q(s,a)\)</span></h3>
+<p>A clean way to stay model-free is to improve using the action-value function rather than <span class="arithmatex">\(V(s)\)</span>. We estimate</p>
+<div class="arithmatex">\[
+q_\pi(s,a) = \mathbb{E}_\pi\!\left[G_t \mid S_t=s, A_t=a\right],
+\]</div>
+<p>and then improve greedily without any one-step lookahead:</p>
+<div class="arithmatex">\[
+\pi'(s) \in \arg\max_{a\in\mathcal{A}} q_\pi(s,a).
+\]</div>
+<p>This step is model-free because it only compares learned estimates of <span class="arithmatex">\(Q(s,a)\)</span> across actions, instead of predicting next states via <span class="arithmatex">\(P(\cdot\mid s,a)\)</span>. This is the basic motivation for MC control via action-values: estimate <span class="arithmatex">\(Q\)</span> from experience, and act (approximately) greedily with respect to <span class="arithmatex">\(Q\)</span>.</p>
+<p><strong>Additional Practical Issues with MC in a Control Loop.</strong>
+Even if we ignore the fact that <span class="arithmatex">\(V\)</span>-greedy improvement needs a model, MC still sufferes from other problems. Standard MC relies on complete returns, so it fits episodic tasks best, in continuing tasks we usually need truncation or a different setup. Returns <span class="arithmatex">\(G_t\)</span> can also have high variance, especially when horizons are long, which means value estimates may require many episodes to stabilise. Control adds an exploration headache too: if we become fully greedy too early, we may stop trying other actions and never learn whether they are better. Finally, the process is non-stationary: as the policy changes, the data distribution changes with it, so evaluation is always approximate and intertwined with improvement.</p>
+<h2 id="exploration-vs-greedy-improvement-varepsilon-greedy-mc-control">Exploration vs Greedy Improvement: <span class="arithmatex">\(\varepsilon\)</span>-Greedy MC Control</h2>
+<p>If we always act greedily with respect to the current estimate <span class="arithmatex">\(Q(s,a)\)</span> (or <span class="arithmatex">\(V(s)\)</span>), we risk stopping exploration. Early estimates are noisy, so the action that looks best after a few trials may not actually be best. Once a greedy policy commits, rarely chosen actions stay poorly estimated, and learning can get "stuck" in a suboptimal policy. A tiny example makes this concrete. Imagine a single-state choice with two actions (two doors): left and right. We try left once and see reward <span class="arithmatex">\(0\)</span>, then try right once and see reward <span class="arithmatex">\(+1\)</span>. At this moment,</p>
+<div class="arithmatex">\[
+\hat V(\texttt{left}) = 0,\qquad \hat V(\texttt{right}) = 1,
+\]</div>
+<p>so a purely greedy agent will keep choosing right and keep updating its estimate from more samples, e.g.</p>
+<div class="arithmatex">\[
+\hat V(\texttt{right}) \leftarrow 2,\ \ldots
+\]</div>
+<p>But the important question is: are we sure we picked the best door? If left has uncertainty or rare high payoffs, never trying it again means we can never correct a wrong early guess.</p>
+<p>A simple fix for this is doing a <span class="arithmatex">\(\varepsilon\)</span>-greedy exploration. It keeps the greedy preference, but forces continued exploration by giving every action non-zero probability. To be more concrete, let <span class="arithmatex">\(m = |\mathcal{A}|\)</span> be the number of actions, then we can define a greedy action as</p>
+<div class="arithmatex">\[
+a^*(s) \in \arg\max_{a\in\mathcal{A}} Q(s,a).
+\]</div>
+<p>The <span class="arithmatex">\(\varepsilon\)</span>-greedy rule is: choose <span class="arithmatex">\(a^*(s)\)</span> with probability <span class="arithmatex">\(1-\varepsilon\)</span>, and with probability <span class="arithmatex">\(\varepsilon\)</span> choose a random action uniformly from <span class="arithmatex">\(\mathcal{A}\)</span>. Equivalently for each action,</p>
+<div class="arithmatex">\[
+\pi(a\mid s) =
+\begin{cases}
+1-\varepsilon + \dfrac{\varepsilon}{m}, &amp; \text{if } a=a^*(s),\\
+\dfrac{\varepsilon}{m}, &amp; \text{otherwise.}
+\end{cases}
+\]</div>
+<p>We add the <span class="arithmatex">\(\varepsilon/m\)</span> term in the first case because even in the exploration step (which occurs with probability <span class="arithmatex">\(\varepsilon\)</span>), the policy chooses uniformly from all <span class="arithmatex">\(m\)</span> actions and can still select the greedy action with probability <span class="arithmatex">\(1/m\)</span>, therefore</p>
+<div class="arithmatex">\[
+\pi(a^*(s)\mid s)=(1-\varepsilon)+\varepsilon\cdot\frac{1}{m}=1-\varepsilon+\frac{\varepsilon}{m}.
+\]</div>
+<p>This helps in three straightforward ways: it prevents premature convergence by continuing to sample non-greedy actions, it improves the accuracy of <span class="arithmatex">\(Q(s,a)\)</span> by collecting more balanced data, and it guarantees non-zero exploration. Informally, if <span class="arithmatex">\(\varepsilon\)</span> does not decay too fast, every action keeps getting tried often enough for learning to correct itself (formal convergence needs extra conditions).</p>
+<p>With this in mind, MC control with action-values becomes a practical on-policy loop: we estimate <span class="arithmatex">\(Q \approx q_\pi\)</span> from sampled returns, then we improve the policy toward greedy with respect to <span class="arithmatex">\(Q\)</span>, while behaving according to an <span class="arithmatex">\(\varepsilon\)</span>-greedy version to maintain exploration. This is the standard recipe for <span class="arithmatex">\(\varepsilon\)</span>-greedy MC control.</p>
+<h3 id="varepsilon-greedy-policy-improvement-proof"><span class="arithmatex">\(\varepsilon\)</span>-Greedy Policy Improvement (Proof)</h3>
+<p>Fix an <span class="arithmatex">\(\varepsilon\)</span>-greedy policy <span class="arithmatex">\(\pi\)</span> and suppose we can evaluate its action-values <span class="arithmatex">\(q_\pi(s,a)\)</span>. 
+We construct an improved policy <span class="arithmatex">\(\pi'\)</span> by acting <span class="arithmatex">\(\varepsilon\)</span>-greedily with respect to <span class="arithmatex">\(q_\pi\)</span>: in each state <span class="arithmatex">\(s\)</span> we prefer actions with maximal <span class="arithmatex">\(q_\pi(s,a)\)</span>, but keep uniform exploration over all actions.</p>
+<p>Let</p>
+<div class="arithmatex">\[
+a^*(s)\in \arg\max_{a\in\mathcal{A}} q_\pi(s,a),\qquad m = |\mathcal{A}|,
+\]</div>
+<p>and define</p>
+<div class="arithmatex">\[
+\pi'(a\mid s)=
+\begin{cases}
+1-\varepsilon + \dfrac{\varepsilon}{m}, &amp; a=a^*(s),\\
+\dfrac{\varepsilon}{m}, &amp; \text{otherwise}.
+\end{cases}
+\]</div>
+<p>Thus <span class="arithmatex">\(\pi'\)</span> concentrates probability on greedy actions while assigning positive probability to every action. We now show that this improvement step cannot decrease performance.</p>
+<p><strong>[Theorem] <span class="arithmatex">\(\varepsilon\)</span>-greedy policy improvement.</strong> For any <span class="arithmatex">\(\varepsilon\)</span>-greedy policy <span class="arithmatex">\(\pi\)</span>, the <span class="arithmatex">\(\varepsilon\)</span>-greedy policy <span class="arithmatex">\(\pi'\)</span> with respect to <span class="arithmatex">\(q_\pi\)</span>
+is an improvement, i.e.</p>
+<div class="arithmatex">\[
+v_{\pi'}(s)\ge v_\pi(s)\quad \text{for all } s\in\mathcal{S}.
+\]</div>
+<p><strong>Proof.</strong>
+Fix a state <span class="arithmatex">\(s\)</span>. For any policy <span class="arithmatex">\(\pi'\)</span> we can write:</p>
+<div class="arithmatex">\[
+q_\pi(s,\pi'(s))=\sum_{a\in\mathcal{A}}\pi'(a\mid s)\,q_\pi(s,a).
+\]</div>
+<p><strong>Step 1: Expand <span class="arithmatex">\(q_\pi(s,\pi'(s))\)</span> using the definition of <span class="arithmatex">\(\pi'\)</span>.</strong>
+Let <span class="arithmatex">\(a^*(s)\in\arg\max_{a\in\mathcal{A}}q_\pi(s,a)\)</span> and <span class="arithmatex">\(m=|\mathcal{A}|\)</span>. Then</p>
+<div class="arithmatex">\[
+\begin{aligned}
+q_\pi(s,\pi'(s))
+&amp;=\Bigl(1-\varepsilon+\frac{\varepsilon}{m}\Bigr)q_\pi\bigl(s,a^*(s)\bigr)
+  \;+\;\sum_{a\neq a^*(s)}\frac{\varepsilon}{m}\,q_\pi(s,a)\\
+&amp;=(1-\varepsilon)\,q_\pi\bigl(s,a^*(s)\bigr)
+  \;+\;\frac{\varepsilon}{m}\sum_{a\in\mathcal{A}}q_\pi(s,a)\\
+&amp;=(1-\varepsilon)\max_{a\in\mathcal{A}}q_\pi(s,a)\;+\;\frac{\varepsilon}{m}\sum_{a\in\mathcal{A}}q_\pi(s,a).
+\end{aligned}
+\]</div>
+<p>This is exactly "mostly greedy" plus a uniform exploration average.</p>
+<p><strong>Step 2: Compare the greedy maximum to the <span class="arithmatex">\(q_\pi\)</span>-expectation under <span class="arithmatex">\(\pi\)</span>.</strong>
+A maximum dominates every convex combination: for any distribution <span class="arithmatex">\(w(\cdot)\)</span> on <span class="arithmatex">\(\mathcal{A}\)</span>,</p>
+<div class="arithmatex">\[
+\max_{a\in\mathcal{A}}q_\pi(s,a)\;\ge\;\sum_{a\in\mathcal{A}}w(a)\,q_\pi(s,a).
+\]</div>
+<p>Define</p>
+<div class="arithmatex">\[
+w(a)\;=\frac{\pi(a\mid s)-\varepsilon/m}{1-\varepsilon}.
+\]</div>
+<p>This is a valid distribution:</p>
+<ul>
+<li>Nonnegativity: since <span class="arithmatex">\(\pi\)</span> is <span class="arithmatex">\(\varepsilon\)</span>-greedy, <span class="arithmatex">\(\pi(a\mid s)\ge \varepsilon/m\)</span> for all <span class="arithmatex">\(a\)</span>, hence <span class="arithmatex">\(w(a)\ge 0\)</span>.</li>
+<li>Normalization:</li>
+</ul>
+<div class="arithmatex">\[
+\sum_{a\in\mathcal{A}}w(a)
+=\frac{\sum_a\pi(a\mid s)-\sum_a\varepsilon/m}{1-\varepsilon}
+=\frac{1-\varepsilon}{1-\varepsilon}=1.
+\]</div>
+<p>Plugging this <span class="arithmatex">\(w\)</span> into the inequality and multiplying by <span class="arithmatex">\((1-\varepsilon)\)</span> gives</p>
+<div class="arithmatex">\[
+(1-\varepsilon)\max_{a\in\mathcal{A}}q_\pi(s,a)
+\;\ge\;\sum_{a\in\mathcal{A}}\bigl(\pi(a\mid s)-\varepsilon/m\bigr)\,q_\pi(s,a).
+\]</div>
+<p><strong>Step 3: Combine with Step 1 to obtain the key statewise inequality.</strong>
+Using the expansion from Step 1,</p>
+<div class="arithmatex">\[
+\begin{aligned}
+q_\pi(s,\pi'(s))
+&amp;=\frac{\varepsilon}{m}\sum_{a\in\mathcal{A}}q_\pi(s,a)\;+\;(1-\varepsilon)\max_{a\in\mathcal{A}}q_\pi(s,a)\\
+&amp;\ge \frac{\varepsilon}{m}\sum_{a\in\mathcal{A}}q_\pi(s,a)
+ + \sum_{a\in\mathcal{A}}\bigl(\pi(a\mid s)-\varepsilon/m\bigr)\,q_\pi(s,a)\\
+&amp;=\sum_{a\in\mathcal{A}}\pi(a\mid s)\,q_\pi(s,a)\\
+&amp;=q_\pi(s,\pi(s))\\
+&amp;=v_\pi(s),
+\end{aligned}
+\]</div>
+<p>where the last equality is the standard identity <span class="arithmatex">\(v_\pi(s)=\sum_a \pi(a\mid s)\,q_\pi(s,a)\)</span>.</p>
+<p>Thus, for every state <span class="arithmatex">\(s\)</span>,</p>
+<div class="arithmatex">\[
+q_\pi\bigl(s,\pi'(s)\bigr)\;\ge\;v_\pi(s).
+\]</div>
+<p><strong>Step 4: Conclude <span class="arithmatex">\(v_{\pi'}\ge v_\pi\)</span> (policy-improvement step).</strong>
+Recall that for any <span class="arithmatex">\(s\)</span>,</p>
+<div class="arithmatex">\[
+(T_{\pi'}v_\pi)(s)\;=\;\sum_{a\in\mathcal{A}}\pi'(a\mid s)\Bigl[r(s,a)+\gamma\sum_{s'}P(s'\mid s,a)\,v_\pi(s')\Bigr]
+=\sum_{a\in\mathcal{A}}\pi'(a\mid s)\,q_\pi(s,a)
+=q_\pi(s,\pi'(s)).
+\]</div>
+<p>So the inequality above is exactly</p>
+<div class="arithmatex">\[
+(T_{\pi'}v_\pi)(s)\;\ge\;v_\pi(s)\qquad \forall s.
+\]</div>
+<p>Applying <span class="arithmatex">\(T_{\pi'}\)</span> repeatedly and using monotonicity yields</p>
+<div class="arithmatex">\[
+v_\pi \;\le\; T_{\pi'}v_\pi \;\le\; T_{\pi'}^2v_\pi \;\le\;\cdots
+\]</div>
+<p>and since <span class="arithmatex">\(T_{\pi'}\)</span> is a <span class="arithmatex">\(\gamma\)</span>-contraction, <span class="arithmatex">\(T_{\pi'}^k v_\pi \to v_{\pi'}\)</span> as <span class="arithmatex">\(k\to\infty\)</span>. Therefore,</p>
+<div class="arithmatex">\[
+v_{\pi'}(s)\;\ge\;v_\pi(s)\qquad \forall s.
+\]</div>
+<p><strong>Practical Note.</strong> The policy-improvement result above assumes access to the true action-values <span class="arithmatex">\(q_\pi\)</span>. In MC control we only have an estimate <span class="arithmatex">\(Q\approx q_\pi\)</span>, so the improvement step is approximate and performance need not increase monotonically after each episode. Moreover, while <span class="arithmatex">\(\varepsilon\)</span>-greedy ensures continued exploration in any visited state,</p>
+<div class="arithmatex">\[
+\pi(a\mid s)\ge \varepsilon/m,
+\]</div>
+<p>it does not provide a useful bound on how quickly the process visits all states or if it tries each action often enough to accurately estimate <span class="arithmatex">\(q_\pi\)</span>. In large or poorly-connected MDPs, some regions may be reached very rarely, making naive exploration slow and inefficient. In practice, exploration is often made more directed (e.g. optimistic initialisation, UCB-style bonuses, Boltzmann/softmax exploration), and many algorithms switch to TD methods (e.g. SARSA, Q-learning) that learn online without waiting for episode termination.</p>
+<h2 id="greedy-in-the-limit-with-infinite-exploration-glie">Greedy in the Limit with Infinite Exploration (GLIE)</h2>
+<p>A fixed <span class="arithmatex">\(\varepsilon&gt;0\)</span> in <span class="arithmatex">\(\varepsilon\)</span>-greedy control is great for exploration, but it has an obvious downside: the policy stays random forever, so it never becomes fully greedy. What we usually want is a schedule that explores a lot early (when <span class="arithmatex">\(Q\)</span> is unreliable) and then gradually exploits more as the estimates improve. GLIE is a standard way to formalise this idea.</p>
+<p><strong>Definition.</strong> A sequence of policies <span class="arithmatex">\(\{\pi_k\}_{k\ge 1}\)</span> is Greedy in the Limit with Infinite Exploration (GLIE) if it satisfies two properties. First, it performs infinite exploration: every state-action pair is visited infinitely often,</p>
+<div class="arithmatex">\[
+\lim_{k\to\infty} N_k(s,a) = \infty
+\quad \text{for all } (s,a)\in \mathcal{S}\times\mathcal{A},
+\]</div>
+<p>where <span class="arithmatex">\(N_k(s,a)\)</span> counts how many times <span class="arithmatex">\((s,a)\)</span> has appeared up to episode <span class="arithmatex">\(k\)</span>. Second, it becomes greedy in the limit: as <span class="arithmatex">\(k\)</span> grows, the policy converges to choosing greedy actions with respect to the learned action-values,</p>
+<div class="arithmatex">\[
+\lim_{k\to\infty}\pi_k(a\mid s) = \mathbf{1}\!\left(a \in \arg\max_{a'\in\mathcal{A}} Q_k(s,a')\right).
+\]</div>
+<p>A typical example is decaying <span class="arithmatex">\(\varepsilon\)</span>-greedy, where <span class="arithmatex">\(\varepsilon_k\to 0\)</span> (for instance <span class="arithmatex">\(\varepsilon_k=1/k\)</span>), provided the induced behaviour still visits states often enough. This directly addresses the issue that a fixed <span class="arithmatex">\(\varepsilon\)</span> can be too random forever.</p>
+<h3 id="glie-monte-carlo-control-episode-by-episode">GLIE Monte-Carlo Control (episode-by-episode)</h3>
+<p>Control is not an i.i.d. estimation problem: the data are generated by the current policy, and as the policy changes, the state-action distribution of the samples changes as well. GLIE MC control therefore implements generalised policy iteration: it interleaves (approximate) policy evaluation with policy improvement, updating both from the same evolving stream of experience. Concretely, at episode <span class="arithmatex">\(k\)</span> we roll out a trajectory under the current policy <span class="arithmatex">\(\pi_k\)</span>,</p>
+<div class="arithmatex">\[
+\{S_1, A_1, R_2, \ldots, S_T\} \sim \pi_k,
+\]</div>
+<p>use the resulting returns to update <span class="arithmatex">\(Q\)</span> by incremental Monte-Carlo averaging for each visited pair <span class="arithmatex">\((S_t,A_t)\)</span>,</p>
+<div class="arithmatex">\[
+N(S_t,A_t) \leftarrow N(S_t,A_t) + 1,\qquad
+Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \frac{1}{N(S_t,A_t)}\Bigl(G_t - Q(S_t,A_t)\Bigr),
+\]</div>
+<p>and then improve the policy by making it <span class="arithmatex">\(\varepsilon_k\)</span>-greedy with respect to the updated <span class="arithmatex">\(Q\)</span> while simultaneously reducing exploration according to a GLIE schedule (e.g. <span class="arithmatex">\(\varepsilon_k=1/k\)</span>):</p>
+<div class="arithmatex">\[
+\varepsilon_k \leftarrow \frac{1}{k}, \qquad \pi_{k+1} \leftarrow \varepsilon_k\text{-greedy}(Q).
+\]</div>
+<p>The decay <span class="arithmatex">\(\varepsilon_k\to 0\)</span> makes the policy greedy in the limit, while keeping <span class="arithmatex">\(\varepsilon_k&gt;0\)</span> for all finite <span class="arithmatex">\(k\)</span> ensures continued exploration. Under standard assumptions for episodic finite MDPs and a GLIE policy sequence, tabular GLIE Monte-Carlo control converges:</p>
+<div class="arithmatex">\[
+Q_k(s,a) \to q_*(s,a) \quad \text{as } k\to\infty.
+\]</div>
+<p><strong>Proof sketch.</strong>
+Fix a state-action pair <span class="arithmatex">\((s,a)\)</span>. Under a GLIE policy sequence, every pair is visited infinitely often while the policy becomes greedy in the limit: <span class="arithmatex">\(\varepsilon_k\to 0\)</span> and <span class="arithmatex">\(N_k(s,a)\to\infty\)</span>. For first-visit (or every-visit) Monte-Carlo evaluation, the update</p>
+<div class="arithmatex">\[
+Q_{n+1}(s,a) \;=\; Q_n(s,a) + \frac{1}{n}\bigl(G^{(n)}(s,a)-Q_n(s,a)\bigr)
+\]</div>
+<p>is the sample-average estimator of <span class="arithmatex">\(\mathbb{E}_\pi[G\mid S=s,A=a]=q_\pi(s,a)\)</span>, hence by the law of large numbers,</p>
+<div class="arithmatex">\[
+Q_n(s,a)\to q_{\pi}(s,a)\qquad \text{for fixed }\pi.
+\]</div>
+<p>In control, <span class="arithmatex">\(\pi_k\)</span> changes with <span class="arithmatex">\(k\)</span>, but GLIE interleaves these evaluation updates with <span class="arithmatex">\(\varepsilon_k\)</span>-greedy improvement. The improvement step is greedy in the limit, so the sequence of policies approaches a greedy policy w.r.t. the limiting action-values. Combining (i) infinite exploration (so each <span class="arithmatex">\((s,a)\)</span> is learned) with (ii) greedy-in-the-limit improvement (so suboptimal actions are eventually rejected) yields convergence of the action-value estimates to optimality:</p>
+<div class="arithmatex">\[
+Q_k(s,a)\to q_*(s,a)\quad \text{as }k\to\infty.
+\]</div>
+<p>A full proof formalises this using stochastic approximation arguments and the GLIE conditions (see standard RL texts).</p>
+<p><strong>Additional comments.</strong> In tabular GLIE theory, if the GLIE conditions hold (infinite exploration and greedy in the limit), then the choice of initial values does not affect the limit: the estimates still converge to <span class="arithmatex">\(q_*\)</span>. What initialisation does affect is the transient behaviour, how quickly <span class="arithmatex">\(Q_k\)</span> becomes accurate and how quickly the induced policy becomes good.</p>
+<p>In practice, initialisation can noticeably change learning speed. With optimistic initialisation (starting with large <span class="arithmatex">\(Q\)</span> values), actions look promising until they are tried, which can encourage exploration and sometimes allows a smaller <span class="arithmatex">\(\varepsilon\)</span> in simple tasks. With pessimistic (or zero) initialisation, many actions may look similarly unappealing, and if exploration is weak the agent may fail to collect enough diverse experience early on. In larger problems, and especially with function approximation, this can interact with limited state-action coverage and further slow learning. Finally, at optimality the limiting action-value function satisfies the Bellman optimality equation:</p>
+<div class="arithmatex">\[
+q_*(s,a) = \mathbb{E}\!\left[ R_{t+1} + \gamma \max_{a'\in\mathcal{A}} q_*(S_{t+1}, a') \mid S_t=s, A_t=a \right].
+\]</div>
+<p>GLIE MC control targets <span class="arithmatex">\(q_*\)</span> via sampled returns and <span class="arithmatex">\(\varepsilon_k\)</span>-greedy improvement; the GLIE conditions are what ensure we keep visiting enough <span class="arithmatex">\((s,a)\)</span> pairs to reliably identify the maximising actions.</p>
+<h2 id="from-mc-control-to-td-control-sarsa">From MC Control to TD Control: SARSA</h2>
+<p>Monte-Carlo (MC) control updates <span class="arithmatex">\(Q\)</span> using full returns, so it must wait until an episode ends and its targets can be noisy for long horizons. Temporal-Difference (TD) control changes the target: it bootstraps from the current value estimate instead of using the complete return. This has a few practical benefits. First, TD targets typically have lower variance than <span class="arithmatex">\(G_t\)</span> because they depend on one reward plus an estimate, not an entire future sum. Second, TD can update online, step-by-step inside the episode. Third, TD can learn from truncated sequences and continuing tasks since it does not require a terminal state to define an update. The natural control recipe is the same as before: keep <span class="arithmatex">\(\varepsilon\)</span>-greedy improvement, but replace MC evaluation with TD updates of <span class="arithmatex">\(Q(S,A)\)</span> at every time-step.</p>
+<h3 id="td-evaluation-on-action-values-the-sarsa-update">TD evaluation on action-values: the SARSA update</h3>
+<p>SARSA is an on-policy TD control method. Its name comes from the quintuple</p>
+<div class="arithmatex">\[
+(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1}).
+\]</div>
+<p>After taking <span class="arithmatex">\(A_t\)</span> in <span class="arithmatex">\(S_t\)</span> and observing <span class="arithmatex">\(R_{t+1}\)</span> and <span class="arithmatex">\(S_{t+1}\)</span>, we also sample the next action <span class="arithmatex">\(A_{t+1}\)</span> from the current behaviour policy (typically <span class="arithmatex">\(\varepsilon\)</span>-greedy). With <span class="arithmatex">\(S_t=s\)</span>, <span class="arithmatex">\(A_t=a\)</span>, <span class="arithmatex">\(R_{t+1}=r\)</span>, <span class="arithmatex">\(S_{t+1}=s'\)</span>, and <span class="arithmatex">\(A_{t+1}=a'\)</span>, the SARSA update is</p>
+<div class="arithmatex">\[
+Q(s,a)\;\leftarrow\; Q(s,a) + \alpha\Bigl(\underbrace{r + \gamma Q(s',a')}_{\text{TD target}} - Q(s,a)\Bigr).
+\]</div>
+<p>Equivalently, define the TD-error</p>
+<div class="arithmatex">\[
+\delta_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t),
+\]</div>
+<p>and update</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\,\delta_t.
+\]</div>
+<h3 id="why-this-td-target-makes-sense">Why this TD target makes sense</h3>
+<p>Fix a policy <span class="arithmatex">\(\pi\)</span>. Its action-value function <span class="arithmatex">\(q_\pi\)</span> satisfies the Bellman expectation equation</p>
+<div class="arithmatex">\[
+q_\pi(s,a)
+= \mathbb{E}_\pi\!\left[\,R_{t+1} + \gamma q_\pi(S_{t+1},A_{t+1}) \;\middle|\; S_t=s,\;A_t=a\right],
+\]</div>
+<p>where <span class="arithmatex">\(A_{t+1}\sim \pi(\cdot\mid S_{t+1})\)</span>. If <span class="arithmatex">\(q_\pi\)</span> were known, then along a trajectory generated by <span class="arithmatex">\(\pi\)</span> the random variable</p>
+<div class="arithmatex">\[
+Y_{t} \;=\; R_{t+1} + \gamma q_\pi(S_{t+1},A_{t+1})
+\]</div>
+<p>has conditional expectation</p>
+<div class="arithmatex">\[
+\mathbb{E}_\pi\!\left[\,Y_t \mid S_t=s,\;A_t=a\right] \;=\; q_\pi(s,a),
+\]</div>
+<p>so <span class="arithmatex">\(Y_t\)</span> is a one-step, unbiased sample target for <span class="arithmatex">\(q_\pi(s,a)\)</span>. A natural way to estimate <span class="arithmatex">\(q_\pi\)</span> is therefore to repeatedly move our estimate toward this target using stochastic approximation. SARSA follows exactly this logic, but replaces the unknown <span class="arithmatex">\(q_\pi\)</span> with the current estimate <span class="arithmatex">\(Q\)</span>:</p>
+<div class="arithmatex">\[
+\widehat{Y}_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}).
+\]</div>
+<p>This is the TD target. With stepsize <span class="arithmatex">\(\alpha\)</span>, the SARSA update becomes</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\bigl(\widehat{Y}_t - Q(S_t,A_t)\bigr),
+\]</div>
+<p>where the TD error</p>
+<div class="arithmatex">\[
+\delta_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t)
+\]</div>
+<p>measures the current violation of Bellman consistency. When <span class="arithmatex">\(Q\)</span> matches <span class="arithmatex">\(q_\pi\)</span>, the expected TD error is zero, so on average the update stops pushing the estimate. In this sense, SARSA updates <span class="arithmatex">\(Q\)</span> to make it increasingly consistent with the Bellman expectation equation for the policy being followed.</p>
+<p><strong>Practical Notes.</strong> Compared to MC, the TD target typically has lower variance, but it introduces bias because it bootstraps (it uses <span class="arithmatex">\(Q\)</span> inside the target), in practice this tradeoff is often favourable, especially for long episodes or when we want to learn online. In SARSA control, we continually derive behaviour from the current action-values, most often by acting <span class="arithmatex">\(\varepsilon\)</span>-greedily with respect to <span class="arithmatex">\(Q\)</span>,</p>
+<div class="arithmatex">\[
+\pi(\cdot\mid s) \leftarrow \varepsilon\text{-greedy}(Q(\,s,\cdot\,)),
+\]</div>
+<p>because <span class="arithmatex">\(Q\)</span> is updated at every time-step, the implied policy effectively changes at every time-step as well. This can be understood either through a policy iteration / GPI lens as TD updates act as approximate evaluation toward <span class="arithmatex">\(q_\pi\)</span> while <span class="arithmatex">\(\varepsilon\)</span>-greedy action selection supplies the improvement step, with the two interleaved continuously, or through an online control lens where behaviour is always generated by the current <span class="arithmatex">\(\varepsilon\)</span>-greedy policy implied by <span class="arithmatex">\(Q\)</span>, so revisiting a state can lead to different actions simply because <span class="arithmatex">\(Q\)</span> has changed since last time. The fact that behaviour changes while learning does matter: the data distribution is non-stationary because the policy evolves, however, SARSA is on-policy and therefore updates <span class="arithmatex">\(Q\)</span> toward the value of the same policy that generates the data,</p>
+<div class="arithmatex">\[
+\text{data from } \pi \quad \Longrightarrow \quad \text{update toward } q_\pi,
+\]</div>
+<p>so as <span class="arithmatex">\(\pi\)</span> improves and the target <span class="arithmatex">\(q_\pi\)</span> moves, SARSA keeps tracking it via continual small updates. Moreover, because TD methods bootstrap, they can immediately use the freshest estimates inside the target, which often speeds up learning relative to MC (which must wait for episode termination). In long-horizon tasks, repeated bootstrapped updates propagate information backward through the value function sooner. Finally, TD ideas extend naturally to off-policy control (e.g. Q-learning), where the target can use a greedy action even while behaviour remains exploratory, which is a major reason TD control sits at the core of many practical RL algorithms.</p>
+<h3 id="sarsa-algorithm">SARSA algorithm</h3>
+<blockquote>
+<p>Initialize <span class="arithmatex">\(Q(s,a)\)</span> arbitrarily for all <span class="arithmatex">\(s\in\mathcal{S}, a\in\mathcal{A}(s)\)</span> and set <span class="arithmatex">\(Q(\text{terminal},\cdot)=0\)</span>.</p>
+<p>For each episode:</p>
+<ol>
+<li>Initialize <span class="arithmatex">\(S\)</span>.</li>
+<li>Choose <span class="arithmatex">\(A\)</span> from <span class="arithmatex">\(S\)</span> using a policy derived from <span class="arithmatex">\(Q\)</span> (e.g. <span class="arithmatex">\(\varepsilon\)</span>-greedy).</li>
+<li>Repeat (for each step of the episode):<ol>
+<li>Take action <span class="arithmatex">\(A\)</span>, observe <span class="arithmatex">\(R\)</span> and next state <span class="arithmatex">\(S'\)</span>.</li>
+<li>Choose <span class="arithmatex">\(A'\)</span> from <span class="arithmatex">\(S'\)</span> using a policy derived from <span class="arithmatex">\(Q\)</span> (e.g. <span class="arithmatex">\(\varepsilon\)</span>-greedy).</li>
+<li>Update: <span class="arithmatex">\(Q(S,A) \leftarrow Q(S,A) + \alpha\bigl[R + \gamma Q(S',A') - Q(S,A)\bigr]\)</span>.</li>
+<li><span class="arithmatex">\(S \leftarrow S'\)</span>, <span class="arithmatex">\(A \leftarrow A'\)</span> until <span class="arithmatex">\(S\)</span> is terminal.</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+<h3 id="convergence-of-sarsa-tabular-setting">Convergence of SARSA (tabular setting)</h3>
+<p>In the idealised tabular case (finite state-action spaces), SARSA is guaranteed to converge to the optimal action-value function provided (i) we explore forever but become greedy in the limit, and (ii) the step-sizes shrink in a controlled way. Concretely, SARSA converges in the sense that</p>
+<div class="arithmatex">\[
+Q(s,a)\to q_*(s,a),
+\]</div>
+<p>under the following conditions:</p>
+<ul>
+<li>a GLIE sequence of behaviour policies <span class="arithmatex">\(\{\pi_t(\cdot\mid s)\}\)</span> (infinite exploration, greedy in the limit),</li>
+<li>a Robbins-Monro step-size sequence <span class="arithmatex">\(\{\alpha_t\}\)</span> satisfying</li>
+</ul>
+<div class="arithmatex">\[
+\sum_{t=1}^{\infty}\alpha_t = \infty,
+\qquad
+\sum_{t=1}^{\infty}\alpha_t^2 &lt; \infty.
+\]</div>
+<p>The Robbins-Monro conditions encode a practical balance between not giving up too early and eventual stability. The requirement <span class="arithmatex">\(\sum_t \alpha_t=\infty\)</span> means there is enough total "learning rate" to keep making progress (the algorithm does not effectively freeze), while <span class="arithmatex">\(\sum_t \alpha_t^2&lt;\infty\)</span> ensures the steps become small enough that sampling noise averages out and the iterates settle. A standard schedule is <span class="arithmatex">\(\alpha_t=1/t\)</span> (more generally <span class="arithmatex">\(\alpha_t=1/t^\beta\)</span> with <span class="arithmatex">\(\tfrac12&lt;\beta\le 1\)</span>).</p>
+<p>In real implementations it is common to use a small constant step-size (or a piecewise schedule) to learn faster and to track non-stationarity. This can violate Robbins-Monro, so the strict convergence guarantee no longer applies, but empirically it often works well, the theorem is mainly a clean guarantee for the stationary, tabular regime. These same ingredients also explain a common learning curve pattern in episodic tasks: learning can look extremely slow at first, then suddenly speed up. Early on, <span class="arithmatex">\(Q\)</span> is uninformative, so an <span class="arithmatex">\(\varepsilon\)</span>-greedy policy behaves close to random and may wander for a long time before reaching termination. As SARSA updates <span class="arithmatex">\(Q\)</span> online, useful actions start receiving higher values, so the same <span class="arithmatex">\(\varepsilon\)</span>-greedy rule increasingly prefers them and trajectories shorten dramatically. For example, in a sparse-reward navigation task where reward appears only at a goal state, the first episode might take a lot of steps to stumble into the goal but afterwards, TD bootstrapping propagates positive value back through earlier state-action choices, and later episodes can drop to a significantly lower number of steps even though exploration still occurs with probability <span class="arithmatex">\(\varepsilon\)</span>.</p>
+<p>Overall GLIE ensures every <span class="arithmatex">\((s,a)\)</span> keeps being tried while behaviour becomes greedy in the limit, and Robbins-Monro step-sizes ensure updates keep moving but eventually stabilise, together they yield the tabular convergence of SARSA.</p>
+<h2 id="n-step-sarsa-and-sarsalambda-forward-view-vs-backward-view"><span class="arithmatex">\(n\)</span>-Step SARSA and SARSA(<span class="arithmatex">\(\lambda\)</span>): Forward View vs Backward View</h2>
+<p>A useful way to understand the MC-TD connection is to compare how quickly we bootstrap. Plain SARSA bootstraps after one step: it replaces the unknown future return by the current estimate <span class="arithmatex">\(Q\)</span> immediately, which typically reduces variance but introduces bias. Monte-Carlo (MC) on the other hand, waits until the end of the episode to form the full return, which is unbiased for <span class="arithmatex">\(q_\pi\)</span> (given a fixed policy) but can have high variance and delayed learning. The natural middle ground is to bootstrap after <span class="arithmatex">\(n\)</span> steps. This yields a family of methods indexed by an integer <span class="arithmatex">\(n\in\{1,2,\dots\}\)</span>, with <span class="arithmatex">\(n=1\)</span> recovering SARSA and <span class="arithmatex">\(n=\infty\)</span> corresponding to MC. Ideally, however, we would like a mechanism that blends these horizons rather than forcing us to pick a single "correct" <span class="arithmatex">\(n\)</span>.</p>
+<h3 id="n-step-returns-for-action-values"><span class="arithmatex">\(n\)</span>-step returns for action-values</h3>
+<p>Consider a trajectory (episodic case) and fix a time index <span class="arithmatex">\(t\)</span>. The core object is a target for <span class="arithmatex">\(Q(S_t,A_t)\)</span> that uses the next <span class="arithmatex">\(n\)</span> rewards explicitly and then bootstraps from <span class="arithmatex">\(Q\)</span> at time <span class="arithmatex">\(t+n\)</span>. Concretely, the first few <span class="arithmatex">\(n\)</span>-step action-value targets are</p>
+<div class="arithmatex">\[
+\begin{aligned}
+n=1 \;(\text{SARSA}):\quad &amp; q_t^{(1)} = R_{t+1} + \gamma Q(S_{t+1},A_{t+1}),\\
+n=2:\quad &amp; q_t^{(2)} = R_{t+1} + \gamma R_{t+2} + \gamma^2 Q(S_{t+2},A_{t+2}),\\
+n=3:\quad &amp; q_t^{(3)} = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 Q(S_{t+3},A_{t+3}),\\
+&amp;\vdots\\
+n=\infty \;(\text{MC}):\quad &amp; q_t^{(\infty)} = R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{T-t-1}R_T.
+\end{aligned}
+\]</div>
+<p>More compactly, for a finite <span class="arithmatex">\(n\)</span> we define the <span class="arithmatex">\(n\)</span>-step Q-return</p>
+<div class="arithmatex">\[
+q_t^{(n)}
+\;=\;
+\sum_{i=1}^{n}\gamma^{i-1}R_{t+i}
+\;+\;
+\gamma^{n}Q(S_{t+n},A_{t+n}).
+\]</div>
+<p>When the episode terminates before <span class="arithmatex">\(t+n\)</span>, we simply stop at <span class="arithmatex">\(T\)</span> and there is no bootstrap term; equivalently, the bootstrap term is <span class="arithmatex">\(0\)</span> after termination. Given this target, <span class="arithmatex">\(n\)</span>-step SARSA applies the usual incremental update:</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t)+\alpha\Bigl(q_t^{(n)}-Q(S_t,A_t)\Bigr).
+\]</div>
+<p>Intuitively, <span class="arithmatex">\(n\)</span> controls the bias-variance tradeoff: increasing <span class="arithmatex">\(n\)</span> replaces more of the bootstrapped tail by actual sampled rewards (less bias, more variance and delay), while decreasing <span class="arithmatex">\(n\)</span> bootstraps sooner (more bias, typically lower variance and faster propagation).</p>
+<h3 id="forward-view-sarsalambda-averaging-over-all-horizons">Forward-view SARSA(<span class="arithmatex">\(\lambda\)</span>): averaging over all horizons</h3>
+<p>Picking <span class="arithmatex">\(n\)</span> can be tricky: the best horizon depends on the problem, and performance can be sensitive to it. SARSA(<span class="arithmatex">\(\lambda\)</span>) addresses this by forming a single target that is a weighted average of all <span class="arithmatex">\(n\)</span>-step targets. We define the <span class="arithmatex">\(\lambda\)</span>-return (forward view) by</p>
+<div class="arithmatex">\[
+q_t^\lambda =
+(1-\lambda)\sum_{n=1}^{\infty}\lambda^{n-1}\,q_t^{(n)},
+\qquad \lambda\in[0,1].
+\]</div>
+<p>The coefficients <span class="arithmatex">\((1-\lambda)\lambda^{n-1}\)</span> form a geometric distribution over <span class="arithmatex">\(n\)</span> because</p>
+<div class="arithmatex">\[
+\sum_{n=1}^{\infty}(1-\lambda)\lambda^{n-1}=1,
+\]</div>
+<p>so <span class="arithmatex">\(q_t^\lambda\)</span> is literally a convex combination of the <span class="arithmatex">\(n\)</span>-step returns. The parameter <span class="arithmatex">\(\lambda\)</span> controls how much weight is placed on longer horizons:</p>
+<ul>
+<li><span class="arithmatex">\(\lambda=0\)</span> puts all weight on <span class="arithmatex">\(n=1\)</span>, so <span class="arithmatex">\(q_t^\lambda=q_t^{(1)}\)</span> and we recover one-step SARSA.</li>
+<li>As <span class="arithmatex">\(\lambda\to 1\)</span>, the weights shift toward large <span class="arithmatex">\(n\)</span>, making the target increasingly MC-like.</li>
+</ul>
+<p>Using <span class="arithmatex">\(q_t^\lambda\)</span> as the target gives the forward-view update rule:</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t)+\alpha\Bigl(q_t^\lambda-Q(S_t,A_t)\Bigr).
+\]</div>
+<p>This view is conceptually clean, it says "update toward a particular weighted return", but it is not the most computationally convenient online implementation because it require access to many future rewards to form the sum. In particular, To compute <span class="arithmatex">\(q_t^{(n)}\)</span> we need information up to time <span class="arithmatex">\(t+n\)</span>, and to evaluate the infinite weighted sum we need the whole future trajectory (up to termination). The backward view (eligibility traces) provides an efficient online mechanism that is equivalent to this forward view under standard conditions, which we discuss next.</p>
+<h3 id="backward-view-sarsalambda-eligibility-traces-for-online-learning">Backward-view SARSA(<span class="arithmatex">\(\lambda\)</span>): eligibility traces for online learning</h3>
+<p>The forward view defines an appealing multi-step target, but it is inconvenient online because it depends on future rewards. The backward view achieves the same effect incrementally by maintaining eligibility traces: a table <span class="arithmatex">\(E(s,a)\)</span> that tracks how much "credit" each previously visited pair should receive from the current TD error. This has been discussed in great detail in the previous chapter on Model free prediction.</p>
+<p><strong>Eligibility traces (accumulating).</strong>
+Initialize traces to zero:</p>
+<div class="arithmatex">\[
+E_0(s,a)=0 \qquad \text{for all }(s,a).
+\]</div>
+<p>At each time-step <span class="arithmatex">\(t\)</span>, traces decay and the currently visited pair is reinforced:</p>
+<div class="arithmatex">\[
+E_t(s,a)\;=\;\gamma\lambda\,E_{t-1}(s,a)\;+\;\mathbf{1}(S_t=s,\;A_t=a).
+\]</div>
+<p>Thus all past traces shrink by the factor <span class="arithmatex">\(\gamma\lambda\)</span>, while <span class="arithmatex">\((S_t,A_t)\)</span> receives an additional <span class="arithmatex">\(+1\)</span>. Recent (and repeatedly visited) pairs therefore have larger traces than older pairs.</p>
+<p><strong>TD error (same as one-step SARSA).</strong></p>
+<div class="arithmatex">\[
+\delta_t \;=\; R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t).
+\]</div>
+<p><strong>Backward-view update (credit assignment).</strong>
+Instead of assigning <span class="arithmatex">\(\delta_t\)</span> only to the current pair, SARSA(<span class="arithmatex">\(\lambda\)</span>) distributes it across all pairs proportionally to their eligibility:</p>
+<div class="arithmatex">\[
+Q(s,a)\;\leftarrow\; Q(s,a) + \alpha\,\delta_t\,E_t(s,a)
+\qquad \text{for all }(s,a).
+\]</div>
+<p>Intuitively, the TD error computed now is pushed backward through the trace, so recently visited pairs are updated strongly, and older pairs receive little or no update as their traces decay.</p>
+<p><strong>How traces remove the need to "look forward".</strong>
+The forward view updates <span class="arithmatex">\(Q(S_t,A_t)\)</span> using a weighted average of future <span class="arithmatex">\(n\)</span>-step returns. The backward view flips the computation: it stays fully online, forms a one-step TD error at time <span class="arithmatex">\(t\)</span>, and uses <span class="arithmatex">\(E_t\)</span> to send that information backward to the relevant recent history. The parameter <span class="arithmatex">\(\lambda\)</span> controls how far this backward credit assignment reaches: <span class="arithmatex">\(\lambda=0\)</span> makes traces vanish immediately (recovering one-step SARSA), while larger <span class="arithmatex">\(\lambda\)</span> keeps traces alive longer, producing more multi-step, MC-like behaviour.</p>
+<p><strong>SARSA vs. SARSA(<span class="arithmatex">\(\lambda\)</span>) in practice.</strong></p>
+<p>SARSA propagates learning one step at a time, so delayed rewards can take many updates to affect earlier decisions. SARSA(<span class="arithmatex">\(\lambda\)</span>) uses eligibility traces to push each TD error backward over multiple recent steps (with decaying strength), which often speeds up learning on long-horizon or delayed-reward tasks. SARSA(<span class="arithmatex">\(\lambda\)</span>) tends to help most with delayed/sparse rewards and episodic tasks where whole action sequences should share credit, while plain SARSA is often preferable for maximum simplicity, very large spaces where traces are expensive, or very noisy environments where longer-horizon credit assignment inflates variance.</p>
+<h2 id="off-policy-learning-and-importance-sampling">Off-Policy Learning and Importance Sampling</h2>
+<h3 id="on-policy-vs-off-policy-what-changed-and-why-it-matters">On-policy vs. off-policy: what changed, and why it matters</h3>
+<p>So far we have mostly worked for on-policy methods, where the same policy both generates the data and defines the quantity we evaluate or improve: if we follow <span class="arithmatex">\(\pi\)</span>, the trajectory distribution is induced by <span class="arithmatex">\(\pi\)</span>, and estimates like <span class="arithmatex">\(v_\pi\)</span> or <span class="arithmatex">\(q_\pi\)</span> are built from samples generated under that same <span class="arithmatex">\(\pi\)</span>. In off-policy learning these roles split: the behaviour policy <span class="arithmatex">\(\mu(a\mid s)\)</span> is what we actually run to collect experience, while the target policy <span class="arithmatex">\(\pi(a\mid s)\)</span> is what we want to evaluate (or improve toward). Concretely, we observe episodes under <span class="arithmatex">\(\mu\)</span>,</p>
+<div class="arithmatex">\[
+(S_1,A_1,R_2,\ldots,S_T)\sim \mu,
+\]</div>
+<p>but our goal remains to estimate quantities for <span class="arithmatex">\(\pi\)</span>, such as <span class="arithmatex">\(v_\pi(s)\)</span> or <span class="arithmatex">\(q_\pi(s,a)\)</span>. The motivation is largely data efficiency: interaction is expensive, so off-policy learning lets us learn from demonstrations or another agent (data from <span class="arithmatex">\(\mu\)</span>, questions about <span class="arithmatex">\(\pi\)</span>), reuse trajectories collected under earlier policies instead of discarding them, behave exploratorily for coverage while learning a greedy (or near-greedy) target policy, and even evaluate multiple target policies from a single dataset. But there is a key technical issue with this approach called distribution mismatch discussed below.</p>
+<p><strong>Distribution mismatch.</strong> In off-policy learning we collect experience under a behaviour policy <span class="arithmatex">\(\mu\)</span>, but we want to evaluate a different target policy <span class="arithmatex">\(\pi\)</span>. The problem is that value functions are expectations under the target policy's trajectory distribution. For instance,</p>
+<div class="arithmatex">\[
+v_\pi(s)=\mathbb{E}_\pi\!\left[G_t \mid S_t=s\right],
+\]</div>
+<p>and the subscript <span class="arithmatex">\(\pi\)</span> matters: it means the entire future trajectory (actions, next states, rewards, and hence the return <span class="arithmatex">\(G_t\)</span>) is generated by following <span class="arithmatex">\(\pi\)</span>. If instead we generate episodes under <span class="arithmatex">\(\mu\)</span>, then even from the same starting state <span class="arithmatex">\(s\)</span> we generally obtain a different distribution over trajectories, so the distribution of returns changes as well. Therefore, if we simply average returns observed under <span class="arithmatex">\(\mu\)</span> while pretending they came from <span class="arithmatex">\(\pi\)</span>, we converge to the wrong quantity:</p>
+<div class="arithmatex">\[
+\mathbb{E}_\mu[G_t\mid S_t=s]\neq \mathbb{E}_\pi[G_t\mid S_t=s]\quad\text{in general.}
+\]</div>
+<p>Intuitively, trajectories that are frequent under <span class="arithmatex">\(\mu\)</span> but rare under <span class="arithmatex">\(\pi\)</span> will be over-represented in the data, and trajectories that <span class="arithmatex">\(\pi\)</span> would often generate but <span class="arithmatex">\(\mu\)</span> rarely produces will be under-represented. This is a bias issue, not merely a high-variance or small-sample issue: with infinitely many samples from <span class="arithmatex">\(\mu\)</span> we would still estimate the expectation under <span class="arithmatex">\(\mu\)</span>, not under <span class="arithmatex">\(\pi\)</span>. A correction mechanism is needed to reweight samples so that, in aggregate, they reflect how likely each trajectory would be under <span class="arithmatex">\(\pi\)</span> rather than under <span class="arithmatex">\(\mu\)</span>. This task is achieved by importance sampling.</p>
+<h3 id="importance-sampling-correcting-distribution-mismatch">Importance sampling: correcting distribution mismatch</h3>
+<p>Off-policy evaluation fails if we treat data from <span class="arithmatex">\(\mu\)</span> as if it came from <span class="arithmatex">\(\pi\)</span>, because <span class="arithmatex">\(\mu\)</span> and <span class="arithmatex">\(\pi\)</span> induce different distributions over outcomes. Importance sampling is the standard correction: it rewrites an expectation under one distribution using samples from another by reweighting each sample by a likelihood ratio. For a random variable <span class="arithmatex">\(X\)</span> and function <span class="arithmatex">\(f\)</span>,</p>
+<div class="arithmatex">\[
+\mathbb{E}_{X\sim P}[f(X)]
+= \sum_x P(x)f(x)
+= \sum_x Q(x)\frac{P(x)}{Q(x)}f(x)
+= \mathbb{E}_{X\sim Q}\!\left[\frac{P(X)}{Q(X)}f(X)\right].
+\]</div>
+<p>In off-policy RL, <span class="arithmatex">\(P\)</span> is the trajectory distribution induced by the target policy <span class="arithmatex">\(\pi\)</span>, and <span class="arithmatex">\(Q\)</span> is the trajectory distribution induced by the behaviour policy <span class="arithmatex">\(\mu\)</span>: the ratio <span class="arithmatex">\(\frac{P(\tau)}{Q(\tau)}\)</span> tells us how much a sampled trajectory <span class="arithmatex">\(\tau\)</span> should count if our goal is to estimate an expectation under <span class="arithmatex">\(\pi\)</span> while sampling under <span class="arithmatex">\(\mu\)</span>.</p>
+<div class="arithmatex">\[
+\mathbb{E}_{\tau\sim \pi}\bigl[f(\tau)\bigr]
+= \mathbb{E}_{\tau\sim \mu}\!\left[\frac{P_\pi(\tau)}{P_\mu(\tau)}\,f(\tau)\right],
+\]</div>
+<p><strong>Coverage (absolute continuity).</strong>
+This correction is only defined if <span class="arithmatex">\(\mu\)</span> assigns positive probability wherever <span class="arithmatex">\(\pi\)</span> might act. If for some <span class="arithmatex">\((s,a)\)</span> we have</p>
+<div class="arithmatex">\[
+\mu(a\mid s)=0 \ \text{and}\ \pi(a\mid s)&gt;0,
+\]</div>
+<p>then <span class="arithmatex">\(\pi(a\mid s)/\mu(a\mid s)\)</span> is undefined, and trajectories that <span class="arithmatex">\(\pi\)</span> can generate are simply unobservable under <span class="arithmatex">\(\mu\)</span>. Informally: the behaviour policy must be willing to try any action that the target policy might take.</p>
+<h3 id="off-policy-monte-carlo-via-importance-sampling">Off-policy Monte-Carlo via importance sampling</h3>
+<p>In Monte-Carlo evaluation the return <span class="arithmatex">\(G_t\)</span> depends on the entire future trajectory, so if data are generated by a behaviour policy <span class="arithmatex">\(\mu\)</span> but we want values for a target policy <span class="arithmatex">\(\pi\)</span>, we must correct the distribution mismatch by reweighting the whole action sequence after time <span class="arithmatex">\(t\)</span>. For an episodic trajectory terminating at <span class="arithmatex">\(T\)</span>, define the (per-decision) importance ratio</p>
+<div class="arithmatex">\[
+\rho_{t:T-1}
+=
+\prod_{k=t}^{T-1}\frac{\pi(A_k\mid S_k)}{\mu(A_k\mid S_k)}.
+\]</div>
+<p>This ratio is the likelihood ratio for producing the same sequence of actions under <span class="arithmatex">\(\pi\)</span> instead of <span class="arithmatex">\(\mu\)</span> (conditioned on the visited states), and it tells us how much the observed trajectory segment should "count" when our goal is an expectation under <span class="arithmatex">\(\pi\)</span>. The corresponding importance-sampled return is</p>
+<div class="arithmatex">\[
+G_t^{\pi/\mu}=\rho_{t:T-1}\,G_t,
+\]</div>
+<p>so trajectories that are more likely under <span class="arithmatex">\(\pi\)</span> than under <span class="arithmatex">\(\mu\)</span> are upweighted and those that are less likely are downweighted, with this reweighting, the estimator has the correct expectation for the target policy. A standard incremental update then takes the usual MC form but uses the corrected return,</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t) + \alpha\Bigl(G_t^{\pi/\mu} - V(S_t)\Bigr).
+\]</div>
+<p>The main practical limitation with this approach is variance: <span class="arithmatex">\(\rho_{t:T-1}\)</span> is a product of random ratios, so over long horizons even modest mismatch between <span class="arithmatex">\(\pi\)</span> and <span class="arithmatex">\(\mu\)</span> can cause the weights to explode (rare trajectories get enormous weight) or collapse toward zero (most trajectories contribute almost nothing), yielding high-variance estimates, this is why pure off-policy MC with importance sampling is often unstable in long tasks and motivates variance-reduction variants (e.g. weighted importance sampling) as well as off-policy TD methods.</p>
+<h3 id="off-policy-td-single-step-correction">Off-policy TD: single-step correction</h3>
+<p>Off-policy learning is valuable because it lets us reuse data (old trajectories, demonstrations, exploratory behaviour) while estimating or improving a different target policy <span class="arithmatex">\(\pi\)</span>. The core difficulty is still distribution mismatch, so we still need importance sampling, but TD methods make this correction much lighter because their targets are local due to bootstrapping. In TD(0), the target for <span class="arithmatex">\(V\)</span> uses only the immediate reward and the next state's value estimate,</p>
+<div class="arithmatex">\[
+\text{TD target:}\quad R_{t+1}+\gamma V(S_{t+1}),
+\]</div>
+<p>so to correct for sampling under a behaviour policy <span class="arithmatex">\(\mu\)</span> we only need to reweight the one action actually taken at time <span class="arithmatex">\(t\)</span>. Concretely, for off-policy TD(0) evaluation of <span class="arithmatex">\(\pi\)</span> using transitions generated by <span class="arithmatex">\(\mu\)</span>, we apply a single-step importance ratio:</p>
+<div class="arithmatex">\[
+V(S_t)\leftarrow V(S_t)+
+\alpha\left(
+\frac{\pi(A_t\mid S_t)}{\mu(A_t\mid S_t)}
+\Bigl(R_{t+1}+\gamma V(S_{t+1})-V(S_t)\Bigr)
+\right),
+\]</div>
+<p>i.e. we multiply the TD error by <span class="arithmatex">\(\pi(A_t\mid S_t)/\mu(A_t\mid S_t)\)</span> to account for the fact that <span class="arithmatex">\(A_t\)</span> was chosen according to <span class="arithmatex">\(\mu\)</span> rather than <span class="arithmatex">\(\pi\)</span>. The practical advantage over off-policy Monte-Carlo is variance: MC must correct the probability of an entire future action sequence and therefore uses a product of many ratios, which can easily explode or collapse on long horizons, whereas off-policy TD uses only a single ratio per update. As a result, TD is typically far more stable and data-efficient off-policy, even when <span class="arithmatex">\(\pi\)</span> and <span class="arithmatex">\(\mu\)</span> are not extremely close. The remaining caveat is that very large per-step ratios <span class="arithmatex">\(\pi(A_t\mid S_t)/\mu(A_t\mid S_t)\)</span> can still introduce instability, so in practice one often chooses <span class="arithmatex">\(\mu\)</span> to provide good coverage and keeps <span class="arithmatex">\(\pi\)</span> reasonably aligned with it.</p>
+<h2 id="q-learning-off-policy-control-with-a-greedy-target">Q-Learning: Off-Policy Control with a Greedy Target</h2>
+<p>Unlike the off-policy methods above (which correct evaluation of a fixed target policy <span class="arithmatex">\(\pi\)</span> using importance sampling), Q-learning builds the target directly from a greedy backup <span class="arithmatex">\(\max_{a'}Q(S_{t+1},a')\)</span>, so it can learn about an optimal greedy policy even while behaving according to a separate exploratory policy <span class="arithmatex">\(\mu\)</span>.</p>
+<p>Q-learning is a canonical off-policy TD control algorithm. We interact with the environment using a behaviour policy <span class="arithmatex">\(\mu\)</span> (typically exploratory, e.g. <span class="arithmatex">\(\varepsilon\)</span>-greedy) in order to visit many state-action pairs, but we learn action-values for a different target policy: the greedy policy implied by the current action-value estimates. Equivalently, Q-learning aims directly at the optimal action-value function <span class="arithmatex">\(q_\star\)</span> while allowing behaviour to remain exploratory.</p>
+<h3 id="greedy-target-and-why-the-update-does-not-use-importance-sampling">Greedy target and why the update does not use importance sampling</h3>
+<p>At time <span class="arithmatex">\(t\)</span> we choose the executed action from the behaviour policy,</p>
+<div class="arithmatex">\[
+A_t \sim \mu(\cdot\mid S_t),
+\]</div>
+<p>and we observe a transition <span class="arithmatex">\((S_t,A_t,R_{t+1},S_{t+1})\)</span>. The off-policy aspect is that the update does not try to evaluate the value of the next behaviour action <span class="arithmatex">\(A_{t+1}\)</span>. Instead, it asks a counterfactual question about the next state: if I were greedy at <span class="arithmatex">\(S_{t+1}\)</span>, what value would I obtain? This is implemented by taking a maximum over actions at the next state,</p>
+<div class="arithmatex">\[
+\max_{a'} Q(S_{t+1},a')
+\;=\;
+Q\!\Bigl(S_{t+1}, \arg\max_{a'} Q(S_{t+1},a')\Bigr),
+\]</div>
+<p>which corresponds to the greedy target policy</p>
+<div class="arithmatex">\[
+\pi(\cdot\mid s)\in \arg\max_{a} Q(s,a).
+\]</div>
+<p>Because the target is computed by an explicit <span class="arithmatex">\(\max\)</span> rather than by sampling <span class="arithmatex">\(A_{t+1}\)</span> from <span class="arithmatex">\(\pi\)</span>, Q-learning does not need to reweight trajectories to make them look like they were generated by <span class="arithmatex">\(\pi\)</span>. The update uses behaviour samples only to obtain a transition and reward, then performs a greedy (optimality-style) backup at the next state.</p>
+<h3 id="update-rule-optimality-style-td-target">Update rule (optimality-style TD target)</h3>
+<p>The Q-learning update is</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t)
++\alpha\Bigl(\underbrace{R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')}_{\text{TD target}}
+- Q(S_t,A_t)\Bigr).
+\]</div>
+<p>The associated TD error is</p>
+<div class="arithmatex">\[
+\delta_t^{\text{QL}} \;=; R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')-Q(S_t,A_t).
+\]</div>
+<p>So each observed transition nudges <span class="arithmatex">\(Q(S_t,A_t)\)</span> toward "reward plus discounted value of the best next action." Previously, in off-policy TD(0) evaluation, we still bootstrapped but we were trying to match a fixed target policy <span class="arithmatex">\(\pi\)</span>, so we corrected the TD error using the one-step importance ratio <span class="arithmatex">\(\pi(A_t\mid S_t)/\mu(A_t\mid S_t)\)</span>. Q-learning instead targets optimality by replacing the next-step value under a policy with a greedy <span class="arithmatex">\(\max\)</span> backup, and therefore does not use an explicit importance-sampling correction.</p>
+<h3 id="connection-to-the-bellman-optimality-equation">Connection to the Bellman optimality equation</h3>
+<p>Q-learning is designed to solve the Bellman optimality equation. The optimal action-value function <span class="arithmatex">\(q_\star\)</span> is characterised by</p>
+<div class="arithmatex">\[
+q_\star(s,a) =
+\mathbb{E}\!\left[ R_{t+1}+\gamma\max_{a'}q_\star(S_{t+1},a')
+\;\middle|\; S_t=s,\;A_t=a \right].
+\]</div>
+<p>It is convenient to define the right-hand side as the optimal Bellman operator</p>
+<div class="arithmatex">\[
+(T_\star Q)(s,a)=\mathbb{E}\!\left[ R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a') \mid S_t=s,A_t=a\right].
+\]</div>
+<p>Then <span class="arithmatex">\(q_\star\)</span> is exactly the fixed point of this operator:</p>
+<div class="arithmatex">\[
+q_\star = T_\star q_\star.
+\]</div>
+<p>The Q-learning update</p>
+<div class="arithmatex">\[
+Q(S_t,A_t)\leftarrow Q(S_t,A_t)
++\alpha\Bigl(R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')-Q(S_t,A_t)\Bigr)
+\]</div>
+<p>is an incremental (sample-based) attempt to enforce this fixed-point condition: it replaces the expectation in <span class="arithmatex">\(T_\star\)</span> by the single observed transition and moves <span class="arithmatex">\(Q(S_t,A_t)\)</span> toward the corresponding target. Under the usual tabular assumptions (every <span class="arithmatex">\((s,a)\)</span> is updated infinitely often and <span class="arithmatex">\(\{\alpha_t\}\)</span> satisfies Robbins-Monro), these stochastic updates converge to the unique fixed point, so</p>
+<div class="arithmatex">\[
+Q_t(s,a)\to q_\star(s,a).
+\]</div>
+<p>As a result, acting greedily with respect to <span class="arithmatex">\(Q_t\)</span> becomes optimal in the limit:</p>
+<div class="arithmatex">\[
+\pi_t(s)\in\arg\max_a Q_t(s,a).
+\]</div>
+<h3 id="algorithm-sketch">Algorithm sketch</h3>
+<ol>
+<li>Initialize <span class="arithmatex">\(Q(s,a)\)</span> arbitrarily (often <span class="arithmatex">\(0\)</span>) for all state-action pairs.</li>
+<li>For each episode:</li>
+<li>Start in an initial state <span class="arithmatex">\(S\)</span>.</li>
+<li>Repeat until terminal:<ol>
+<li>Choose <span class="arithmatex">\(A \sim \mu(\cdot\mid S)\)</span> (e.g., <span class="arithmatex">\(\varepsilon\)</span>-greedy w.r.t. <span class="arithmatex">\(Q\)</span>).</li>
+<li>Execute <span class="arithmatex">\(A\)</span>, observe reward <span class="arithmatex">\(R\)</span> and next state <span class="arithmatex">\(S'\)</span>.</li>
+<li>Update: <span class="arithmatex">\(Q(S,A) \leftarrow Q(S,A) + \alpha\bigl(R + \gamma \max_{a'} Q(S',a') - Q(S,A)\bigr)\)</span>.</li>
+<li>Set <span class="arithmatex">\(S \leftarrow S'\)</span>.</li>
+</ol>
+</li>
+</ol>
+<h2 id="relationship-between-dp-and-td-learning">Relationship Between DP and TD Learning</h2>
+<p>DP and TD are built on the same Bellman equations, what differs is how they implement the Bellman backup. DP performs a full backup: it explicitly takes an expectation over next states and rewards using the environment dynamics (so it needs a model). TD performs a sample backup: it replaces that expectation by a single observed transition <span class="arithmatex">\((s,a,r,s')\)</span>, which is why it is model-free. The correspondence is easiest to see by lining up the Bellman equation, the DP update, and the TD update.</p>
+<h3 id="state-value-prediction-v_pi">State-value prediction (<span class="arithmatex">\(v_\pi\)</span>)</h3>
+<p>The Bellman expectation equation for a fixed policy <span class="arithmatex">\(\pi\)</span> is</p>
+<div class="arithmatex">\[
+v_\pi(s)=\mathbb{E}\!\left[R_{t+1}+\gamma v_\pi(S_{t+1})\mid S_t=s\right].
+\]</div>
+<p>A DP-style evaluation step updates by taking the full conditional expectation:</p>
+<div class="arithmatex">\[
+V(s)\leftarrow \mathbb{E}\!\left[R+\gamma V(S')\mid S=s\right].
+\]</div>
+<p>TD(0) keeps the same target structure but uses one sample transition <span class="arithmatex">\((S_t=s,R_{t+1}=R,S_{t+1}=s')\)</span>:</p>
+<div class="arithmatex">\[
+V(s)\xleftarrow{\alpha} R+\gamma V(s'),
+\qquad
+\text{where }x\xleftarrow{\alpha}y \equiv x \leftarrow x+\alpha(y-x).
+\]</div>
+<h3 id="action-value-prediction-on-policy-control-q_pi-and-sarsa">Action-value prediction / on-policy control (<span class="arithmatex">\(q_\pi\)</span> and SARSA)</h3>
+<p>For action-values under a fixed policy,</p>
+<div class="arithmatex">\[
+q_\pi(s,a)=\mathbb{E}\!\left[R_{t+1}+\gamma q_\pi(S_{t+1},A_{t+1})\mid S_t=s,A_t=a\right],
+\qquad A_{t+1}\sim \pi(\cdot\mid S_{t+1}).
+\]</div>
+<p>DP would again take a full backup (typically inside policy iteration: evaluate <span class="arithmatex">\(q_\pi\)</span>, then improve <span class="arithmatex">\(\pi\)</span>). The TD analogue replaces the expectation with a single sample next state and next action <span class="arithmatex">\((s',a')\)</span>, yielding the SARSA update:</p>
+<div class="arithmatex">\[
+Q(s,a)\xleftarrow{\alpha} R+\gamma Q(s',a').
+\]</div>
+<p>This is on-policy in the sense that the same policy that generates behaviour also determines the next action <span class="arithmatex">\(a'\)</span> appearing inside the target.</p>
+<h3 id="optimal-control-q_star-and-q-learning">Optimal control (<span class="arithmatex">\(q_\star\)</span> and Q-learning)</h3>
+<p>For optimal control, the relevant Bellman equation is the optimality equation</p>
+<div class="arithmatex">\[
+q_\star(s,a)=\mathbb{E}\!\left[R_{t+1}+\gamma\max_{a'}q_\star(S_{t+1},a')\mid S_t=s,A_t=a\right].
+\]</div>
+<p>DP implements the corresponding full optimality backup (value iteration / Q-iteration):</p>
+<div class="arithmatex">\[
+Q(s,a)\leftarrow \mathbb{E}\!\left[R+\gamma\max_{a'}Q(S',a')\mid S=s,A=a\right].
+\]</div>
+<p>The TD analogue is Q-learning, which replaces the expectation by a single observed transition:</p>
+<div class="arithmatex">\[
+Q(s,a)\xleftarrow{\alpha} R+\gamma\max_{a'}Q(s',a').
+\]</div>
+<p>Here the target is greedy (via the max backup), while the behaviour policy used to collect data can remain exploratory.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

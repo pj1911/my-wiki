@@ -1,0 +1,2431 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-3-Partially%20Observable%20MDP/">
+      
+      
+        <link rel="next" href="../RL-5-Model%20free%20prediction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>4 - Planning with Dynamic Programming - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dynamic-programming" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 - Planning with Dynamic Programming
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principle-of-optimality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle of Optimality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principle of Optimality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-this-enables-dp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How this enables DP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mdps-as-a-dp-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MDPs as a DP setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-consistency-consequence-along-reachable-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A consistency consequence along reachable states
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning-by-dynamic-programming-in-an-mdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning by Dynamic Programming in an MDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning by Dynamic Programming in an MDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prediction-vs-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction vs. control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterative-policy-evaluation-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iterative policy evaluation (prediction)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronous-backups-how-the-updates-are-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronous backups (how the updates are applied)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-two-step-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two-step loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-improvement-why-greedy-is-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy improvement: why greedy is safe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-policy-iteration-stops-at-an-optimal-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why policy iteration stops at an optimal policy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-this-a-greedy-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Is this a greedy algorithm?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modified-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modified Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modified Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#truncating-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Truncating policy evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-spectrum-policy-iteration-rightarrow-value-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A spectrum: policy iteration \(\rightarrow\) value iteration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#value-iteration-and-its-relation-to-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value Iteration and its relation to Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value Iteration and its relation to Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-value-iteration-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The value iteration update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-obtain-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to obtain a policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-value-iteration-differs-from-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How value iteration differs from policy iteration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronous-dynamic-programming-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronous Dynamic Programming Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronous Dynamic Programming Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complexity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complexity analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-value-backups-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-value backups \(v(s)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-value-backups-qsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value backups \(q(s,a)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asynchronous-dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asynchronous Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Asynchronous Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-useful-versions-of-asynchronous-dp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three useful versions of asynchronous DP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Three useful versions of asynchronous DP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-place-dynamic-programming-faster-propagation-less-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-place dynamic programming (faster propagation, less memory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prioritised-sweeping-spend-backups-where-they-matter-most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prioritised sweeping (spend backups where they matter most)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-dynamic-programming-update-only-states-you-actually-encounter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time dynamic programming (update only states you actually encounter)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approximate-dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approximate Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Approximate Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replace-the-table-with-a-function-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replace the table with a function class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dp-directly-on-the-approximation-fitted-value-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DP directly on the approximation (Fitted Value Iteration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principle-of-optimality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principle of Optimality
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principle of Optimality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-this-enables-dp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How this enables DP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mdps-as-a-dp-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MDPs as a DP setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-consistency-consequence-along-reachable-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A consistency consequence along reachable states
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning-by-dynamic-programming-in-an-mdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning by Dynamic Programming in an MDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning by Dynamic Programming in an MDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prediction-vs-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction vs. control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iterative-policy-evaluation-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iterative policy evaluation (prediction)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronous-backups-how-the-updates-are-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronous backups (how the updates are applied)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-two-step-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two-step loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policy-improvement-why-greedy-is-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy improvement: why greedy is safe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-policy-iteration-stops-at-an-optimal-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why policy iteration stops at an optimal policy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is-this-a-greedy-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Is this a greedy algorithm?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modified-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modified Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modified Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#truncating-policy-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Truncating policy evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-spectrum-policy-iteration-rightarrow-value-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A spectrum: policy iteration \(\rightarrow\) value iteration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#value-iteration-and-its-relation-to-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value Iteration and its relation to Policy Iteration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value Iteration and its relation to Policy Iteration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-value-iteration-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The value iteration update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-obtain-a-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to obtain a policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-value-iteration-differs-from-policy-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How value iteration differs from policy iteration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronous-dynamic-programming-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronous Dynamic Programming Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronous Dynamic Programming Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complexity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complexity analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-value-backups-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-value backups \(v(s)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-value-backups-qsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action-value backups \(q(s,a)\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asynchronous-dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asynchronous Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Asynchronous Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-useful-versions-of-asynchronous-dp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three useful versions of asynchronous DP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Three useful versions of asynchronous DP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-place-dynamic-programming-faster-propagation-less-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-place dynamic programming (faster propagation, less memory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prioritised-sweeping-spend-backups-where-they-matter-most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prioritised sweeping (spend backups where they matter most)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-dynamic-programming-update-only-states-you-actually-encounter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time dynamic programming (update only states you actually encounter)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approximate-dynamic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approximate Dynamic Programming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Approximate Dynamic Programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#replace-the-table-with-a-function-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replace the table with a function class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dp-directly-on-the-approximation-fitted-value-iteration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DP directly on the approximation (Fitted Value Iteration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>4 - Planning with Dynamic Programming</h1>
+
+<h2 id="dynamic-programming">Dynamic Programming</h2>
+<p>Dynamic programming (DP) is a method for solving optimization problems that unfold over stages (often interpreted as time). The term dynamic refers to this sequential structure: decisions made at one stage affect what is possible and valuable at later stages. The term programming is used in its classical sense from operations research: we are solving an optimization problem by searching over a space of decision rules. In many settings, those decision rules take the form of a policy, a rule that specifies what action to take in each state.</p>
+<h3 id="core-idea">Core idea</h3>
+<p>DP makes difficult problems tractable by exploiting structure. Rather than optimizing over the entire problem at once, it:</p>
+<ul>
+<li>decomposes the problem into smaller subproblems (typically corresponding to different stages),</li>
+<li>solves those subproblems,</li>
+<li>and then combines their solutions to construct a solution to the original problem.</li>
+</ul>
+<p>The power of DP is not in the act of splitting alone, but in choosing a decomposition where the pieces can be solved efficiently and then reused.</p>
+<h2 id="principle-of-optimality">Principle of Optimality</h2>
+<p>The principle of optimality states that optimal behavior is self-consistent over time:
+if we make an optimal decision now, then the remaining decisions must be optimal for the state that results.
+Equivalently, an optimal solution can be decomposed into an optimal first step and an optimal continuation. Concretely, consider an optimal policy <span class="arithmatex">\(\pi^*\)</span>. From any state <span class="arithmatex">\(s\)</span>, its behavior can be viewed in two parts:</p>
+<ul>
+<li>the first action it takes in <span class="arithmatex">\(s\)</span>, and</li>
+<li>the continuation policy it follows after transitioning to a successor state <span class="arithmatex">\(s'\)</span>.</li>
+</ul>
+<p>Since the continuation problem is the same decision problem but with a new starting state, optimality from <span class="arithmatex">\(s\)</span> implies optimality from the states that follow when <span class="arithmatex">\(\pi^*\)</span> is executed.</p>
+<h3 id="how-this-enables-dp">How this enables DP</h3>
+<p>The principle of optimality is what makes a recursive decomposition feasible. It yields two structural advantages that DP exploits:</p>
+<p><strong>Optimal substructure.</strong>
+Because the tail of an optimal solution must itself be optimal, we can solve the original problem by solving its subproblems.
+The natural subproblem is: starting from a state <span class="arithmatex">\(s\)</span>, what is the best achievable return from here onward?
+Once we can answer that question for every state, selecting an optimal first action becomes a local comparison of alternatives, each evaluated using the value of an optimal continuation.</p>
+<p><strong>Overlapping subproblems.</strong>
+Many different histories can lead to the same state, meaning the same continuation problem appears repeatedly.
+DP avoids recomputing these repeated subproblems by storing their solutions and reusing them.</p>
+<h3 id="mdps-as-a-dp-setting">MDPs as a DP setting</h3>
+<p>Markov Decision Processes fit this framework exactly. In an MDP, the “situation we are in” can be summarized by the current state <span class="arithmatex">\(s\)</span> (the Markov property), so the relevant subproblem is well-defined: optimize future return starting from <span class="arithmatex">\(s\)</span>.
+The value function is therefore a direct representation of subproblem solutions:</p>
+<div class="arithmatex">\[
+v^*(s) \;=\; \text{optimal expected return starting from state } s.
+\]</div>
+<p>The principle of optimality then justifies evaluating actions by combining immediate outcomes with the value of optimal continuation, which leads to the Bellman viewpoint that underlies planning algorithms.</p>
+<h3 id="a-consistency-consequence-along-reachable-states">A consistency consequence along reachable states</h3>
+<p>A useful implication is that optimality must persist along the trajectories induced by an optimal policy.
+If a policy <span class="arithmatex">\(\pi\)</span> is optimal from a state <span class="arithmatex">\(s\)</span> in the sense that</p>
+<div class="arithmatex">\[
+v_{\pi}(s)=v^{*}(s),
+\]</div>
+<p>then it cannot “fall behind” after the first transition. In particular, for any successor state <span class="arithmatex">\(s'\)</span> that can be reached from <span class="arithmatex">\(s\)</span> when following <span class="arithmatex">\(\pi\)</span>, the policy must also achieve optimal value:</p>
+<div class="arithmatex">\[
+v_{\pi}(s')=v^{*}(s') \qquad \text{for every successor state $s'$ reachable from $s$ under $\pi$.}
+\]</div>
+<p>Informally: if we are optimal now, we must remain optimal on every continuation. This is exactly what Bellman-style updates enforce across the state space. With this principle in place, we can now turn to planning in an MDP and see how DP implements these Bellman updates in practice.</p>
+<h2 id="planning-by-dynamic-programming-in-an-mdp">Planning by Dynamic Programming in an MDP</h2>
+<p>In reinforcement learning, planning means computing decisions using a model of the environment, rather than updating solely from real experience.
+Concretely, a planning method takes as input an MDP model, for example the states, actions, a transition model, a reward model, and a discount factor and performs computation (often offline, or via simulated lookahead) to produce a decision rule, i.e., a policy. Dynamic Programming (DP) is the classical planning approach for MDPs when this model is available. Assuming we know all the model parameters (<span class="arithmatex">\(\mathcal{S}\)</span>, <span class="arithmatex">\(\mathcal{A}\)</span>, <span class="arithmatex">\(P_{ss'}^{a}\)</span>, <span class="arithmatex">\(R_{s}^{a}\)</span>, <span class="arithmatex">\(\gamma\)</span>), DP computes long-term consequences by exploiting Bellman recursions. These recursions express the value of a state (or state--action pair) in terms of the immediate reward and the discounted value of successor states, allowing DP algorithms to improve value estimates and policies through repeated one-step lookahead updates. Within this planning setting, DP algorithms are typically organized around two complementary tasks: prediction and control, which we define precisely next.</p>
+<h3 id="prediction-vs-control">Prediction vs. control</h3>
+<p>It is useful to distinguish two closely related computational goals when we plan with a known MDP model:</p>
+<ul>
+<li>Prediction: the policy <span class="arithmatex">\(\pi\)</span> is fixed. The task is to evaluate it by computing its value function <span class="arithmatex">\(v_{\pi}\)</span>, which gives the expected discounted return from each state when actions are chosen according to <span class="arithmatex">\(\pi\)</span>.</li>
+<li>Control: the policy is not fixed. The task is to find the optimal value function <span class="arithmatex">\(v^{*}\)</span> and an optimal policy <span class="arithmatex">\(\pi^{*}\)</span> that achieves it.</li>
+</ul>
+<p>These goals correspond to different Bellman operators. Prediction uses Bellman expectation updates, which evaluate a given policy via model-based expectations, whereas control uses Bellman optimality updates, which push values toward the best achievable behavior and thereby support improvement toward an optimal policy which is the ultimate goal of planning.</p>
+<h3 id="iterative-policy-evaluation-prediction">Iterative policy evaluation (prediction)</h3>
+<p>Assume we are given a policy <span class="arithmatex">\(\pi\)</span> and asked: "If we follow <span class="arithmatex">\(\pi\)</span>, what long-term return should we expect from each state?" DP answers this by iteratively refining an estimate of <span class="arithmatex">\(v_{\pi}\)</span> using the Bellman expectation equation. One simple procedure is to begin with an initial guess, for instance</p>
+<div class="arithmatex">\[
+v_{1}(s)=0 \qquad \text{for all } s\in\mathcal{S},
+\]</div>
+<p>and then repeatedly apply a one-step lookahead update. At iteration <span class="arithmatex">\(k+1\)</span>, for every state <span class="arithmatex">\(s\)</span>,</p>
+<div class="arithmatex">\[
+v_{k+1}(s)=\sum_{a\in\mathcal{A}}\pi(a\mid s)\Bigl(R_{s}^{a}+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^{a}\,v_{k}(s')\Bigr).
+\]</div>
+<p>This update has a direct interpretation: the value of a state equals the expected immediate reward plus the discounted value of the next state, where the expectation is taken over the action choice under <span class="arithmatex">\(\pi\)</span> and the environment dynamics. Repeating this update causes <span class="arithmatex">\(v_k\)</span> to approach the true value function <span class="arithmatex">\(v_{\pi}\)</span>.</p>
+<h3 id="synchronous-backups-how-the-updates-are-applied">Synchronous backups (how the updates are applied)</h3>
+<p>We now describe a standard way to apply the update rule used in iterative policy evaluation in DP.</p>
+<p><strong>Synchronous backups.</strong>
+At iteration <span class="arithmatex">\(k+1\)</span>, we perform a full sweep over the state space and update every state using only the values from the previous iterate:</p>
+<div class="arithmatex">\[
+\forall s\in\mathcal{S}:\quad v_{k+1}(s)\;\leftarrow\;\mathcal{T}^{\pi}v_k(s),
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{T}^{\pi}\)</span> is the Bellman expectation operator.</p>
+<p>It is worth emphasizing, in DP planning, the value function is primarily a tool for improvement: once we have an estimate of how good each state is under the current policy, we can use the model to ask a sharper question, namely whether another action would lead to a higher expected return. This question will be answered in the next section.</p>
+<h2 id="policy-iteration">Policy Iteration</h2>
+<p>Up to now, we have used DP for prediction: given a fixed policy <span class="arithmatex">\(\pi\)</span>, compute its value function <span class="arithmatex">\(v_\pi\)</span>.
+We now turn to the central goal in an MDP: control, which answers the question of finding the best policy.</p>
+<p>The main idea behind policy iteration is simple: values enable improvement.
+If <span class="arithmatex">\(v_\pi(s)\)</span> tells us the expected long-term return from each state when following <span class="arithmatex">\(\pi\)</span>, then we can use the model to ask,
+in every state, whether some other action would lead to a higher expected return.
+Policy iteration formalizes this as an alternating loop of evaluation and improvement.</p>
+<h3 id="the-two-step-loop">The two-step loop</h3>
+<p>Policy iteration maintains a sequence of policies <span class="arithmatex">\(\pi_0,\pi_1,\pi_2,\dots\)</span> and alternates between:</p>
+<ol>
+<li>Policy evaluation: given the current policy <span class="arithmatex">\(\pi_k\)</span>, compute (or approximate) its value function <span class="arithmatex">\(v_{\pi_k}\)</span>, typically by repeated Bellman expectation backups (to near convergence).</li>
+<li>Policy improvement: construct a new (often deterministic) policy by acting greedily with respect to <span class="arithmatex">\(v_{\pi_k}\)</span>:</li>
+</ol>
+<div class="arithmatex">\[
+\pi_{k+1}(s)\in \arg\max_{a\in\mathcal{A}}
+\Bigl(R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,v_{\pi_k}(s')\Bigr).
+\]</div>
+<p>In other words: estimate how good our current policy is, then switch (state-by-state) to the action that looks best under that estimate, and repeat.</p>
+<h3 id="policy-improvement-why-greedy-is-safe">Policy improvement: why greedy is safe</h3>
+<p>To make the improvement step precise, it is convenient to introduce the action-value function under <span class="arithmatex">\(\pi\)</span>:</p>
+<div class="arithmatex">\[
+q_{\pi}(s,a)=\mathbb{E}_{\pi}\!\left[\,R_{t+1}+\gamma v_{\pi}(S_{t+1}) \;\middle|\; S_t=s,\;A_t=a\,\right].
+\]</div>
+<p>This quantity means: take action <span class="arithmatex">\(a\)</span> now, then follow <span class="arithmatex">\(\pi\)</span> thereafter.</p>
+<p><strong>Greedy improvement.</strong>
+Given <span class="arithmatex">\(q_\pi\)</span>, define a new policy <span class="arithmatex">\(\pi'\)</span> that chooses, in each state, an action maximizing <span class="arithmatex">\(q_\pi\)</span>:</p>
+<div class="arithmatex">\[
+\pi'(s)\in \arg\max_{a\in\mathcal{A}} q_{\pi}(s,a).
+\]</div>
+<p>Because <span class="arithmatex">\(\pi'(s)\)</span> is a maximizer, we immediately have, for every state <span class="arithmatex">\(s\)</span>,</p>
+<div class="arithmatex">\[
+q_{\pi}\bigl(s,\pi'(s)\bigr)=\max_{a\in\mathcal{A}}q_{\pi}(s,a)\;\ge\; q_{\pi}\bigl(s,\pi(s)\bigr)=v_{\pi}(s).
+\]</div>
+<p>Read this as a one-step statement:</p>
+<ul>
+<li><span class="arithmatex">\(q_{\pi}(s,\pi(s))\)</span> is "do what <span class="arithmatex">\(\pi\)</span> would do now, then keep following <span class="arithmatex">\(\pi\)</span>",</li>
+<li><span class="arithmatex">\(q_{\pi}(s,\pi'(s))\)</span> is "do the greedy action now, then keep following <span class="arithmatex">\(\pi\)</span>",</li>
+<li>greedy cannot be worse than <span class="arithmatex">\(\pi\)</span>'s own action under the same continuation <span class="arithmatex">\(\pi\)</span>.</li>
+</ul>
+<p><strong>From one step to the full return.</strong>
+The key point is that this one-step improvement can be unrolled over time.
+Starting from</p>
+<div class="arithmatex">\[
+v_{\pi}(s)\le q_{\pi}\bigl(s,\pi'(s)\bigr)
+=\mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma v_{\pi}(S_{t+1}) \;\middle|\; S_t=s\,\right],
+\]</div>
+<p>We apply the same greedy argument at subsequent states, repeatedly bounding
+<span class="arithmatex">\(v_\pi(S_{t+1})\)</span>, then <span class="arithmatex">\(v_\pi(S_{t+2})\)</span>, and so on.</p>
+<div class="arithmatex">\[
+\begin{aligned}
+v_{\pi}(s)
+&amp;\le q_{\pi}\bigl(s,\pi'(s)\bigr)
+= \mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma v_{\pi}(S_{t+1}) \;\middle|\; S_t=s\,\right] \\
+&amp;\le \mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma q_{\pi}\bigl(S_{t+1},\pi'(S_{t+1})\bigr) \;\middle|\; S_t=s\,\right] \\
+&amp;\le \mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma R_{t+2}
++\gamma^{2} q_{\pi}\bigl(S_{t+2},\pi'(S_{t+2})\bigr) \;\middle|\; S_t=s\,\right] \\
+&amp;\le \cdots \\
+&amp;\le \mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma R_{t+2}+\cdots+\gamma^{n-1}R_{t+n}
++\gamma^{n} v_{\pi}(S_{t+n}) \;\middle|\; S_t=s\,\right] \\
+&amp;\le \mathbb{E}_{\pi'}\!\left[\,R_{t+1}+\gamma R_{t+2}+\cdots \;\middle|\; S_t=s\,\right]
+= v_{\pi'}(s).
+\end{aligned}
+\]</div>
+<p>Taking the limit as <span class="arithmatex">\(n\to\infty\)</span> (the residual term vanishes under discounting), we obtain the policy improvement guarantee:</p>
+<div class="arithmatex">\[
+v_{\pi'}(s)\;\ge\; v_{\pi}(s)\qquad \forall s\in\mathcal{S}.
+\]</div>
+<p><strong>Takeaway.</strong>
+Greedy policy improvement is monotone: it never makes the policy worse.
+At worst, it leaves values unchanged, otherwise, it strictly improves them in at least one state.</p>
+<h3 id="why-policy-iteration-stops-at-an-optimal-policy">Why policy iteration stops at an optimal policy?</h3>
+<p>If the greedy improvement step leaves the policy unchanged, then policy iteration has reached a fixed point (and we can regard the algorithm as having converged). Equivalently, for every state <span class="arithmatex">\(s\in\mathcal{S}\)</span>,</p>
+<div class="arithmatex">\[
+\pi(s)\in \arg\max_{a\in\mathcal{A}} q_{\pi}(s,a)
+\quad\Longrightarrow\quad
+q_{\pi}\bigl(s,\pi(s)\bigr)=\max_{a\in\mathcal{A}} q_{\pi}(s,a).
+\]</div>
+<p>But <span class="arithmatex">\(q_{\pi}(s,\pi(s))=v_{\pi}(s)\)</span> by definition, so we have</p>
+<div class="arithmatex">\[
+v_{\pi}(s)=\max_{a\in\mathcal{A}} q_{\pi}(s,a)\qquad \forall s\in\mathcal{S}.
+\]</div>
+<p>This is exactly the Bellman optimality condition: in each state, the value equals the best achievable one-step lookahead.
+A policy that is greedy with respect to its own value function is therefore optimal, which implies</p>
+<div class="arithmatex">\[
+v_{\pi}(s)=v^{*}(s)\qquad \forall s\in\mathcal{S},
+\qquad\text{and}\qquad
+\pi=\pi^{*}.
+\]</div>
+<p><strong>Intuition.</strong>
+The algorithm stops only when there is no state in which a different action would look better under the policy's own long-term value estimates. At that point the policy already satisfies the optimality equations, so it must be optimal.</p>
+<h3 id="is-this-a-greedy-algorithm">Is this a greedy algorithm?</h3>
+<p>Policy iteration does include a greedy step, but it is not greedy in the short-sighted sense of maximizing immediate reward.</p>
+<p><strong>Greedy with respect to long-term return.</strong>
+The improvement step chooses actions using the action-value under the current policy,</p>
+<div class="arithmatex">\[
+q_{\pi}(s,a)=\mathbb{E}\!\left[\,R_{t+1}+\gamma v_{\pi}(S_{t+1}) \mid S_t=s,\;A_t=a\,\right],
+\]</div>
+<p>so actions are compared by immediate reward plus discounted future value. This is fundamentally different from the myopic rule</p>
+<div class="arithmatex">\[
+a=\arg\max_a \mathbb{E}[R_{t+1}\mid s,a],
+\]</div>
+<p>which ignores the effect of actions on future states.</p>
+<h2 id="modified-policy-iteration">Modified Policy Iteration</h2>
+<p>Classic policy iteration is conceptually elegant: evaluate the current policy <span class="arithmatex">\(\pi_k\)</span> until we have its exact value function <span class="arithmatex">\(v_{\pi_k}\)</span>, then improve greedily to obtain <span class="arithmatex">\(\pi_{k+1}\)</span>. But this clean separation can be computationally wasteful. Full policy evaluation may require many sweeps over the state space, even though the very next step will replace the policy anyway. This raises a natural question:
+how accurately do we need to evaluate the current policy before improving it?</p>
+<h3 id="truncating-policy-evaluation">Truncating policy evaluation</h3>
+<p>Modified policy iteration answers by relaxing the evaluation step. Instead of computing <span class="arithmatex">\(v_{\pi_k}\)</span> to convergence, we perform only a limited amount of evaluation, producing an approximation <span class="arithmatex">\(\tilde v_k\)</span>. Two common truncation choices are:</p>
+<ul>
+<li>stop iterative evaluation once successive value estimates change by less than a tolerance <span class="arithmatex">\(\varepsilon\)</span> (an <span class="arithmatex">\(\varepsilon\)</span>-stopping rule), or</li>
+<li>run a fixed number of sweeps, say <span class="arithmatex">\(m\)</span>, of the Bellman expectation update.</li>
+</ul>
+<p>After this partial evaluation, we perform the same greedy improvement step as in policy iteration, replacing <span class="arithmatex">\(\pi_k\)</span> by a policy that is greedy with respect to the current estimate (whether exact or approximate).</p>
+<p><strong>Why this can still be effective.</strong>
+The improvement step does not require a perfectly accurate value function, it requires a value estimate that is good enough to guide better action choices.
+If <span class="arithmatex">\(\tilde v_k\)</span> already captures the broad shape of long-term returns, then a greedy improvement step often corrects the most obvious suboptimal action choices immediately.
+As a result, repeatedly doing "some evaluation + improvement" can reach a strong policy using fewer total sweeps than insisting on "perfect evaluation + improvement" at every iteration.</p>
+<h3 id="a-spectrum-policy-iteration-rightarrow-value-iteration">A spectrum: policy iteration <span class="arithmatex">\(\rightarrow\)</span> value iteration</h3>
+<p>Seen through this lens, policy iteration and value iteration are not fundamentally different algorithms, but endpoints of a continuum determined by how much work we invest in evaluation before improving:</p>
+<ul>
+<li>Policy iteration: evaluate to convergence, then improve.</li>
+<li>Modified policy iteration: evaluate partially, then improve.</li>
+<li>Value iteration: perform only a single Bellman-style sweep and immediately improve.</li>
+</ul>
+<p>In value iteration, evaluation and improvement effectively fuse into a single update that pushes values directly toward optimality. This is the key intuition behind value iteration, which we develop in the next section.</p>
+<h2 id="value-iteration-and-its-relation-to-policy-iteration">Value Iteration and its relation to Policy Iteration</h2>
+<p>Value iteration is a dynamic programming method for the control problem: it aims to compute the optimal value function <span class="arithmatex">\(v^*\)</span> and, from it, an optimal policy <span class="arithmatex">\(\pi^*\)</span>. It is based on the Bellman optimality equation,</p>
+<div class="arithmatex">\[
+v^{*}(s)=\max_{a\in\mathcal{A}}
+\Bigl(R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,v^{*}(s')\Bigr),
+\]</div>
+<p>which states that the optimal value of a state equals the best one-step lookahead, immediate reward plus discounted optimal continuation value.</p>
+<h3 id="the-value-iteration-update">The value iteration update</h3>
+<p>Because <span class="arithmatex">\(v^*\)</span> is unknown, value iteration begins from an arbitrary initial guess <span class="arithmatex">\(v_0\)</span> (often <span class="arithmatex">\(v_0\equiv 0\)</span>) and repeatedly applies the Bellman optimality backup:</p>
+<div class="arithmatex">\[
+v_{k+1}(s)\;=\;\max_{a\in\mathcal{A}}
+\Bigl(R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,v_k(s')\Bigr),
+\qquad \forall s\in\mathcal{S}.
+\]</div>
+<p>This update has the same form as the Bellman optimality equation, except that it uses the current estimate <span class="arithmatex">\(v_k\)</span> on the right-hand side rather than the unknown <span class="arithmatex">\(v^{*}\)</span>. In operator notation, it is simply <span class="arithmatex">\(v_{k+1} = \mathcal{T}^* v_k\)</span> where <span class="arithmatex">\(\mathcal{T}^*\)</span> is the Bellman optimality operator. The optimal value function <span class="arithmatex">\(v^{*}\)</span> is the unique fixed point of this operator (in the discounted, finite setting), meaning it satisfies <span class="arithmatex">\(v^{*}=\mathcal{T}^* v^{*}\)</span>. Value iteration repeatedly applies <span class="arithmatex">\(\mathcal{T}^*\)</span>; if the iterates converge to some limit <span class="arithmatex">\(v_\infty\)</span>, then necessarily <span class="arithmatex">\(v_\infty\)</span> is a fixed point and hence <span class="arithmatex">\(v_\infty=v^{*}\)</span>.</p>
+<h3 id="how-to-obtain-a-policy">How to obtain a policy</h3>
+<p>Value iteration updates only values, it does not need to store a policy during the updates. Once a value estimate <span class="arithmatex">\(v_k\)</span> is available, we can extract a greedy policy by one-step lookahead:</p>
+<div class="arithmatex">\[
+\pi_k^{\text{greedy}}(s)\in\arg\max_{a\in\mathcal{A}}
+\Bigl(R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,v_k(s')\Bigr).
+\]</div>
+<p>In practice, one may compute this greedy policy only at the end (to obtain <span class="arithmatex">\(\pi^*\)</span> from <span class="arithmatex">\(v^*\)</span>), or track it along the way to see how behavior is improving.</p>
+<h3 id="how-value-iteration-differs-from-policy-iteration">How value iteration differs from policy iteration</h3>
+<p>Policy iteration makes the policy explicit and alternates two operations:</p>
+<div class="arithmatex">\[
+\pi_k \;\xrightarrow{\ \text{evaluate}\ }\; v_{\pi_k}
+\;\xrightarrow{\ \text{improve}\ }\; \pi_{k+1},
+\]</div>
+<p>i.e., it evaluates a fixed policy using the Bellman expectation equation and then improves it greedily.</p>
+<p>Value iteration skips the explicit evaluation of a fixed policy. Instead, each sweep applies the Bellman optimality backup directly to <span class="arithmatex">\(v\)</span>, so the "improvement" idea is built into the update itself:</p>
+<div class="arithmatex">\[
+v_k \;\xrightarrow{\ \text{optimality backup}\ }\; v_{k+1}.
+\]</div>
+<p>As a consequence, intermediate value functions <span class="arithmatex">\(v_k\)</span> are best viewed as improving approximations heading toward <span class="arithmatex">\(v^*\)</span>, they need not equal <span class="arithmatex">\(v_\pi\)</span> for any single stationary policy <span class="arithmatex">\(\pi\)</span> at that iteration.</p>
+<h2 id="synchronous-dynamic-programming-algorithms">Synchronous Dynamic Programming Algorithms</h2>
+<p>All of the dynamic programming methods in this chapter rely on the same basic operation:
+use the model to look one step ahead and update a value estimate.
+Where they differ is in the objective, prediction versus control, and therefore in which Bellman relationship drives the update. In the tabular setting, these differences lead to three canonical algorithms.</p>
+<p><strong>1. Prediction <span class="arithmatex">\(\rightarrow\)</span> Iterative Policy Evaluation</strong></p>
+<p>Goal: evaluate a fixed policy <span class="arithmatex">\(\pi\)</span> by computing its value function <span class="arithmatex">\(v_{\pi}\)</span>.</p>
+<p>Bellman relationship: the Bellman expectation equation, which averages over the actions selected by <span class="arithmatex">\(\pi\)</span> (and over next states under the dynamics).</p>
+<p>Algorithmic pattern: repeatedly update <span class="arithmatex">\(v(s)\)</span> using the expected immediate reward plus the discounted expected value of successor states under <span class="arithmatex">\(\pi\)</span>, until the values are consistent with following <span class="arithmatex">\(\pi\)</span>.</p>
+<p><strong>2. Control <span class="arithmatex">\(\rightarrow\)</span> Policy Iteration</strong></p>
+<p>Goal: find an optimal policy <span class="arithmatex">\(\pi^{*}\)</span>.</p>
+<p>Bellman relationships:</p>
+<ul>
+<li>use the Bellman expectation equation to (approximately or exactly) evaluate the current policy, and</li>
+<li>apply a greedy improvement step to update the policy.</li>
+</ul>
+<p>Algorithmic pattern: alternate between (i) evaluating the current <span class="arithmatex">\(\pi\)</span> and (ii) improving it by choosing, in each state, an action that maximizes one-step lookahead using the current value estimate. The resulting sequence of policies is monotone: it never gets worse.</p>
+<p><strong>3. Control <span class="arithmatex">\(\rightarrow\)</span> Value Iteration</strong></p>
+<p>Goal: compute the optimal value function <span class="arithmatex">\(v^{*}\)</span> and then extract an optimal policy from it.</p>
+<p>Bellman relationship: the Bellman optimality equation, which takes a max over actions.</p>
+<p>Algorithmic pattern: repeatedly apply the optimality backup directly to <span class="arithmatex">\(v\)</span>. Informally, each sweep performs an "improve everywhere" step, without explicitly storing a policy during the updates (though a greedy policy can be extracted at any time).</p>
+<h3 id="complexity-analysis">Complexity analysis</h3>
+<p>In their simplest tabular forms, these DP planning methods store state values:</p>
+<div class="arithmatex">\[
+v_{\pi}(s)\ \text{for prediction},\qquad v^{*}(s)\ \text{for control}.
+\]</div>
+<p>Let <span class="arithmatex">\(n=\lvert\mathcal{S}\rvert\)</span> and <span class="arithmatex">\(m=\lvert\mathcal{A}\rvert\)</span>. A synchronous sweep computes one backup for every stored entry.</p>
+<h4 id="state-value-backups-vs">State-value backups <span class="arithmatex">\(v(s)\)</span></h4>
+<p>In tabular DP control (e.g., value iteration), the backup is</p>
+<div class="arithmatex">\[
+(\mathcal{T}^* v)(s)
+=\max_{a\in\mathcal{A}}\Bigl(R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,v(s')\Bigr).
+\]</div>
+<p>For a fixed state <span class="arithmatex">\(s\)</span>, the work in this formula is:</p>
+<ul>
+<li>the <span class="arithmatex">\(\max_{a\in\mathcal{A}}\)</span> loops over <span class="arithmatex">\(m\)</span> actions, and</li>
+<li>for each action, the inner <span class="arithmatex">\(\sum_{s'\in\mathcal{S}}\)</span> loops over <span class="arithmatex">\(n\)</span> successor states.</li>
+</ul>
+<p>So one state backup costs <span class="arithmatex">\(O(mn)\)</span>. A full sweep updates all <span class="arithmatex">\(n\)</span> states, hence</p>
+<div class="arithmatex">\[
+\underbrace{n}_{\text{states}}
+\;\times\;
+\underbrace{m}_{\text{actions per state}}
+\;\times\;
+\underbrace{n}_{\text{successors per action}}
+\;=\;
+O(mn^2)
+\quad \text{per sweep.}
+\]</div>
+<h4 id="action-value-backups-qsa">Action-value backups <span class="arithmatex">\(q(s,a)\)</span></h4>
+<p>If we store action-values, there are <span class="arithmatex">\(mn\)</span> entries. A common control-style backup is</p>
+<div class="arithmatex">\[
+(\mathcal{T}^* q)(s,a)
+=R_s^a+\gamma\sum_{s'\in\mathcal{S}}P_{ss'}^a\,\max_{a'\in\mathcal{A}} q(s',a').
+\]</div>
+<p>For a fixed pair <span class="arithmatex">\((s,a)\)</span>, the work in this formula is:</p>
+<ul>
+<li>the <span class="arithmatex">\(\sum_{s'\in\mathcal{S}}\)</span> loops over <span class="arithmatex">\(n\)</span> successor states, and</li>
+<li>inside the sum, the <span class="arithmatex">\(\max_{a'\in\mathcal{A}}\)</span> loops over <span class="arithmatex">\(m\)</span> actions.</li>
+</ul>
+<p>So one <span class="arithmatex">\((s,a)\)</span> backup costs <span class="arithmatex">\(O(nm)\)</span>. A full sweep updates all <span class="arithmatex">\(mn\)</span> pairs, hence</p>
+<div class="arithmatex">\[
+\underbrace{(mn)}_{\text{state--action pairs}}
+\;\times\;
+\underbrace{n}_{\text{successors}}
+\;\times\;
+\underbrace{m}_{\text{actions in }\max}
+\;=\;
+O(m^2n^2)
+\quad \text{per sweep.}
+\]</div>
+<p><strong>Takeaway</strong>
+All synchronous DP methods are one-step lookahead sweeps, they differ mainly in the Bellman operator (expectation for prediction, optimality for control) and in whether a policy is maintained explicitly (policy iteration) or extracted from values (value iteration).</p>
+<h2 id="asynchronous-dynamic-programming">Asynchronous Dynamic Programming</h2>
+<p>Up to this point, we have treated DP updates as synchronous: at iteration <span class="arithmatex">\(k\)</span> we compute a complete new table <span class="arithmatex">\(v_{k+1}\)</span> from <span class="arithmatex">\(v_k\)</span> by performing a full sweep over all states. This viewpoint is clean and easy to analyze, but it can be wasteful in practice: many states may already be nearly correct, while a small set of states may still have large errors. Synchronous sweeps spend equal effort everywhere, regardless of where the value function most needs improvement.</p>
+<p>Asynchronous DP keeps the same Bellman backup, but changes how it is applied. Instead of updating every state on every iteration, it updates one (or a few) states at a time and immediately overwrites the stored value:</p>
+<div class="arithmatex">\[
+v(s)\leftarrow (\mathcal{T}v)(s).
+\]</div>
+<p>Because updates are not forced to occur uniformly, asynchronous methods can:</p>
+<ul>
+<li>avoid recomputing values for states that are already accurate,</li>
+<li>focus computation where the current approximation is most wrong or most relevant,</li>
+<li>propagate new information faster (since later updates can use earlier updated values).</li>
+</ul>
+<p>In discounted finite MDPs, asynchronous DP still converges as long as every state is updated infinitely often, but it often reaches a useful approximation in far fewer backups than full sweeps.</p>
+<h3 id="three-useful-versions-of-asynchronous-dp">Three useful versions of asynchronous DP</h3>
+<h4 id="in-place-dynamic-programming-faster-propagation-less-memory">In-place dynamic programming (faster propagation, less memory)</h4>
+<p>A minimal change from synchronous DP is to switch from a two-table update to an in-place update.
+In synchronous value iteration we conceptually separate "read" and "write" tables:</p>
+<div class="arithmatex">\[
+v_{\text{new}}(s)\leftarrow \max_{a\in\mathcal{A}}
+\left(\mathcal{R}_s^a + \gamma \sum_{s'\in\mathcal{S}}\mathcal{P}_{ss'}^a\,v_{\text{old}}(s')\right),
+\qquad
+v_{\text{old}} \leftarrow v_{\text{new}}.
+\]</div>
+<p>This ensures each backup uses only stale values from iteration <span class="arithmatex">\(k\)</span>.</p>
+<p>In in-place value iteration we maintain a single table <span class="arithmatex">\(v\)</span> and overwrite entries immediately:</p>
+<div class="arithmatex">\[
+v(s)\leftarrow \max_{a\in\mathcal{A}}
+\left(\mathcal{R}_s^a + \gamma \sum_{s'\in\mathcal{S}}\mathcal{P}_{ss'}^a\,v(s')\right).
+\]</div>
+<p>The benefit is that information can move through the state space more quickly: later backups in the same sweep can already exploit improvements made earlier. Practically, in-place updates often reduce the number of sweeps needed to achieve a given accuracy, and they also avoid storing a second full table.</p>
+<h4 id="prioritised-sweeping-spend-backups-where-they-matter-most">Prioritised sweeping (spend backups where they matter most)</h4>
+<p>Synchronous sweeps spend the same effort on every state, even though at a given moment some states violate the Bellman equation much more than others (i.e., their current values are much farther from their one-step backup). Prioritised sweeping takes advantage of this by choosing the next state to update based on its current Bellman error:</p>
+<div class="arithmatex">\[
+\left|
+\max_{a\in\mathcal{A}}
+\left(\mathcal{R}_s^a + \gamma \sum_{s'\in\mathcal{S}}\mathcal{P}_{ss'}^a\,v(s')\right)
+- v(s)
+\right|
+\]</div>
+<p>Intuitively, a large error indicates that the current value at <span class="arithmatex">\(s\)</span> is far from what the Bellman equation demands, so updating <span class="arithmatex">\(s\)</span> is likely to produce a meaningful improvement. A typical implementation of this would be:</p>
+<ul>
+<li>selects the state with the largest current error and performs its backup,</li>
+<li>then updates priorities for states likely to be affected next (often predecessor states),</li>
+<li>and uses a priority queue to make this selection efficient.</li>
+</ul>
+<p>Compared to full sweeps, prioritised sweeping can reach an accurate value function with far fewer backups when errors are localized, because it concentrates computation on the “hard” parts of the problem.</p>
+<h4 id="real-time-dynamic-programming-update-only-states-you-actually-encounter">Real-time dynamic programming (update only states you actually encounter)</h4>
+<p>Sometimes the goal is not to make the value function accurate everywhere, but to make it accurate where the agent will actually go. In large MDPs, many states may be irrelevant to near-term decision-making from the current start state. Real-time DP exploits this by backing up only states encountered along simulated (or real) trajectories.</p>
+<p>After taking a step at time <span class="arithmatex">\(t\)</span>, we update the current state <span class="arithmatex">\(S_t\)</span>:</p>
+<div class="arithmatex">\[
+v(S_t)\leftarrow \max_{a\in\mathcal{A}}
+\left(\mathcal{R}_{S_t}^a + \gamma \sum_{s'\in\mathcal{S}}\mathcal{P}_{S_t s'}^a\,v(s')\right).
+\]</div>
+<p>This can be dramatically cheaper than sweeping when the reachable region is a small fraction of the full state space. The tradeoff is that states that are never visited will never be improved—but if they are irrelevant to the task from the current start distribution, this “selective accuracy” is exactly what we want.</p>
+<p><strong>Takeaway.</strong>
+Synchronous DP spends a fixed budget per sweep by updating everything.
+Asynchronous DP spends a flexible budget by updating selected states, often achieving good value estimates and policies with substantially less total computation.</p>
+<h2 id="approximate-dynamic-programming">Approximate Dynamic Programming</h2>
+<p>Tabular DP assumes we can store and update a distinct number for every state <span class="arithmatex">\(s\in\mathcal{S}\)</span>. When <span class="arithmatex">\(\lvert\mathcal{S}\rvert\)</span> is enormous (or continuous), that assumption breaks down. Approximate DP keeps the DP logic, Bellman backups and repeated improvement, but replaces the value table with a function approximator.</p>
+<h3 id="replace-the-table-with-a-function-class">Replace the table with a function class</h3>
+<p>Instead of representing a value function as <span class="arithmatex">\(v(s)\)</span> for each state, we represent it by a parameterized approximation</p>
+<div class="arithmatex">\[
+\hat v(s,\mathbf{w}),
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{w}\)</span> denotes the parameters (weights). The goal is that a single parameter vector generalizes across many states, allowing compact storage and sharing statistical strength.</p>
+<h3 id="dp-directly-on-the-approximation-fitted-value-iteration">DP directly on the approximation (Fitted Value Iteration)</h3>
+<p>With function approximation, we can no longer apply the Bellman operator to every state and store the result exactly. A standard workaround is to run DP in a sampled and projected way: we apply a Bellman backup on a set of sampled states, then fit our approximator to match those backed-up values. This template is known as Fitted Value Iteration (FVI).</p>
+<p><strong>Setup and initialization.</strong>
+We assume an MDP with discount factor <span class="arithmatex">\(\gamma\)</span> and access to a generative model (or known dynamics) so that, for any queried pair <span class="arithmatex">\((s,a)\)</span>, we can obtain the immediate reward and either compute or estimate the expected next-state value.
+Our goal is to approximate the optimal value function <span class="arithmatex">\(v^*\)</span>, but since a tabular representation is infeasible, we restrict ourselves to a parameterized function class</p>
+<div class="arithmatex">\[
+\{\hat v(\cdot,\mathbf{w}) : \mathbf{w}\in\mathbb{R}^d\},
+\]</div>
+<p>(e.g., linear features or a neural network) and seek parameters <span class="arithmatex">\(\mathbf{w}\)</span> such that <span class="arithmatex">\(\hat v(\cdot,\mathbf{w})\approx v^*\)</span> over the states of interest. To train this approximation we also choose a state-sampling scheme, modeled as sampling <span class="arithmatex">\(s\sim \mu\)</span> for some distribution <span class="arithmatex">\(\mu\)</span> over <span class="arithmatex">\(\mathcal{S}\)</span> (uniform over a region, concentrated near a start-state distribution, or induced by trajectories under a behavior policy). Finally, we pick an initial parameter vector <span class="arithmatex">\(\mathbf{w}_0\)</span> (commonly <span class="arithmatex">\(\hat v(\cdot,\mathbf{w}_0)\equiv 0\)</span> or small random weights) and then iteratively improve <span class="arithmatex">\(\hat v\)</span> using Bellman targets and regression.</p>
+<p><strong>Iteration.</strong>
+For <span class="arithmatex">\(k=0,1,2,\ldots\)</span> repeat:</p>
+<p><strong>1. Sample states and form Bellman targets.</strong></p>
+<p>Sample a finite training set of states <span class="arithmatex">\(\tilde{\mathcal{S}}_k=\{s^{(1)},\dots,s^{(n)}\}\)</span> from <span class="arithmatex">\(\mu\)</span>.
+For each sampled state <span class="arithmatex">\(s\in\tilde{\mathcal{S}}_k\)</span>, compute a one-step optimality target by backing up the current approximation:</p>
+<div class="arithmatex">\[
+\tilde v_k(s)=
+\max_{a\in\mathcal{A}}
+\left(
+  \mathcal{R}_s^a
+  +\gamma\sum_{s'\in\mathcal{S}}\mathcal{P}_{ss'}^a\,\hat v(s',\mathbf{w}_k)
+\right).
+\]</div>
+<p>(If we only have a simulator rather than an explicit transition matrix, the expectation over <span class="arithmatex">\(s'\)</span> can be approximated by samples.)</p>
+<p><strong>2. Fit the approximator to the targets (projection step).</strong></p>
+<p>Update parameters by supervised regression so that the next approximation matches these targets on the sampled states:</p>
+<div class="arithmatex">\[
+\mathbf{w}_{k+1}
+\in
+\arg\min_{\mathbf{w}}
+\sum_{s\in\tilde{\mathcal{S}}_k}
+\big(\hat v(s,\mathbf{w})-\tilde v_k(s)\big)^2.
+\]</div>
+<p>Equivalently, <span class="arithmatex">\(\hat v(\cdot,\mathbf{w}_{k+1})\)</span> is trained on the dataset
+<span class="arithmatex">\(\{(s,\tilde v_k(s)):\ s\in\tilde{\mathcal{S}}_k\}\)</span>.</p>
+<p><strong>Interpretation.</strong>
+Each iteration performs two conceptual steps: a Bellman improvement step (create targets using one-step lookahead) followed by a projection step (compress the backed-up values back into the function class by regression). This recovers the DP idea of repeated Bellman updates, but replaces exact tabular storage with approximation and generalization.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
