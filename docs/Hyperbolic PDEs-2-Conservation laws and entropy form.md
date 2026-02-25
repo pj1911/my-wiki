@@ -230,6 +230,27 @@ so the numerical flux at \(x_{i+\tfrac12}\) reduces to a function
 but the low-order reconstruction makes the method diffusive, smearing sharp
 discontinuities and steep gradients.
 
+**Godunov as physics loss for LWR model.**  
+For an LWR type conservation law \(u_t+f(u)_x=0\), the discrete conservation update can be represented by the Forward Euler/Godunov step
+
+$$
+\bar u_i^{n+1}=\bar u_i^{n}-\alpha\!\left(\hat f(\bar u_i^{n},\bar u_{i+1}^{n})-\hat f(\bar u_{i-1}^{n},\bar u_i^{n})\right),\qquad \alpha=\frac{\Delta t}{\Delta x}.
+$$
+
+$$
+\bar u_i^{n+1}-\bar u_i^n-\alpha\bigl(q_{i-\frac12}^n-q_{i+\frac12}^n\bigr)=R.
+$$
+
+The role of the numerical flux \(\hat f(\bar u_i,\bar u_{i+1})\) is played by a Godunov (Riemann) flux computed from a demand--supply construction for the fundamental diagram \(f(u)=u\,v_{\max}\!\left(1-u/u_{\max}\right)\). Concretely, if we have the predictions for the discrete cell averages \(\bar u_i^n\) (here \(u\) is the density) over time and space: let \(\bar u_i^n\)  corresponds to interior cells at time level \(n\), while \(\bar u_{i-1}^n\) and \(\bar u_{i+1}^n\) provide the left and right neighbors. At each interface \(x_{i-\frac12}\), the incoming and outgoing flux can be formed by:
+
+$$
+q_{i-\frac12}^n=\min\bigl(D(\bar u_{i-1}^n),\,S(\bar u_i^n)\bigr),
+\quad
+q_{i+\frac12}^n=\min\bigl(D(\bar u_i^n),\,S(\bar u_{i+1}^n)\bigr),
+$$
+
+where the demand \(D(\cdot)\) equals \(f(\cdot)\) in free flow \((\bar u\le u_{\mathrm{cr}})\) and saturates at capacity \(q_{\max}\) in congestion, while the supply \(S(\cdot)\) equals \(q_{\max}\) in free flow and equals \(f(\cdot)\) in congestion \((\bar u>u_{\mathrm{cr}})\). Then the physics loss is the normalized \(\ell^p\) norm of this residual (\(R\)) over all interior cells and time steps, divided by the \(\ell^p\) norm of the corresponding state \(\bar u_i^{n+1}\), which is to be minimized.
+
 ### Higher order reconstruction
 
 To reduce this numerical diffusion, we can move to a higher-order (piecewise linear)
