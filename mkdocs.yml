@@ -13,6 +13,7 @@ nav:
           - 2 – Natural Language Processing: Transformers-2-NLP.md
           - 3 – Transformer Language Models: Transformers-3-LLMs.md
           - 4 – Multimodal Transformers: Transformers-4-MMT.md
+          - 5 – Kronecker-Structured Attention: Transformers-5-KSA.md
   - Mathematics:
         - Fuzzy Inference Systems: Fuzzy Inference Systems.md
         - Neural network methods for partial differential equations:
