@@ -21,9 +21,7 @@ $$
 =\mathrm{Softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{D_k}}\right)\mathbf{V}, \qquad \mathbf{Y}\in\mathbb{R}^{N\times D}
 $$
 
-Multi-head Attention.
-
-With \(H\) heads, commonly \(D_k=D_v=D/H\). Each head \(h\) has its own \(\mathbf{W}^{(q)}_h,\mathbf{W}^{(k)}_h,\mathbf{W}^{(v)}_h\), producing head outputs \(\mathbf{H}_h \in \mathbb{R}^{N\times D_v}\), then
+**Multi-head Attention.** With \(H\) heads, commonly \(D_k=D_v=D/H\). Each head \(h\) has its own \(\mathbf{W}^{(q)}_h,\mathbf{W}^{(k)}_h,\mathbf{W}^{(v)}_h\), producing head outputs \(\mathbf{H}_h \in \mathbb{R}^{N\times D_v}\), then
 
 $$
 \mathbf{Y}=\mathrm{Concat}[\mathbf{H}_1,\dots,\mathbf{H}_H]\mathbf{W}^{(o)},\qquad \mathbf{W}^{(o)}\in\mathbb{R}^{(H D_v)\times D},
@@ -107,9 +105,7 @@ so that each multi-index \((n_1,\dots,n_k)\) corresponds to a single position an
 \(
 \mathcal{Q}_h[n_1,\dots,n_k,:]\in\mathbb{R}^{D_h}
 \)
-is the query vector at that position (and similarly for \(\mathcal{K}_h,\mathcal{V}_h\)).
-
-Concretely, for queries we have (showing shapes explicitly)
+is the query vector at that position (and similarly for \(\mathcal{K}_h,\mathcal{V}_h\)). Concretely, for queries we have (showing shapes explicitly)
 
 $$
 \underbrace{\mathbf{q}_{h;n_1,\dots,n_k}}_{\in\mathbb{R}^{1\times D_h}}
@@ -121,7 +117,7 @@ $$
 and the key/value equations are identical in form with \(\mathbf{W}^{(k)}_h\) and \(\mathbf{W}^{(v)}_h\).
 Note, no new trainable weights are introduced here.
 
-#### Step 2: Pool along all axes except one (to get mode-wise Q/K)
+#### Step 2: Pool along all axes except one (to get axis-wise Q/K)
 
 Recall \(\mathcal{Q}_h[n_1,\dots,n_k,:]\in\mathbb{R}^{D_h}\) is the query vector at position \((n_1,\dots,n_k)\). For each axis (mode) \(i\in\{1,\dots,k\}\), we want a compressed set of queries/keys that depends only on the coordinate along that axis.
 We therefore build
@@ -170,7 +166,7 @@ $$
 \tilde{\mathbf{Q}}^{(3)}_h\in\mathbb{R}^{T\times D_h}.
 $$
 
-(And the same construction applies to \(\tilde{\mathbf{K}}^{(i)}_h\).)
+(And the same construction applies to \(\tilde{\mathbf{K}}^{(i)}_h\)).
 
 #### Step 3: Mode-wise attention matrices
 
@@ -316,7 +312,7 @@ This is often what people mean informally when discussing efficiency:
 - Full attention stores an \(N\times N\) matrix per head: \(N^2\) coefficients, with \(N=\prod_i N_i\).
 - Kronecker attention stores \(k\) smaller matrices: \(\sum_{i=1}^k N_i^2\) coefficients per head.
 
-Example (2D): if \(N_1=N_2=64\), then \(N=4096\):
+**Example (2D).** If \(N_1=N_2=64\), then \(N=4096\):
 
 $$
 N^2 = 16{,}777{,}216
@@ -394,7 +390,6 @@ the product is large only if all mode-wise weights are large, whereas the sum ca
 1. P. Chauhan, Transformers -- Introduction (Attention, Scaled Attention, Multi-Head Attention).  
    https://pj1911.github.io/my-wiki/Transformers-1-Introduction/
 
-2. S. Omranpour, R. Rabbany, G. Rabusseau, Higher-Order Transformers (HOT) with Kronecker Factorized Attention (arXiv).  
-   arXiv preprint arXiv:2412.02919
+2. S. Omranpour, R. Rabbany, G. Rabusseau, Higher-Order Transformers (HOT) with Kronecker Factorized Attention (arXiv), arXiv preprint arXiv:2412.02919.
 
 
