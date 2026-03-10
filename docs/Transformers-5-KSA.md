@@ -1,3 +1,21 @@
+## Introduction
+
+The Kronecker product is an operation on two matrices that builds a larger block matrix, much like matrix multiplication combines matrices to produce a new one, but instead of taking row-by-column dot products, it multiplies every entry of the first matrix by the entire second matrix. If \(A=[a_{ij}] \in \mathbb{R}^{m\times n}\) and \(B \in \mathbb{R}^{p\times q}\), then their Kronecker product is written as \(A \otimes B\) and is defined by
+
+$$
+A \otimes B =
+\begin{bmatrix}
+a_{11}B & a_{12}B & \cdots & a_{1n}B \\
+a_{21}B & a_{22}B & \cdots & a_{2n}B \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1}B & a_{m2}B & \cdots & a_{mn}B
+\end{bmatrix},
+$$
+
+so each scalar entry of \(A\) is replaced by a copy of \(B\) scaled by that entry, so the result has shape \((mp)\times(nq)\).
+
+More generally, if we take the Kronecker product of \(k\) square matrices \(A_1,\dots,A_k\) with sizes \(n_1\times n_1,\dots,n_k\times n_k\), then \(A_1\otimes\cdots\otimes A_k\) has size \(\bigl(\prod_{i=1}^k n_i\bigr)\times\bigl(\prod_{i=1}^k n_i\bigr)\). So for instance \(k\) copies of a \(2\times2\) matrix produce a \(2^k\times2^k\) output. This construction is widely used in linear algebra, tensor computations, signal processing, and quantum mechanics.
+
 ## Notations
 
 We follow the following convention for the notation. This is similar to the notation used in chapter 1 of transformers on this website.
