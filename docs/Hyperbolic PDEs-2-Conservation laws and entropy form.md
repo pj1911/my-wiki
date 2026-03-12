@@ -238,6 +238,10 @@ discontinuities and steep gradients.
 For an LWR type conservation law \(u_t+f(u)_x=0\), the discrete conservation update can be represented by the Forward Euler/Godunov step
 
 $$
+\bar{u}_i^{n+1} = \bar{u}_i^n - \frac{\Delta t}{\Delta x}\left(\hat{f}^{\,n}\big(u_{i+\tfrac12}^L,u_{i+\tfrac12}^R\big)- \hat{f}^{\,n}\big(u_{i-\tfrac12}^L,u_{i-\tfrac12}^R\big)\right),
+$$
+
+$$
 \bar u_i^{n+1}=\bar u_i^{n}-\alpha\!\left(\hat f(\bar u_i^{n},\bar u_{i+1}^{n})-\hat f(\bar u_{i-1}^{n},\bar u_i^{n})\right),\qquad \alpha=\frac{\Delta t}{\Delta x}.
 $$
 
