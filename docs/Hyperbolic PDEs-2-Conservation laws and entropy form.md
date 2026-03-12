@@ -169,6 +169,10 @@ $$
 \bar{u}_i^{n+1} = \bar{u}_i^n - \frac{\Delta t}{\Delta x}\left(\hat{f}_{i+\tfrac12}^n-\hat{f}_{i-\tfrac12}^n\right),
 $$
 
+$$
+\bar{u}_i^{n+1} = \bar{u}_i^n - \frac{\Delta t}{\Delta x}\left(\hat{f}^{\,n}\big(u_{i+\tfrac12}^L,u_{i+\tfrac12}^R\big)- \hat{f}^{\,n}\big(u_{i-\tfrac12}^L,u_{i-\tfrac12}^R\big)\right),
+$$
+
 where \(n\) represents the \(n^{th}\) time step for any cell \(i\). Higher accuracy in time uses methods like Runge--Kutta (RK2, RK3), but the flux idea stays the same.
 
 ### CFL condition
