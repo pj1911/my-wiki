@@ -25,9 +25,7 @@ This does not mean RAG magically makes the model truthful. If it retrieves the w
 
 **Parametric memory versus non-parametric memory.** A natural next question is where the relevant information for answering a query is actually stored. To make this precise, note that a standard LLM already stores information in its trained weights and biases, this is called parametric memory. RAG does not replace that mechanism. Instead, it adds access to non-parametric memory, meaning information stored outside the model. For example, in documents, tables, databases, or vector indices, that can be retrieved at inference time. In this sense, RAG is usually best understood as a system that combines an LLM's parametric memory with external retrieved evidence.
 
-### RAG is not the same as prompting or fine-tuning
-
-Several ideas closely related to LLM are often discussed together, even though they refer to different things. The following table distinguishes them more clearly.
+**RAG is not the same as prompting or fine-tuning.** Several ideas closely related to LLM are often discussed together, even though they refer to different things. The following table distinguishes them more clearly.
 
 | Approach | What changes? | Best when | Main weakness |
 | --- | --- | --- | --- |
@@ -68,7 +66,7 @@ $$
 
 Here, \(q\) denotes the user's question, \(D\) the set of retrieved documents or chunks, and \(y\) the final answer. This means, first get evidence, then answer from it.
 
-### Step-by-step explanation
+**Step-by-step explanation.**
 
 1. Collect the knowledge source.  
 The system first needs an external corpus to retrieve from. This corpus is usually assembled from specific sources relevant to the task, such as a company’s internal documents, product manuals, help-center articles, PDFs, databases, support tickets, code repositories, or selected web pages. In some applications, the source may include internet content, but in many practical RAG systems it is a defined collection of documents rather than the open web.
@@ -210,11 +208,11 @@ This shows that RAG is not just a "prompting trick", its a full system design pr
 
 This section answers the question about active research area in RAG. A useful high-level summary is that RAG research has moved from a simple pattern:
 
-*retrieve a few chunks once, then answer*
+*"retrieve a few chunks once, then answer"*
 
 toward a much richer family of systems that ask:
 
-*should we retrieve, what should we retrieve, how should we organize it, how do we know it helped, and how do we keep the whole system reliable?*
+*"should we retrieve, what should we retrieve, how should we organize it, how do we know it helped, and how do we keep the whole system reliable?"*
 
 ### Adaptive, self-reflective, and agentic RAG
 
