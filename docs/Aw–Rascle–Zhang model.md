@@ -68,7 +68,7 @@ $$
 \rho_t + \big(\rho V(\rho)\big)_x = 0.
 $$
 
-**Why go beyond LWR?** LWR enforces \(v=V(\rho)\) pointwise (instantaneous equilibrium). To model non-equilibrium effects (e.g.\ delayed
+**Why go beyond LWR?** LWR enforces \(v=V(\rho)\) pointwise (instantaneous equilibrium). To model non-equilibrium effects (e.g. delayed
 acceleration, anticipation, heterogeneous driving), we keep \(v\) (or a related driving state) as an additional
 unknown and supply a second evolution equation.
 
@@ -184,7 +184,7 @@ which shows the footpoint \(X(0)\) lies ahead of \(x\). Because the influencing 
 ### The Aw--Rascle--Zhang (ARZ) anisotropic closure.
 
 In the previous section, we wanted to introduce an additional state variable to capture non-equilibrium effects. At the PDE level, introducing a new state variable forces a new evolution law: to have a closed system,
-we must specify how that variable changes in time and space, i.e.\ we must add a second equation. The one-sided domain-of-dependence proof gives a concrete PDE test for look-ahead only. We can now use this as a closure principle: we will choose the second equation so that the
+we must specify how that variable changes in time and space, i.e. we must add a second equation. The one-sided domain-of-dependence proof gives a concrete PDE test for look-ahead only. We can now use this as a closure principle: we will choose the second equation so that the
 additional driver-dependent information is advected in the correct (anisotropic) direction.
 
 Before formulating an equation to close the system, we introduce an additional field \(w\) often called the Lagrangian marker, representing a driver-dependent
@@ -444,7 +444,7 @@ $$
 \frac{\partial v}{\partial t}=\frac{V(\rho_0)-v}{\tau},
 $$
 
-i.e.\ exponential relaxation of \(v\) to \(V(\rho_0)\). This is why the source in [\((42)\)](#eq-arz-conservative2)
+i.e. exponential relaxation of \(v\) to \(V(\rho_0)\). This is why the source in [\((42)\)](#eq-arz-conservative2)
 is chosen as \(\rho(V(\rho)-v)/\tau\).
 
 The purpose of this local relaxation test is to isolate the intended role of the source term from the
