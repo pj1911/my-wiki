@@ -2,13 +2,13 @@
 
 We consider traffic on a single lane, represented as a one-dimensional continuum along a road coordinate \(x\in\mathbb{R}\) and time \(t\ge 0\).
 
-Macroscopic state variables.
+**Macroscopic state variables.**
 
 - \(\rho(x,t)\ge 0\): vehicle density (vehicles per unit length).
 - \(v(x,t)\ge 0\): mean vehicle speed (length per unit time).
 - \(q(x,t) := \rho(x,t)v(x,t)\): traffic flow (vehicles per unit time).
 
-Constitutive functions.
+**Constitutive functions.**
 
 - \(p(\rho)\): an increasing function of density (often called traffic pressure or hesitation/anticipation function). A standard assumption is \(p(0)=0\) and \(p'(\rho)>0\) for \(\rho>0\) [[4](#ref-4), [3](#ref-3)].
 - \(V(\rho)\): an equilibrium speed curve (decreasing with density in typical calibrations) [[3](#ref-3)].
@@ -48,9 +48,7 @@ $$
 
 cannot be computed from \(\rho\) alone unless we specify an additional relation for \(v\).
 
-LWR closure.
-
-The Lighthill--Whitham--Richards (LWR) model closes [\((2)\)](#eq-continuity) by postulating an equilibrium
+**LWR closure.** The Lighthill--Whitham--Richards (LWR) model closes [\((2)\)](#eq-continuity) by postulating an equilibrium
 velocity--density relation
 
 $$
@@ -70,13 +68,9 @@ $$
 \rho_t + \big(\rho V(\rho)\big)_x = 0.
 $$
 
-Why go beyond LWR?
-
-LWR enforces \(v=V(\rho)\) pointwise (instantaneous equilibrium). To model non-equilibrium effects (e.g.\ delayed
+**Why go beyond LWR?** LWR enforces \(v=V(\rho)\) pointwise (instantaneous equilibrium). To model non-equilibrium effects (e.g.\ delayed
 acceleration, anticipation, heterogeneous driving), we keep \(v\) (or a related driving state) as an additional
 unknown and supply a second evolution equation.
-
-What comes next.
 
 This leads to second--order traffic models: systems of PDEs that keep the conservation law for \(\rho\) but add a
 second equation encoding how the velocity (or a modified velocity) is transported/updated. Our next step will be to
@@ -117,9 +111,7 @@ $$
 Here \(q(t,x)\) denotes the transported scalar quantity (the unknown), and \(a(t,x)\) is a given transport
 velocity field prescribing the local propagation speed in the \(x\)-direction. \(a(t,x)\le 0\) encodes a left-moving transport, so information propagates from \(y\ge x\) (ahead) toward \(x\) (backward), which is exactly the look ahead influence we want to model.
 
-Characteristic ODE.
-
-We define the characteristic ODE associated with [\((7)\)](#eq-linear-transport) as follows.
+**Characteristic ODE.** We define the characteristic ODE associated with [\((7)\)](#eq-linear-transport) as follows.
 A characteristic is a curve \(s\mapsto (s,X(s))\) in the \((t,x)\) plane along which we track \(q\).
 Setting \(\psi(s):=q(s,X(s))\), the chain rule gives
 
@@ -135,9 +127,7 @@ $$
 
 which is the ODE we refer to as the characteristic ODE. Here \(s\) is the curve parameter (time) running in \([0,t]\).
 
-Claim.
-
-Assume \(q\in C^1\) solves \(q_t+a(t,x)q_x=0\) on \((0,T)\times\mathbb{R}\) with initial data \(q(0,x)=q_0(x)\), and assume
+**Claim.** Assume \(q\in C^1\) solves \(q_t+a(t,x)q_x=0\) on \((0,T)\times\mathbb{R}\) with initial data \(q(0,x)=q_0(x)\), and assume
 \(a\in C^1\) with \(a(t,x)\le 0\).
 
 Fix \((t,x)\in(0,T)\times\mathbb{R}\) and let \(X(\cdot)\) be the (unique) \(C^1\) solution of
@@ -152,9 +142,7 @@ Then we prove:
 - (ii) footpoint lies ahead: \(X(0)\ge x\), and therefore \(q(t,x)\) can only depend on initial data
   from positions \(y\ge x\).
 
-Proof.
-
-Fix \((t,x)\) and let \(X(\cdot)\) solve \(\dot X(s)=a(s,X(s))\) with \(X(t)=x\). Define the restriction of \(q\) to this curve by
+**Proof.** Fix \((t,x)\) and let \(X(\cdot)\) solve \(\dot X(s)=a(s,X(s))\) with \(X(t)=x\). Define the restriction of \(q\) to this curve by
 
 $$
 \psi(s):=q\big(s,X(s)\big),\qquad s\in[0,t].
@@ -331,9 +319,7 @@ $$
 
 with \(P\in C^1\).
 
-Step 1: Quasilinear form in \((\rho,v)\).
-
-Expand the continuity equation:
+**Step 1: Quasilinear form in \((\rho,v)\).** Expand the continuity equation:
 
 $$
 \rho_t+v\rho_x+\rho v_x=0.
@@ -371,18 +357,14 @@ v & \rho\\
 =0.
 $$
 
-Step 2: Eigenvalues = characteristic speeds.
-
-For \(U_t+A(U)U_x=0\), characteristic speeds are the eigenvalues of \(A(U)\).
+**Step 2: Eigenvalues = characteristic speeds.** For \(U_t+A(U)U_x=0\), characteristic speeds are the eigenvalues of \(A(U)\).
 Here \(A(\rho,v)\) is upper triangular, so its eigenvalues are its diagonal entries:
 
 $$
 \lambda_2=v,\qquad \lambda_1=v-\rho P'(\rho).
 $$
 
-Step 3: Consequence (anisotropy / look-ahead).
-
-Assuming \(P'(\rho)\ge 0\) and using the road orientation adopted previously (vehicles move in the negative \(x\)-direction,
+**Step 3: Consequence (anisotropy / look-ahead).** Assuming \(P'(\rho)\ge 0\) and using the road orientation adopted previously (vehicles move in the negative \(x\)-direction,
 so \(v\le 0\)), then
 
 $$
@@ -477,8 +459,7 @@ hyperbolic transport part.
 
 From the balance law in \(y\) to the transported-marker form.
 
-Now rewrite [\((42)\)](#eq-arz-conservative2) in terms of \(w=v+p(\rho)=y/\rho\).
-Compute
+Now rewrite [\((42)\)](#eq-arz-conservative2) in terms of \(w=v+p(\rho)=y/\rho\). Compute
 
 $$
 \frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y) =
@@ -508,9 +489,7 @@ $$
 \frac{\partial w}{\partial t}+v\,\frac{\partial w}{\partial x} = \frac{V(\rho)-v}{\tau}.
 $$
 
-Comment.
-
-Equation [\((49)\)](#eq-marker-relax-expanded-start) is the relaxation ARZ closure in its most transparent form:
+**Comment.** Equation [\((49)\)](#eq-marker-relax-expanded-start) is the relaxation ARZ closure in its most transparent form:
 the marker \(w=v+p(\rho)\) is still transported along vehicle trajectories (left-hand side),
 so the anisotropic car-following structure is preserved, while the right-hand side introduces only a
 local tendency that drives \(v\) toward the equilibrium speed \(V(\rho)\) on the time scale \(\tau\).
