@@ -29,6 +29,8 @@ nav:
       - 5 - Model Free Prediction: RL-5-Model free prediction.md
       - 6 - Model Free Control: RL-6-Model free control.md
       - 7 - Value Function Approximation: RL-7-Value function approximation.md
+  - Traffic Flow:
+        - ARZ model: Aw–Rascle–Zhang model.md
 
 markdown_extensions:
   - admonition
