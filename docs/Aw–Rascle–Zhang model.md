@@ -545,10 +545,10 @@ On a finite road segment \(x\in[0,L]\), appropriate boundary conditions depend o
 
 ## References
 
-1. <a id="ref-1"></a>A.~Aw and M.~Rascle, "Resurrection of `Second Order' Models of Traffic Flow,"  SIAM Journal on Applied Mathematics, 60(3):916--938, 2000. DOI: 10.1137/S0036139997332099.
+1. <a id="ref-1"></a> Aw, A. A. T. M., & Rascle, M. (2000). Resurrection of" second order" models of traffic flow. SIAM journal on applied mathematics, 60(3), 916-938.
 
-3. <a id="ref-2"></a>H.~M. Zhang, "A Non-Equilibrium Traffic Model Devoid of Gas-Like Behavior," Transportation Research Part B, 36(3):275--290, 2002.
+3. <a id="ref-2"></a> Zhang, H. M. (2002). A non-equilibrium traffic model devoid of gas-like behavior. Transportation Research Part B: Methodological, 36(3), 275-290.
 
-4. <a id="ref-3"></a>H.~Yu and M.~Krstic, "Traffic Congestion Control for Aw--Rascle--Zhang Model," Automatica, 100:38--51, 2019.
+4. <a id="ref-3"></a> Yu, H., & Krstic, M. (2019). Traffic congestion control for Aw–Rascle–Zhang model. Automatica, 100, 38-51.
    
-6. <a id="ref-4"></a>M.~Garavello and S.~Villa, "The Cauchy Problem for the Aw--Rascle--Zhang Traffic Model with Locally Constrained Flow," 2016.
+6. <a id="ref-4"></a> Garavello, M., & Villa, S. (2017). The Cauchy problem for the Aw–Rascle–Zhang traffic model with locally constrained flow. Journal of Hyperbolic Differential Equations, 14(03), 393-414.
