@@ -1,0 +1,1999 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Transformers-4-MMT/">
+      
+      
+        <link rel="next" href="../Retrieval-Augmented%20Generation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>5 – Kronecker-Structured Attention - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5 – Kronecker-Structured Attention
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-kronecker-structured-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Kronecker-structured attention?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kronecker-structured-attention-ksa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kronecker-structured attention (KSA)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kronecker-structured attention (KSA)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-head-attention-on-flattened-multiway-data-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-head attention on flattened multiway data (baseline)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-head attention on flattened multiway data (baseline)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-qkv-as-tensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Q/K/V as tensors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-pool-along-all-axes-except-one-to-get-axis-wise-qk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Pool along all axes except one (to get axis-wise Q/K)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-mode-wise-attention-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Mode-wise attention matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4a-kronecker-product-attention-hot-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4a: Kronecker product attention (HOT-product)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4b-kronecker-sum-attention-hot-sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4b: Kronecker sum attention (HOT-sum)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-applying-kronecker-attention-without-constructing-the-full-ntimes-n-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Applying Kronecker attention without constructing the full \(N\times N\) matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-projection-same-as-multi-head-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output projection (same as multi-head attention)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complexity-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity comparisons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complexity comparisons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trainable-parameters-qkvo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trainable parameters (Q/K/V/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attention-coefficients-storedcomputed-not-trainable-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attention coefficients stored/computed (not trainable parameters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inductive-bias-and-limitations-of-kronecker-structured-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inductive bias and limitations of Kronecker-structured attention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Retrieval-Augmented%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Traffic Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Traffic Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Aw%E2%80%93Rascle%E2%80%93Zhang%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-kronecker-structured-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Kronecker-structured attention?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kronecker-structured-attention-ksa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kronecker-structured attention (KSA)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kronecker-structured attention (KSA)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-head-attention-on-flattened-multiway-data-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-head attention on flattened multiway data (baseline)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-head attention on flattened multiway data (baseline)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-qkv-as-tensors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Q/K/V as tensors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-pool-along-all-axes-except-one-to-get-axis-wise-qk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Pool along all axes except one (to get axis-wise Q/K)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-mode-wise-attention-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Mode-wise attention matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4a-kronecker-product-attention-hot-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4a: Kronecker product attention (HOT-product)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4b-kronecker-sum-attention-hot-sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4b: Kronecker sum attention (HOT-sum)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-applying-kronecker-attention-without-constructing-the-full-ntimes-n-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Applying Kronecker attention without constructing the full \(N\times N\) matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-projection-same-as-multi-head-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output projection (same as multi-head attention)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complexity-comparisons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity comparisons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complexity comparisons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trainable-parameters-qkvo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trainable parameters (Q/K/V/O)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attention-coefficients-storedcomputed-not-trainable-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attention coefficients stored/computed (not trainable parameters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inductive-bias-and-limitations-of-kronecker-structured-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inductive bias and limitations of Kronecker-structured attention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>5 – Kronecker-Structured Attention</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The Kronecker product is an operation on two matrices that builds a larger block matrix, much like matrix multiplication combines matrices to produce a new one, but instead of taking row-by-column dot products, it multiplies every entry of the first matrix by the entire second matrix. If <span class="arithmatex">\(A=[a_{ij}] \in \mathbb{R}^{m\times n}\)</span> and <span class="arithmatex">\(B \in \mathbb{R}^{p\times q}\)</span>, then their Kronecker product is written as <span class="arithmatex">\(A \otimes B\)</span> and is defined by</p>
+<div class="arithmatex">\[
+A \otimes B =
+\begin{bmatrix}
+a_{11}B &amp; a_{12}B &amp; \cdots &amp; a_{1n}B \\
+a_{21}B &amp; a_{22}B &amp; \cdots &amp; a_{2n}B \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{m1}B &amp; a_{m2}B &amp; \cdots &amp; a_{mn}B
+\end{bmatrix},
+\]</div>
+<p>so each scalar entry of <span class="arithmatex">\(A\)</span> is replaced by a copy of <span class="arithmatex">\(B\)</span> scaled by that entry, so the result has shape <span class="arithmatex">\((mp)\times(nq)\)</span>.</p>
+<p>More generally, if we take the Kronecker product of <span class="arithmatex">\(k\)</span> square matrices <span class="arithmatex">\(A_1,\dots,A_k\)</span> with sizes <span class="arithmatex">\(n_1\times n_1,\dots,n_k\times n_k\)</span>, then <span class="arithmatex">\(A_1\otimes\cdots\otimes A_k\)</span> has size <span class="arithmatex">\(\bigl(\prod_{i=1}^k n_i\bigr)\times\bigl(\prod_{i=1}^k n_i\bigr)\)</span>. So for instance <span class="arithmatex">\(k\)</span> copies of a <span class="arithmatex">\(2\times2\)</span> matrix produce a <span class="arithmatex">\(2^k\times2^k\)</span> output. This construction is widely used in linear algebra, tensor computations, signal processing, and quantum mechanics.</p>
+<h2 id="notations">Notations</h2>
+<p>We follow the following convention for the notation. This is similar to the notation used in chapter 1 of transformers on this website.</p>
+<ul>
+<li>The input is a sequence of <span class="arithmatex">\(N\)</span> tokens, each token <span class="arithmatex">\(\mathbf{x}_n \in \mathbb{R}^{D}\)</span>, is stacked row-wise into</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{X} \in \mathbb{R}^{N\times D}, \qquad \text{ where D represents the number of features}
+\]</div>
+<ul>
+<li>Trainable projections single head form:</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{Q}=\mathbf{X}\mathbf{W}^{(q)},\quad \mathbf{K}=\mathbf{X}\mathbf{W}^{(k)},\quad \mathbf{V}=\mathbf{X}\mathbf{W}^{(v)}.
+\]</div>
+<ul>
+<li>Scaled dot-product attention row-wise softmax:</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{Y}=\mathrm{Attention}(\mathbf{Q},\mathbf{K},\mathbf{V})
+=\mathrm{Softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{D_k}}\right)\mathbf{V}, \qquad \mathbf{Y}\in\mathbb{R}^{N\times D}
+\]</div>
+<p><strong>Multi-head Attention.</strong> With <span class="arithmatex">\(H\)</span> heads, commonly <span class="arithmatex">\(D_k=D_v=D/H\)</span>. Each head <span class="arithmatex">\(h\)</span> has its own <span class="arithmatex">\(\mathbf{W}^{(q)}_h,\mathbf{W}^{(k)}_h,\mathbf{W}^{(v)}_h\)</span>, producing head outputs <span class="arithmatex">\(\mathbf{H}_h \in \mathbb{R}^{N\times D_v}\)</span>, then</p>
+<div class="arithmatex">\[
+\mathbf{Y}=\mathrm{Concat}[\mathbf{H}_1,\dots,\mathbf{H}_H]\mathbf{W}^{(o)},\qquad \mathbf{W}^{(o)}\in\mathbb{R}^{(H D_v)\times D},
+\qquad \mathbf{Y}\in\mathbb{R}^{N\times D}
+\]</div>
+<h2 id="why-kronecker-structured-attention">Why Kronecker-structured attention?</h2>
+<p>If the input is multiway (tensor-structured) rather than a 1D sequence, a naive Transformer approach is:</p>
+<ol>
+<li>flatten the tensor into a sequence of length <span class="arithmatex">\(N\)</span>,</li>
+<li>apply standard attention with an <span class="arithmatex">\(N\times N\)</span> attention matrix,</li>
+<li>reshape the output back.</li>
+</ol>
+<p>This has the familiar quadratic attention bottleneck in both time and memory, and flattening also discards the explicit multi-axis structure. But the Kronecker-structured attention targets the case where token positions are naturally indexed by multiple axes (e.g., height <span class="arithmatex">\(\times\)</span> width, or time <span class="arithmatex">\(\times\)</span> variables) and tries to:</p>
+<ul>
+<li>preserve tensor structure,</li>
+<li>avoid forming a full <span class="arithmatex">\(N\times N\)</span> attention matrix,</li>
+<li>still model cross-axis interactions.</li>
+</ul>
+<p><strong>From flat sequence to multi-axis indexing.</strong> In standard Transformer we take an input matrix</p>
+<div class="arithmatex">\[
+\mathbf{X}\in\mathbb{R}^{N\times D},
+\]</div>
+<p>i.e. <span class="arithmatex">\(N\)</span> tokens (rows), each with <span class="arithmatex">\(D\)</span> features.
+Kronecker-structured attention is useful when those <span class="arithmatex">\(N\)</span> tokens actually come from a grid structure with <span class="arithmatex">\(k\)</span> axes.
+Concretely, assume there exist integers <span class="arithmatex">\(N_1,\dots,N_k\)</span>, then instead of a single positional index along a 1D sequence, the position is specified by <span class="arithmatex">\(k\)</span> coordinates (one per axis).
+Equivalently, we can reshape <span class="arithmatex">\(\mathbf{X}\)</span> into a tensor</p>
+<div class="arithmatex">\[
+\mathcal{X}=\text{reshape}(\mathbf{X})\in\mathbb{R}^{N_1\times\cdots\times N_k\times D}, \qquad
+\text{ with } N = N_1 \times\cdots\times N_k
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{X}_{n_1,\dots,n_k,:}\in\mathbb{R}^D\)</span> is the same token vector as some row of <span class="arithmatex">\(\mathbf{X}\)</span>, with structured indices.</p>
+<p><strong>Example (2D image).</strong> If we have a <span class="arithmatex">\(H\times W\)</span> patch grid, for this case <span class="arithmatex">\(k=2\)</span>, <span class="arithmatex">\(N_1=H\)</span>, <span class="arithmatex">\(N_2=W\)</span>, and <span class="arithmatex">\(N=HW\)</span>.
+Flattening gives <span class="arithmatex">\(\mathbf{X}\in\mathbb{R}^{(HW)\times D}\)</span>, while reshaping gives <span class="arithmatex">\(\mathcal{X}\in\mathbb{R}^{H\times W\times D}\)</span>.
+In <span class="arithmatex">\(k\)</span>-dimension, the positional index will be a multi-index <span class="arithmatex">\((n_1,\dots,n_k)\)</span> with sizes <span class="arithmatex">\(N_1,\dots,N_k\)</span>.
+This means, we store the tokens in a tensor</p>
+<div class="arithmatex">\[
+\mathcal{X}\in \mathbb{R}^{N_1\times \cdots \times N_k \times D}.
+\]</div>
+<p>The last dimension is the feature dimension as usual. Note, we can reshape <span class="arithmatex">\(\mathcal{X}\)</span> into the usual matrix <span class="arithmatex">\(\mathbf{X}\in\mathbb{R}^{N\times D}\)</span> to recover standard attention.</p>
+<h2 id="kronecker-structured-attention-ksa">Kronecker-structured attention (KSA)</h2>
+<p>For baseline, we will compare against standard (flattened) multi-head self-attention applied to the data, i.e. treat the <span class="arithmatex">\(N=\prod_{i=1}^k N_i\)</span> positions as an ordinary length-<span class="arithmatex">\(N\)</span> sequence and compute attention in the usual way and compare it with the KSA mechanism.</p>
+<h3 id="multi-head-attention-on-flattened-multiway-data-baseline">Multi-head attention on flattened multiway data (baseline)</h3>
+<p>For head <span class="arithmatex">\(h\)</span> (width <span class="arithmatex">\(D_h\)</span>, typically <span class="arithmatex">\(D_h=D/H\)</span>), we can compute</p>
+<div class="arithmatex">\[
+\mathbf{Q}_h=\mathbf{X}\mathbf{W}^{(q)}_h,\quad
+\mathbf{K}_h=\mathbf{X}\mathbf{W}^{(k)}_h,\quad
+\mathbf{V}_h=\mathbf{X}\mathbf{W}^{(v)}_h,
+\]</div>
+<p>and</p>
+<div class="arithmatex">\[
+\mathbf{H}_h=\mathrm{Softmax}\!\left(\frac{\mathbf{Q}_h\mathbf{K}_h^\top}{\sqrt{D_h}}\right)\mathbf{V}_h,
+\]</div>
+<p>which costs <span class="arithmatex">\(\mathcal{O}(N^2 D_h)\)</span> per head and stores <span class="arithmatex">\(\mathcal{O}(N^2)\)</span> attention coefficients. For Kronecker structured attention, the key idea is to represent (or approximate) the full attention matrix for a multiway input as a Kronecker composition of mode-wise attention matrices. The steps for doing this are given below:</p>
+<h4 id="step-1-qkv-as-tensors">Step 1: Q/K/V as tensors</h4>
+<p>Instead of viewing <span class="arithmatex">\(\mathbf{Q}_h,\mathbf{K}_h,\mathbf{V}_h\)</span> as <span class="arithmatex">\(N\times D_h\)</span> matrices (with <span class="arithmatex">\(N=\prod_{i=1}^k N_i\)</span>), we reshape them into tensors</p>
+<div class="arithmatex">\[
+\mathcal{Q}_h,\mathcal{K}_h,\mathcal{V}_h \in \mathbb{R}^{N_1\times \cdots \times N_k \times D_h},
+\]</div>
+<p>so that each multi-index <span class="arithmatex">\((n_1,\dots,n_k)\)</span> corresponds to a single position and
+<span class="arithmatex">\(
+\mathcal{Q}_h[n_1,\dots,n_k,:]\in\mathbb{R}^{D_h}
+\)</span>
+is the query vector at that position (and similarly for <span class="arithmatex">\(\mathcal{K}_h,\mathcal{V}_h\)</span>). Concretely, for queries we have (showing shapes explicitly)</p>
+<div class="arithmatex">\[
+\underbrace{\mathbf{q}_{h;n_1,\dots,n_k}}_{\in\mathbb{R}^{1\times D_h}}
+\;=\;
+\underbrace{\mathbf{x}_{n_1,\dots,n_k}}_{\in\mathbb{R}^{1\times D}}
+\underbrace{\mathbf{W}^{(q)}_h}_{\in\mathbb{R}^{D\times D_h}},
+\]</div>
+<p>and the key/value equations are identical in form with <span class="arithmatex">\(\mathbf{W}^{(k)}_h\)</span> and <span class="arithmatex">\(\mathbf{W}^{(v)}_h\)</span>.
+Note, no new trainable weights are introduced here.</p>
+<h4 id="step-2-pool-along-all-axes-except-one-to-get-axis-wise-qk">Step 2: Pool along all axes except one (to get axis-wise Q/K)</h4>
+<p>Recall <span class="arithmatex">\(\mathcal{Q}_h[n_1,\dots,n_k,:]\in\mathbb{R}^{D_h}\)</span> is the query vector at position <span class="arithmatex">\((n_1,\dots,n_k)\)</span>. For each axis (mode) <span class="arithmatex">\(i\in\{1,\dots,k\}\)</span>, we want a compressed set of queries/keys that depends only on the coordinate along that axis.
+We therefore build</p>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(i)}_h \in \mathbb{R}^{N_i\times D_h},\qquad
+\tilde{\mathbf{K}}^{(i)}_h \in \mathbb{R}^{N_i\times D_h,}
+\]</div>
+<p>where, both contain one <span class="arithmatex">\(D_h\)</span>-dimensional vector for each possible value of the <span class="arithmatex">\(i\)</span>-th coordinate (here, <span class="arithmatex">\(i=1\)</span> could mean height, <span class="arithmatex">\(i=2\)</span> width and so on). A simple permutation-invariant pooling (used commonly in Higher Order Transformers (HOT)) is: fix <span class="arithmatex">\(n_i\)</span> and sum over all other coordinates:</p>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(i)}_h[n_i,:] =
+\sum_{n_1=1}^{N_1}\cdots
+\sum_{n_{i-1}=1}^{N_{i-1}}
+\sum_{n_{i+1}=1}^{N_{i+1}}
+\cdots
+\sum_{n_k=1}^{N_k}
+\mathcal{Q}_h[n_1,\dots,n_{i-1},\,n_i,\,n_{i+1},\dots,n_k,:],
+\qquad n_i\in\{1,\dots,N_i\}.
+\]</div>
+<p>The computation looks similar for <span class="arithmatex">\(\tilde{\mathbf{K}}^{(i)}_h[n_i,:]\)</span>, where <span class="arithmatex">\(n_i\)</span> is the coordinate value along that axis (e.g. a particular height or width index).</p>
+<p><strong>Example (3D grid).</strong> Let <span class="arithmatex">\(\mathcal{Q}_h\in\mathbb{R}^{H\times W\times T\times D_h}\)</span>. Pooling along all axes except one produces
+one <span class="arithmatex">\(D_h\)</span>-vector per coordinate value on that axis (i.e. a unique row for each <span class="arithmatex">\(h\)</span>, each <span class="arithmatex">\(w\)</span>, and each <span class="arithmatex">\(t\)</span>):</p>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(1)}_h[h,:]=\sum_{w=1}^W\sum_{t=1}^T \mathcal{Q}_h[h,w,t,:],
+\quad h\in\{1,\dots,H\}
+\;\;\Rightarrow\;\;
+\tilde{\mathbf{Q}}^{(1)}_h\in\mathbb{R}^{H\times D_h},
+\]</div>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(2)}_h[w,:]=\sum_{h=1}^H\sum_{t=1}^T \mathcal{Q}_h[h,w,t,:],
+\quad w\in\{1,\dots,W\}
+\;\;\Rightarrow\;\;
+\tilde{\mathbf{Q}}^{(2)}_h\in\mathbb{R}^{W\times D_h},
+\]</div>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(3)}_h[t,:]=\sum_{h=1}^H\sum_{w=1}^W \mathcal{Q}_h[h,w,t,:],
+\quad t\in\{1,\dots,T\}
+\;\;\Rightarrow\;\;
+\tilde{\mathbf{Q}}^{(3)}_h\in\mathbb{R}^{T\times D_h}.
+\]</div>
+<p>(And the same construction applies to <span class="arithmatex">\(\tilde{\mathbf{K}}^{(i)}_h\)</span>).</p>
+<h4 id="step-3-mode-wise-attention-matrices">Step 3: Mode-wise attention matrices</h4>
+<p>Now compute a standard scaled dot-product attention matrix per axis (mode):</p>
+<div class="arithmatex">\[
+\mathbf{A}^{(i)}_h =
+\mathrm{Softmax}\!\left(
+\frac{\tilde{\mathbf{Q}}^{(i)}_h(\tilde{\mathbf{K}}^{(i)}_h)^\top}{\sqrt{D_h}}
+\right)
+\in \mathbb{R}^{N_i\times N_i}.
+\]</div>
+<p>Each <span class="arithmatex">\(\mathbf{A}^{(i)}_h\)</span> is row-stochastic because the softmax is applied row-wise.</p>
+<p><strong>Example (3D case, axis <span class="arithmatex">\(W\)</span>).</strong> For <span class="arithmatex">\(\mathcal{Q}_h,\mathcal{K}_h\in\mathbb{R}^{H\times W\times T\times D_h}\)</span>, the pooled matrices along the <span class="arithmatex">\(W\)</span>-axis are</p>
+<div class="arithmatex">\[
+\tilde{\mathbf{Q}}^{(2)}_h\in\mathbb{R}^{W\times D_h},\qquad \tilde{\mathbf{K}}^{(2)}_h\in\mathbb{R}^{W\times D_h}.
+\]</div>
+<p>The mode-wise attention over width positions is then</p>
+<div class="arithmatex">\[
+\mathbf{A}^{(2)}_h =
+\mathrm{Softmax}\!\left(\frac{\tilde{\mathbf{Q}}^{(2)}_h(\tilde{\mathbf{K}}^{(2)}_h)^\top}{\sqrt{D_h}}\right)
+\in\mathbb{R}^{W\times W},
+\]</div>
+<p>so each row <span class="arithmatex">\(\mathbf{A}^{(2)}_h[w,:]\)</span> is a distribution over all width indices <span class="arithmatex">\(w'\in\{1,\dots,W\}\)</span>.</p>
+<h4 id="step-4a-kronecker-product-attention-hot-product">Step 4a: Kronecker product attention (HOT-product)</h4>
+<p>Define the full attention matrix for head <span class="arithmatex">\(h\)</span> as</p>
+<div class="arithmatex">\[
+\mathbf{A}_h
+\;\approx\;
+\mathbf{A}^{(1)}_h \otimes \mathbf{A}^{(2)}_h \otimes \cdots \otimes \mathbf{A}^{(k)}_h
+\quad\in\mathbb{R}^{N\times N}.
+\]</div>
+<p>If each factor is row-stochastic, their Kronecker product is also row-stochastic (so it is a valid attention weight matrix).</p>
+<h4 id="step-4b-kronecker-sum-attention-hot-sum">Step 4b: Kronecker sum attention (HOT-sum)</h4>
+<p>Using the Kronecker sum idea, we can also build a row-stochastic combination like</p>
+<div class="arithmatex">\[
+\mathbf{A}_h
+\;\approx\;
+\frac{1}{k}\sum_{i=1}^k
+\bigl(\mathbf{I}_{N_1}\otimes \cdots \otimes \mathbf{I}_{N_{i-1}}\otimes \mathbf{A}^{(i)}_h
+\otimes \mathbf{I}_{N_{i+1}}\otimes \cdots \otimes \mathbf{I}_{N_k}\bigr).
+\]</div>
+<p>The <span class="arithmatex">\(1/k\)</span> normalization keeps row sums equal to <span class="arithmatex">\(1\)</span>.</p>
+<h4 id="step-5-applying-kronecker-attention-without-constructing-the-full-ntimes-n-matrix">Step 5: Applying Kronecker attention without constructing the full <span class="arithmatex">\(N\times N\)</span> matrix</h4>
+<p>In the Kronecker product variant, the full attention for head <span class="arithmatex">\(h\)</span> is conceptually</p>
+<div class="arithmatex">\[
+\mathbf{A}_h \;\approx\; \mathbf{A}^{(1)}_h\otimes\cdots\otimes \mathbf{A}^{(k)}_h \in \mathbb{R}^{N\times N},
+\qquad N=\prod_{i=1}^k N_i.
+\]</div>
+<p>However, explicitly forming <span class="arithmatex">\(\mathbf{A}_h\)</span> is infeasible: it would require storing <span class="arithmatex">\(N^2\)</span> entries, which is exactly the quadratic bottleneck we are trying to avoid.
+The key trick is that we never need <span class="arithmatex">\(\mathbf{A}_h\)</span> itself, we only need its action on values.</p>
+<p>Let <span class="arithmatex">\(\mathcal{V}_h\in\mathbb{R}^{N_1\times\cdots\times N_k\times D_h}\)</span> be the value tensor.
+The Kronecker structure implies the following identity:</p>
+<div class="arithmatex">\[
+\bigl(\mathbf{A}^{(1)}_h\otimes\cdots\otimes \mathbf{A}^{(k)}_h\bigr)\,\mathrm{vec}(\mathcal{V}_h) =
+\mathrm{vec}\!\Bigl(\mathcal{V}_h \times_1 \mathbf{A}^{(1)}_h \times_2 \mathbf{A}^{(2)}_h \cdots \times_k \mathbf{A}^{(k)}_h\Bigr),
+\]</div>
+<p>where <span class="arithmatex">\(\times_i\)</span> denotes multiplication along the <span class="arithmatex">\(i\)</span>-th axis (mode) of the tensor.
+Therefore we compute the head output by sequentially applying the small mode-wise attention matrices:</p>
+<div class="arithmatex">\[
+\mathcal{H}_h =
+\bigl(\cdots((\mathcal{V}_h \times_1 \mathbf{A}^{(1)}_h)\times_2 \mathbf{A}^{(2)}_h)\cdots \times_k \mathbf{A}^{(k)}_h\bigr).
+\]</div>
+<p>This uses only the factors <span class="arithmatex">\(\mathbf{A}^{(i)}_h\in\mathbb{R}^{N_i\times N_i}\)</span> (memory <span class="arithmatex">\(\sum_i N_i^2\)</span>) and avoids storing <span class="arithmatex">\(\mathbf{A}_h\)</span> (memory <span class="arithmatex">\(N^2\)</span>).</p>
+<p><strong>Sum variant.</strong> If instead we use a Kronecker-sum style mixture, the action on <span class="arithmatex">\(\mathcal{V}_h\)</span> is a simple average of <span class="arithmatex">\(k\)</span> mode-wise applications:</p>
+<div class="arithmatex">\[
+\mathcal{H}_h
+\approx
+\frac{1}{k}\sum_{i=1}^k \bigl(\mathcal{V}_h \times_i \mathbf{A}^{(i)}_h\bigr),
+\]</div>
+<p>again requiring only the small <span class="arithmatex">\(\mathbf{A}^{(i)}_h\)</span> matrices and never constructing any <span class="arithmatex">\(N\times N\)</span> attention map.</p>
+<p><strong>Why this is better (what we save).</strong> Full attention would require materializing an attention map with <span class="arithmatex">\(N^2\)</span> entries per head.
+Kronecker-structured attention stores only <span class="arithmatex">\(\sum_{i=1}^k N_i^2\)</span> entries per head and applies them through tensor-matrix multiplies, so the attention-map memory drops from quadratic in <span class="arithmatex">\(N\)</span> to quadratic in the per-axis sizes.</p>
+<h3 id="output-projection-same-as-multi-head-attention">Output projection (same as multi-head attention)</h3>
+<p>After computing each head tensor <span class="arithmatex">\(\mathcal{H}_h\in\mathbb{R}^{N_1\times\cdots\times N_k\times D_h}\)</span>,
+apply the usual output projection along the last dimension:</p>
+<div class="arithmatex">\[
+\mathcal{Y} =
+\sum_{h=1}^H \mathcal{H}_h \times_{k+1}\mathbf{W}^{(o)}_h,
+\qquad \mathbf{W}^{(o)}_h\in\mathbb{R}^{D_h\times D}.
+\]</div>
+<p>Again: no new trainable parameters beyond <span class="arithmatex">\(\mathbf{W}^{(q)}_h,\mathbf{W}^{(k)}_h,\mathbf{W}^{(v)}_h,\mathbf{W}^{(o)}_h\)</span>.</p>
+<h2 id="complexity-comparisons">Complexity comparisons</h2>
+<h3 id="trainable-parameters-qkvo">Trainable parameters (Q/K/V/O)</h3>
+<p>Counting only the attention block projections (ignoring biases), the number of parameters are given by:</p>
+<div class="arithmatex">\[
+\sum_{h=1}^H
+\left(
+\underbrace{D D_h}_{\mathbf{W}^{(q)}_h} +
+\underbrace{D D_h}_{\mathbf{W}^{(k)}_h} +
+\underbrace{D D_h}_{\mathbf{W}^{(v)}_h} +
+\underbrace{D_h D}_{\mathbf{W}^{(o)}_h}
+\right) =
+4 H D D_h.
+\]</div>
+<p>With the common choice <span class="arithmatex">\(D_h=D/H\)</span>:</p>
+<p>params <span class="arithmatex">\(= 4D^2\)</span>.</p>
+<p>Kronecker-structured attention does not reduce these trainable parameters;
+it reduces the cost of forming/applying the data-dependent attention weights.</p>
+<h3 id="attention-coefficients-storedcomputed-not-trainable-parameters">Attention coefficients stored/computed (not trainable parameters)</h3>
+<p>This is often what people mean informally when discussing efficiency:</p>
+<ul>
+<li>Full attention stores an <span class="arithmatex">\(N\times N\)</span> matrix per head: <span class="arithmatex">\(N^2\)</span> coefficients, with <span class="arithmatex">\(N=\prod_i N_i\)</span>.</li>
+<li>Kronecker attention stores <span class="arithmatex">\(k\)</span> smaller matrices: <span class="arithmatex">\(\sum_{i=1}^k N_i^2\)</span> coefficients per head.</li>
+</ul>
+<p><strong>Example (2D).</strong> If <span class="arithmatex">\(N_1=N_2=64\)</span>, then <span class="arithmatex">\(N=4096\)</span>:</p>
+<div class="arithmatex">\[
+N^2 = 16{,}777{,}216
+\qquad\text{vs}\qquad
+N_1^2+N_2^2 = 8192.
+\]</div>
+<p>That is a massive reduction in attention-map memory.</p>
+<h2 id="inductive-bias-and-limitations-of-kronecker-structured-attention">Inductive bias and limitations of Kronecker-structured attention</h2>
+<p>Kronecker-structured attention imposes an explicit separability assumption across axes. In the product form,</p>
+<div class="arithmatex">\[
+\mathbf{A}_h \approx \mathbf{A}^{(1)}_h\otimes\cdots\otimes \mathbf{A}^{(k)}_h,
+\]</div>
+<p>the attention weight between positions <span class="arithmatex">\((n_1,\dots,n_k)\)</span> and <span class="arithmatex">\((m_1,\dots,m_k)\)</span> factorizes as</p>
+<div class="arithmatex">\[
+\mathbf{A}_h\bigl[(n_1,\dots,n_k),(m_1,\dots,m_k)\bigr]
+\approx
+\prod_{i=1}^k \mathbf{A}^{(i)}_h[n_i,m_i].
+\]</div>
+<p>Thus, affinity along one axis is combined multiplicatively with affinity along the others: a weak match on any single axis can substantially reduce the total weight.</p>
+<p><strong>Inductive bias.</strong></p>
+<ul>
+<li>
+<p>Axis-wise separability.
+  The model is biased toward representing interactions through per-axis affinities, rather than arbitrary joint couplings across axes.</p>
+</li>
+<li>
+<p>Preference for structured, tensor-aligned relations.
+  This is well suited to data whose dependencies decompose naturally across modes (for example, time and space), but less suited to relations that are inherently cross-axis, such as diagonal, rotated, or other joint geometric patterns.</p>
+</li>
+<li>
+<p>Restricted per-head expressivity.
+  Each head contributes a separable attention pattern, so the overall multi-head mechanism can only combine a finite number of such components. This controls capacity and can improve efficiency, but it also limits the class of attention maps that can be represented compactly.</p>
+</li>
+</ul>
+<p><strong>Limitations in practice.</strong></p>
+<ul>
+<li>
+<p>Not every attention map is representable.
+  A general <span class="arithmatex">\(N\times N\)</span> attention matrix has far more degrees of freedom than a Kronecker-factored form, which uses only the parameters of the smaller mode-wise matrices. As a result, some attention patterns cannot be expressed exactly.</p>
+</li>
+<li>
+<p>Joint cross-axis interactions can be poorly modeled.
+  When the true dependency depends on coupled coordinates, for example, <span class="arithmatex">\((h,w)\)</span> attending to <span class="arithmatex">\((h+\Delta,w+\Delta)\)</span>, a separable factorization may require many heads or still yield a poor approximation.</p>
+</li>
+<li>
+<p>Product form can be brittle.
+  When the mode-wise matrices <span class="arithmatex">\(\mathbf{A}^{(i)}_h\)</span> are attention weights, their entries are nonnegative and typically at most <span class="arithmatex">\(1\)</span>, so</p>
+</li>
+</ul>
+<div class="arithmatex">\[
+\prod_{i=1}^k \mathbf{A}^{(i)}_h[n_i,m_i]\le \min_i \mathbf{A}^{(i)}_h[n_i,m_i].
+\]</div>
+<p>Hence a single small mode-wise weight can strongly suppress the full interaction, even if the other axes match well.</p>
+<ul>
+<li>Sum form is less selective.
+  With</li>
+</ul>
+<div class="arithmatex">\[
+s_{\mathrm{prod}}=\prod_{i=1}^k \mathbf{A}^{(i)}_h[n_i,m_i],
+\qquad
+s_{\mathrm{sum}}=\sum_{i=1}^k \mathbf{A}^{(i)}_h[n_i,m_i],
+\]</div>
+<p>the product is large only if all mode-wise weights are large, whereas the sum can be large whenever a few axes match strongly. Hence the sum is less sensitive to mismatches on individual axes, but it also enforces joint agreement less strongly, meaning a small and large combination can still remain large.</p>
+<ul>
+<li>
+<p>Mode-wise pooling may lose context.
+  The aggregated representations <span class="arithmatex">\(\tilde{\mathbf{Q}}^{(i)}_h\)</span> and <span class="arithmatex">\(\tilde{\mathbf{K}}^{(i)}_h\)</span> summarize over the other axes, which can remove localized or configuration-specific information.</p>
+</li>
+<li>
+<p>Choice of axes is critical.
+  The method works best when the chosen factorization matches the true structure of the data. An inappropriate choice of <span class="arithmatex">\(k\)</span> or of how dimensions are grouped can reduce performance.</p>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p>P. Chauhan, Transformers -- Introduction (Attention, Scaled Attention, Multi-Head Attention).<br />
+   https://pj1911.github.io/my-wiki/Transformers-1-Introduction/</p>
+</li>
+<li>
+<p>S. Omranpour, R. Rabbany, G. Rabusseau, Higher-Order Transformers (HOT) with Kronecker Factorized Attention (arXiv), arXiv preprint arXiv:2412.02919.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

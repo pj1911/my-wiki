@@ -1,0 +1,2042 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../RL-7-Value%20function%20approximation/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>ARZ model - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#physical-setting-and-notation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ARZ model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-5-KSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Retrieval-Augmented%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Traffic Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Traffic Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#physical-setting-and-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical setting and notation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conservation-of-vehicles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conservation of vehicles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conservation of vehicles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beyond-a-single-conservation-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beyond a single conservation law
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arz-model-closing-the-system-with-directional-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ARZ model: closing the system with directional interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ARZ model: closing the system with directional interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directional-anisotropic-interaction-as-a-closure-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directional (anisotropic) interaction as a closure principle.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Directional (anisotropic) interaction as a closure principle.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-sided-domain-of-dependence-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One-sided domain of dependence (proof)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-aw-rascle-zhang-arz-anisotropic-closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Aw--Rascle--Zhang (ARZ) anisotropic closure.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-is-the-correct-look-ahead-closure-characteristic-speed-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this is the correct look-ahead closure (characteristic-speed derivation).
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-arz-model-with-relaxation-toward-equilibrium-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ARZ model with relaxation toward equilibrium speed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ARZ model with relaxation toward equilibrium speed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relaxation-time-tau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaxation time \((\tau)\).
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#justification-by-the-local-relaxation-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justification by the local relaxation principle.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-lwr-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the LWR model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-common-calibration-choice-greenshields-type-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A common calibration choice: Greenshields-type equilibrium
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-and-boundary-conditions-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial and boundary conditions (template)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#physical-setting-and-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physical setting and notation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conservation-of-vehicles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conservation of vehicles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conservation of vehicles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beyond-a-single-conservation-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Beyond a single conservation law
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arz-model-closing-the-system-with-directional-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ARZ model: closing the system with directional interaction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ARZ model: closing the system with directional interaction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directional-anisotropic-interaction-as-a-closure-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directional (anisotropic) interaction as a closure principle.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Directional (anisotropic) interaction as a closure principle.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-sided-domain-of-dependence-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One-sided domain of dependence (proof)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-aw-rascle-zhang-arz-anisotropic-closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Aw--Rascle--Zhang (ARZ) anisotropic closure.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-is-the-correct-look-ahead-closure-characteristic-speed-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this is the correct look-ahead closure (characteristic-speed derivation).
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-arz-model-with-relaxation-toward-equilibrium-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ARZ model with relaxation toward equilibrium speed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ARZ model with relaxation toward equilibrium speed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relaxation-time-tau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaxation time \((\tau)\).
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#justification-by-the-local-relaxation-principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justification by the local relaxation principle.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-the-lwr-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to the LWR model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-common-calibration-choice-greenshields-type-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A common calibration choice: Greenshields-type equilibrium
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-and-boundary-conditions-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial and boundary conditions (template)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>ARZ model</h1>
+
+<h2 id="physical-setting-and-notation">Physical setting and notation</h2>
+<p>We consider traffic on a single lane, represented as a one-dimensional continuum along a road coordinate <span class="arithmatex">\(x\in\mathbb{R}\)</span> and time <span class="arithmatex">\(t\ge 0\)</span>.</p>
+<p><strong>Macroscopic state variables.</strong></p>
+<ul>
+<li><span class="arithmatex">\(\rho(x,t)\ge 0\)</span>: vehicle density (vehicles per unit length).</li>
+<li><span class="arithmatex">\(v(x,t)\ge 0\)</span>: mean vehicle speed (length per unit time).</li>
+<li><span class="arithmatex">\(q(x,t) := \rho(x,t)v(x,t)\)</span>: traffic flow (vehicles per unit time).</li>
+</ul>
+<p><strong>Constitutive functions.</strong></p>
+<ul>
+<li><span class="arithmatex">\(p(\rho)\)</span>: an increasing function of density (often called traffic pressure or hesitation/anticipation function). A standard assumption is <span class="arithmatex">\(p(0)=0\)</span> and <span class="arithmatex">\(p'(\rho)&gt;0\)</span> for <span class="arithmatex">\(\rho&gt;0\)</span> [<a href="#ref-4">4</a>, <a href="#ref-3">3</a>].</li>
+<li><span class="arithmatex">\(V(\rho)\)</span>: an equilibrium speed curve (decreasing with density in typical calibrations) [<a href="#ref-3">3</a>].</li>
+<li><span class="arithmatex">\(\tau&gt;0\)</span>: a relaxation time scale governing adaptation toward equilibrium [<a href="#ref-3">3</a>].</li>
+</ul>
+<h2 id="conservation-of-vehicles">Conservation of vehicles</h2>
+<p>Conservation of the number of cars in any road segment <span class="arithmatex">\([a,b]\)</span> implies</p>
+<div class="arithmatex">\[
+\frac{\mathrm{d}}{\mathrm{d} t}\int_a^b \rho(x,t)\,\mathrm{d} x
+\;=\;
+q(a,t)-q(b,t).
+\]</div>
+<p>Assuming sufficient regularity and using the divergence theorem in 1D yields the continuity equation</p>
+<p><a id="eq-continuity"></a></p>
+<div class="arithmatex">\[
+\frac{\partial \rho}{\partial t}
+\;+\;
+\frac{\partial}{\partial x}\big(\rho v\big)
+\;=\;
+0.
+\]</div>
+<h3 id="beyond-a-single-conservation-law">Beyond a single conservation law</h3>
+<p>Equation <a href="#eq-continuity"><span class="arithmatex">\((2)\)</span></a> is a balance law for the density <span class="arithmatex">\(\rho\)</span>, but it is not closed.
+By closed we mean: the PDE system contains enough relations to determine all unknown fields from initial/boundary data.
+Here we have two unknowns <span class="arithmatex">\((\rho,v)\)</span>, while <a href="#eq-continuity"><span class="arithmatex">\((2)\)</span></a> provides only one equation. Equivalently, the flux</p>
+<div class="arithmatex">\[
+q(\rho,v):=\rho\,v
+\]</div>
+<p>cannot be computed from <span class="arithmatex">\(\rho\)</span> alone unless we specify an additional relation for <span class="arithmatex">\(v\)</span>.</p>
+<p><strong>LWR closure.</strong> The Lighthill--Whitham--Richards (LWR) model closes <a href="#eq-continuity"><span class="arithmatex">\((2)\)</span></a> by postulating an equilibrium
+velocity--density relation</p>
+<div class="arithmatex">\[
+v = V(\rho),
+\]</div>
+<p>where <span class="arithmatex">\(V(\rho)\)</span> is a prescribed decreasing function (the fundamental diagram). Then the flux becomes a function
+of <span class="arithmatex">\(\rho\)</span> only,</p>
+<div class="arithmatex">\[
+q(\rho)=\rho\,V(\rho),
+\]</div>
+<p>and <a href="#eq-continuity"><span class="arithmatex">\((2)\)</span></a> reduces to the scalar conservation law</p>
+<div class="arithmatex">\[
+\rho_t + \big(\rho V(\rho)\big)_x = 0.
+\]</div>
+<p><strong>Why go beyond LWR?</strong> LWR enforces <span class="arithmatex">\(v=V(\rho)\)</span> pointwise (instantaneous equilibrium). To model non-equilibrium effects (e.g. delayed
+acceleration, anticipation, heterogeneous driving), we keep <span class="arithmatex">\(v\)</span> (or a related driving state) as an additional
+unknown and supply a second evolution equation.</p>
+<p>This leads to second--order traffic models: systems of PDEs that keep the conservation law for <span class="arithmatex">\(\rho\)</span> but add a
+second equation encoding how the velocity (or a modified velocity) is transported/updated. Our next step will be to
+introduce such a model called the ARZ model and then justify its form.</p>
+<h2 id="arz-model-closing-the-system-with-directional-interaction">ARZ model: closing the system with directional interaction</h2>
+<p>Second-order macroscopic traffic models close the conservation law <a href="#eq-continuity"><span class="arithmatex">\((2)\)</span></a> by introducing an additional
+state variable that captures non--equilibrium driving effects. The motivation is twofold:</p>
+<ul>
+<li>Non-equilibrium speeds: the velocity <span class="arithmatex">\(v\)</span> is not assumed to satisfy an instantaneous relation
+  <span class="arithmatex">\(v=V(\rho)\)</span> as in LWR, instead, drivers adjust their speed over a finite time scale (acceleration/braking limits and reaction time), so <span class="arithmatex">\(v\)</span> has its own dynamics.</li>
+<li>Heterogeneous drivers: even at the same density <span class="arithmatex">\(\rho\)</span>, different drivers may have different
+  preferred behavior. This requires an additional field beyond <span class="arithmatex">\(\rho\)</span>.</li>
+</ul>
+<h3 id="directional-anisotropic-interaction-as-a-closure-principle">Directional (anisotropic) interaction as a closure principle.</h3>
+<p>A key empirical feature of traffic is that drivers primarily react to conditions ahead.
+At the PDE level, look ahead only means a one--sided domain of dependence: for any given time <span class="arithmatex">\(t\)</span>, the state at <span class="arithmatex">\((t,x)\)</span> should be
+determined only by data (vehicles) located at positions <span class="arithmatex">\(y\ge x\)</span> (ahead on road), and not by data (vehicles) from <span class="arithmatex">\(y&lt;x\)</span> (behind on road).</p>
+<h4 id="one-sided-domain-of-dependence-proof">One-sided domain of dependence (proof)</h4>
+<p>To prove the above statement we consider the linear transport equation</p>
+<p><a id="eq-linear-transport"></a></p>
+<div class="arithmatex">\[
+q_t + a(t,x)\,q_x = 0 \qquad \text{on } (0,T)\times\mathbb{R}.
+\]</div>
+<p>with initial data <span class="arithmatex">\(q(0,x)=q_0(x)\)</span>. Assume <span class="arithmatex">\(a\in C^1\)</span> and</p>
+<div class="arithmatex">\[
+a(t,x)\le 0 \quad \text{for all } (t,x)\in(0,T)\times\mathbb{R}.
+\]</div>
+<p>Here <span class="arithmatex">\(q(t,x)\)</span> denotes the transported scalar quantity (the unknown), and <span class="arithmatex">\(a(t,x)\)</span> is a given transport
+velocity field prescribing the local propagation speed in the <span class="arithmatex">\(x\)</span>-direction. <span class="arithmatex">\(a(t,x)\le 0\)</span> encodes a left-moving transport, so information propagates from <span class="arithmatex">\(y\ge x\)</span> (ahead) toward <span class="arithmatex">\(x\)</span> (backward), which is exactly the look ahead influence we want to model.</p>
+<p><strong>Characteristic ODE.</strong> We define the characteristic ODE associated with <a href="#eq-linear-transport"><span class="arithmatex">\((7)\)</span></a> as follows.
+A characteristic is a curve <span class="arithmatex">\(s\mapsto (s,X(s))\)</span> in the <span class="arithmatex">\((t,x)\)</span> plane along which we track <span class="arithmatex">\(q\)</span>.
+Setting <span class="arithmatex">\(\psi(s):=q(s,X(s))\)</span>, the chain rule gives</p>
+<div class="arithmatex">\[
+\psi'(s)=q_t(s,X(s)) + X'(s)\,q_x(s,X(s)).
+\]</div>
+<p>To make this derivative match the PDE expression <span class="arithmatex">\(q_t+a\,q_x\)</span>, we choose the curve so that</p>
+<div class="arithmatex">\[
+X'(s)=a\big(s,X(s)\big),
+\]</div>
+<p>which is the ODE we refer to as the characteristic ODE. Here <span class="arithmatex">\(s\)</span> is the curve parameter (time) running in <span class="arithmatex">\([0,t]\)</span>.</p>
+<p><strong>Claim.</strong> Assume <span class="arithmatex">\(q\in C^1\)</span> solves <span class="arithmatex">\(q_t+a(t,x)q_x=0\)</span> on <span class="arithmatex">\((0,T)\times\mathbb{R}\)</span> with initial data <span class="arithmatex">\(q(0,x)=q_0(x)\)</span>, and assume
+<span class="arithmatex">\(a\in C^1\)</span> with <span class="arithmatex">\(a(t,x)\le 0\)</span>.</p>
+<p>Fix <span class="arithmatex">\((t,x)\in(0,T)\times\mathbb{R}\)</span> and let <span class="arithmatex">\(X(\cdot)\)</span> be the (unique) <span class="arithmatex">\(C^1\)</span> solution of</p>
+<div class="arithmatex">\[
+\dot X(s)=a\big(s,X(s)\big),\qquad X(t)=x,\qquad s\in[0,t].
+\]</div>
+<p>Then we prove:</p>
+<ul>
+<li>(i) value is transported from the initial line: <span class="arithmatex">\(q(t,x)=q_0\big(X(0)\big)\)</span>;</li>
+<li>(ii) footpoint lies ahead: <span class="arithmatex">\(X(0)\ge x\)</span>, and therefore <span class="arithmatex">\(q(t,x)\)</span> can only depend on initial data
+  from positions <span class="arithmatex">\(y\ge x\)</span>.</li>
+</ul>
+<p><strong>Proof.</strong> Fix <span class="arithmatex">\((t,x)\)</span> and let <span class="arithmatex">\(X(\cdot)\)</span> solve <span class="arithmatex">\(\dot X(s)=a(s,X(s))\)</span> with <span class="arithmatex">\(X(t)=x\)</span>. Define the restriction of <span class="arithmatex">\(q\)</span> to this curve by</p>
+<div class="arithmatex">\[
+\psi(s):=q\big(s,X(s)\big),\qquad s\in[0,t].
+\]</div>
+<p>By the chain rule,</p>
+<div class="arithmatex">\[
+\psi'(s)=q_t\big(s,X(s)\big)+\dot X(s)\,q_x\big(s,X(s)\big).
+\]</div>
+<p>Substituting <span class="arithmatex">\(\dot X(s)=a\big(s,X(s)\big)\)</span> gives</p>
+<div class="arithmatex">\[
+\psi'(s)=q_t\big(s,X(s)\big)+a\big(s,X(s)\big)\,q_x\big(s,X(s)\big).
+\]</div>
+<p>Since <span class="arithmatex">\(q\)</span> solves <span class="arithmatex">\(q_t+a q_x=0\)</span>, evaluating the PDE at the point <span class="arithmatex">\((s,X(s))\)</span> yields <span class="arithmatex">\(\psi'(s)=0\)</span> for all <span class="arithmatex">\(s\in[0,t]\)</span>.
+Therefore <span class="arithmatex">\(\psi\)</span> is constant, so <span class="arithmatex">\(\psi(t)=\psi(0)\)</span>, i.e.</p>
+<div class="arithmatex">\[
+q\big(t,X(t)\big)=q\big(0,X(0)\big).
+\]</div>
+<p>Using <span class="arithmatex">\(X(t)=x\)</span> and the initial condition <span class="arithmatex">\(q(0,\cdot)=q_0(\cdot)\)</span>, we obtain</p>
+<div class="arithmatex">\[
+q(t,x)=q_0\big(X(0)\big).
+\]</div>
+<p>Finally, if <span class="arithmatex">\(a\le 0\)</span> then <span class="arithmatex">\(\dot X(s)=a(s,X(s))\le 0\)</span> for all <span class="arithmatex">\(s\)</span>, so <span class="arithmatex">\(X\)</span> is nonincreasing on <span class="arithmatex">\([0,t]\)</span>. Hence</p>
+<div class="arithmatex">\[
+X(0)\ge X(t)=x,
+\]</div>
+<p>which shows the footpoint <span class="arithmatex">\(X(0)\)</span> lies ahead of <span class="arithmatex">\(x\)</span>. Because the influencing point <span class="arithmatex">\(X(0)\)</span> lies ahead of <span class="arithmatex">\(x\)</span> (<span class="arithmatex">\(y\ge x\)</span>), data from behind (<span class="arithmatex">\(y&lt;x\)</span>) cannot affect <span class="arithmatex">\(q(t,x)\)</span>.</p>
+<h3 id="the-aw-rascle-zhang-arz-anisotropic-closure">The Aw--Rascle--Zhang (ARZ) anisotropic closure.</h3>
+<p>In the previous section, we wanted to introduce an additional state variable to capture non-equilibrium effects. At the PDE level, introducing a new state variable forces a new evolution law: to have a closed system,
+we must specify how that variable changes in time and space, i.e. we must add a second equation. The one-sided domain-of-dependence proof gives a concrete PDE test for look-ahead only. We can now use this as a closure principle: we will choose the second equation so that the
+additional driver-dependent information is advected in the correct (anisotropic) direction.</p>
+<p>Before formulating an equation to close the system, we introduce an additional field <span class="arithmatex">\(w\)</span> often called the Lagrangian marker, representing a driver-dependent
+preferred speed level not fixed by <span class="arithmatex">\(\rho\)</span> alone, by defining</p>
+<p><a id="eq-marker-def"></a></p>
+<div class="arithmatex">\[
+w := v + P(\rho).
+\]</div>
+<p>where <span class="arithmatex">\(P(\rho)\)</span> is a monotone traffic pressure with <span class="arithmatex">\(P'(\rho)&gt;0\)</span>, <span class="arithmatex">\(\rho(t,x)\)</span> is the vehicle density and <span class="arithmatex">\(v(t,x)\)</span> is the actual macroscopic speed. So if a given vehicle carries a fixed <span class="arithmatex">\(w\)</span> value, then when it enters a region of higher density (larger <span class="arithmatex">\(P(\rho)\)</span>) its speed decreases accordingly. Conversely, in lighter traffic it can travel faster, up to the level permitted by its marker. We chose this <span class="arithmatex">\(w\)</span> to represent a driver/vehicle attribute (preferred speed level or aggressiveness) that
+does not instantly equilibrate with density: it is tied to the vehicles themselves rather than created or destroyed by the flow.
+Hence, if we follow a specific vehicle (a trajectory <span class="arithmatex">\(x=X(t)\)</span> with <span class="arithmatex">\(\dot X(t)=v(t,X(t))\)</span>), we postulate that this attribute is preserved:</p>
+<div class="arithmatex">\[
+\frac{d}{dt}w\big(t,X(t)\big)=0.
+\]</div>
+<p>Applying the chain rule gives</p>
+<div class="arithmatex">\[
+\begin{aligned}
+0 &amp;= \frac{d}{dt}w\big(t,X(t)\big) \\
+0 &amp;= w_t\big(t,X(t)\big)+\dot X(t)\,w_x\big(t,X(t)\big) \\
+0 &amp;= w_t\big(t,X(t)\big)+v\big(t,X(t)\big)\,w_x\big(t,X(t)\big),
+\end{aligned}
+\]</div>
+<p>which yields the PDE</p>
+<p><a id="eq-w-transport"></a></p>
+<div class="arithmatex">\[
+w_t+v\,w_x=0.
+\]</div>
+<p>This means <span class="arithmatex">\(w\)</span> moves with vehicles, so information in <span class="arithmatex">\(w\)</span>
+propagates along vehicle paths. The point of imposing</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\frac{d}{dt}w\big(t,X(t)\big) &amp;= 0 \\
+\qquad\text{along } \dot X(t) &amp;= v(t,X(t))
+\end{aligned}
+\]</div>
+<p>is that <span class="arithmatex">\(w\)</span> is meant to encode a driver-specific preference that should not be altered by surrounding traffic. If <span class="arithmatex">\(w\)</span> is carried by vehicles, then <span class="arithmatex">\(w\)</span> is constant along each vehicle path <span class="arithmatex">\(X(\cdot)\)</span>. So the value <span class="arithmatex">\(w(t,x)\)</span> is inherited from the position <span class="arithmatex">\(X(0)\)</span> of the same vehicle at the initial time.
+If the characteristic/vehicle paths satisfy <span class="arithmatex">\(X(0)\ge x\)</span> (the one-sided dependence property), then the only possible
+source point <span class="arithmatex">\(X(0)\)</span> lies at positions <span class="arithmatex">\(y\ge x\)</span> (ahead), and data from <span class="arithmatex">\(y&lt;x\)</span> (behind) cannot influence <span class="arithmatex">\(w(t,x)\)</span>.</p>
+<p>Once we decide (i) what the extra state variable is (<span class="arithmatex">\(w:=v+P(\rho)\)</span>) and (ii) how it evolves (it is advected with speed <span class="arithmatex">\(v\)</span>),
+there is no further freedom: the closure law the becomes</p>
+<div class="arithmatex">\[
+\begin{aligned}
+w_t+v w_x &amp;= 0 \\
+(\,v+P(\rho)\,)_t+v(\,v+P(\rho)\,)_x &amp;= 0.
+\end{aligned}
+\]</div>
+<p>This gives us the homogeneous ARZ system in non-conservative form:</p>
+<p><a id="eq-arz-nonconservative"></a></p>
+<div class="arithmatex">\[
+\begin{aligned}
+\rho_t+(\rho v)_x &amp;= 0, \\
+(\,v+P(\rho)\,)_t+v(\,v+P(\rho)\,)_x &amp;= 0,
+\end{aligned}
+\qquad P\in C^1.
+\]</div>
+<p>We now have two equations: (i) mass conservation for <span class="arithmatex">\(\rho\)</span>, and (ii) the closure law stating that <span class="arithmatex">\(w\)</span> is transported with the vehicle speed <span class="arithmatex">\(v\)</span>. We can now rewrite the system in conservative form:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\rho_t+(\rho v)_x &amp;= 0, \\
+w_t+v w_x &amp;= 0.
+\end{aligned}
+\]</div>
+<p>Multiply the first by <span class="arithmatex">\(w\)</span> and the second by <span class="arithmatex">\(\rho\)</span>, then add:</p>
+<div class="arithmatex">\[
+w\big(\rho_t+(\rho v)_x\big)+\rho\big(w_t+v w_x\big)=0.
+\]</div>
+<p>Expand the left-hand side:</p>
+<div class="arithmatex">\[
+w\rho_t+w(\rho v)_x+\rho w_t+\rho v w_x=0.
+\]</div>
+<p>Now recognize the two grouped terms as product derivatives:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+w\rho_t+\rho w_t &amp;= (\rho w)_t, \\
+w(\rho v)_x+\rho v w_x &amp;= (\rho v w)_x.
+\end{aligned}
+\]</div>
+<p>Substitute these identities to get</p>
+<div class="arithmatex">\[
+(\rho w)_t+(\rho v w)_x=0.
+\]</div>
+<p>We see that combining the two relations allows us to rewrite the closure law in conservative form: rather than evolving <span class="arithmatex">\(w\)</span> directly, we obtain a conservation law for the quantity <span class="arithmatex">\(\rho w\)</span> with flux <span class="arithmatex">\(\rho v w\)</span>. Together with mass conservation <span class="arithmatex">\(\rho_t+(\rho v)_x=0\)</span>, this gives the homogeneous ARZ system.</p>
+<p><a id="eq-arz-conservative"></a></p>
+<div class="arithmatex">\[
+\begin{aligned}
+\rho_t + (\rho v)_x &amp;= 0, \\
+(\rho w)_t + (\rho v w)_x &amp;= 0,
+\end{aligned}
+\qquad \text{with } v = w - P(\rho).
+\]</div>
+<h3 id="why-this-is-the-correct-look-ahead-closure-characteristic-speed-derivation">Why this is the correct look-ahead closure (characteristic-speed derivation).</h3>
+<p>Consider the homogeneous non-conservative ARZ system given by <a href="#eq-arz-nonconservative"><span class="arithmatex">\((24)\)</span></a>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\rho_t+(\rho v)_x&amp;=0, \\
+(\,v+P(\rho)\,)_t+v(\,v+P(\rho)\,)_x&amp;=0,
+\end{aligned}
+\]</div>
+<p>with <span class="arithmatex">\(P\in C^1\)</span>.</p>
+<p><strong>Step 1: Quasilinear form in <span class="arithmatex">\((\rho,v)\)</span>.</strong> Expand the continuity equation:</p>
+<div class="arithmatex">\[
+\rho_t+v\rho_x+\rho v_x=0.
+\]</div>
+<p>Expand the Lagrangian marker equation using the chain rule:</p>
+<div class="arithmatex">\[
+v_t+P'(\rho)\rho_t+v v_x+v P'(\rho)\rho_x=0.
+\]</div>
+<p>Substitute <span class="arithmatex">\(\rho_t=-v\rho_x-\rho v_x\)</span> from continuity:</p>
+<div class="arithmatex">\[
+0
+= v_t+P'(\rho)\big(-v\rho_x-\rho v_x\big)+v v_x+v P'(\rho)\rho_x ,
+\]</div>
+<p><a id="eq-v-quasilinear"></a></p>
+<div class="arithmatex">\[
+0=v_t+\big(v-\rho P'(\rho)\big)v_x .
+\]</div>
+<p>since the <span class="arithmatex">\(\rho_x\)</span> terms cancel. Hence the system can be written as the quasilinear system</p>
+<div class="arithmatex">\[
+\begin{pmatrix}\rho\\ v\end{pmatrix}_t
++
+\underbrace{\begin{pmatrix}
+v &amp; \rho\\
+0 &amp; v-\rho P'(\rho)
+\end{pmatrix}}_{A(\rho,v)}
+\begin{pmatrix}\rho\\ v\end{pmatrix}_x
+=0.
+\]</div>
+<p><strong>Step 2: Eigenvalues = characteristic speeds.</strong> For <span class="arithmatex">\(U_t+A(U)U_x=0\)</span>, characteristic speeds are the eigenvalues of <span class="arithmatex">\(A(U)\)</span>.
+Here <span class="arithmatex">\(A(\rho,v)\)</span> is upper triangular, so its eigenvalues are its diagonal entries:</p>
+<div class="arithmatex">\[
+\lambda_2=v,\qquad \lambda_1=v-\rho P'(\rho).
+\]</div>
+<p><strong>Step 3: Consequence (anisotropy / look-ahead).</strong> Assuming <span class="arithmatex">\(P'(\rho)\ge 0\)</span> and using the road orientation adopted previously (vehicles move in the negative <span class="arithmatex">\(x\)</span>-direction,
+so <span class="arithmatex">\(v\le 0\)</span>), then</p>
+<div class="arithmatex">\[
+\lambda_1\le \lambda_2\le 0.
+\]</div>
+<p>Thus both characteristic families propagate from larger positions to smaller positions, so tracing characteristics
+back to the initial line gives footpoints <span class="arithmatex">\(X(0)\ge x\)</span>. Therefore the state at <span class="arithmatex">\((t,x)\)</span> can only depend on initial data
+from positions <span class="arithmatex">\(y\ge x\)</span> (ahead), never from <span class="arithmatex">\(y&lt;x\)</span> (behind): this is the look-ahead only property.</p>
+<h2 id="the-arz-model-with-relaxation-toward-equilibrium-speed">The ARZ model with relaxation toward equilibrium speed</h2>
+<p>Macroscopic traffic models often distinguish between:
+(i) an equilibrium or fundamental relation between speed and density, denoted by <span class="arithmatex">\(v = V(\rho)\)</span>.
+(ii) a macroscopic velocity field <span class="arithmatex">\(v(x,t)\)</span>, interpreted as the local (coarse-grained) mean vehicle speed near position <span class="arithmatex">\(x\)</span> at time <span class="arithmatex">\(t\)</span>. Empirically, under approximately steady conditions this mean speed is often well described by a decreasing equilibrium function <span class="arithmatex">\(v=V(\rho)\)</span>. The first-order LWR model enforces this equilibrium relation as a constraint at all times, <span class="arithmatex">\(v(x,t)=V(\rho(x,t))\)</span>. In contrast, second-order models such as ARZ treat <span class="arithmatex">\(v\)</span> as an independent state variable, so <span class="arithmatex">\((\rho,v)\)</span> need not lie on the manifold <span class="arithmatex">\(v=V(\rho)\)</span> pointwise. Instead, <span class="arithmatex">\(V(\rho)\)</span> serves as a reference equilibrium that the dynamics may approach (typically via relaxation) rather than a relation that is imposed identically.</p>
+<h3 id="relaxation-time-tau">Relaxation time <span class="arithmatex">\((\tau)\)</span>.</h3>
+<p>Define a parameter <span class="arithmatex">\(\tau&gt;0\)</span> as relaxation time: it sets how quickly drivers adjust their actual speed toward the equilibrium speed.
+A standard modeling choice is a linear relaxation law,</p>
+<div class="arithmatex">\[
+\text{(rate of change of speed)} \;\propto\; V(\rho)-v,
+\]</div>
+<p>so that if <span class="arithmatex">\(v\)</span> is below <span class="arithmatex">\(V(\rho)\)</span> drivers accelerate, and if <span class="arithmatex">\(v\)</span> is above <span class="arithmatex">\(V(\rho)\)</span> drivers decelerate.
+Introducing the proportionality constant <span class="arithmatex">\(1/\tau\)</span> yields the source term</p>
+<div class="arithmatex">\[
+\frac{V(\rho)-v}{\tau}.
+\]</div>
+<p>This has units of acceleration (speed divided by time). Moreover, if density is held fixed and other transport effects are ignored,
+the local speed relaxes exponentially to equilibrium:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\frac{\partial v}{\partial t}&amp;=\frac{V(\rho)-v}{\tau} \\
+v(t)-V(\rho)&amp;=\big(v(0)-V(\rho)\big)e^{-t/\tau}.
+\end{aligned}
+\]</div>
+<p>Thus <span class="arithmatex">\(\tau\)</span> is the characteristic time after which the deviation from equilibrium has decreased by a factor of <span class="arithmatex">\(e\)</span>. To model relaxation toward an equilibrium speed <span class="arithmatex">\(V(\rho)\)</span>, a common (and widely used) conservative and inhomogeneous ARZ form in variables <span class="arithmatex">\((\rho,v)\)</span> is [<a href="#ref-3">3</a>] (shown in <a href="#eq-arz-conservative"><span class="arithmatex">\((30)\)</span></a> without the forcing term, substituting <span class="arithmatex">\( w\rho = y\)</span>):</p>
+<p><a id="eq-arz-conservative2"></a></p>
+<div class="arithmatex">\[
+\begin{aligned}
+\rho_t + (\rho v)_x &amp;= 0,\\
+(y)_t + (y v )_x &amp;= \rho\,\dfrac{V(\rho)-v}{\tau},
+\end{aligned}
+\qquad \text{with } v = w - P(\rho).
+\]</div>
+<h3 id="justification-by-the-local-relaxation-principle">Justification by the local relaxation principle.</h3>
+<p>If we ignore transport effects and hold density fixed locally (formally: drop all <span class="arithmatex">\(x\)</span>-derivatives),
+then <a href="#eq-arz-conservative2"><span class="arithmatex">\((42)\)</span></a> reduces to</p>
+<div class="arithmatex">\[
+\frac{\partial \rho}{\partial t}=0
+\quad\Rightarrow\quad
+\rho(t)\equiv \rho_0,
+\qquad
+\frac{\partial y}{\partial t}=\rho_0\,\frac{V(\rho_0)-v}{\tau}.
+\]</div>
+<p>But <span class="arithmatex">\(y=\rho w = \rho(v+p(\rho))\)</span>, and with <span class="arithmatex">\(\rho\)</span> constant in time, <span class="arithmatex">\(p(\rho)\)</span> is also constant, so</p>
+<div class="arithmatex">\[
+\frac{\partial y}{\partial t}=\rho_0\,\frac{\partial v}{\partial t}.
+\]</div>
+<p>Hence the second equation gives exactly the desired ODE</p>
+<div class="arithmatex">\[
+\frac{\partial v}{\partial t}=\frac{V(\rho_0)-v}{\tau},
+\]</div>
+<p>i.e. exponential relaxation of <span class="arithmatex">\(v\)</span> to <span class="arithmatex">\(V(\rho_0)\)</span>. This is why the source in <a href="#eq-arz-conservative2"><span class="arithmatex">\((42)\)</span></a>
+is chosen as <span class="arithmatex">\(\rho(V(\rho)-v)/\tau\)</span>.</p>
+<p>The purpose of this local relaxation test is to isolate the intended role of the source term from the
+transport dynamics. The PDE has two distinct mechanisms: (i) the hyperbolic part transports information through space,
+and (ii) the source models drivers' finite-time adaptation of speed toward an equilibrium value.
+By freezing <span class="arithmatex">\(\rho\)</span> and dropping all <span class="arithmatex">\(x\)</span>-derivatives we remove (i) and check that (ii) reduces to the correct
+local behavior: at fixed density <span class="arithmatex">\(\rho_0\)</span> a driver should relax exponentially to <span class="arithmatex">\(V(\rho_0)\)</span> with time scale
+<span class="arithmatex">\(\tau\)</span>. If the source does not pass this limit, then even spatially uniform traffic would have the wrong acceleration
+law, so the model would be inconsistent. Passing the test is therefore a necessary consistency check: it confirms that
+the chosen source implements the desired local driving ODE while leaving spatial (anisotropic) interaction to the
+hyperbolic transport part.</p>
+<p>From the balance law in <span class="arithmatex">\(y\)</span> to the transported-marker form.</p>
+<p>Now rewrite <a href="#eq-arz-conservative2"><span class="arithmatex">\((42)\)</span></a> in terms of <span class="arithmatex">\(w=v+p(\rho)=y/\rho\)</span>. Compute</p>
+<div class="arithmatex">\[
+\frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y) =
+\frac{\partial}{\partial t}(\rho w)+\frac{\partial}{\partial x}(\rho v w) =
+\rho\Big(\frac{\partial w}{\partial t}+v\frac{\partial w}{\partial x}\Big) +
+w\Big(\frac{\partial \rho}{\partial t}+\frac{\partial}{\partial x}(\rho v)\Big),
+\]</div>
+<p>where the last identity is just the product rule.
+Using the continuity equation <span class="arithmatex">\(\frac{\partial \rho}{\partial t}+\frac{\partial}{\partial x}(\rho v)=0\)</span>, the last term vanishes, leaving</p>
+<div class="arithmatex">\[
+\frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y)=\rho\Big(\frac{\partial w}{\partial t}+v\frac{\partial w}{\partial x}\Big).
+\]</div>
+<p>But, from <a href="#eq-arz-conservative2"><span class="arithmatex">\((42)\)</span></a> we have:</p>
+<div class="arithmatex">\[
+\frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y)=\rho \frac{V(\rho)-v}{\tau}.
+\]</div>
+<p>Combining the above two equations yields</p>
+<p><a id="eq-marker-relax-expanded-start"></a></p>
+<div class="arithmatex">\[
+\frac{\partial w}{\partial t}+v\,\frac{\partial w}{\partial x} = \frac{V(\rho)-v}{\tau}.
+\]</div>
+<p><strong>Comment.</strong> Equation <a href="#eq-marker-relax-expanded-start"><span class="arithmatex">\((49)\)</span></a> is the relaxation ARZ closure in its most transparent form:
+the marker <span class="arithmatex">\(w=v+p(\rho)\)</span> is still transported along vehicle trajectories (left-hand side),
+so the anisotropic car-following structure is preserved, while the right-hand side introduces only a
+local tendency that drives <span class="arithmatex">\(v\)</span> toward the equilibrium speed <span class="arithmatex">\(V(\rho)\)</span> on the time scale <span class="arithmatex">\(\tau\)</span>.
+In particular, setting <span class="arithmatex">\(\tau\to\infty\)</span> recovers the homogeneous convected-marker law, and if spatial gradients are
+ignored the equation reduces to the desired ODE <span class="arithmatex">\(v_t=(V(\rho)-v)/\tau\)</span> at fixed density.</p>
+<h3 id="connection-to-the-lwr-model">Connection to the LWR model</h3>
+<p>The first-order Lighthill--Whitham--Richards (LWR) model assumes an equilibrium relation <span class="arithmatex">\(v=V(\rho)\)</span>, reducing dynamics to a single conservation law</p>
+<div class="arithmatex">\[
+\frac{\partial \rho}{\partial t} + \frac{\partial}{\partial x}\big(\rho V(\rho)\big)=0.
+\]</div>
+<p>In ARZ with relaxation, if the relaxation is fast (formally <span class="arithmatex">\(\tau\to 0^+\)</span>), solutions are driven toward <span class="arithmatex">\(v\approx V(\rho)\)</span>,
+and the density evolution approaches LWR with flux <span class="arithmatex">\(\rho V(\rho)\)</span> (the equilibrium flux) [<a href="#ref-3">3</a>].</p>
+<h2 id="a-common-calibration-choice-greenshields-type-equilibrium">A common calibration choice: Greenshields-type equilibrium</h2>
+<p>One frequently used parametric form (appearing in ARZ control/estimation literature) sets, for <span class="arithmatex">\(\gamma&gt;0\)</span>,</p>
+<p><a id="eq-pressure-greenshields"></a></p>
+<div class="arithmatex">\[
+p(\rho)=\rho^\gamma,
+\qquad\text{or rescaled as}\qquad
+p(\rho)=v_f\Big(\frac{\rho}{\rho_m}\Big)^\gamma,
+\]</div>
+<p>with free-flow speed <span class="arithmatex">\(v_f\)</span> and maximum (jam) density <span class="arithmatex">\(\rho_m\)</span> [<a href="#ref-3">3</a>].
+Then a consistent equilibrium speed can be written as</p>
+<p><a id="eq-v-greenshields"></a></p>
+<div class="arithmatex">\[
+V(\rho)=v_f-p(\rho) =
+ v_f\Big(1-\Big(\frac{\rho}{\rho_m}\Big)^\gamma\Big),
+\]</div>
+<p>which is the (generalized) Greenshields-type relationship used in [<a href="#ref-3">3</a>].</p>
+<h2 id="initial-and-boundary-conditions-template">Initial and boundary conditions (template)</h2>
+<p>For an initial-value problem on the line, specify</p>
+<div class="arithmatex">\[
+\rho(x,0)=\rho_0(x),\qquad v(x,0)=v_0(x),
+\]</div>
+<p>with physically admissible constraints (e.g., <span class="arithmatex">\(\rho_0\ge 0\)</span> and <span class="arithmatex">\(v_0\ge 0\)</span>).
+On a finite road segment <span class="arithmatex">\(x\in[0,L]\)</span>, appropriate boundary conditions depend on the traffic regime (which characteristic fields enter/leave the domain).
+(We can add a detailed boundary-condition section later.)</p>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p><a id="ref-1"></a> Aw, A. A. T. M., &amp; Rascle, M. (2000). Resurrection of" second order" models of traffic flow. SIAM journal on applied mathematics, 60(3), 916-938.</p>
+</li>
+<li>
+<p><a id="ref-2"></a> Zhang, H. M. (2002). A non-equilibrium traffic model devoid of gas-like behavior. Transportation Research Part B: Methodological, 36(3), 275-290.</p>
+</li>
+<li>
+<p><a id="ref-3"></a> Yu, H., &amp; Krstic, M. (2019). Traffic congestion control for Aw–Rascle–Zhang model. Automatica, 100, 38-51.</p>
+</li>
+<li>
+<p><a id="ref-4"></a> Garavello, M., &amp; Villa, S. (2017). The Cauchy problem for the Aw–Rascle–Zhang traffic model with locally constrained flow. Journal of Hyperbolic Differential Equations, 14(03), 393-414.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
