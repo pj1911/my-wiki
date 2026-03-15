@@ -588,7 +588,7 @@ On a finite road segment \(x\in[0,L]\), appropriate boundary conditions depend o
 
 ## References
 
-1. <a id="ref-1"></a>A.~Aw and M.~Rascle, ``Resurrection of `Second Order' Models of Traffic Flow,''  SIAM Journal on Applied Mathematics, 60(3):916--938, 2000. DOI: 10.1137/S0036139997332099.
+1. <a id="ref-1"></a>A.~Aw and M.~Rascle, "Resurrection of `Second Order' Models of Traffic Flow,"  SIAM Journal on Applied Mathematics, 60(3):916--938, 2000. DOI: 10.1137/S0036139997332099.
 
 3. <a id="ref-2"></a>H.~M. Zhang, "A Non-Equilibrium Traffic Model Devoid of Gas-Like Behavior," Transportation Research Part B, 36(3):275--290, 2002.
 
