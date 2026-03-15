@@ -36,13 +36,11 @@ $$
 0.
 $$
 
-(1)
-
 ### Beyond a single conservation law
 
-Equation [\((1)\)](#eq-continuity) is a balance law for the density \(\rho\), but it is not closed.
+Equation [\((2)\)](#eq-continuity) is a balance law for the density \(\rho\), but it is not closed.
 By closed we mean: the PDE system contains enough relations to determine all unknown fields from initial/boundary data.
-Here we have two unknowns \((\rho,v)\), while [\((1)\)](#eq-continuity) provides only one equation. Equivalently, the flux
+Here we have two unknowns \((\rho,v)\), while [\((2)\)](#eq-continuity) provides only one equation. Equivalently, the flux
 
 $$
 q(\rho,v):=\rho\,v
@@ -52,7 +50,7 @@ cannot be computed from \(\rho\) alone unless we specify an additional relation 
 
 LWR closure.
 
-The Lighthill--Whitham--Richards (LWR) model closes [\((1)\)](#eq-continuity) by postulating an equilibrium
+The Lighthill--Whitham--Richards (LWR) model closes [\((2)\)](#eq-continuity) by postulating an equilibrium
 velocity--density relation
 
 $$
@@ -66,7 +64,7 @@ $$
 q(\rho)=\rho\,V(\rho),
 $$
 
-and [\((1)\)](#eq-continuity) reduces to the scalar conservation law
+and [\((2)\)](#eq-continuity) reduces to the scalar conservation law
 
 $$
 \rho_t + \big(\rho V(\rho)\big)_x = 0.
@@ -86,7 +84,7 @@ introduce such a model called the ARZ model and then justify its form.
 
 ## ARZ model: closing the system with directional interaction
 
-Second-order macroscopic traffic models close the conservation law [\((1)\)](#eq-continuity) by introducing an additional
+Second-order macroscopic traffic models close the conservation law [\((2)\)](#eq-continuity) by introducing an additional
 state variable that captures non--equilibrium driving effects. The motivation is twofold:
 
 - Non-equilibrium speeds: the velocity \(v\) is not assumed to satisfy an instantaneous relation
@@ -110,8 +108,6 @@ $$
 q_t + a(t,x)\,q_x = 0 \qquad \text{on } (0,T)\times\mathbb{R}.
 $$
 
-(2)
-
 with initial data \(q(0,x)=q_0(x)\). Assume \(a\in C^1\) and
 
 $$
@@ -123,7 +119,7 @@ velocity field prescribing the local propagation speed in the \(x\)-direction. \
 
 Characteristic ODE.
 
-We define the characteristic ODE associated with [\((2)\)](#eq-linear-transport) as follows.
+We define the characteristic ODE associated with [\((7)\)](#eq-linear-transport) as follows.
 A characteristic is a curve \(s\mapsto (s,X(s))\) in the \((t,x)\) plane along which we track \(q\).
 Setting \(\psi(s):=q(s,X(s))\), the chain rule gives
 
@@ -212,8 +208,6 @@ $$
 w := v + P(\rho).
 $$
 
-(3)
-
 where \(P(\rho)\) is a monotone traffic pressure with \(P'(\rho)>0\), \(\rho(t,x)\) is the vehicle density and \(v(t,x)\) is the actual macroscopic speed. So if a given vehicle carries a fixed \(w\) value, then when it enters a region of higher density (larger \(P(\rho)\)) its speed decreases accordingly. Conversely, in lighter traffic it can travel faster, up to the level permitted by its marker. We chose this \(w\) to represent a driver/vehicle attribute (preferred speed level or aggressiveness) that
 does not instantly equilibrate with density: it is tied to the vehicles themselves rather than created or destroyed by the flow.
 Hence, if we follow a specific vehicle (a trajectory \(x=X(t)\) with \(\dot X(t)=v(t,X(t))\)), we postulate that this attribute is preserved:
@@ -239,8 +233,6 @@ which yields the PDE
 $$
 w_t+v\,w_x=0.
 $$
-
-(4)
 
 This means \(w\) moves with vehicles, so information in \(w\)
 propagates along vehicle paths. The point of imposing
@@ -277,8 +269,6 @@ $$
 \end{aligned}
 \qquad P\in C^1.
 $$
-
-(5)
 
 We now have two equations: (i) mass conservation for \(\rho\), and (ii) the closure law stating that \(w\) is transported with the vehicle speed \(v\). We can now rewrite the system in conservative form:
 
@@ -328,11 +318,9 @@ $$
 \qquad \text{with } v = w - P(\rho).
 $$
 
-(6)
-
 ### Why this is the correct look-ahead closure (characteristic-speed derivation).
 
-Consider the homogeneous non-conservative ARZ system given by [\((5)\)](#eq-arz-nonconservative):
+Consider the homogeneous non-conservative ARZ system given by [\((24)\)](#eq-arz-nonconservative):
 
 $$
 \begin{aligned}
@@ -369,8 +357,6 @@ $$
 $$
 0=v_t+\big(v-\rho P'(\rho)\big)v_x .
 $$
-
-(7)
 
 since the \(\rho_x\) terms cancel. Hence the system can be written as the quasilinear system
 
@@ -439,7 +425,7 @@ v(t)-V(\rho)&=\big(v(0)-V(\rho)\big)e^{-t/\tau}.
 \end{aligned}
 $$
 
-Thus \(\tau\) is the characteristic time after which the deviation from equilibrium has decreased by a factor of \(e\). To model relaxation toward an equilibrium speed \(V(\rho)\), a common (and widely used) conservative and inhomogeneous ARZ form in variables \((\rho,v)\) is [[3](#ref-3)] (shown in [\((6)\)](#eq-arz-conservative) without the forcing term, substituting \( w\rho = y\)):
+Thus \(\tau\) is the characteristic time after which the deviation from equilibrium has decreased by a factor of \(e\). To model relaxation toward an equilibrium speed \(V(\rho)\), a common (and widely used) conservative and inhomogeneous ARZ form in variables \((\rho,v)\) is [[3](#ref-3)] (shown in [\((30)\)](#eq-arz-conservative) without the forcing term, substituting \( w\rho = y\)):
 
 <a id="eq-arz-conservative2"></a>
 
@@ -451,12 +437,10 @@ $$
 \qquad \text{with } v = w - P(\rho).
 $$
 
-(8)
-
 ### Justification by the local relaxation principle.
 
 If we ignore transport effects and hold density fixed locally (formally: drop all \(x\)-derivatives),
-then [\((8)\)](#eq-arz-conservative2) reduces to
+then [\((42)\)](#eq-arz-conservative2) reduces to
 
 $$
 \frac{\partial \rho}{\partial t}=0
@@ -478,7 +462,7 @@ $$
 \frac{\partial v}{\partial t}=\frac{V(\rho_0)-v}{\tau},
 $$
 
-i.e.\ exponential relaxation of \(v\) to \(V(\rho_0)\). This is why the source in [\((8)\)](#eq-arz-conservative2)
+i.e.\ exponential relaxation of \(v\) to \(V(\rho_0)\). This is why the source in [\((42)\)](#eq-arz-conservative2)
 is chosen as \(\rho(V(\rho)-v)/\tau\).
 
 The purpose of this local relaxation test is to isolate the intended role of the source term from the
@@ -493,7 +477,7 @@ hyperbolic transport part.
 
 From the balance law in \(y\) to the transported-marker form.
 
-Now rewrite [\((8)\)](#eq-arz-conservative2) in terms of \(w=v+p(\rho)=y/\rho\).
+Now rewrite [\((42)\)](#eq-arz-conservative2) in terms of \(w=v+p(\rho)=y/\rho\).
 Compute
 
 $$
@@ -510,7 +494,7 @@ $$
 \frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y)=\rho\Big(\frac{\partial w}{\partial t}+v\frac{\partial w}{\partial x}\Big).
 $$
 
-But, from [\((8)\)](#eq-arz-conservative2) we have:
+But, from [\((42)\)](#eq-arz-conservative2) we have:
 
 $$
 \frac{\partial y}{\partial t}+\frac{\partial}{\partial x}(v y)=\rho \frac{V(\rho)-v}{\tau}.
@@ -524,11 +508,9 @@ $$
 \frac{\partial w}{\partial t}+v\,\frac{\partial w}{\partial x} = \frac{V(\rho)-v}{\tau}.
 $$
 
-(9)
-
 Comment.
 
-Equation [\((9)\)](#eq-marker-relax-expanded-start) is the relaxation ARZ closure in its most transparent form:
+Equation [\((49)\)](#eq-marker-relax-expanded-start) is the relaxation ARZ closure in its most transparent form:
 the marker \(w=v+p(\rho)\) is still transported along vehicle trajectories (left-hand side),
 so the anisotropic car-following structure is preserved, while the right-hand side introduces only a
 local tendency that drives \(v\) toward the equilibrium speed \(V(\rho)\) on the time scale \(\tau\).
@@ -558,8 +540,6 @@ p(\rho)=\rho^\gamma,
 p(\rho)=v_f\Big(\frac{\rho}{\rho_m}\Big)^\gamma,
 $$
 
-(10)
-
 with free-flow speed \(v_f\) and maximum (jam) density \(\rho_m\) [[3](#ref-3)].
 Then a consistent equilibrium speed can be written as
 
@@ -569,8 +549,6 @@ $$
 V(\rho)=v_f-p(\rho) =
  v_f\Big(1-\Big(\frac{\rho}{\rho_m}\Big)^\gamma\Big),
 $$
-
-(11)
 
 which is the (generalized) Greenshields-type relationship used in [[3](#ref-3)].
 
