@@ -48,8 +48,8 @@ $$
 
 cannot be computed from \(\rho\) alone unless we specify an additional relation for \(v\).
 
-**LWR closure.** The Lighthill--Whitham--Richards (LWR) model closes [\((2)\)](#eq-continuity) by postulating an equilibrium
-velocity--density relation
+**LWR closure.** The Lighthill-Whitham-Richards (LWR) model closes [\((2)\)](#eq-continuity) by postulating an equilibrium
+velocity-density relation
 
 $$
 v = V(\rho),
@@ -72,14 +72,14 @@ $$
 acceleration, anticipation, heterogeneous driving), we keep \(v\) (or a related driving state) as an additional
 unknown and supply a second evolution equation.
 
-This leads to second--order traffic models: systems of PDEs that keep the conservation law for \(\rho\) but add a
+This leads to second-order traffic models: systems of PDEs that keep the conservation law for \(\rho\) but add a
 second equation encoding how the velocity (or a modified velocity) is transported/updated. Our next step will be to
 introduce such a model called the ARZ model and then justify its form.
 
 ## ARZ model: closing the system with directional interaction
 
 Second-order macroscopic traffic models close the conservation law [\((2)\)](#eq-continuity) by introducing an additional
-state variable that captures non--equilibrium driving effects. The motivation is twofold:
+state variable that captures non-equilibrium driving effects. The motivation is twofold:
 
 - Non-equilibrium speeds: the velocity \(v\) is not assumed to satisfy an instantaneous relation
   \(v=V(\rho)\) as in LWR, instead, drivers adjust their speed over a finite time scale (acceleration/braking limits and reaction time), so \(v\) has its own dynamics.
@@ -89,7 +89,7 @@ state variable that captures non--equilibrium driving effects. The motivation is
 ### Directional (anisotropic) interaction as a closure principle.
 
 A key empirical feature of traffic is that drivers primarily react to conditions ahead.
-At the PDE level, look ahead only means a one--sided domain of dependence: for any given time \(t\), the state at \((t,x)\) should be
+At the PDE level, look ahead only means a one-sided domain of dependence: for any given time \(t\), the state at \((t,x)\) should be
 determined only by data (vehicles) located at positions \(y\ge x\) (ahead on road), and not by data (vehicles) from \(y<x\) (behind on road).
 
 #### One-sided domain of dependence (proof)
@@ -181,7 +181,7 @@ $$
 
 which shows the footpoint \(X(0)\) lies ahead of \(x\). Because the influencing point \(X(0)\) lies ahead of \(x\) (\(y\ge x\)), data from behind (\(y<x\)) cannot affect \(q(t,x)\).
 
-### The Aw--Rascle--Zhang (ARZ) anisotropic closure.
+### The Aw-Rascle-Zhang (ARZ) anisotropic closure.
 
 In the previous section, we wanted to introduce an additional state variable to capture non-equilibrium effects. At the PDE level, introducing a new state variable forces a new evolution law: to have a closed system,
 we must specify how that variable changes in time and space, i.e. we must add a second equation. The one-sided domain-of-dependence proof gives a concrete PDE test for look-ahead only. We can now use this as a closure principle: we will choose the second equation so that the
@@ -498,7 +498,7 @@ ignored the equation reduces to the desired ODE \(v_t=(V(\rho)-v)/\tau\) at fixe
 
 ### Connection to the LWR model
 
-The first-order Lighthill--Whitham--Richards (LWR) model assumes an equilibrium relation \(v=V(\rho)\), reducing dynamics to a single conservation law
+The first-order Lighthill-Whitham-Richards (LWR) model assumes an equilibrium relation \(v=V(\rho)\), reducing dynamics to a single conservation law
 
 $$
 \frac{\partial \rho}{\partial t} + \frac{\partial}{\partial x}\big(\rho V(\rho)\big)=0.
