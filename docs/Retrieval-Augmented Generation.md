@@ -68,32 +68,23 @@ Here, \(q\) denotes the user's question, \(D\) the set of retrieved documents or
 
 **Step-by-step explanation.**
 
-1. Collect the knowledge source.  
-The system first needs an external corpus to retrieve from. This corpus is usually assembled from specific sources relevant to the task, such as a company’s internal documents, product manuals, help-center articles, PDFs, databases, support tickets, code repositories, or selected web pages. In some applications, the source may include internet content, but in many practical RAG systems it is a defined collection of documents rather than the open web.
+**1. Collect the knowledge source.** The system first needs an external corpus to retrieve from. This corpus is usually assembled from specific sources relevant to the task, such as a company’s internal documents, product manuals, help-center articles, PDFs, databases, support tickets, code repositories, or selected web pages. In some applications, the source may include internet content, but in many practical RAG systems it is a defined collection of documents rather than the open web.
 
-2. Clean and split documents into chunks.  
-Most RAG systems do not retrieve whole documents. They split documents into smaller units called chunks. This matters because the model has limited context space. But chunking is tricky: chunks that are too small lose context, chunks that are too large add noise.
+**2. Clean and split documents into chunks.** Most RAG systems do not retrieve whole documents. They split documents into smaller units called chunks. This matters because the model has limited context space. But chunking is tricky: chunks that are too small lose context, chunks that are too large add noise.
 
-3. Create search representations.  
-The system must convert documents into representations that make retrieval possible. One option is sparse retrieval, which represents text through important words and matches documents mainly through lexical overlap, often using methods such as BM25, which scores documents by rewarding important query-term matches. Another option is dense retrieval, which represents queries and passages as embeddings so that retrieval can capture semantic similarity as well as exact wording. Dense Passage Retrieval (DPR) was a major milestone in this direction [[5]](#ref-5).
+**3. Create search representations.** The system must convert documents into representations that make retrieval possible. One option is sparse retrieval, which represents text through important words and matches documents mainly through lexical overlap, often using methods such as BM25, which scores documents by rewarding important query-term matches. Another option is dense retrieval, which represents queries and passages as embeddings so that retrieval can capture semantic similarity as well as exact wording. Dense Passage Retrieval (DPR) was a major milestone in this direction [[5]](#ref-5).
 
-4. Turn the user question into a search query.  
-Sometimes the raw question is used directly. Sometimes it is rewritten into one or more search queries. Better query formulation can drastically improve retrieval.
+**4. Turn the user question into a search query.** Sometimes the raw question is used directly. Sometimes it is rewritten into one or more search queries. Better query formulation can drastically improve retrieval.
 
-5. Retrieve the top-\(k\) chunks.  
-The retriever returns the most relevant chunks according to its scoring method. The number \(k\) is a design choice: too few chunks can miss needed evidence, too many can bury the signal in noise.
+**5. Retrieve the top-\(k\) chunks.** The retriever returns the most relevant chunks according to its scoring method. The number \(k\) is a design choice: too few chunks can miss needed evidence, too many can bury the signal in noise.
 
-6. Optionally rerank or filter the results.  
-Many systems add a reranker or a quality filter because the first-stage retriever is fast but imperfect. Some newer systems go further and evaluate whether retrieval was good enough at all [[6]](#ref-6).
+**6. Optionally rerank or filter the results.** Many systems add a reranker or a quality filter because the first-stage retriever is fast but imperfect. Some newer systems go further and evaluate whether retrieval was good enough at all [[6]](#ref-6).
 
-7. Build the final prompt.  
-The user question and the retrieved evidence are put together into the prompt for the LLM. The prompt may also instruct the model to cite sources, avoid unsupported claims, or say I do not know if evidence is weak.
+**7. Build the final prompt.** The user question and the retrieved evidence are put together into the prompt for the LLM. The prompt may also instruct the model to cite sources, avoid unsupported claims, or say I do not know if evidence is weak.
 
-8. Generate the answer.  
-The LLM reads the retrieved material and writes a response. This is the generation part of RAG.
+**8. Generate the answer.** The LLM reads the retrieved material and writes a response. This is the generation part of RAG.
 
-9. Check, cite, and log.  
-Stronger systems may verify the answer, attach citations, log which documents were used, or send the output to human review in high-stakes settings.
+**9. Check, cite, and log.** Stronger systems may verify the answer, attach citations, log which documents were used, or send the output to human review in high-stakes settings.
 
 ## Example Case
 
