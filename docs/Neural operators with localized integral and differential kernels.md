@@ -93,9 +93,7 @@ $$
 
 Here, \(v\) denotes the input function (or feature field), and \(v(y+z_i)\) means the value of \(v\) evaluated at the spatial location \(y+z_i\).
 
-Major issue.
-
-As the mesh is refined, the grid spacing \(h\) decreases. For a fixed kernel width \(S\), the offsets
+**Major issue.** As the mesh is refined, the grid spacing \(h\) decreases. For a fixed kernel width \(S\), the offsets
 
 $$
 z_i = h\left(i-1-\frac{S-1}{2}\right)
@@ -267,9 +265,7 @@ $$
 
 We now examine these three terms.
 
-Zeroth-order term.
-
-By construction,
+**Zeroth-order term.** By construction,
 
 $$
 \sum_{i=1}^S a_i = 0,
@@ -281,9 +277,7 @@ $$
 \frac{v(y)}{h}\sum_{i=1}^S a_i = 0.
 $$
 
-First-order term.
-
-Recall that the stencil offsets satisfy
+**First-order term.** Recall that the stencil offsets satisfy
 
 $$
 z_i = h\left(i-1-\frac{S-1}{2}\right).
@@ -305,9 +299,7 @@ $$
 
 Thus the first-order contribution is a constant multiple of \(v'(y)\), independent of \(h\).
 
-Remainder term.
-
-Using again \(z_i=h\alpha_i\), we have
+**Remainder term.** Using again \(z_i=h\alpha_i\), we have
 
 $$
 \frac{1}{2h}\sum_{i=1}^S a_i z_i^2 v''(\xi_i) = \frac{1}{2h}\sum_{i=1}^S a_i h^2\alpha_i^2 v''(\xi_i) = \frac{h}{2}\sum_{i=1}^S a_i \alpha_i^2 v''(\xi_i).
@@ -489,3 +481,7 @@ The paper also makes clear that these advantages do not remove all numerical dif
 Final takeaway.
 
 Overall, the contribution of the paper is to enrich the neural-operator framework with local mechanisms that remain meaningful in the continuum limit. The resulting model is not simply FNO with extra local layers. It is a mathematically motivated way to make locality compatible with operator learning. That is why it can improve on both purely global spectral models and standard grid-tied convolutions: it matches the structure of many PDE operators more faithfully.
+
+## References
+
+- Liu-Schiaffini, M., Berner, J., Bonev, B., Kurth, T., Azizzadenesheli, K., & Anandkumar, A. (2024). Neural operators with localized integral and differential kernels. arXiv preprint arXiv:2402.16845.
