@@ -1,0 +1,2243 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Transformers-5-KSA/">
+      
+      
+        <link rel="next" href="../Fuzzy%20Inference%20Systems/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Retrieval-Augmented Generation (RAG) - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction-to-rag" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Retrieval-Augmented Generation (RAG)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-5-KSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-a-basic-rag-system-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a basic RAG system works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-design-choices-in-real-rag-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important design choices in real RAG systems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important design choices in real RAG systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-quality-and-document-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source quality and document preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chunking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retriever-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retriever choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reranking-and-context-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reranking and context filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompting-and-answer-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompting and answer policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common failure modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-short-timeline-of-rag-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A short timeline of RAG research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-research-directions-in-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New research directions in RAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New research directions in RAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-self-reflective-and-agentic-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adaptive, self-reflective, and agentic RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-document-retrieval-and-better-retrieval-units" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-document retrieval and better retrieval units
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-based-and-multi-hop-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph-based and multi-hop RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multimodal RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-benchmarking-and-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation, benchmarking, and trust
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-and-robustness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security and robustness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-versus-long-context-llms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG versus long-context LLMs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-limitations-of-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Limitations of RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Neural Operators with localized integral and differential kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Traffic Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Traffic Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Aw%E2%80%93Rascle%E2%80%93Zhang%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-a-basic-rag-system-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a basic RAG system works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-design-choices-in-real-rag-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important design choices in real RAG systems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important design choices in real RAG systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-quality-and-document-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source quality and document preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chunking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retriever-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retriever choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reranking-and-context-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reranking and context filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompting-and-answer-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompting and answer policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-failure-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common failure modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-short-timeline-of-rag-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A short timeline of RAG research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-research-directions-in-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New research directions in RAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New research directions in RAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-self-reflective-and-agentic-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adaptive, self-reflective, and agentic RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-document-retrieval-and-better-retrieval-units" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long-document retrieval and better retrieval units
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-based-and-multi-hop-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph-based and multi-hop RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multimodal RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-benchmarking-and-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation, benchmarking, and trust
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-and-robustness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security and robustness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-versus-long-context-llms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAG versus long-context LLMs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-limitations-of-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Limitations of RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Retrieval-Augmented Generation (RAG)</h1>
+
+<h2 id="introduction-to-rag">Introduction to RAG</h2>
+<p>RAG stands for Retrieval-Augmented Generation. The name tells us almost everything important:</p>
+<ul>
+<li>Retrieval: before answering, the system searches for relevant external information.</li>
+<li>Augmented: that retrieved information is added to the model's input.</li>
+<li>Generation: the language model then writes an answer using the question plus the retrieved evidence.</li>
+</ul>
+<p>A standard large language model (LLM) answers mainly from what it compressed into its parameters during training. That is powerful, but it creates practical problems. The model's knowledge can be stale. It may not know our private or domain-specific documents. It may also produce confident answers without clearly indicating the source of its information. Retrieval-augmented generation (RAG) addresses this limitation by combining a large language model with an information retrieval system:</p>
+<div class="arithmatex">\[
+\text{Answer} = \text{LLM reasoning/generation} + \text{retrieved external evidence}
+\]</div>
+<p>The LLM still provides language understanding, reasoning, and fluent writing. The retriever provides the evidence. That split is one reason RAG is so attractive: it lets the model reason with current documents rather than only with frozen training memory [<a href="#ref-1">1</a>, <a href="#ref-2">2</a>].</p>
+<p>The easiest intuition for RAG is an exam analogy:</p>
+<ul>
+<li>A plain LLM is closer to a closed-book exam: it answers from memory.</li>
+<li>A RAG system is closer to an open-book exam: it first looks at the relevant pages, then answers.</li>
+</ul>
+<p>This does not mean RAG magically makes the model truthful. If it retrieves the wrong pages, or if it misreads the right pages, the answer can still be wrong. But it usually gives the system a better chance to be current, grounded, and auditable [<a href="#ref-1">1</a>, <a href="#ref-3">3</a>].</p>
+<p><strong>Why did RAG become important?</strong> RAG became important because retraining or fine-tuning a model every time the knowledge base changes is often expensive, slow, or operationally inconvenient. RAG offers a different idea: keep the model mostly fixed, but make the external evidence changeable [<a href="#ref-1">1</a>, <a href="#ref-4">4</a>].</p>
+<p><strong>Parametric memory versus non-parametric memory.</strong> A natural next question is where the relevant information for answering a query is actually stored. To make this precise, note that a standard LLM already stores information in its trained weights and biases, this is called parametric memory. RAG does not replace that mechanism. Instead, it adds access to non-parametric memory, meaning information stored outside the model. For example, in documents, tables, databases, or vector indices, that can be retrieved at inference time. In this sense, RAG is usually best understood as a system that combines an LLM's parametric memory with external retrieved evidence.</p>
+<p><strong>RAG is not the same as prompting or fine-tuning.</strong> Several ideas closely related to LLM are often discussed together, even though they refer to different things. The following table distinguishes them more clearly.</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>What changes?</th>
+<th>Best when</th>
+<th>Main weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompting</td>
+<td>Only the input prompt changes</td>
+<td>The model already knows the answer and just needs better instruction</td>
+<td>The knowledge may still be stale or unsupported</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>The model parameters change</td>
+<td>Stable domain behavior should be learned once and reused many times</td>
+<td>Updating factual knowledge can be costly and slow</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>External evidence is fetched at inference time</td>
+<td>Answers must be grounded in current, private, or domain-specific sources</td>
+<td>Quality depends heavily on retrieval quality</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rag-glossary">RAG glossary</h2>
+<p>Before going deeper, it helps to define the words that appear over and over in the scientific literature related to RAG.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Simple meaning</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM</td>
+<td>A large language model that generates text</td>
+<td>It is the generator side of a RAG system</td>
+</tr>
+<tr>
+<td>Knowledge base / corpus</td>
+<td>The collection of documents the system can search</td>
+<td>If this is weak, outdated, or messy, RAG will suffer</td>
+</tr>
+<tr>
+<td>Chunk</td>
+<td>A small piece of a larger document</td>
+<td>Retrieval usually happens over chunks, not whole books or whole PDFs</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>A numerical vector representing meaning</td>
+<td>Dense retrieval often compares embeddings instead of exact words</td>
+</tr>
+<tr>
+<td>Vector index / vector store</td>
+<td>A searchable collection of embeddings</td>
+<td>This is how many dense retrievers quickly find similar chunks</td>
+</tr>
+<tr>
+<td>Retriever</td>
+<td>The component that finds candidate evidence</td>
+<td>It decides what context the generator will see</td>
+</tr>
+<tr>
+<td>Reranker</td>
+<td>A second-stage model that re-orders retrieved results</td>
+<td>It can improve quality by filtering noisy results</td>
+</tr>
+<tr>
+<td>Context window</td>
+<td>The amount of text the generator can read at once</td>
+<td>Retrieved evidence must fit here, which is why selection matters</td>
+</tr>
+<tr>
+<td>Grounding / faithfulness</td>
+<td>Whether the answer is actually supported by the evidence</td>
+<td>A good-looking answer is not enough, it should be justified by sources</td>
+</tr>
+<tr>
+<td>Provenance / citation</td>
+<td>Showing where a claim came from</td>
+<td>Important for trust, auditing, and user confidence</td>
+</tr>
+<tr>
+<td>Query reformulation</td>
+<td>Rewriting the user's question for better search</td>
+<td>Useful when the original question is vague or hard to retrieve from</td>
+</tr>
+<tr>
+<td>Hybrid retrieval</td>
+<td>Mixing keyword search and semantic search</td>
+<td>Often strong in practice because exact terms and semantic meaning both matter</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-a-basic-rag-system-works">How a basic RAG system works</h2>
+<p>A basic RAG system is usually a pipeline. That means it is not just one model. It is several connected steps.</p>
+<p>Knowledge sources → Cleaning and chunking → Indexing <span class="arithmatex">\(BM25 / vectors\)</span> → Retrieve top-<span class="arithmatex">\(k\)</span> chunks → Rerank / filter → Build prompt with evidence → Generate answer → Citations, checks, logs, feedback</p>
+<p>A minimal mathematical picture is:</p>
+<div class="arithmatex">\[
+D = \text{Retrieve}(q), \qquad y = \text{Generate}(q, D).
+\]</div>
+<p>Here, <span class="arithmatex">\(q\)</span> denotes the user's question, <span class="arithmatex">\(D\)</span> the set of retrieved documents or chunks, and <span class="arithmatex">\(y\)</span> the final answer. This means, first get evidence, then answer from it.</p>
+<p><strong>Step-by-step explanation.</strong></p>
+<p><strong>1. Collect the knowledge source.</strong> The system first needs an external corpus to retrieve from. This corpus is usually assembled from specific sources relevant to the task, such as a company’s internal documents, product manuals, help-center articles, PDFs, databases, support tickets, code repositories, or selected web pages. In some applications, the source may include internet content, but in many practical RAG systems it is a defined collection of documents rather than the open web.</p>
+<p><strong>2. Clean and split documents into chunks.</strong> Most RAG systems do not retrieve whole documents. They split documents into smaller units called chunks. This matters because the model has limited context space. But chunking is tricky: chunks that are too small lose context, chunks that are too large add noise.</p>
+<p><strong>3. Create search representations.</strong> The system must convert documents into representations that make retrieval possible. One option is sparse retrieval, which represents text through important words and matches documents mainly through lexical overlap, often using methods such as BM25, which scores documents by rewarding important query-term matches. Another option is dense retrieval, which represents queries and passages as embeddings so that retrieval can capture semantic similarity as well as exact wording. Dense Passage Retrieval (DPR) was a major milestone in this direction <a href="#ref-5">[5]</a>.</p>
+<p><strong>4. Turn the user question into a search query.</strong> Sometimes the raw question is used directly. Sometimes it is rewritten into one or more search queries. Better query formulation can drastically improve retrieval.</p>
+<p><strong>5. Retrieve the top-<span class="arithmatex">\(k\)</span> chunks.</strong> The retriever returns the most relevant chunks according to its scoring method. The number <span class="arithmatex">\(k\)</span> is a design choice: too few chunks can miss needed evidence, too many can bury the signal in noise.</p>
+<p><strong>6. Optionally rerank or filter the results.</strong> Many systems add a reranker or a quality filter because the first-stage retriever is fast but imperfect. Some newer systems go further and evaluate whether retrieval was good enough at all <a href="#ref-6">[6]</a>.</p>
+<p><strong>7. Build the final prompt.</strong> The user question and the retrieved evidence are put together into the prompt for the LLM. The prompt may also instruct the model to cite sources, avoid unsupported claims, or say I do not know if evidence is weak.</p>
+<p><strong>8. Generate the answer.</strong> The LLM reads the retrieved material and writes a response. This is the generation part of RAG.</p>
+<p><strong>9. Check, cite, and log.</strong> Stronger systems may verify the answer, attach citations, log which documents were used, or send the output to human review in high-stakes settings.</p>
+<h2 id="example-case">Example Case</h2>
+<p>User question: According to the 2025 travel policy, can interns book business-class flights?</p>
+<p><strong>What a plain LLM might do:</strong> It may guess from general patterns about company travel policy, but it has no guarantee that its answer matches the organization's actual rules.</p>
+<p><strong>What a RAG system does:</strong></p>
+<ol>
+<li>Search the policy documents for chunks related to interns, business class, and air travel.</li>
+<li>Retrieve the most likely passages.</li>
+<li>Possibly rerank them so the current version of the policy comes first.</li>
+<li>Put those chunks into the model prompt.</li>
+<li>Ask the model to answer only from the retrieved evidence.</li>
+</ol>
+<p><strong>Retrieved evidence:</strong></p>
+<ul>
+<li>Chunk A: Interns must book economy class for all domestic and international travel unless a medical accommodation is approved.</li>
+<li>Chunk B: Business class is allowed only for employees at director level and above on flights longer than 8 hours.</li>
+</ul>
+<p><strong>Final answer:</strong>
+No. Under the 2025 travel policy, interns must book economy class. Business class is restricted to directors and above on long flights, unless a separate medical accommodation applies. [Policy 4.2, 4.7]</p>
+<p>This example shows the main value of RAG: it answers from the actual source instead of guessing from generic prior knowledge.</p>
+<p>Note that, RAG reduces the risk of hallucination, but it does not guarantee truth. The system can still fail if it retrieves the wrong chunk, chooses an outdated version, or generates claims not fully supported by the evidence [<a href="#ref-1">1</a>, <a href="#ref-10">10</a>, <a href="#ref-3">3</a>].</p>
+<h2 id="important-design-choices-in-real-rag-systems">Important design choices in real RAG systems</h2>
+<h3 id="source-quality-and-document-preparation">Source quality and document preparation</h3>
+<p>A RAG system inherits both the strengths and the weaknesses of its knowledge source. If the underlying documents are duplicated, outdated, badly parsed, missing metadata, or mixed across versions, retrieval becomes unreliable. In practice, many RAG failures are actually failures of document preparation. For this reason, good practice includes removing duplicates, preserving section titles and document boundaries, keeping version and date metadata, separating trusted from untrusted sources, and ensuring that tables, lists, and headings are not destroyed during parsing.</p>
+<h3 id="chunking">Chunking</h3>
+<p>Chunking may seem simple, but it is one of the most important design choices in RAG: if chunks are too small, relevant information may be split across multiple pieces, while if they are too large, retrieval may include unnecessary text and dilute the most useful evidence.</p>
+<p>This is one reason recent work such as RAPTOR explores more structured retrieval for long documents, using recursive summaries and multiple levels of abstraction rather than relying only on flat, fixed-size chunks <a href="#ref-7">[7]</a>. Recent work also suggests that metadata, that is, descriptive information about a document, such as its title, section, date, author, or source, can substantially improve retrieval, especially in repetitive corpora where semantic similarity alone may not be enough to distinguish the most relevant passage <a href="#ref-8">[8]</a>.</p>
+<h3 id="retriever-choice">Retriever choice</h3>
+<p>Retrievers are often grouped into three broad families:</p>
+<ul>
+<li>Sparse retrievers: rely on exact terms, rare words, or token overlap. They are often strong for identifiers, acronyms, codes, and exact names.</li>
+<li>Dense retrievers: use embeddings and semantic similarity. They are strong when wording differs but meaning is similar <a href="#ref-5">[5]</a>.</li>
+<li>Hybrid retrievers: combine sparse and dense signals.</li>
+</ul>
+<p>Hybrid retrieval remains popular because it captures both exact lexical clues and semantic similarity. In many practical systems, especially those involving technical vocabulary, product names, or regulations, hybrid retrieval is a strong starting point <a href="#ref-3">[3]</a>.</p>
+<h3 id="reranking-and-context-filtering">Reranking and context filtering</h3>
+<p>First-stage retrieval is often fast but noisy. A reranker can reorder candidates based on a deeper relevance judgment. Some systems also compress context by keeping only the most relevant sentences or passages.</p>
+<p>Corrective RAG (CRAG) goes a step further: it explicitly evaluates retrieval quality and can decide to change the retrieval behavior if the initial evidence looks weak <a href="#ref-6">[6]</a>. This is important because bad retrieval should not always be treated as good enough.</p>
+<h3 id="prompting-and-answer-policy">Prompting and answer policy</h3>
+<p>The way evidence is presented to the model matters. Strong prompts often do some combination of the following:</p>
+<ul>
+<li>tell the model to answer only from retrieved evidence,</li>
+<li>require citations,</li>
+<li>instruct the model to say when evidence is insufficient,</li>
+<li>separate instructions from retrieved documents clearly,</li>
+<li>discourage unsupported speculation.</li>
+</ul>
+<p>Self-RAG pushed this idea further by training a model to decide when retrieval is needed and to critique its own generations with special reflection signals <a href="#ref-9">[9]</a>.</p>
+<h3 id="evaluation">Evaluation</h3>
+<p>Evaluating a RAG system is harder than evaluating a plain generator because RAG has multiple moving parts. we may want to measure:</p>
+<ul>
+<li>retrieval quality: did the system fetch the right evidence?</li>
+<li>answer quality: is the final answer correct and useful?</li>
+<li>faithfulness: is the answer supported by the retrieved material?</li>
+<li>citation quality: do the cited sources really justify the claims?</li>
+<li>efficiency: how much latency, memory, and cost were required?</li>
+</ul>
+<p>Evaluation surveys and benchmarks emphasize that answer accuracy alone is not enough. A system can answer correctly for the wrong reason, or answer incorrectly even when the correct passage was retrieved [<a href="#ref-10">10</a>, <a href="#ref-11">11</a>, <a href="#ref-12">12</a>].</p>
+<table>
+<thead>
+<tr>
+<th>Design choice</th>
+<th>Common options</th>
+<th>Main tradeoff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chunking</td>
+<td>Fixed-size, semantic, hierarchical, section-aware</td>
+<td>Small chunks improve focus but may lose context, large chunks preserve context but add noise</td>
+</tr>
+<tr>
+<td>Retriever</td>
+<td>Sparse, dense, hybrid</td>
+<td>Exact matching versus semantic matching, speed versus depth</td>
+</tr>
+<tr>
+<td>Reranking</td>
+<td>Cross-encoder reranking, heuristic filters, quality scoring</td>
+<td>Better precision versus extra latency</td>
+</tr>
+<tr>
+<td>Metadata usage</td>
+<td>Dates, section titles, document ids, source types</td>
+<td>Better disambiguation versus more indexing complexity</td>
+</tr>
+<tr>
+<td>Answer policy</td>
+<td>Free-form answer, cite-every-claim, abstain-on-weak-evidence</td>
+<td>User friendliness versus strict groundedness</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>Retrieval metrics, answer metrics, faithfulness, cost</td>
+<td>A system can optimize one dimension while getting worse on another</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-failure-modes">Common failure modes</h3>
+<p>Many RAG failures can be grouped into a small number of categories:</p>
+<ol>
+<li>The relevant information was never indexed.</li>
+<li>The relevant information was indexed, but retrieval missed it.</li>
+<li>Retrieval found it, but noisy chunks crowded it out.</li>
+<li>The model saw the evidence but ignored or misinterpreted it.</li>
+<li>The evidence itself was outdated, low quality, or contradictory.</li>
+</ol>
+<p>This shows that RAG is not just a "prompting trick", its a full system design problem.</p>
+<h2 id="a-short-timeline-of-rag-research">A short timeline of RAG research</h2>
+<table>
+<thead>
+<tr>
+<th>Period</th>
+<th>Representative work</th>
+<th>Why it mattered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020</td>
+<td>REALM, DPR, RAG</td>
+<td>Established retrieval as external memory and showed dense retrieval plus generation could improve knowledge-intensive NLP [<a href="#ref-2">2</a>, <a href="#ref-5">5</a>, <a href="#ref-1">1</a>].</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>RETRO</td>
+<td>Showed that retrieval can scale language modeling itself, not only downstream question answering <a href="#ref-4">[4]</a>.</td>
+</tr>
+<tr>
+<td>2023--2024</td>
+<td>Self-RAG, CRAG, RAPTOR</td>
+<td>Shifted attention from simple one-shot retrieval toward adaptive retrieval, retrieval correction, and better long-document structure [<a href="#ref-9">9</a>, <a href="#ref-6">6</a>, <a href="#ref-7">7</a>].</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>CRAG benchmark, RAGBench, evaluation surveys, RAG versus long-context study</td>
+<td>Pushed the field toward realistic evaluation, benchmark quality, and cost-aware comparison against long-context alternatives [<a href="#ref-12">12</a>, <a href="#ref-11">11</a>, <a href="#ref-10">10</a>, <a href="#ref-13">13</a>].</td>
+</tr>
+<tr>
+<td>2025--2026</td>
+<td>SafeRAG, GraphRAG analysis, RAG-Anything, A-RAG, metadata-aware retrieval, utility prediction, A2RAG</td>
+<td>Expanded RAG toward security, graphs, multimodal evidence, agentic interfaces, better indexing signals, and cost-aware adaptive reasoning [<a href="#ref-14">14</a>, <a href="#ref-15">15</a>, <a href="#ref-16">16</a>, <a href="#ref-17">17</a>, <a href="#ref-8">8</a>, <a href="#ref-18">18</a>, <a href="#ref-19">19</a>].</td>
+</tr>
+</tbody>
+</table>
+<h2 id="new-research-directions-in-rag">New research directions in RAG</h2>
+<p>This section answers the question about active research area in RAG. A useful high-level summary is that RAG research has moved from a simple pattern:</p>
+<p><em>"retrieve a few chunks once, then answer"</em></p>
+<p>toward a much richer family of systems that ask:</p>
+<p><em>"should we retrieve, what should we retrieve, how should we organize it, how do we know it helped, and how do we keep the whole system reliable?"</em></p>
+<h3 id="adaptive-self-reflective-and-agentic-rag">Adaptive, self-reflective, and agentic RAG</h3>
+<p>One major research direction is making RAG adaptive rather than fixed. Self-RAG is important here because it teaches the model to decide when retrieval is needed and to reflect on the quality of its own response <a href="#ref-9">[9]</a>. This matters because not every question needs retrieval, and blind retrieval can sometimes hurt more than help.</p>
+<p>Corrective Retrieval-Augmented Generation (CRAG) is another step in this direction. Instead of assuming the retrieved documents are good, CRAG evaluates the quality of retrieval and can change what it does next, including extending retrieval behavior when the initial evidence is weak <a href="#ref-6">[6]</a>.</p>
+<p>The broader idea has grown into Agentic RAG (A-RAG): the model behaves more like an agent that plans, decides, searches, reads, and sometimes iterates <a href="#ref-20">[20]</a>. Very recent work such as A-RAG gives the model multiple retrieval tools like keyword search, semantic search, and chunk reading, and lets it adaptively use them <a href="#ref-17">[17]</a>. At the same time, early 2026 comparison work warns that agentic RAG adds cost and complexity, so the right question is not "is agentic better?" but "when is the extra autonomy worth it?" <a href="#ref-21">[21]</a>.</p>
+<h3 id="long-document-retrieval-and-better-retrieval-units">Long-document retrieval and better retrieval units</h3>
+<p>A second major direction is improving the unit of retrieval. Traditional RAG often retrieves flat, fixed-size chunks. But long documents do not naturally come pre-divided into ideal retrieval units.</p>
+<p>RAPTOR addresses this by building a tree of summaries over the document so retrieval can happen at different levels of abstraction <a href="#ref-7">[7]</a>. This is especially useful for long documents, multi-step reasoning, and questions that require both broad understanding and specific details.</p>
+<p>Recent work also argues that metadata matters. In some domains, multiple documents share similar language, so semantics alone may not distinguish them well. Metadata-aware retrieval studies show that section labels, dates, structural cues, and document identifiers can significantly improve disambiguation <a href="#ref-8">[8]</a>.</p>
+<p>Another new line of work asks a subtle but important question: will retrieval actually help on this question? Predicting retrieval utility and final answer quality has become its own research topic, because a strong system should ideally know when extra retrieval is useful and when it is unnecessary <a href="#ref-18">[18]</a>.</p>
+<h3 id="graph-based-and-multi-hop-rag">Graph-based and multi-hop RAG</h3>
+<p>Many real questions require connecting facts rather than reading one paragraph. This motivates GraphRAG, where evidence is organized using graph structure, such as entities and relations.</p>
+<p>The promise of GraphRAG is intuitive: if a problem involves relationships, a graph may provide cleaner paths for multi-hop reasoning. But recent work has become more skeptical and disciplined. A major 2025 analysis asks when graphs are truly worth using and notes that GraphRAG can underperform vanilla RAG on many real tasks <a href="#ref-15">[15]</a>.</p>
+<p>This is an important sign of scientific maturity. Instead of assuming graphs are automatically better, the field is now trying to identify the exact conditions under which graph structure helps. A very recent 2026 paper, A2RAG, pushes this further with adaptive and agentic graph retrieval aimed at reducing cost while remaining reliable in multi-hop settings <a href="#ref-19">[19]</a>.</p>
+<h3 id="multimodal-rag">Multimodal RAG</h3>
+<p>Much of the world is not plain text. Real documents often contain images, tables, charts, formulas, scanned layouts, and other forms of mixed text-and-visual evidence.</p>
+<p>Traditional text-only RAG ignores much of that signal. This is why multimodal RAG is a major research direction.</p>
+<p>A good example is RAG-Anything, which treats multimodal content as interconnected knowledge entities and performs cross-modal hybrid retrieval over text, visual elements, tables, and other structure <a href="#ref-16">[16]</a>. This direction matters because many enterprise and scientific workflows rely on evidence that cannot be faithfully reduced to plain text alone.</p>
+<h3 id="evaluation-benchmarking-and-trust">Evaluation, benchmarking, and trust</h3>
+<p>As RAG matured, researchers realized that benchmark quality matters enormously.</p>
+<p>CRAG (Comprehensive RAG) Benchmark was designed to better reflect dynamic and realistic question answering, including web and knowledge-graph style retrieval. Its authors explicitly show that straightforward RAG leaves a large gap to fully trustworthy QA <a href="#ref-12">[12]</a>.</p>
+<p>RAGBench provides a large-scale, explainable benchmark tied to industry-style corpora and varied RAG task types <a href="#ref-11">[11]</a>. Evaluation surveys also make an important conceptual point: a RAG system has at least two major subsystems: retrieval and generation, and both need evaluation. A strong answer metric alone is not enough <a href="#ref-10">[10]</a>.</p>
+<h3 id="security-and-robustness">Security and robustness</h3>
+<p>A plain beginner intuition is often: if RAG uses external evidence, it should be safer. The reality is more complicated.</p>
+<p>External evidence can also become an attack surface. Malicious or manipulated documents may influence retrieval, conflict with legitimate sources, or degrade service quality. SafeRAG formalizes this concern with a security benchmark for RAG systems and shows that external knowledge can make systems vulnerable in new ways <a href="#ref-14">[14]</a>.</p>
+<p>So the research frontier is not only about helping models know more. It is also about helping them know safely.</p>
+<h3 id="rag-versus-long-context-llms">RAG versus long-context LLMs</h3>
+<p>As context windows get larger, an important question keeps coming up:</p>
+<p>Do we still need RAG if a model can read a very long context directly?</p>
+<p>A 2024 study comparing RAG with long-context LLMs found that long-context models can outperform RAG when resourced sufficiently, but RAG still has a strong cost advantage <a href="#ref-13">[13]</a>. This has pushed the field toward hybrid routing: send some questions to long-context reading, others to retrieval, and choose based on the task.</p>
+<p>This is a good example of how research has matured. The question is no longer RAG or not? It is increasingly which combination of retrieval, long context, and tool use is optimal for this specific query?</p>
+<h2 id="current-limitations-of-rag">Current Limitations of RAG</h2>
+<p>This section turns from the promise of RAG to its limitations, highlighting the main problems that remain unresolved.</p>
+<p><strong>Retrieval quality is still the central bottleneck.</strong> If the wrong evidence is retrieved, the generator may never recover. This sounds obvious, but it remains one of the hardest practical problems because relevance depends on wording, document structure, metadata, domain vocabulary, and user intent. Recent work on corrective retrieval, metadata-aware retrieval, and retrieval-utility prediction all exist because this bottleneck remains unsolved [<a href="#ref-6">6</a>, <a href="#ref-8">8</a>, <a href="#ref-18">18</a>].</p>
+<p><strong>Correct retrieval does not guarantee faithful generation.</strong> Even when the system retrieves a relevant passage, the LLM may still misread it, overgeneralize from it, combine it incorrectly with prior knowledge, or add unsupported details.</p>
+<p>This is why evaluation papers emphasize faithfulness or grounding, not just answer fluency or superficial correctness [<a href="#ref-10">10</a>, <a href="#ref-3">3</a>]. In other words, RAG can reduce hallucinations, but it does not eliminate them.</p>
+<p><strong>Evaluation is still fragmented.</strong> We still do not have a single universally accepted way to evaluate RAG. Some benchmarks focus on retrieval. Others focus on final answers. Some ignore cost, latency, or citation quality. Others do not reflect realistic multi-document enterprise settings. The recent surge of benchmarks and evaluation surveys is evidence that the problem is still open [<a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-10">10</a>].</p>
+<p><strong>Chunking and document structure remain underappreciated.</strong> A lot of RAG quality depends on how documents are split, labeled, and indexed. But chunking is still surprisingly heuristic in many systems. Research such as RAPTOR and metadata-aware retrieval suggests that structure-aware RAG is promising, yet there is still no universally best chunking method across domains [<a href="#ref-7">7</a>, <a href="#ref-8">8</a>].</p>
+<p><strong>Multi-hop and corpus-level reasoning remain difficult.</strong> Some questions cannot be answered from a single chunk: they require combining evidence across multiple documents or reasoning over relationships between pieces of information. This is one reason GraphRAG and related adaptive graph-based methods have attracted attention. However, this promise should be treated carefully. A detailed 2025 analysis reports that GraphRAG often underperforms vanilla RAG on real tasks, suggesting that the open problem is not simply to build more graphs, but to understand when graph-based retrieval provides a real and measurable advantage [<a href="#ref-15">15</a>, <a href="#ref-19">19</a>].</p>
+<p><strong>Multimodal and structured evidence are still hard.</strong> Most deployed RAG systems remain text-heavy, while real knowledge work often depends on tables, figures, diagrams, layout, formulas, and images. Multimodal RAG frameworks are emerging, but this area is still early. Cross-modal alignment, retrieval across mixed evidence types, and source attribution in multimodal settings remain open challenges <a href="#ref-16">[16]</a>.</p>
+<p><strong>Security is a first-class problem.</strong> RAG expands the model's access to external knowledge, but that also means it expands the attack surface. If malicious or low-trust sources enter the retrieval space, the system may be manipulated. SafeRAG shows that this is not just a theoretical concern <a href="#ref-14">[14]</a>. Robust source trust, retrieval hardening, and conflict handling remain important open areas.</p>
+<p><strong>Cost and latency trade-offs are still difficult.</strong> Better RAG pipelines often improve performance by adding extra components, such as multiple retrieval stages, rerankers, query reformulation, verification steps, agentic tool use, and long-context fallbacks.</p>
+<p>These can improve quality, but they also add latency and cost. Recent comparisons of RAG, long-context LLMs, and agentic RAG show that performance gains must always be judged against compute and engineering complexity [<a href="#ref-13">13</a>, <a href="#ref-21">21</a>, <a href="#ref-17">17</a>].</p>
+<p><strong>We still do not know perfectly when retrieval is needed.</strong> Some questions need external evidence, others do not. Some need a little retrieval. Others need iterative search or multi-hop evidence. One of the most active modern ideas is that a good RAG system should decide when, how, and how much to retrieve. Self-RAG, A-RAG, and utility prediction papers all point toward this gap [<a href="#ref-9">9</a>, <a href="#ref-17">17</a>, <a href="#ref-18">18</a>].</p>
+<p><strong>Freshness, provenance, and source conflict are still messy.</strong> Real document collections are rarely neat. They contain outdated versions, contradictory passages, and uncertain authority levels. A useful RAG system should not only find relevant text; it should know which source is authoritative, which version is current, and how to answer when sources disagree. This remains a difficult systems problem [<a href="#ref-6">6</a>, <a href="#ref-3">3</a>].</p>
+<p><strong>Privacy-preserving and personalized RAG is still immature.</strong> Many attractive use cases involve personal or organizational memory. But that raises privacy and compliance issues. How do we personalize retrieval without leaking sensitive information? How do we maintain auditability when the retrieved memory is user-specific? Recent surveys explicitly point to privacy-preserving retrieval and personalized memory as open directions rather than solved components <a href="#ref-3">[3]</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>RAG is one of the most important ideas in modern LLM systems because it addresses a basic weakness of parametric models: they are powerful reasoners and generators, but their stored knowledge is static, opaque, and not always tied to a source. RAG improves this by letting the model retrieve external evidence at inference time [<a href="#ref-1">1</a>, <a href="#ref-2">2</a>].</p>
+<p>The research frontier, however, is much richer than that simple definition. Current work is moving toward adaptive retrieval, self-reflection, agentic workflows, better long-document handling, graph-structured retrieval, multimodal evidence, stronger evaluation, and security-aware design [<a href="#ref-9">9</a>, <a href="#ref-6">6</a>, <a href="#ref-7">7</a>, <a href="#ref-14">14</a>, <a href="#ref-16">16</a>, <a href="#ref-17">17</a>, <a href="#ref-3">3</a>]. At the same time, the main gaps remain very real: retrieval quality, faithfulness, evaluation, multi-hop reasoning, multimodality, security, and cost-efficient routing are still open problems [<a href="#ref-10">10</a>, <a href="#ref-15">15</a>, <a href="#ref-18">18</a>].</p>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p><a id="ref-1"></a> Patrick Lewis and others. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. 2020. arXiv:2005.11401.</p>
+</li>
+<li>
+<p><a id="ref-2"></a> Kelvin Guu and others. REALM: Retrieval-Augmented Language Model Pre-Training. Proceedings of the 37th International Conference on Machine Learning. 2020.</p>
+</li>
+<li>
+<p><a id="ref-3"></a> Chaitanya Sharma. Retrieval-Augmented Generation: A Comprehensive Survey of Architectures, Enhancements, and Robustness Frontiers. 2025. arXiv:2506.00054.</p>
+</li>
+<li>
+<p><a id="ref-4"></a> Sebastian Borgeaud and others. Improving Language Models by Retrieving from Trillions of Tokens. 2022. arXiv:2112.04426.</p>
+</li>
+<li>
+<p><a id="ref-5"></a> Vladimir Karpukhin and others. Dense Passage Retrieval for Open-Domain Question Answering. 2020. arXiv:2004.04906.</p>
+</li>
+<li>
+<p><a id="ref-6"></a> Shi-Qi Yan, Jia-Chen Gu, Yun Zhu, and Zhen-Hua Ling. Corrective Retrieval Augmented Generation. 2024. arXiv:2401.15884.</p>
+</li>
+<li>
+<p><a id="ref-7"></a> Parth Sarthi and others. RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval. 2024. arXiv:2401.18059.</p>
+</li>
+<li>
+<p><a id="ref-8"></a> Raquib Bin Yousuf, Shengzhe Xu, Mandar Sharma, Andrew Neeser, Chris Latimer, and Naren Ramakrishnan. Utilizing Metadata for Better Retrieval-Augmented Generation. 2026. arXiv:2601.11863.</p>
+</li>
+<li>
+<p><a id="ref-9"></a> Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and Hannaneh Hajishirzi. Self-RAG: Self-Reflective Retrieval-Augmented Generation. 2023. OpenReview.</p>
+</li>
+<li>
+<p><a id="ref-10"></a> Hao Yu and others. Evaluation of Retrieval-Augmented Generation: A Survey. 2024. arXiv:2405.07437.</p>
+</li>
+<li>
+<p><a id="ref-11"></a> Robert Friel, Masha Belyi, and Atindriyo Sanyal. RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems. 2024. arXiv:2407.11005.</p>
+</li>
+<li>
+<p><a id="ref-12"></a> Xiao Yang and others. CRAG -- Comprehensive RAG Benchmark. 2024. arXiv:2406.04744.</p>
+</li>
+<li>
+<p><a id="ref-13"></a> Zhuowan Li, Cheng Li, Mingyang Zhang, Qiaozhu Mei, and Michael Bendersky. Retrieval Augmented Generation or Long-Context LLMs? A Comprehensive Study and Hybrid Approach. Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing: Industry Track. 2024.</p>
+</li>
+<li>
+<p><a id="ref-14"></a> Xun Liang and others. SafeRAG: Benchmarking Security in Retrieval-Augmented Generation of Large Language Model. 2025. arXiv:2501.18636.</p>
+</li>
+<li>
+<p><a id="ref-15"></a> Zhishang Xiang and others. When to Use Graphs in RAG: A Comprehensive Analysis for Graph Retrieval-Augmented Generation. 2025. arXiv:2506.05690.</p>
+</li>
+<li>
+<p><a id="ref-16"></a> Zirui Guo, Xubin Ren, Lingrui Xu, Jiahao Zhang, and Chao Huang. RAG-Anything: All-in-One RAG Framework. 2025. arXiv:2510.12323.</p>
+</li>
+<li>
+<p><a id="ref-17"></a> Mingxuan Du, Benfeng Xu, Chiwei Zhu, Shaohan Wang, Pengyu Wang, Xiaorui Wang, and Zhendong Mao. A-RAG: Scaling Agentic Retrieval-Augmented Generation via Hierarchical Retrieval Interfaces. 2026. arXiv:2602.03442.</p>
+</li>
+<li>
+<p><a id="ref-18"></a> Fangzheng Tian, Debasis Ganguly, and Craig Macdonald. Predicting Retrieval Utility and Answer Quality in Retrieval-Augmented Generation. 2026. arXiv:2601.14546.</p>
+</li>
+<li>
+<p><a id="ref-19"></a> Jiate Liu and others. A2RAG: Adaptive Agentic Graph Retrieval for Cost-Aware and Reliable Reasoning. 2026. arXiv:2601.21162.</p>
+</li>
+<li>
+<p><a id="ref-20"></a> Aditi Singh, Abul Ehtesham, Saket Kumar, and Tala Talaei Khoei. Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG. 2025. arXiv:2501.09136.</p>
+</li>
+<li>
+<p><a id="ref-21"></a> Pietro Ferrazzi, Milica Cvjeticanin, Alessio Piraccini, and Davide Giannuzzi. Is Agentic RAG Worth It? An Experimental Comparison of RAG Approaches. 2026. arXiv:2601.07711.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

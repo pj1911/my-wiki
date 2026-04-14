@@ -1,0 +1,2120 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
+      
+      
+        <link rel="next" href="../RL-1-Introduction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>4 - Neural Operators with localized integral and differential kernels - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 - Neural Operators with localized integral and differential kernels
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-5-KSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Retrieval-Augmented%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Neural Operators with localized integral and differential kernels
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Neural Operators with localized integral and differential kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-mechanism-for-fno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working Mechanism for FNO
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-an-ordinary-discrete-convolution-is-not-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why an ordinary discrete convolution is not enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#local-integral-kernels-keeping-the-receptive-field-physically-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local integral kernels: keeping the receptive field physically fixed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Local integral kernels: keeping the receptive field physically fixed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-continuous-local-averaging-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A continuous local averaging operator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Translation invariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-the-kernel-is-parameterized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the kernel is parameterized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differential-kernels-from-convolution-to-derivatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differential kernels: from convolution to derivatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Differential kernels: from convolution to derivatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-key-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The key construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-the-derivative-appears-scalar-1d-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why the derivative appears: scalar 1D derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-to-multiple-dimensions-and-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extension to multiple dimensions and channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-moment-matching-viewpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The moment-matching viewpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-each-branch-contributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each branch contributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-information-flows-through-the-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How information flows through the architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How information flows through the architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpretation-at-a-single-spatial-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation at a single spatial point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-helps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this helps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Traffic Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Traffic Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Aw%E2%80%93Rascle%E2%80%93Zhang%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-mechanism-for-fno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working Mechanism for FNO
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-an-ordinary-discrete-convolution-is-not-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why an ordinary discrete convolution is not enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#local-integral-kernels-keeping-the-receptive-field-physically-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local integral kernels: keeping the receptive field physically fixed
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Local integral kernels: keeping the receptive field physically fixed">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-continuous-local-averaging-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A continuous local averaging operator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-invariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Translation invariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-the-kernel-is-parameterized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the kernel is parameterized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differential-kernels-from-convolution-to-derivatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differential kernels: from convolution to derivatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Differential kernels: from convolution to derivatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-key-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The key construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-the-derivative-appears-scalar-1d-derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why the derivative appears: scalar 1D derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extension-to-multiple-dimensions-and-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extension to multiple dimensions and channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-moment-matching-viewpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The moment-matching viewpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-each-branch-contributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each branch contributes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-information-flows-through-the-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How information flows through the architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How information flows through the architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpretation-at-a-single-spatial-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation at a single spatial point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-helps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this helps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>4 - Neural Operators with localized integral and differential kernels</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>A neural operator learns a map between functions, not just between arrays. Formally, if the input is a function</p>
+<div class="arithmatex">\[
+a : D \to \mathbb{R}^{c_{\mathrm{in}}},
+\]</div>
+<p>and the output is another function</p>
+<div class="arithmatex">\[
+u : D \to \mathbb{R}^{c_{\mathrm{out}}},
+\]</div>
+<p>then the goal is to learn an operator</p>
+<div class="arithmatex">\[
+\mathcal{G} : a \mapsto u.
+\]</div>
+<p>This matters for PDEs because the same physical field may be sampled on different grids. A good neural operator should still make sense when the sampling changes.</p>
+<p>Fourier Neural Operators (FNOs) are excellent neural operators because they work in function space and can be evaluated at different resolutions. But their main nontrivial branch is global: it mixes information through Fourier modes over the whole domain.
+Meanwhile, ordinary CNNs have strong locality bias, which is very useful for PDEs, but a standard discrete convolution is tied to the training grid and does not naturally define the same operator when the grid changes.</p>
+<p>The paper's central contribution is to keep the resolution-agnostic operator-learning viewpoint of FNO while adding two genuinely local branches:</p>
+<ol>
+<li>a differential branch, which behaves like a learned finite-difference stencil in the continuous limit,</li>
+<li>a local integral branch, which keeps a fixed physical receptive field as the mesh is refined.</li>
+</ol>
+<h3 id="working-mechanism-for-fno">Working Mechanism for FNO</h3>
+<p>Suppose the hidden feature field at layer <span class="arithmatex">\(\ell\)</span> is</p>
+<div class="arithmatex">\[
+v_\ell : D \to \mathbb{R}^m.
+\]</div>
+<p>An FNO block combines a global spectral convolution with a pointwise linear map, and can be written as</p>
+<div class="arithmatex">\[
+v_{\ell+1}(x) = \sigma\!\left( \underbrace{W_\ell v_\ell(x)}_{\text{pointwise branch}} + \underbrace{\mathcal{F}^{-1}\!\big(R_\ell(k)\,\mathcal{F}v_\ell(k)\big)(x)}_{\text{Fourier branch}} \right).
+\]</div>
+<p>Here, <span class="arithmatex">\(\mathcal{F}\)</span> denotes the Fourier transform, or the Fourier series transform on a periodic domain, <span class="arithmatex">\(R_\ell(k)\)</span> is a trainable matrix for each retained Fourier mode <span class="arithmatex">\(k\)</span>, <span class="arithmatex">\(W_\ell\)</span> is a pointwise linear map acting independently at each spatial location, and <span class="arithmatex">\(\sigma\)</span> is a nonlinearity such as GELU. Starting from <span class="arithmatex">\(v_\ell\)</span>, the FNO block transforms the feature field into Fourier space, applies the learned mode-wise matrices <span class="arithmatex">\(R_\ell(k)\)</span> to the retained coefficients, maps the result back to physical space via <span class="arithmatex">\(\mathcal{F}^{-1}\)</span>, combines it with the pointwise term <span class="arithmatex">\(W_\ell v_\ell\)</span>, and then applies <span class="arithmatex">\(\sigma\)</span>. Because the Fourier branch is global, the resulting representation at any location <span class="arithmatex">\(x\)</span> depends on information from across the entire domain, which makes FNOs particularly effective for modeling long-range interactions and learning operators that transfer across resolutions.</p>
+<p>But FNO can still miss important details, since a global spectral representation is often not the most natural way to capture strongly local effects such as derivatives and stencil-based interactions, sharp local fronts, localized kernels, or fine-scale neighborhood structure on irregular meshes. Standard discrete convolutions, on the other hand, are naturally local and therefore effective at capturing neighborhood-level interactions and fine-scale patterns. Yet they cannot be added with the FNO architecture directly without sacrificing key aspects of its operator-learning formulation. The next section makes this precise by showing why an ordinary discrete convolution is not a sufficient remedy.</p>
+<h2 id="why-an-ordinary-discrete-convolution-is-not-enough">Why an ordinary discrete convolution is not enough</h2>
+<p>This is the most important mathematical observation in the paper. Consider a one-dimensional uniform grid, with uniform distance <span class="arithmatex">\(h\)</span> between grid points. In other words, if the grid points are denoted by <span class="arithmatex">\(x_j\)</span>, then</p>
+<div class="arithmatex">\[
+x_{j+1}-x_j = h
+\]</div>
+<p>for every <span class="arithmatex">\(j\)</span>. If we apply a stride-1 convolution with an odd number <span class="arithmatex">\(S\)</span> of kernel entries, so the kernel is centered at the current grid point. To describe the locations of the kernel entries relative to the current point <span class="arithmatex">\(y\)</span>, define</p>
+<div class="arithmatex">\[
+z_i = h\left(i-1-\frac{S-1}{2}\right), \qquad i=1,\dots,S.
+\]</div>
+<p>For example, if the kernel width <span class="arithmatex">\(S=5\)</span>, then</p>
+<div class="arithmatex">\[
+z_i = h\left(i-1-\frac{5-1}{2}\right)=h(i-3), \qquad i=1,\dots,5.
+\]</div>
+<p>So the five offsets are</p>
+<div class="arithmatex">\[
+z_1=-2h,\qquad z_2=-h,\qquad z_3=0,\qquad z_4=h,\qquad z_5=2h.
+\]</div>
+<p>This means that if the kernel is centered at a point <span class="arithmatex">\(y\)</span>, then it samples the input at the five locations</p>
+<div class="arithmatex">\[
+y-2h,\qquad y-h,\qquad y,\qquad y+h,\qquad y+2h.
+\]</div>
+<p>Then the discrete convolution at a grid point <span class="arithmatex">\(y\)</span> is</p>
+<div class="arithmatex">\[
+\mathrm{Conv}_K[v]\,(y) = \sum_{i=1}^{5} K_i\, v(y+z_i).
+\]</div>
+<p>which can be written explicitly as</p>
+<div class="arithmatex">\[
+\mathrm{Conv}_K[v]\,(y) =
+K_1v(y-2h)+K_2v(y-h)+K_3v(y)+K_4v(y+h)+K_5v(y+2h).
+\]</div>
+<p>Here, <span class="arithmatex">\(v\)</span> denotes the input function (or feature field), and <span class="arithmatex">\(v(y+z_i)\)</span> means the value of <span class="arithmatex">\(v\)</span> evaluated at the spatial location <span class="arithmatex">\(y+z_i\)</span>.</p>
+<p><strong>Major issue.</strong> As the mesh is refined, the grid spacing <span class="arithmatex">\(h\)</span> decreases. For a fixed kernel width <span class="arithmatex">\(S\)</span>, the offsets</p>
+<div class="arithmatex">\[
+z_i = h\left(i-1-\frac{S-1}{2}\right)
+\]</div>
+<p>all shrink to zero as <span class="arithmatex">\(h\to 0\)</span>. Thus, although the number of grid points in the domain increases, the physical neighborhood sampled by the kernel around a point <span class="arithmatex">\(y\)</span> becomes smaller and smaller, so the stencil effectively collapses onto the single point <span class="arithmatex">\(y\)</span>.
+So for a continuous function <span class="arithmatex">\(v\)</span>,</p>
+<div class="arithmatex">\[
+v(y+z_i) \to v(y).
+\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[
+\mathrm{Conv}_K[v]\,(y)
+= \sum_{i=1}^S K_i\, v(y+z_i)
+\longrightarrow
+\left(\sum_{i=1}^S K_i\right) v(y).
+\]</div>
+<p>This is only a pointwise linear map. The physical receptive field has collapsed to a point. For example, a <span class="arithmatex">\(3\times 3\)</span> kernel is local in pixels, but not necessarily local in physical space. On a finer grid, those same 3 pixels cover a much smaller physical neighborhood. So a standard CNN kernel does not represent one fixed local physical operator across resolutions.</p>
+<p>This is why an ordinary discrete convolution is not consistent as a neural operator in function space.</p>
+<p><strong>Suggestions.</strong> To obtain a meaningful local operator in the continuum limit, the construction should act directly in physical space rather than in pixel or grid space, while remaining well behaved under mesh refinement. Motivated by this, the paper proposes two related directions: a local integral-operator viewpoint, which describes nearby interactions through spatially localized kernels, and a differential-operator viewpoint, which connects these local interactions to derivatives in the continuum limit. These ideas are developed in the next section.</p>
+<h2 id="local-integral-kernels-keeping-the-receptive-field-physically-fixed">Local integral kernels: keeping the receptive field physically fixed</h2>
+<p>To incorporate locality into operator learning, we need a notion of interaction that is tied to physical space rather than to a particular discretization. This motivates a continuum formulation in which locality is described directly through kernels acting over neighborhoods in the underlying domain. That viewpoint leads naturally to local integral operators.</p>
+<h3 id="a-continuous-local-averaging-operator">A continuous local averaging operator</h3>
+<p>We now want to describe a local operator: an operation that updates the value at a point <span class="arithmatex">\(y\)</span> by looking only at the input function in a neighborhood around <span class="arithmatex">\(y\)</span>. A very general way to write such an operator is</p>
+<div class="arithmatex">\[
+(\mathcal{G}_k v)(y) = \int_{U(y)} k(x,y)\,v(x)\,dx,
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(v(x)\)</span> is the input function,</li>
+<li><span class="arithmatex">\(U(y)\)</span> is a local neighborhood around the point <span class="arithmatex">\(y\)</span>,</li>
+<li><span class="arithmatex">\(k(x,y)\)</span> is a kernel that tells us how much the value at <span class="arithmatex">\(x\)</span> contributes to the output at <span class="arithmatex">\(y\)</span>.</li>
+</ul>
+<p>So, to compute the output at <span class="arithmatex">\(y\)</span>, we look at all nearby points <span class="arithmatex">\(x \in U(y)\)</span>, weight each value <span class="arithmatex">\(v(x)\)</span> by <span class="arithmatex">\(k(x,y)\)</span>, and integrate. Since in practice we only know the function on a discrete mesh, this integral is approximated by a sum:</p>
+<div class="arithmatex">\[
+(\mathcal{G}_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
+\]</div>
+<p>where <span class="arithmatex">\(x_j\)</span> are the mesh points and <span class="arithmatex">\(q_j\)</span> are quadrature weights that account for the local cell size or area around each point.</p>
+<h3 id="translation-invariance">Translation invariance</h3>
+<p>We now specialize the general local integral operator to the case where the same local rule should be applied at every point in the domain. On a flat domain, this means that the interaction between two points should depend only on their relative displacement, not on their absolute locations.</p>
+<p>For this reason, we choose the kernel in the form</p>
+<div class="arithmatex">\[
+k(x,y)=\kappa(x-y).
+\]</div>
+<p>Here, <span class="arithmatex">\(\kappa(x-y)\)</span> depends only on the relative displacement between <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span>, rather than on their absolute positions. This means that the same local weighting rule is used everywhere in the domain, which is exactly the defining idea of convolution: the interaction depends only on offset, not on location. With this choice, the local operator becomes</p>
+<div class="arithmatex">\[
+(\mathcal{I} v)(y)=\int \kappa(x-y)\,v(x)\,dx.
+\]</div>
+<p>So, to compute the output at <span class="arithmatex">\(y\)</span>, we gather information from nearby points <span class="arithmatex">\(x\)</span>, weight each value <span class="arithmatex">\(v(x)\)</span> according to its offset from current location <span class="arithmatex">\(y\)</span>, and integrate. On a mesh, this is approximated by</p>
+<div class="arithmatex">\[
+(\mathcal{I} v)(y)\approx \sum_j \kappa(x_j-y)\,v(x_j)\,q_j,
+\]</div>
+<p>where <span class="arithmatex">\(x_j\)</span> are the mesh points and <span class="arithmatex">\(q_j\)</span> are quadrature weights. The key point is that <span class="arithmatex">\(\kappa\)</span> is defined as a continuous function of physical offset:</p>
+<div class="arithmatex">\[
+\mathrm{supp}(\kappa)\subset B_r(0)
+\]</div>
+<p>means that <span class="arithmatex">\(\kappa\)</span> is zero outside the ball of radius <span class="arithmatex">\(r\)</span>. Therefore, only points within distance <span class="arithmatex">\(r\)</span> of the center are used, so the operator keeps the same physical neighborhood even as the grid is refined. This is exactly what distinguishes it from an ordinary CNN kernel.</p>
+<p>Therefore, as the grid becomes finer, this construction converges to a genuine local integral operator rather than collapsing to a pointwise map.</p>
+<h3 id="how-the-kernel-is-parameterized">How the kernel is parameterized</h3>
+<p>The paper uses a basis expansion</p>
+<div class="arithmatex">\[
+\kappa(\delta) = \sum_{\ell=1}^L \theta^{(\ell)} \kappa^{(\ell)}(\delta),
+\]</div>
+<p>where <span class="arithmatex">\(\kappa^{(\ell)}\)</span> are fixed basis functions (for example piecewise-linear hat functions), and the trainable parameters are the coefficients <span class="arithmatex">\(\theta^{(\ell)}\)</span>. Then the layer becomes</p>
+<div class="arithmatex">\[
+(\mathcal{I} v)(y_i) =
+\sum_{\ell=1}^L \theta^{(\ell)}
+\sum_{j=1}^m \kappa^{(\ell)}(x_j-y_i)v(x_j) q_j,
+\qquad
+K^{(\ell)}_{ij} = \kappa^{(\ell)}(x_j-y_i).
+\]</div>
+<p>Because the kernel <span class="arithmatex">\(\kappa\)</span> is supported only in a small neighborhood, <span class="arithmatex">\(\kappa(x_i,x_j)\)</span> is nonzero only when <span class="arithmatex">\(x_i\)</span> and <span class="arithmatex">\(x_j\)</span> are close. As a result, most entries of the matrix <span class="arithmatex">\(K_{ij}\)</span> are zero, so the matrix is sparse.</p>
+<h2 id="differential-kernels-from-convolution-to-derivatives">Differential kernels: from convolution to derivatives</h2>
+<p>Local integral kernels describe interactions over a fixed physical neighborhood, but many PDEs involve a more specific class of local operators: derivatives. Gradients, divergences, and Laplacians measure how a field changes in space, so a useful local neural-operator layer should be able to recover derivative-like behavior in the continuum limit. The goal of this section is to make that connection precise.</p>
+<p>A basic example is the centered finite difference</p>
+<div class="arithmatex">\[
+\frac{v(y+h)-v(y-h)}{2h} \approx v'(y),
+\]</div>
+<p>which may be viewed as a local stencil with weights <span class="arithmatex">\([-1,0,1]\)</span> scaled by <span class="arithmatex">\(1/(2h)\)</span>, that cancel constant functions and isolate first-order variation. The main idea in the paper is to extend this principle from hand-designed finite-difference formulas to learned local operators: instead of fixing the stencil coefficients in advance, one learns them from data while enforcing the structural constraints required for a meaningful differential limit as the mesh is refined.</p>
+<h3 id="the-key-construction">The key construction</h3>
+<p>To obtain a local operator that behaves like a derivative rather than an averaging rule, we start from a centered stencil and impose a zero-sum condition on its weights. Let</p>
+<div class="arithmatex">\[
+\sum_{i=1}^S a_i = 0,
+\]</div>
+<p>and consider the operator</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y)=\frac{1}{h}\sum_{i=1}^S a_i\,v(y+z_i),
+\]</div>
+<p>where, as in the previous section, the offsets <span class="arithmatex">\(z_i\)</span> describe the local stencil around <span class="arithmatex">\(y\)</span>. The factor <span class="arithmatex">\(1/h\)</span> gives the correct first-order scaling, while the condition</p>
+<div class="arithmatex">\[
+\sum_{i=1}^S a_i = 0
+\]</div>
+<p>removes the zeroth-order contribution. In particular, if <span class="arithmatex">\(v\)</span> is constant, then <span class="arithmatex">\((\mathcal{D}_h v)(y)=0\)</span>, so the operator does not act like local averaging.</p>
+<p>This cancellation is the essential mechanism that makes the stencil sensitive to variation in <span class="arithmatex">\(v\)</span>. As the mesh is refined, the operator therefore captures local changes of the field and can converge to a spatial derivative in the continuum limit.</p>
+<h3 id="why-the-derivative-appears-scalar-1d-derivation">Why the derivative appears: scalar 1D derivation</h3>
+<p>To see why <span class="arithmatex">\(\mathcal{D}_h\)</span> converges to a derivative, assume that <span class="arithmatex">\(v\)</span> is smooth and expand <span class="arithmatex">\(v(y+z_i)\)</span> around <span class="arithmatex">\(y\)</span>. By Taylor's theorem,</p>
+<div class="arithmatex">\[
+v(y+z_i) = v(y)+z_i v'(y)+\frac12 z_i^2 v''(\xi_i),
+\]</div>
+<p>where <span class="arithmatex">\(\xi_i\)</span> lies between <span class="arithmatex">\(y\)</span> and <span class="arithmatex">\(y+z_i\)</span>.</p>
+<p>Substituting this into</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y)=\frac{1}{h}\sum_{i=1}^S a_i\,v(y+z_i),
+\]</div>
+<p>we obtain</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y) = \frac{1}{h}\sum_{i=1}^S a_i \left( v(y)+z_i v'(y)+\frac12 z_i^2 v''(\xi_i) \right)
+\]</div>
+<p>and therefore</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y) = \frac{v(y)}{h}\sum_{i=1}^S a_i + \frac{v'(y)}{h}\sum_{i=1}^S a_i z_i + \frac{1}{2h}\sum_{i=1}^S a_i z_i^2 v''(\xi_i).
+\]</div>
+<p>We now examine these three terms.</p>
+<p><strong>Zeroth-order term.</strong> By construction,</p>
+<div class="arithmatex">\[
+\sum_{i=1}^S a_i = 0,
+\]</div>
+<p>so the first term vanishes:</p>
+<div class="arithmatex">\[
+\frac{v(y)}{h}\sum_{i=1}^S a_i = 0.
+\]</div>
+<p><strong>First-order term.</strong> Recall that the stencil offsets satisfy</p>
+<div class="arithmatex">\[
+z_i = h\left(i-1-\frac{S-1}{2}\right).
+\]</div>
+<p>Define the dimensionless offsets</p>
+<div class="arithmatex">\[
+\alpha_i := i-1-\frac{S-1}{2},
+\qquad\text{so that}\qquad
+z_i = h\alpha_i.
+\]</div>
+<p>Then</p>
+<div class="arithmatex">\[
+\frac{v'(y)}{h}\sum_{i=1}^S a_i z_i = \frac{v'(y)}{h}\sum_{i=1}^S a_i (h\alpha_i) = v'(y)\sum_{i=1}^S a_i \alpha_i.
+\]</div>
+<p>Thus the first-order contribution is a constant multiple of <span class="arithmatex">\(v'(y)\)</span>, independent of <span class="arithmatex">\(h\)</span>.</p>
+<p><strong>Remainder term.</strong> Using again <span class="arithmatex">\(z_i=h\alpha_i\)</span>, we have</p>
+<div class="arithmatex">\[
+\frac{1}{2h}\sum_{i=1}^S a_i z_i^2 v''(\xi_i) = \frac{1}{2h}\sum_{i=1}^S a_i h^2\alpha_i^2 v''(\xi_i) = \frac{h}{2}\sum_{i=1}^S a_i \alpha_i^2 v''(\xi_i).
+\]</div>
+<p>If <span class="arithmatex">\(v''\)</span> is bounded, this term is <span class="arithmatex">\(O(h)\)</span>, and therefore vanishes as <span class="arithmatex">\(h\to 0\)</span>.</p>
+<p>Combining the three parts gives</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y) = \left(\sum_{i=1}^S a_i \alpha_i\right)v'(y) + O(h).
+\]</div>
+<p>Hence, as <span class="arithmatex">\(h\to 0\)</span>,</p>
+<div class="arithmatex">\[
+(\mathcal{D}_h v)(y)\to c\,v'(y),
+\qquad
+c:=\sum_{i=1}^S a_i \alpha_i.
+\]</div>
+<p>So the learned centered stencil converges to a first-order differential operator in the continuum limit.</p>
+<h3 id="extension-to-multiple-dimensions-and-channels">Extension to multiple dimensions and channels</h3>
+<p>The same idea extends directly to vector-valued fields on <span class="arithmatex">\(\mathbb{R}^d\)</span>. Let</p>
+<div class="arithmatex">\[
+v=(v_1,\dots,v_m):D\to\mathbb{R}^m.
+\]</div>
+<p>Applying the Taylor expansion componentwise shows that a centered local stencil with the appropriate first-moment scaling converges to a linear combination of first derivatives of the components of <span class="arithmatex">\(v\)</span>. In the limit <span class="arithmatex">\(h\to 0\)</span>, one obtains an operator of the form</p>
+<div class="arithmatex">\[
+\mathcal{D}_h v(y)\;\longrightarrow\;\sum_{j=1}^m \nabla v_j(y)\cdot b_j,
+\]</div>
+<p>where each <span class="arithmatex">\(b_j\in\mathbb{R}^d\)</span> is determined by the learned stencil coefficients and encodes a direction in physical space.</p>
+<p>Thus, in several spatial dimensions and across multiple channels, the learned local kernel still converges to a first-order differential operator. The scalar one-dimensional derivation above is therefore the simplest instance of a more general phenomenon: learned centered stencils recover directional derivative structure in the continuum limit.</p>
+<h3 id="the-moment-matching-viewpoint">The moment-matching viewpoint</h3>
+<p>The appendix gives a more general expansion for local kernels. For a sufficiently smooth function <span class="arithmatex">\(v\)</span>,</p>
+<div class="arithmatex">\[
+\sum_{x\in B_h(y)\cap D_h} k(x,y)\,v(x) = v(y)\sum_x k(x,y) + \nabla v(y)\cdot \sum_x k(x,y)(x-y) + O(h).
+\]</div>
+<p>This formula separates the local action of the kernel into a zeroth-order part and a first-order part. The zeroth-order term is controlled by the total mass of the kernel,</p>
+<div class="arithmatex">\[
+\sum_x k(x,y),
+\]</div>
+<p>while the first-order term is controlled by its first moment,</p>
+<div class="arithmatex">\[
+\sum_x k(x,y)(x-y).
+\]</div>
+<p>Therefore, if we want the continuum limit to have the form</p>
+<div class="arithmatex">\[
+c\,v(y)+\nabla v(y)\cdot b,
+\]</div>
+<p>then the kernel must satisfy the moment conditions</p>
+<div class="arithmatex">\[
+\sum_x k(x,y)=c,
+\qquad
+\sum_x k(x,y)(x-y)=b.
+\]</div>
+<p>For a purely differential operator, one sets</p>
+<div class="arithmatex">\[
+c=0,
+\]</div>
+<p>so that the zeroth-order contribution vanishes and only the first-order term remains. This is the abstract reason the centered differential kernel works: it cancels local averaging while retaining the leading derivative term.</p>
+<h3 id="practical-interpretation">Practical interpretation</h3>
+<p>This branch is especially useful when the target operator is itself differential, or when the relevant interactions are strongly local in physical space. In such settings, the differential kernel provides an inductive bias that is better aligned with the underlying PDE structure than a purely global spectral representation.</p>
+<h2 id="model-architecture">Model Architecture</h2>
+<p>The paper extends each FNO block by adding local operator branches to the usual global spectral update. A convenient summary of one layer is</p>
+<div class="arithmatex">\[
+v_{\ell+1}(x) = \sigma\!\left( \underbrace{\mathcal{W}_\ell v_\ell(x)}_{\text{pointwise branch}} + \underbrace{\mathcal{K}^{\mathrm{Fourier}}_\ell v_\ell(x)}_{\text{global Fourier branch}} + \underbrace{\mathcal{I}_\ell v_\ell(x)}_{\text{local integral branch}} + \underbrace{\mathcal{D}_\ell v_\ell(x)}_{\text{local differential branch}} \right).
+\]</div>
+<p>Thus, each block combines four complementary mechanisms: pointwise channel mixing, global information exchange through Fourier modes, local averaging over a fixed physical neighborhood, and local derivative-like interactions. Depending on the experiment, some of these branches may be omitted by setting the corresponding term to zero.</p>
+<h3 id="what-each-branch-contributes">What each branch contributes</h3>
+<p>Each term in the block plays a distinct role:</p>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pointwise <span class="arithmatex">\(\mathcal{W}_\ell\)</span></td>
+<td>Mixes channels independently at each spatial location, without coupling nearby points.</td>
+</tr>
+<tr>
+<td>Fourier <span class="arithmatex">\(\mathcal{K}^{\mathrm{Fourier}}_\ell\)</span></td>
+<td>Provides global communication across the entire domain through the spectral representation.</td>
+</tr>
+<tr>
+<td>Local integral <span class="arithmatex">\(\mathcal{I}_\ell\)</span></td>
+<td>Aggregates information from a fixed neighborhood in physical space.</td>
+</tr>
+<tr>
+<td>Differential <span class="arithmatex">\(\mathcal{D}_\ell\)</span></td>
+<td>Captures local variation and derivative-like structure.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-information-flows-through-the-architecture">How information flows through the architecture</h2>
+<p>Suppose the input is a PDE state, such as vorticity, pressure, geopotential height, or velocity, represented as a function</p>
+<div class="arithmatex">\[
+a:D\to\mathbb{R}^{c_{\mathrm{in}}}.
+\]</div>
+<p>As in FNO, the network first lifts this input pointwise into a latent feature field</p>
+<div class="arithmatex">\[
+v_0(x)=\mathcal{P}(a(x)),
+\qquad
+v_0(x)\in\mathbb{R}^m,
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{P}\)</span> is typically a pointwise linear map. The purpose of this lifting step is to convert the raw physical variables into a richer representation on which the operator blocks act.</p>
+<p>Each subsequent layer updates the latent field by combining the four branches introduced earlier:</p>
+<div class="arithmatex">\[
+v_{\ell+1}(x) = \sigma\!\left( \mathcal{W}_\ell v_\ell(x) + \mathcal{K}_\ell^{\mathrm{Fourier}} v_\ell(x) + \mathcal{I}_\ell v_\ell(x) + \mathcal{D}_\ell v_\ell(x) \right).
+\]</div>
+<p>The pointwise branch <span class="arithmatex">\(\mathcal{W}_\ell\)</span> mixes channels at the same spatial location. The Fourier branch <span class="arithmatex">\(\mathcal{K}_\ell^{\mathrm{Fourier}}\)</span> provides global communication by transforming <span class="arithmatex">\(v_\ell\)</span> to Fourier space, applying learned mode-wise matrices to the retained coefficients, and transforming back to physical space. The local integral branch <span class="arithmatex">\(\mathcal{I}_\ell\)</span> aggregates information from a neighborhood whose size is fixed in physical space, while the differential branch <span class="arithmatex">\(\mathcal{D}_\ell\)</span> applies a centered local stencil that captures derivative-like structure.</p>
+<p>After these branch outputs are computed, they are added together and passed through the nonlinearity <span class="arithmatex">\(\sigma\)</span>. Stacking many such layers allows the model to build a nonlinear operator from repeated combinations of global spectral interactions, local neighborhood aggregation, local derivative information, and pointwise channel mixing.</p>
+<p>After <span class="arithmatex">\(L\)</span> layers, the final latent field is projected back to the target variables:</p>
+<div class="arithmatex">\[
+u(x)=\mathcal{Q}\bigl(v_L(x)\bigr),
+\]</div>
+<p>where <span class="arithmatex">\(\mathcal{Q}\)</span> is again typically a pointwise map. In this way, the network learns the operator</p>
+<div class="arithmatex">\[
+a\mapsto u
+\]</div>
+<p>by repeatedly combining global and local mechanisms at every layer.</p>
+<h3 id="interpretation-at-a-single-spatial-point">Interpretation at a single spatial point</h3>
+<p>It is useful to interpret one update at a fixed point <span class="arithmatex">\(y\)</span>. At that point, the Fourier branch brings in information from the entire domain, the local integral branch aggregates values from a neighborhood around <span class="arithmatex">\(y\)</span>, the differential branch measures how the feature field changes near <span class="arithmatex">\(y\)</span>, and the pointwise branch simply remixes the channels already present at <span class="arithmatex">\(y\)</span>. Thus, each update combines four different kinds of information:</p>
+<div class="arithmatex">\[
+\text{global context} \;+\; \text{local neighborhood information} \;+\; \text{local derivative structure} \;+\; \text{pointwise channel mixing}
+\]</div>
+<p>This is the main architectural idea of the paper: retain the global operator-learning strength of FNO while enriching each layer with local mechanisms that remain meaningful in the continuum limit.</p>
+<h2 id="why-this-helps">Why this helps</h2>
+<p>The benefit of this architecture is that many PDEs involve both global and local structure, so a hybrid model is often a better match than a purely global one. The Fourier branch captures long-range interactions across the domain, while the local branches preserve nearby structure that is often crucial in PDEs. In particular, the differential branch provides a natural inductive bias for operators involving derivatives, since learned centered stencils are closely aligned with how classical numerical methods approximate gradients, divergences, and Laplacians. The local integral branch, meanwhile, preserves a fixed physical receptive field as the mesh changes, so it retains locality without losing the resolution-transfer property of neural operators. Because these local kernels depend on relative position, they also inherit the parameter sharing and translation-equivariant bias associated with convolution. Finally, the same framework extends beyond regular Cartesian grids to spheres and irregular meshes, which is essential for many scientific applications where the underlying geometry is non-Euclidean.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p><strong>Main idea.</strong> The central insight of the paper is that a local operation should remain local in physical space when the discretization changes. A standard discrete convolution does not satisfy this requirement. The paper resolves this in two principled ways. First, by centering and scaling a local stencil, it constructs a learned differential operator whose limit is derivative-like. Second, by defining the kernel as a continuous function of physical offset, it obtains a learned local integral operator whose receptive field remains fixed in physical space across resolutions.</p>
+<p><strong>Architectural contribution.</strong> These local constructions are then combined with the usual FNO/Spherical FNO global branch. The resulting architecture brings together four complementary ingredients: global communication through Fourier layers, local neighborhood aggregation through integral kernels, local derivative modeling through differential kernels, and pointwise channel mixing. This makes the model a better match for many PDEs, which often involve both long-range structure and strongly local interactions. In particular, the differential branch provides an inductive bias well aligned with operators containing gradients, divergences, or Laplacians, while the local integral branch preserves locality without sacrificing the cross-resolution viewpoint of neural operators.</p>
+<p><strong>Important caveats.</strong> The paper also makes clear that these advantages do not remove all numerical difficulties. Although the construction is discretization-agnostic in principle, performance can still depend strongly on the training resolution if the data does not adequately resolve the relevant local physics. Differential layers can accumulate discretization error when stacked repeatedly, especially at insufficient resolution, in the Darcy super-resolution experiments in the paper, the strongest variant used a differential layer only in the first block. Boundary effects also do not disappear automatically, particularly in non-periodic settings where FFT-based processing is less natural. Finally, the cost of the local integral branch depends on the size of its physical support: as that support covers more neighbors on finer grids, computation increases, even if it remains more efficient than generic graph-based operator layers.</p>
+<p><strong>Final takeaway.</strong> Overall, the contribution of the paper is to enrich the neural-operator framework with local mechanisms that remain meaningful in the continuum limit. The resulting model is not simply FNO with extra local layers. It is a mathematically motivated way to make locality compatible with operator learning. That is why it can improve on both purely global spectral models and standard grid-tied convolutions: it matches the structure of many PDE operators more faithfully.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Liu-Schiaffini, M., Berner, J., Bonev, B., Kurth, T., Azizzadenesheli, K., &amp; Anandkumar, A. (2024). Neural operators with localized integral and differential kernels. arXiv preprint arXiv:2402.16845.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
