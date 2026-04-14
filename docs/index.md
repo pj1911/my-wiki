@@ -25,10 +25,10 @@ Hey all, I am Prajwal Chauhan a PhD student at NYU Tandon school of Engineering.
 - **Backpressure-based Mean-field Type Game for Scheduling in Multi-Hop Wireless Sensor Networks** — accepted to EUSIPCO 2025.  
   [arXiv:2506.03059](https://arxiv.org/abs/2506.03059)
 
-**Tools I reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims. I’m a “keep it simple, measure it, ship it” person.
+**Tools I reach for:** python (pytorch, jupyter, matplotlib), docker, git, and SUMO for sims.
 
-**Say Hi / Follow along:**  
-github: [**pj1911**](https://github.com/pj1911) · linkedin: [**prajwalchauhan**](https://www.linkedin.com/in/prajwal-chauhan-81b86b204) · email: [pc3377@nyu.edu](mailto:pc3377@nyu.edu)
+**Say Hi or Follow along:**  
+GitHub: [**pj1911**](https://github.com/pj1911) · LinkedIn: [**prajwalchauhan**](https://www.linkedin.com/in/prajwal-chauhan-81b86b204) · Email: [pc3377@nyu.edu](mailto:pc3377@nyu.edu)  · CV: [**Prajwal_CV**](Prajwal_Chauhan_resume_DS.pdf)
 
 
 
