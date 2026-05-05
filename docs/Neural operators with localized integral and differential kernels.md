@@ -142,7 +142,7 @@ where:
 So, to compute the output at \(y\), we look at all nearby points \(x \in U(y)\), weight each value \(v(x)\) by \(k(x,y)\), and integrate. Since in practice we only know the function on a discrete mesh, this integral is approximated by a sum:
 
 $$
-(\cG_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
+(\mathcal{G}_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
 $$
 
 where \(D_h\) is the discrete mesh of the domain \(D\) with mesh width \(h\), \(x_j\in D_h\) are the mesh points, \(U(y)\) is the local neighborhood around the output point \(y\), and \(q_j\) are quadrature weights that account for the local cell size or area around each point.
@@ -253,7 +253,7 @@ $$
 Then the discrete local integral layer becomes
 
 $$
-(\cI v)(y_i) \approx \sum_{\ell=1}^L \sum_{j=1}^m \theta^{(\ell)} K_{ij}^{(\ell)} v(x_j)q_j.
+(\mathcal{I} v)(y_i) \approx \sum_{\ell=1}^L \sum_{j=1}^m \theta^{(\ell)} K_{ij}^{(\ell)} v(x_j)q_j.
 $$
 
 The matrices \(K^{(\ell)}\) are not learned directly; they are obtained by evaluating the fixed hat functions at the offsets \(x_j-y_i\). Training only updates the coefficients \(\theta^{(\ell)}\). If the mesh resolution changes, the matrices \(K^{(\ell)}\) are recomputed from the new offsets, while the same learned coefficients \(\theta^{(\ell)}\) define the continuous kernel \(\kappa\).
