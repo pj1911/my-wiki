@@ -142,10 +142,10 @@ where:
 So, to compute the output at \(y\), we look at all nearby points \(x \in U(y)\), weight each value \(v(x)\) by \(k(x,y)\), and integrate. Since in practice we only know the function on a discrete mesh, this integral is approximated by a sum:
 
 $$
-(\mathcal{G}_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
+(\cG_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
 $$
 
-where \(x_j\) are the mesh points and \(q_j\) are quadrature weights that account for the local cell size or area around each point.
+where \(D_h\) is the discrete mesh of the domain \(D\) with mesh width \(h\), \(x_j\in D_h\) are the mesh points, \(U(y)\) is the local neighborhood around the output point \(y\), and \(q_j\) are quadrature weights that account for the local cell size or area around each point.
 
 ### Translation invariance
 
@@ -181,23 +181,82 @@ Therefore, as the grid becomes finer, this construction converges to a genuine l
 
 ### How the kernel is parameterized
 
-The paper uses a basis expansion
+It remains to specify how the continuous kernel \(\kappa\) is represented with finitely many trainable parameters. The paper uses a DISCO (discrete continuous convolution) parameterization, where \(\kappa\) is written as a linear combination of fixed basis functions:
 
 $$
-\kappa(\delta) = \sum_{\ell=1}^L \theta^{(\ell)} \kappa^{(\ell)}(\delta),
+\kappa(\delta) = \sum_{\ell=1}^L \theta^{(\ell)}\kappa^{(\ell)}(\delta).
 $$
 
-where \(\kappa^{(\ell)}\) are fixed basis functions (for example piecewise-linear hat functions), and the trainable parameters are the coefficients \(\theta^{(\ell)}\). Then the layer becomes
+The functions \(\kappa^{(\ell)}\) are fixed in advance, and the coefficients \(\theta^{(\ell)}\) are the learned parameters.
+
+In the paper's 1D DISCO construction, the finite support interval
 
 $$
-(\mathcal{I} v)(y_i) =
-\sum_{\ell=1}^L \theta^{(\ell)}
-\sum_{j=1}^m \kappa^{(\ell)}(x_j-y_i)v(x_j) q_j,
-\qquad
-K^{(\ell)}_{ij} = \kappa^{(\ell)}(x_j-y_i).
+[0,x_{\mathrm{cutoff}}]
 $$
 
-Because the kernel \(\kappa\) is supported only in a small neighborhood, \(\kappa(x_i,x_j)\) is nonzero only when \(x_i\) and \(x_j\) are close. As a result, most entries of the matrix \(K_{ij}\) are zero, so the matrix is sparse.
+specifies the allowed range of the kernel argument. Since the discretized
+convolution uses terms of the form
+
+$$
+\kappa(x_j - y_i),
+$$
+
+this means that the kernel is nonzero only when the relative offset
+
+$$
+x_j - y_i \in [0,x_{\mathrm{cutoff}}].
+$$
+
+If \(x_j-y_i\) lies outside this interval, then
+
+$$
+\kappa(x_j-y_i)=0,
+$$
+
+so the input point \(x_j\) does not contribute to the output at \(y_i\).
+
+They then place \(L\) equidistant collocation points
+
+$$
+\xi^{(\ell)}\in [0,x_{\mathrm{cutoff}}], \qquad \ell=1,\ldots,L,
+$$
+
+and defines one piecewise-linear hat function around each collocation point. The \(\ell\)-th hat function is
+
+$$
+\kappa^{(\ell)}(\delta) =
+\begin{cases}
+\dfrac{\delta-\xi^{(\ell-1)}}{\xi^{(\ell)}-\xi^{(\ell-1)}},
+& \xi^{(\ell-1)}\le \delta<\xi^{(\ell)}, \\[1.2em]
+\dfrac{\xi^{(\ell+1)}-\delta}{\xi^{(\ell+1)}-\xi^{(\ell)}},
+& \xi^{(\ell)}\le \delta<\xi^{(\ell+1)}, \\[1.2em]
+0,
+& \text{else},
+\end{cases}
+$$
+
+with suitable boundary points \(\xi^{(0)}\) and \(\xi^{(L+1)}\). Thus \(\kappa^{(\ell)}\) peaks at \(\xi^{(\ell)}\), is supported only near its neighboring collocation points, and is linear on each side of the peak. It has no jump in value, but its slope changes at the collocation points. These hat functions are used because they give a simple piecewise-linear interpolation of the continuous kernel from finitely many learned coefficients.
+
+For the shifted offset
+
+$$
+\delta_{ij}=x_j-y_i,
+$$
+
+define the fixed matrices
+
+$$
+K_{ij}^{(\ell)} = \kappa^{(\ell)}(x_j - y_i).
+$$
+
+Then the discrete local integral layer becomes
+
+$$
+(\cI v)(y_i) \approx \sum_{\ell=1}^L \sum_{j=1}^m \theta^{(\ell)} K_{ij}^{(\ell)} v(x_j)q_j.
+$$
+
+The matrices \(K^{(\ell)}\) are not learned directly; they are obtained by evaluating the fixed hat functions at the offsets \(x_j-y_i\). Training only updates the coefficients \(\theta^{(\ell)}\). If the mesh resolution changes, the matrices \(K^{(\ell)}\) are recomputed from the new offsets, while the same learned coefficients \(\theta^{(\ell)}\) define the continuous kernel \(\kappa\).
 
 ## Differential kernels: from convolution to derivatives
 
@@ -321,7 +380,84 @@ $$
 c:=\sum_{i=1}^S a_i \alpha_i.
 $$
 
-So the learned centered stencil converges to a first-order differential operator in the continuum limit.
+The consequence is that the layer behaves like a learnable finite-difference
+operator. A standard convolution collapses to a pointwise operator as
+\(h\to 0\), but the centered and rescaled stencil
+
+$$
+\mathcal D_h v = \frac{1}{h}\mathrm{Conv}_{K-\bar K}[v]
+$$
+
+removes the zeroth-order term and keeps the first-order derivative term.
+Therefore, in the continuum limit,
+
+$$
+\mathcal D_h v(y)\to c\,v'(y),
+$$
+
+so the learned convolution converges to a first-order differential operator.
+
+This is the idea behind the differential layer: the kernel weights are
+learned, but they are centered and scaled so that the layer represents a
+local derivative-like operation. This is useful for PDE problems because many
+operators involve gradients, divergences, or other derivatives.
+
+
+### Input and trainable parameters
+
+The input to the differential layer is a collection of sampled field values on the mesh. In the scalar one-dimensional case, this input can be written as
+
+$$
+v_h=\{v(x_j):x_j\in D_h\}.
+$$
+
+At a point \(y\in D_h\), the layer only reads the local stencil values
+
+$$
+v(y+z_1),\ldots,v(y+z_S),
+$$
+
+where the offsets
+
+$$
+z_i=h\alpha_i, \qquad \alpha_i=i-1-\frac{S-1}{2},
+$$
+
+are fixed once the stencil size \(S\) and mesh width \(h\) are chosen. Thus, the values of \(v\) are the input data, while the offsets \(z_i\), the scaling factor \(1/h\), and the zero-sum constraint are part of the layer design.
+
+What is learned are the stencil coefficients. In practice, one does not need to learn coefficients \(a_i\) directly under the constraint
+
+$$
+\sum_{i=1}^S a_i=0.
+$$
+
+Instead, the model can learn unconstrained parameters
+
+$$
+\theta_1,\ldots,\theta_S,
+$$
+
+and then define the actual differential stencil weights by subtracting their mean:
+
+$$
+a_i = \theta_i-\frac{1}{S}\sum_{\ell=1}^S \theta_\ell.
+$$
+
+This automatically gives
+
+$$
+\sum_{i=1}^S a_i = \sum_{i=1}^S \theta_i - \sum_{\ell=1}^S \theta_\ell = 0.
+$$
+
+Hence the trainable parameters are \(\theta_i\), while the weights used in the forward pass are the centered quantities \(a_i\).
+
+With this parameterization, the learned differential layer is
+
+$$
+(\mathcal D_{\theta,h}v)(y) = \frac{1}{h}\sum_{i=1}^S \left( \theta_i-\frac{1}{S}\sum_{\ell=1}^S\theta_\ell \right) v(y+z_i).
+$$
+
+During training, the parameters \(\theta_i\) are updated by backpropagation from the loss of the full neural operator. After each update, the forward pass again centers them to produce the constrained stencil weights \(a_i\). Therefore, the model learns which local linear combination of neighboring values best matches the training data, while the centering step ensures that this local rule has differential, rather than averaging, behavior.
 
 ### Extension to multiple dimensions and channels
 
