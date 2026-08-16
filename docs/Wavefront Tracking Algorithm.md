@@ -25,9 +25,7 @@ $$
 Here, \(\phi(x,t)\) represents the perceived cost of reaching an exit from
 position \(x\) at time \(t\), \(v(\rho)\) denotes the walking speed at density
 \(\rho\), and \(c(\rho)\) represents the travel cost per unit distance associated
-with that density.
-
-In our case,
+with that density. In our case,
 
 $$
 v(\rho)=1-\rho,
@@ -93,9 +91,7 @@ $$
 c(\rho)=\frac{1}{1-\rho}
 $$
 
-becomes singular at \(\rho=1\).
-
-At both exits we assume vacuum outside the corridor. Numerically, this is
+becomes singular at \(\rho=1\). At both exits we assume vacuum outside the corridor. Numerically, this is
 implemented by adding zero-density states at \(x=-1\) and \(x=1\). These
 states allow pedestrians to leave the domain through either exit.
 
@@ -125,16 +121,12 @@ $$
 $$
 
 Each value taken by the initial density \(\rho_0\) at any \(x\), is then replaced by
-the closest value in \(\mathcal{G}_{\varepsilon}\).
-
-Thus, the discretized initial density, denoted by \(\rho_0^\varepsilon\), remains piecewise constant and has the same jump locations as \(\rho_0\), while its values belong to \(\mathcal{G}_{\varepsilon}\). 
+the closest value in \(\mathcal{G}_{\varepsilon}\). Thus, the discretized initial density, denoted by \(\rho_0^\varepsilon\), remains piecewise constant and has the same jump locations as \(\rho_0\), while its values belong to \(\mathcal{G}_{\varepsilon}\). 
 
 ### Initial Turning Point
 
 Once the initial density has been discretized, the initial turning point
-\(\xi(0)\) is determined from the discrete cost balance.
-
-Let
+\(\xi(0)\) is determined from the discrete cost balance. Let
 
 $$
 -1=x_0\lt x_1\lt\cdots\lt x_m=1
@@ -148,10 +140,7 @@ $$
 $$
 
 where \(i\) denotes the interval index. The discretized density
-\(\rho_i^\varepsilon\) is constant on each interval \([x_{i-1},x_i)\).
-
-
-To compute the initial turning point, we need the total cost at \(t=0\), given by:
+\(\rho_i^\varepsilon\) is constant on each interval \([x_{i-1},x_i)\). To compute the initial turning point, we need the total cost at \(t=0\), given by:
 
 $$
 A_{\mathrm{tot}} =
@@ -292,9 +281,7 @@ Choosing the state at the turning point.
 At a given interaction time, the position of the turning point \(\xi(t)\)
 is already known from its previous propagation. What must now be updated
 is the local wave configuration around \(\xi(t)\) and the speed with which
-the turning point will move during the next time interval.
-
-The solver starts from three quantities,
+the turning point will move during the next time interval. The solver starts from three quantities,
 
 $$
 \rho_L,\qquad \rho_R,\qquad \psi^\ast,
@@ -370,7 +357,7 @@ $$
 is solved for \(\rho_m\). Only one of these equations is solved for a given
 configuration. 
 
-Construction of the outgoing fronts.
+#### Construction of the outgoing fronts.
 
 Once the appropriate case has been selected, the intermediate state
 \(\rho_m\) is projected onto the \(\varepsilon\)-grid. The front located
