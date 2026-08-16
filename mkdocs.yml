@@ -22,6 +22,8 @@ nav:
           - 2 - Weak solutions: Hyperbolic PDEs-1-weak solutions.md
           - 3 - Entropy Stable and Hyperbolic Solutions: Hyperbolic PDEs-2-Conservation laws and entropy form.md
           - 4 - Neural Operators with localized integral and differential kernels: Neural operators with localized integral and differential kernels.md
+        - Numerical methods for hyperbolic conservation laws:
+          - 1 - Wavefront Tracking Algorithm: Wavefront Tracking Algorithm.md
   - Reinforcement Learning:
       - 1 - Introduction: RL-1-Introduction.md
       - 2 - Markov Decision Processes: RL-2-Markov Decision Processes.md
