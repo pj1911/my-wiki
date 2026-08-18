@@ -385,6 +385,63 @@ condition rather than from a Rankine--Hugoniot ratio.
 This completes the updated local configuration at \(\xi(t)\), which is then
 propagated together with the existing fronts until the next interaction.
 
+#### Inconsistency in algorithm: unchecked front ordering after fan insertion.
+
+When the \(\xi_1\) or \(\xi_2\) configuration is selected, an
+\(\varepsilon\)-spaced rarefaction fan is introduced on one side of the
+turning point. The speed of each front in the fan is computed from the
+Rankine-Hugoniot relation using consecutive density states within that
+fan. After the complete local configuration is assembled, however, the
+speed of the front at the boundary of the fan is not checked against the
+speed of the front placed immediately next to it. This neighbouring front
+may be the turning-point front \(x_m\), or a separate front introduced by
+the same coupling resolution, such as a shock connecting \(\rho_m\) to a
+vacuum state.
+
+During the turning-point resolution, both the rarefaction fan and any
+additional connecting front are initialized at the current position
+\(\xi(t)\). Therefore, the last front of the fan and the separately
+inserted neighbouring front initially satisfy
+
+$$
+x_j=x_{j+1}=\xi(t).
+$$
+
+For these coincident fronts to separate in the correct left-to-right
+order, their speeds must satisfy
+
+$$
+s_j\leq s_{j+1}.
+$$
+
+The issue is that the construction can instead produce
+
+$$
+x_j=x_{j+1},
+\qquad
+s_j>s_{j+1},
+$$
+
+so that the trailing front moves faster than the front immediately ahead
+of it. The two fronts should therefore interact as soon as they are
+created. Their computed collision time is
+
+$$
+\tau_j =
+\frac{x_{j+1}-x_j}{s_j-s_{j+1}} =0.
+$$
+
+Because the collision search considers only strictly positive
+times, \(\tau_j>0\), this immediate interaction is excluded and the
+incorrectly ordered pair remains undetected.
+
+The observed inconsistency is specific to the junction between a newly
+inserted rarefaction fan and the adjacent separately constructed front.
+The \(\theta\), \(\lambda\), and vacuum configurations were checked
+independently and are not implicated in this ordering issue. A correction
+therefore requires an explicit speed-consistency rule at every junction
+created during the assembly of the turning-point configuration.
+
 ## Time evolution
 
 Once the fronts and their speeds are known, all wave fronts,
