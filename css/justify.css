@@ -1,0 +1,17 @@
+.md-typeset p,
+.md-typeset li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.wy-nav-content p,
+.wy-nav-content li,
+.md-content p,
+.md-content li,
+article p,
+article li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
