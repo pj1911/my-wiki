@@ -288,6 +288,51 @@ Thus, shocks form when state-dependent characteristic speeds produce compression
 characteristics catch up with slower ones, the spatial gradient becomes unbounded, and the
 classical characteristic representation breaks down.
 
+## Explicit shock solutions and Riemann problems
+
+Although the classical solution breaks down when characteristics intersect, some resulting
+shocks can still be described explicitly. The most important example is the
+Riemann problem, in which the initial data consist of two constant states separated
+by a single discontinuity:
+
+$$
+u_0(x)=
+\begin{cases}
+u_L, & x<0,\\
+u_R, & x>0.
+\end{cases}
+\label{eq:riemann_initial_data}
+$$
+
+When the solution consists of a single shock separating \(u_L\) and \(u_R\), its position
+\(x_s(t)\) is given by
+
+$$
+x_s(t)=st,
+$$
+
+where \(s\) is the constant speed at which the shock propagates. Conservation across the
+shock determines this speed as
+
+$$
+s=\frac{f(u_R)-f(u_L)}{u_R-u_L}.
+\label{eq:rankine_hugoniot_speed}
+$$
+
+This is the Rankine–Hugoniot shock speed. For a strictly convex flux, \(f''(u)>0\), so larger state values have larger
+characteristic speeds. If \(u_L>u_R\), then
+
+$$
+f'(u_L)>f'(u_R),
+$$
+
+and the characteristics from the left catch up with those from the right, producing a
+shock. If \(u_L<u_R\), then \(f'(u_L)<f'(u_R)\), so the characteristics move apart and
+the gap between them is filled by a rarefaction wave. More general initial
+data may generate several shocks and rarefactions whose trajectories interact, so a global
+explicit formula is usually unavailable. Describing such discontinuous solutions
+systematically requires the theory of weak solutions.
+
 ### Weak solutions
 
 In this case, the PDE is interpreted in a
