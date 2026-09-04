@@ -288,7 +288,7 @@ Thus, shocks form when state-dependent characteristic speeds produce compression
 characteristics catch up with slower ones, the spatial gradient becomes unbounded, and the
 classical characteristic representation breaks down.
 
-## Explicit shock solutions and Riemann problems
+### Explicit shock solutions and Riemann problems
 
 Although the classical solution breaks down when characteristics intersect, some resulting
 shocks can still be described explicitly. The most important example is the
