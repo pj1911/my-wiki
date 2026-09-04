@@ -77,7 +77,7 @@ $$
 \partial_x f(u)=f'(u)\,\partial_x u,
 $$
 
-so Equation~\eqref{eq:scalar_conservation_law} can be written as
+so Equation \(\eqref{eq:scalar_conservation_law}\) can be written as
 
 $$
 \partial_t u+f'(u)\,\partial_x u=0.
@@ -103,8 +103,8 @@ $$
 \label{eq:derivative_along_characteristic}
 $$
 
-Comparing Equations~\eqref{eq:derivative_along_characteristic} and
-\eqref{eq:quasilinear_conservation_law}, we see that the rate of change of \(u\) observed
+Comparing Equations \(\eqref{eq:derivative_along_characteristic}\) and
+\(\eqref{eq:quasilinear_conservation_law}\), we see that the rate of change of \(u\) observed
 while moving along the curve \(x=x(t;\alpha)\) coincides with the left-hand side of the PDE
 if the curve satisfies
 
@@ -114,7 +114,7 @@ f'\bigl(u(t,x(t;\alpha))\bigr).
 \label{eq:characteristic_ode}
 $$
 
-A curve satisfying Equation~\eqref{eq:characteristic_ode} is called a characteristic
+A curve satisfying Equation \(\eqref{eq:characteristic_ode}\) is called a characteristic
 curve. Along such a curve,
 
 $$
@@ -135,7 +135,7 @@ a(u)=f'(u)
 $$
 
 known as the characteristic speed. Since \(u\) is constant along the characteristic starting at \(\alpha\),
-Equation~\eqref{eq:characteristic_ode} reduces to
+Equation \(\eqref{eq:characteristic_ode}\) reduces to
 
 $$
 \frac{dx}{dt}=f'\bigl(u_0(\alpha)\bigr).
@@ -168,7 +168,7 @@ The initial profile is simply transported without being compressed or stretched.
 For a non-affine flux, the characteristic speed generally depends on the state value.
 Characteristics starting from different initial positions may therefore travel with
 different speeds. To determine whether nearby characteristics approach or separate, we
-differentiate Equation~\eqref{eq:characteristic_position} with respect to \(\alpha\):
+differentiate Equation \(\eqref{eq:characteristic_position}\) with respect to \(\alpha\):
 
 $$
 \partial_\alpha x(t;\alpha)=1+t\,f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha).
@@ -194,7 +194,7 @@ characteristic compression.
 
 To see how characteristic compression affects the solution, consider its spatial gradient
 \(\partial_x u\), which measures how rapidly \(u\) changes with position at a fixed time.
-Differentiating Equation~\eqref{eq:constant_along_characteristic} with respect to
+Differentiating Equation \(\eqref{eq:constant_along_characteristic}\) with respect to
 \(\alpha\), while keeping \(t\) fixed, and applying the chain rule gives
 
 $$
@@ -204,7 +204,7 @@ $$
 $$
 
 As long as \(\partial_\alpha x(t;\alpha)\neq 0\), we may divide by this quantity. Using
-Equation~\eqref{eq:characteristic_jacobian} and Equation~\eqref{eq:equation16}, we obtain
+Equation \(\eqref{eq:characteristic_jacobian}\) and Equation \(\eqref{eq:equation16}\), we obtain
 
 $$
 \partial_x u\bigl(t,x(t;\alpha)\bigr)=
@@ -214,14 +214,14 @@ $$
 $$
 
 The denominator is the separation factor \(\partial_\alpha x(t;\alpha)\) between nearby
-characteristics. Under the compression condition~\eqref{eq:compression_condition}, this
+characteristics. Under the compression condition~\eqref{eq:compression_condition}\), this
 separation decreases with time, causing the magnitude of the spatial gradient to increase
 and the solution profile to become steeper. When the denominator reaches zero, nearby
 characteristics collide and \(\partial_x u\) becomes unbounded, even though \(u\) itself
 may remain bounded.
 
 Having identified when neighboring characteristics approach one another, we now determine
-when this compression first causes the smooth solution to break down. From Equation~\eqref{eq:solution_gradient}, this occurs when the denominator first reaches
+when this compression first causes the smooth solution to break down. From Equation \(\eqref{eq:solution_gradient}\), this occurs when the denominator first reaches
 zero along one of the characteristics, where each characteristic is indexed by its starting
 point \(\alpha\). To find the earliest such time over the entire initial
 domain, let \(\mathcal U\) denote the initial spatial domain and define
@@ -231,7 +231,7 @@ m:=\inf_{\alpha\in\mathcal U}
 f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha).
 $$
 
-By Equation~\eqref{eq:characteristic_jacobian}, the quantity
+By Equation \(\eqref{eq:characteristic_jacobian}\), the quantity
 \(f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha)\) determines how the separation between
 neighboring characteristics changes with time. If \(m<0\), some neighboring
 characteristics approach one another. Assuming that the infimum is attained at
@@ -241,7 +241,7 @@ $$
 f''\bigl(u_0(\alpha_*)\bigr)u_0'(\alpha_*)=m,
 $$
 
-the characteristics near \(\alpha_*\) experience the fastest decrease in separation. At the point where the infimum is attained, Equation~\eqref{eq:characteristic_jacobian}
+the characteristics near \(\alpha_*\) experience the fastest decrease in separation. At the point where the infimum is attained, Equation \(\eqref{eq:characteristic_jacobian}\)
 becomes \(\partial_\alpha x=1+tm\). Therefore, the separation factor first reaches zero when
 
 $$
