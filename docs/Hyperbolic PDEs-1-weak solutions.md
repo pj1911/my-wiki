@@ -30,7 +30,7 @@ $$
 u:[0,T]\times\mathcal U \to \mathbb R^n.
 $$
 
-The set \([0,T]\times\mathcal U\) is the space--time domain: the \(\times\) means a Cartesian product, i.e.,
+The set \([0,T]\times\mathcal U\) is the space-time domain: the \(\times\) means a Cartesian product, i.e.,
 all pairs \((t,x)\) with \(t\in[0,T]\) and \(x\in\mathcal U\). Here, \(u\) can be a scalar (\(n=1\), one value at each \((t,x)\)) or a vector-valued field
 (\(n>1\), several coupled values at each \((t,x)\)). Furthermore, \(\partial_t u\) denotes the partial derivative of \(u\) with respect to time:
 it measures how \(u(t,x)\) changes as \(t\) varies while keeping \(x\) fixed. The operator \(L\) is a spatial differential operator: for each fixed time \(t\), it takes the spatial function
@@ -58,13 +58,242 @@ boundary conditions in an appropriate mathematical sense. For smooth solutions, 
 exist in the usual calculus sense, so the PDE holds at each point \((t,x)\), this is a
 classical solution.
 
+### Why shocks form
+
+To understand how shocks arise, consider the one-dimensional scalar conservation law
+
+$$
+\partial_t u+\partial_x f(u)=0,
+\qquad
+u(0,x)=u_0(x),
+\label{eq:scalar_conservation_law}
+$$
+
+where \(f\) is the flux function. We temporarily assume that \(u\) is smooth and ignore
+boundary effects in order to isolate the mechanism responsible for shock formation. We also
+assume that \(f\) is sufficiently differentiable. Under these assumptions,
+
+$$
+\partial_x f(u)=f'(u)\,\partial_x u,
+$$
+
+so Equation~\eqref{eq:scalar_conservation_law} can be written as
+
+$$
+\partial_t u+f'(u)\,\partial_x u=0.
+\label{eq:quasilinear_conservation_law}
+$$
+
+To interpret the coefficient \(f'(u)\), let \(x=x(t;\alpha)\) be a differentiable curve in
+space-time satisfying
+
+$$
+x(0;\alpha)=\alpha,
+$$
+
+where \(\alpha\) is the initial position of the curve. By the chain rule, the rate of change
+of \(u\) along this curve is
+
+$$
+\frac{d}{dt}u\bigl(t,x(t;\alpha)\bigr) =
+\partial_t u\bigl(t,x(t;\alpha)\bigr)
+\mathrel{+}
+\frac{dx}{dt}\,
+\partial_x u\bigl(t,x(t;\alpha)\bigr).
+\label{eq:derivative_along_characteristic}
+$$
+
+Comparing Equations~\eqref{eq:derivative_along_characteristic} and
+\eqref{eq:quasilinear_conservation_law}, we see that the rate of change of \(u\) observed
+while moving along the curve \(x=x(t;\alpha)\) coincides with the left-hand side of the PDE
+if the curve satisfies
+
+$$
+\frac{dx(t;\alpha)}{dt} =
+f'\bigl(u(t,x(t;\alpha))\bigr).
+\label{eq:characteristic_ode}
+$$
+
+A curve satisfying Equation~\eqref{eq:characteristic_ode} is called a characteristic
+curve. Along such a curve,
+
+$$
+\frac{d}{dt}u\bigl(t,x(t;\alpha)\bigr)=\partial_t u+f'(u)\,\partial_x u=0.
+$$
+
+Thus, \(u\) remains constant along each characteristic curve:
+
+$$
+u\bigl(t,x(t;\alpha)\bigr)=u\bigl(0,x(0;\alpha)\bigr)=u_0(\alpha).
+\label{eq:constant_along_characteristic}
+$$
+
+This constant smooth solution is transported along its characteristic at a speed:
+
+$$
+a(u)=f'(u)
+$$
+
+known as the characteristic speed. Since \(u\) is constant along the characteristic starting at \(\alpha\),
+Equation~\eqref{eq:characteristic_ode} reduces to
+
+$$
+\frac{dx}{dt}=f'\bigl(u_0(\alpha)\bigr).
+$$
+
+For each fixed \(\alpha\), the right-hand side is constant in time. Integrating from
+\(0\) to \(t\) gives
+
+$$
+x(t;\alpha)-x(0;\alpha)=\int_{0}^{t} f'\bigl(u_0(\alpha)\bigr)\,ds=f'\bigl(u_0(\alpha)\bigr)t.
+$$
+
+Using \(x(0;\alpha)=\alpha\), we obtain
+
+$$
+x(t;\alpha)=\alpha+f'\bigl(u_0(\alpha)\bigr)t.
+\label{eq:characteristic_position}
+$$
+
+Thus, the initial state value \(u_0(\alpha)\) is transported along a straight characteristic
+with speed \(f'\bigl(u_0(\alpha)\bigr)\). If the flux is affine,
+
+$$
+f(u)=cu+d,
+$$
+
+then \(f'(u)=c\), so all characteristics travel with the same speed and remain parallel.
+The initial profile is simply transported without being compressed or stretched.
+
+For a non-affine flux, the characteristic speed generally depends on the state value.
+Characteristics starting from different initial positions may therefore travel with
+different speeds. To determine whether nearby characteristics approach or separate, we
+differentiate Equation~\eqref{eq:characteristic_position} with respect to \(\alpha\):
+
+$$
+\partial_\alpha x(t;\alpha)=1+t\,f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha).
+\label{eq:characteristic_jacobian}
+$$
+
+The quantity \(\partial_\alpha x(t;\alpha)\) measures the separation between characteristics
+that start at nearby initial positions. If
+
+$$
+f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha)<0,
+\label{eq:compression_condition}
+$$
+
+then \(\partial_\alpha x(t;\alpha)\) decreases with time. In this case, the signed
+characteristic speed \(f'\bigl(u_0(\alpha)\bigr)\) decreases as \(\alpha\) increases.
+Thus, a characteristic starting slightly to the left has a larger velocity than one
+starting slightly to the right. If both velocities are positive, both characteristics move
+to the right and the left one moves faster. If both are negative, both move to the left and
+the right one moves faster in magnitude. If their velocities have opposite signs, they move
+toward one another. In every case, the distance between them decreases, producing
+characteristic compression.
+
+To see how characteristic compression affects the solution, consider its spatial gradient
+\(\partial_x u\), which measures how rapidly \(u\) changes with position at a fixed time.
+Differentiating Equation~\eqref{eq:constant_along_characteristic} with respect to
+\(\alpha\), while keeping \(t\) fixed, and applying the chain rule gives
+
+$$
+\partial_x u\bigl(t,x(t;\alpha)\bigr)\,
+\partial_\alpha x(t;\alpha)=u_0'(\alpha).
+\label{eq:equation16}
+$$
+
+As long as \(\partial_\alpha x(t;\alpha)\neq 0\), we may divide by this quantity. Using
+Equation~\eqref{eq:characteristic_jacobian} and Equation~\eqref{eq:equation16}, we obtain
+
+$$
+\partial_x u\bigl(t,x(t;\alpha)\bigr)=
+\frac{u_0'(\alpha)}
+{1+t\,f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha)}.
+\label{eq:solution_gradient}
+$$
+
+The denominator is the separation factor \(\partial_\alpha x(t;\alpha)\) between nearby
+characteristics. Under the compression condition~\eqref{eq:compression_condition}, this
+separation decreases with time, causing the magnitude of the spatial gradient to increase
+and the solution profile to become steeper. When the denominator reaches zero, nearby
+characteristics collide and \(\partial_x u\) becomes unbounded, even though \(u\) itself
+may remain bounded.
+
+Having identified when neighboring characteristics approach one another, we now determine
+when this compression first causes the smooth solution to break down. From Equation~\eqref{eq:solution_gradient}, this occurs when the denominator first reaches
+zero along one of the characteristics, where each characteristic is indexed by its starting
+point \(\alpha\). To find the earliest such time over the entire initial
+domain, let \(\mathcal U\) denote the initial spatial domain and define
+
+$$
+m:=\inf_{\alpha\in\mathcal U}
+f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha).
+$$
+
+By Equation~\eqref{eq:characteristic_jacobian}, the quantity
+\(f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha)\) determines how the separation between
+neighboring characteristics changes with time. If \(m<0\), some neighboring
+characteristics approach one another. Assuming that the infimum is attained at
+\(\alpha=\alpha_*\), so that
+
+$$
+f''\bigl(u_0(\alpha_*)\bigr)u_0'(\alpha_*)=m,
+$$
+
+the characteristics near \(\alpha_*\) experience the fastest decrease in separation. At the point where the infimum is attained, Equation~\eqref{eq:characteristic_jacobian}
+becomes \(\partial_\alpha x=1+tm\). Therefore, the separation factor first reaches zero when
+
+$$
+1+t_{\mathrm{shock}}m=0.
+$$
+
+which gives
+
+$$
+t_{\mathrm{shock}}=-\frac{1}{m}.
+\label{eq:shock_formation_time}
+$$
+
+Assuming that the infimum is attained and that no boundary effect occurs earlier, there is
+an initial position \(\alpha_*\) such that
+
+$$
+\partial_\alpha x(t_{\mathrm{shock}};\alpha_*)=
+1+t_{\mathrm{shock}}\,
+f''\bigl(u_0(\alpha_*)\bigr)u_0'(\alpha_*)=0.
+$$
+
+At this point, the separation between neighboring characteristics vanishes and the mapping
+
+$$
+\alpha\longmapsto x(t;\alpha)
+$$
+
+can no longer be smoothly inverted to recover the initial position \(\alpha\) from
+\((t,x)\). Beyond this time, characteristics intersect, so the characteristic formula would
+assign more than one value of \(u\) to the same point \((t,x)\). The solution therefore
+cannot remain a classical single-valued solution. Its physically relevant weak continuation
+typically contains a moving jump discontinuity called a shock. If, instead,
+
+$$
+f''\bigl(u_0(\alpha)\bigr)u_0'(\alpha)>0
+$$
+
+throughout the initial domain, then \(\partial_\alpha x(t;\alpha)\) increases with time.
+Neighboring characteristics move apart, causing the solution profile to spread rather than
+steepen. This is the characteristic mechanism associated with a rarefaction wave.
+
+Thus, shocks form when state-dependent characteristic speeds produce compression: faster
+characteristics catch up with slower ones, the spatial gradient becomes unbounded, and the
+classical characteristic representation breaks down.
+
 ### Weak solutions
 
-In hyperbolic PDEs where \(u\) is not smooth (for example, it has jump discontinuities), pointwise derivatives such as
-\(\partial_t u\) or \(\nabla u\) may not exist. In that case, the PDE is interpreted in a
+In this case, the PDE is interpreted in a
 weak (integral) sense: Instead of requiring the PDE to hold at every single point, it is required to hold after
 being integrated against some smooth test functions. This is justifiable because integration only requires \(u\) to be integrable (not differentiable).
-Test functions can be chosen to be nonzero only inside a very small space--time region and zero everywhere else, so the integral checks the PDE balance inside that local neighborhood.
+Test functions can be chosen to be nonzero only inside a very small space-time region and zero everywhere else, so the integral checks the PDE balance inside that local neighborhood.
 Requiring the identity to hold for all such local tests
 forces the PDE to hold throughout the whole domain, while avoiding pointwise derivatives at jumps. More concretely, the weak form does not check \(\partial_t u + Lu = \xi\) pointwise, it checks that
 
@@ -91,7 +320,7 @@ Why this is essentially the same as solving the PDE:
   if the residual were nonzero on any region of positive size, a test function supported there would
   detect it, so the residual cannot ``hide'' anywhere in the domain.
 
-For example: take \(\varphi\) to be a smooth bump that is \(1\) in a small space--time neighborhood and
+For example: take \(\varphi\) to be a smooth bump that is \(1\) in a small space-time neighborhood and
 \(0\) outside a slightly larger neighborhood. Then the integral above mainly tests whether the PDE
 balances inside that neighborhood. Varying the bump over all locations and sizes enforces the balance everywhere, while avoiding
 undefined pointwise derivatives at jumps. For hyperbolic PDEs, there is an additional issue:
@@ -290,7 +519,7 @@ $$
 
 **Step 2 (integrate the identity).**
 Since the equality holds at every point \((t,x)\), integrate both sides over the full
-space--time domain \([0,T]\times\mathcal U\):
+space-time domain \([0,T]\times\mathcal U\):
 
 $$
 \int_{0}^{T}\int_{\mathcal U}\partial_t\big(a\varphi\big)\,dx\,dt = \int_{0}^{T}\int_{\mathcal U}(\partial_t a)\,\varphi\,dx\,dt
