@@ -214,7 +214,7 @@ $$
 $$
 
 The denominator is the separation factor \(\partial_\alpha x(t;\alpha)\) between nearby
-characteristics. Under the compression condition~\eqref{eq:compression_condition}\), this
+characteristics. Under the compression condition Equation \(\eqref{eq:compression_condition}\), this
 separation decreases with time, causing the magnitude of the spatial gradient to increase
 and the solution profile to become steeper. When the denominator reaches zero, nearby
 characteristics collide and \(\partial_x u\) becomes unbounded, even though \(u\) itself
