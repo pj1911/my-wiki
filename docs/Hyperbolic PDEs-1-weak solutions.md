@@ -373,7 +373,7 @@ even the definition of a solution must be handled carefully, since shocks can fo
 classical derivatives can fail. This motivates weak formulations and, to select the physically
 relevant weak solution, entropy conditions.
 
-### Test functions in practice
+#### Test functions in practice
 
 The weak identity is required to hold for every function in a chosen test-function space, usually
 
