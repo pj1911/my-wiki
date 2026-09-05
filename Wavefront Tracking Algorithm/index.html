@@ -1,0 +1,2268 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/">
+      
+      
+        <link rel="next" href="../RL-1-Introduction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1 - Wavefront Tracking Algorithm - Prajwal's  Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/justify.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Prajwal's  Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 - Wavefront Tracking Algorithm
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Prajwal's  Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machine Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machine Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linearRegression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linear Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Generative%20Adversarial%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generative Adversarial Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transformers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transformers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 – Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-2-NLP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 – Natural Language Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-3-LLMs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 – Transformer Language Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-4-MMT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 – Multimodal Transformers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Transformers-5-KSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 – Kronecker-Structured Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Retrieval-Augmented%20Generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval-Augmented Generation (RAG)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Fuzzy%20Inference%20Systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuzzy Inference Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural network methods for partial differential equations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Neural network methods for partial differential equations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hamilton-Jacobi%20equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Hamilton Jacobi Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Weak solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Entropy Stable and Hyperbolic Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Neural Operators with localized integral and differential kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Numerical methods for hyperbolic conservation laws
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Numerical methods for hyperbolic conservation laws
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Wavefront Tracking Algorithm
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Wavefront Tracking Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-one-dimensional-hughes-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The One-Dimensional Hughes Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The One-Dimensional Hughes Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#governing-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Governing Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-and-boundary-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial and Boundary Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wave-front-tracking-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wave-Front Tracking Approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wave-Front Tracking Approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discretization-of-the-initial-density" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discretization of the Initial Density
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-the-initial-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of the Initial Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Riemann Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problems-away-from-the-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problems Away from the Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problem-at-the-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problem at the Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#construction-of-the-outgoing-fronts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction of the outgoing fronts.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inconsistency in algorithm: unchecked front ordering after fan insertion.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#front-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Front Propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collision-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collision Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#front-interaction-and-re-solving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Front Interaction and Re-Solving
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconstruction-of-the-solution-to-a-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconstruction of the Solution to a grid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Learning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Learning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-1-Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 - Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-2-Markov%20Decision%20Processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 - Markov Decision Processes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-3-Partially%20Observable%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 - Partially Observable MDP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-4-Planning%20with%20Dynamic%20Programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 - Planning with Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-5-Model%20free%20prediction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 - Model Free Prediction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-6-Model%20free%20control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 - Model Free Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL-7-Value%20function%20approximation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 - Value Function Approximation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Traffic Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Traffic Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Aw%E2%80%93Rascle%E2%80%93Zhang%20model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARZ model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-one-dimensional-hughes-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The One-Dimensional Hughes Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The One-Dimensional Hughes Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#governing-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Governing Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-and-boundary-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial and Boundary Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wave-front-tracking-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wave-Front Tracking Approximation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wave-Front Tracking Approximation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discretization-of-the-initial-density" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discretization of the Initial Density
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-the-initial-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of the Initial Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Riemann Problems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problems-away-from-the-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problems Away from the Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riemann-problem-at-the-turning-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riemann Problem at the Turning Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#construction-of-the-outgoing-fronts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction of the outgoing fronts.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inconsistency in algorithm: unchecked front ordering after fan insertion.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#front-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Front Propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collision-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collision Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#front-interaction-and-re-solving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Front Interaction and Re-Solving
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconstruction-of-the-solution-to-a-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconstruction of the Solution to a grid
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>1 - Wavefront Tracking Algorithm</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>The Hughes model describes pedestrian motion by coupling density evolution with a dynamically determined walking direction. In one spatial dimension, the direction changes at a turning point that balances the travel cost toward the two exits. We consider a wave-front tracking approximation of this model, where the density is represented by piecewise-constant states separated by moving fronts. The method evolves these fronts through successive Riemann problems and interactions, providing a constructive approximation of the solution.</p>
+<h2 id="the-one-dimensional-hughes-model">The One-Dimensional Hughes Model</h2>
+<h3 id="governing-equations">Governing Equations</h3>
+<p>We consider pedestrians moving along the one-dimensional corridor <span class="arithmatex">\(\Omega=[-1,1]\)</span>, with exits located at the two endpoints <span class="arithmatex">\(x=-1\)</span> and <span class="arithmatex">\(x=1\)</span>. The function <span class="arithmatex">\(\rho=\rho(x,t)\)</span> denotes the pedestrian density at position <span class="arithmatex">\(x\in[-1,1]\)</span> and time <span class="arithmatex">\(t\geq0\)</span>.</p>
+<p>The one-dimensional Hughes model can be written as</p>
+<div class="arithmatex">\[
+\rho_t-\partial_x\left(
+\rho\,v(\rho)\frac{\phi_x}{|\phi_x|}
+\right)=0,
+\]</div>
+<p>together with</p>
+<div class="arithmatex">\[
+|\phi_x|=c(\rho).
+\]</div>
+<p>Here, <span class="arithmatex">\(\phi(x,t)\)</span> represents the perceived cost of reaching an exit from
+position <span class="arithmatex">\(x\)</span> at time <span class="arithmatex">\(t\)</span>, <span class="arithmatex">\(v(\rho)\)</span> denotes the walking speed at density
+<span class="arithmatex">\(\rho\)</span>, and <span class="arithmatex">\(c(\rho)\)</span> represents the travel cost per unit distance associated
+with that density. In our case,</p>
+<div class="arithmatex">\[
+v(\rho)=1-\rho,
+\qquad
+c(\rho)=\frac{1}{1-\rho},
+\]</div>
+<p>and therefore the scalar flux is</p>
+<div class="arithmatex">\[
+f(\rho)=\rho v(\rho)=\rho(1-\rho).
+\]</div>
+<p>A central feature of the Hughes model is the turning point,
+denoted by <span class="arithmatex">\(\xi(t)\)</span>. At each time <span class="arithmatex">\(t\)</span>, this point represents the
+location at which the perceived cost of reaching the left exit is equal
+to the perceived cost of reaching the right exit.</p>
+<div class="arithmatex">\[
+\int_{-1}^{\xi(t)} c(\rho(x,t))\,dx =
+\int_{\xi(t)}^{1} c(\rho(x,t))\,dx.
+\]</div>
+<p>Pedestrians located to the left of <span class="arithmatex">\(\xi(t)\)</span> move toward the exit at
+<span class="arithmatex">\(x=-1\)</span>, while pedestrians located to the right move toward the exit at
+<span class="arithmatex">\(x=1\)</span>. Consequently, away from the turning point the conservation law takes
+the form</p>
+<div class="arithmatex">\[
+\rho_t-f(\rho)_x=0,
+\qquad -1\lt x\lt\xi(t),
+\]</div>
+<p>on the left, and</p>
+<div class="arithmatex">\[
+\rho_t+f(\rho)_x=0,
+\qquad \xi(t)\lt x\lt 1,
+\]</div>
+<p>on the right.</p>
+<h3 id="initial-and-boundary-data">Initial and Boundary Data</h3>
+<p>Here the initial condition is assumed to be piecewise constant,</p>
+<div class="arithmatex">\[
+\rho(x,0)=\rho_0(x),
+\qquad x\in[-1,1].
+\]</div>
+<p>It is described by a finite set of jump locations</p>
+<div class="arithmatex">\[
+-1\lt x_1\lt x_2\lt\cdots\lt x_{n_j}\lt 1,
+\]</div>
+<p>and one constant density value on each interval between two consecutive
+jumps. The value
+<span class="arithmatex">\(\rho=1\)</span> is avoided, since the cost</p>
+<div class="arithmatex">\[
+c(\rho)=\frac{1}{1-\rho}
+\]</div>
+<p>becomes singular at <span class="arithmatex">\(\rho=1\)</span>. At both exits we assume vacuum outside the corridor. Numerically, this is
+implemented by adding zero-density states at <span class="arithmatex">\(x=-1\)</span> and <span class="arithmatex">\(x=1\)</span>. These
+states allow pedestrians to leave the domain through either exit.</p>
+<h2 id="wave-front-tracking-approximation">Wave-Front Tracking Approximation</h2>
+<p>We approximate the solution of the one-dimensional Hughes model using a
+wave-front tracking (WFT) scheme. Given an initial pedestrian density
+<span class="arithmatex">\(\rho_0(x)\)</span> on the domain <span class="arithmatex">\([-1,1]\)</span>, the objective is to determine the
+density field</p>
+<div class="arithmatex">\[
+\rho(x,t), \qquad x\in[-1,1], \quad t\in[0,T].
+\]</div>
+<p>The WFT method approximates this solution by constant-density regions
+separated by moving discontinuities, called wave fronts. These fronts are
+generated from local Riemann problems and evolved in time until the final
+time <span class="arithmatex">\(T\)</span>.</p>
+<h3 id="discretization-of-the-initial-density">Discretization of the Initial Density</h3>
+<p>Let <span class="arithmatex">\(\varepsilon&gt;0\)</span> denote the discretization parameter of the WFT scheme, with <span class="arithmatex">\(\varepsilon=1/N\)</span> for some integer <span class="arithmatex">\(N\)</span>. To construct the wave-front tracking approximation of the initial density, we use the finite set:</p>
+<div class="arithmatex">\[
+\mathcal{G}_{\varepsilon} =
+\{0,\varepsilon,2\varepsilon,\ldots,1-\varepsilon\}.
+\]</div>
+<p>Each value taken by the initial density <span class="arithmatex">\(\rho_0\)</span> at any <span class="arithmatex">\(x\)</span>, is then replaced by
+the closest value in <span class="arithmatex">\(\mathcal{G}_{\varepsilon}\)</span>. Thus, the discretized initial density, denoted by <span class="arithmatex">\(\rho_0^\varepsilon\)</span>, remains piecewise constant and has the same jump locations as <span class="arithmatex">\(\rho_0\)</span>, while its values belong to <span class="arithmatex">\(\mathcal{G}_{\varepsilon}\)</span>. </p>
+<h3 id="initial-turning-point">Initial Turning Point</h3>
+<p>Once the initial density has been discretized, the initial turning point
+<span class="arithmatex">\(\xi(0)\)</span> is determined from the discrete cost balance. Let</p>
+<div class="arithmatex">\[
+-1=x_0\lt x_1\lt\cdots\lt x_m=1
+\]</div>
+<p>denote the boundaries of the piecewise-constant density regions. These
+points define <span class="arithmatex">\(m\)</span> generally non-uniform intervals</p>
+<div class="arithmatex">\[
+[x_{i-1},x_i), \qquad i=1,\ldots,m,
+\]</div>
+<p>where <span class="arithmatex">\(i\)</span> denotes the interval index. The discretized density
+<span class="arithmatex">\(\rho_i^\varepsilon\)</span> is constant on each interval <span class="arithmatex">\([x_{i-1},x_i)\)</span>. To compute the initial turning point, we need the total cost at <span class="arithmatex">\(t=0\)</span>, given by:</p>
+<div class="arithmatex">\[
+A_{\mathrm{tot}} =
+\sum_{i=1}^{m}
+(x_i-x_{i-1})\,c(\rho_i^\varepsilon).
+\]</div>
+<p>The turning point <span class="arithmatex">\(\xi(0)\)</span> is determined by comparing the accumulated
+cost from the left with half of the total cost,</p>
+<div class="arithmatex">\[
+\frac{A_{\mathrm{tot}}}{2}.
+\]</div>
+<p>Suppose this value is reached between two consecutive interval boundaries,
+<span class="arithmatex">\(x_{k-1}\)</span> and <span class="arithmatex">\(x_k\)</span>. Then the turning point lies inside that interval,</p>
+<div class="arithmatex">\[
+\xi(0)\in[x_{k-1},x_k].
+\]</div>
+<p>Since the density is constant on this interval, the cost increases
+linearly with distance. Therefore, <span class="arithmatex">\(\xi(0)\)</span> is found by moving from
+<span class="arithmatex">\(x_{k-1}\)</span> just far enough for the accumulated cost to become exactly
+<span class="arithmatex">\(A_{\mathrm{tot}}/2\)</span>. If the half-cost value is reached exactly at
+<span class="arithmatex">\(x_k\)</span>, then <span class="arithmatex">\(\xi(0)=x_k\)</span>.</p>
+<h3 id="summary-of-the-initial-setup">Summary of the Initial Setup</h3>
+<p>At this point, the initial density <span class="arithmatex">\(\rho_0^\varepsilon\)</span> has been
+discretized according to <span class="arithmatex">\(\rho_i^\varepsilon\)</span>, and the initial turning point <span class="arithmatex">\(\xi(0)\)</span> has been determined
+from the cost balance. The turning point separates the left-moving and right-moving
+regions. These quantities provide the complete initial data needed to
+construct the Riemann problems and generate the wave fronts.</p>
+<h3 id="riemann-problems">Riemann Problems</h3>
+<p>A Riemann problem is a local conservation-law problem with two constant
+states separated by a single discontinuity. For example, at a jump
+location <span class="arithmatex">\(x=x_j\)</span>,</p>
+<div class="arithmatex">\[
+\rho(x,0)=
+\begin{cases}
+\rho_L, &amp; x&lt;x_j,\\
+\rho_R, &amp; x&gt;x_j.
+\end{cases}
+\]</div>
+<p>The purpose is to determine how this jump evolves: either as a single
+shock or as a rarefaction wave. In the WFT method, a rarefaction wave between <span class="arithmatex">\(\rho_L\)</span> and <span class="arithmatex">\(\rho_R\)</span> is
+replaced by a sequence of smaller density jumps, where two consecutive
+density values differ by <span class="arithmatex">\(\varepsilon\)</span>. Each
+small jump is treated as an individual shock and these shocks are propagated with
+their corresponding Rankine-Hugoniot speed. Together, these fronts form
+a discrete approximation of the rarefaction wave. Note that, <span class="arithmatex">\(\xi(t)\)</span> is treated as
+a moving front with its own propagation speed as well, the cost calculation is used to determine the turning-point
+position only at <span class="arithmatex">\(t=0\)</span></p>
+<h4 id="riemann-problems-away-from-the-turning-point">Riemann Problems Away from the Turning Point</h4>
+<p>For each initial jump away from the turning point, a Riemann problem is
+solved independently. On the left of <span class="arithmatex">\(\xi\)</span>, where the flux is <span class="arithmatex">\(-f(\rho)\)</span>,
+a jump is kept as a shock when <span class="arithmatex">\(\rho_L&gt;\rho_R\)</span>, otherwise it is replaced
+by a rarefaction fan. On the right of <span class="arithmatex">\(\xi\)</span>, where
+the flux is <span class="arithmatex">\(+f(\rho)\)</span>, the corresponding shock/rarefaction condition is
+reversed.</p>
+<p>Each resulting front is assigned a propagation speed using the
+Rankine--Hugoniot relation. Thus, this step converts every initial density
+jump into a finite set of moving wave fronts. At the exits, any front located at <span class="arithmatex">\(x=-1\)</span> and moving out of the domain is
+removed, similarly, any front at <span class="arithmatex">\(x=1\)</span> moving outward is discarded. A
+stationary boundary front is then retained at each exit.</p>
+<h4 id="riemann-problem-at-the-turning-point">Riemann Problem at the Turning Point</h4>
+<p>The Riemann problem at <span class="arithmatex">\(\xi(t)\)</span> is different from the problems considered
+away from the turning point. On the left, pedestrians satisfy the
+conservation law with flux <span class="arithmatex">\(-f(\rho)\)</span>, while on the right they satisfy
+the conservation law with flux <span class="arithmatex">\(+f(\rho)\)</span>. Moreover, the position
+<span class="arithmatex">\(\xi(t)\)</span> is not prescribed: it must move so that the travel cost toward
+the two exits remains balanced.</p>
+<p>If <span class="arithmatex">\(t_k\)</span> and <span class="arithmatex">\(t_{k+1}\)</span> are two consecutive front collision times, the
+turning point is propagated together with the other wave fronts on the
+interval <span class="arithmatex">\(t\in[t_k,t_{k+1})\)</span>. During this entire propagation interval,
+the balance condition</p>
+<div class="arithmatex">\[
+\Psi_L(t)=\Psi_R(t)
+\]</div>
+<p>must remain satisfied, where</p>
+<div class="arithmatex">\[
+\Psi_L(t)=\int_{-1}^{\xi(t)}c(\rho(x,t))\,dx,
+\qquad
+\Psi_R(t)=\int_{\xi(t)}^{1}c(\rho(x,t))\,dx.
+\]</div>
+<p>Therefore, the turning-point solver must determine not only the waves
+generated near <span class="arithmatex">\(\xi(t_k)\)</span>, but also the state and propagation speed at
+the turning point that preserve this balance until the next interaction.</p>
+<p>Effect of the current wave configuration.</p>
+<p>Since each constant-density interval is bounded by moving wave fronts,
+the length of these intervals changes as the fronts move. This changes
+their contribution to the total travel cost over time as well.</p>
+<p>To account for the motion of the entire current wave configuration, the
+solver considers all fronts on both sides of the turning point: from
+<span class="arithmatex">\(x=-1\)</span> to <span class="arithmatex">\(\xi(t)\)</span> on the left, and from <span class="arithmatex">\(\xi(t)\)</span> to <span class="arithmatex">\(x=1\)</span> on the right.
+It then computes</p>
+<div class="arithmatex">\[
+\psi^\ast =
+\sum_i s_i^R
+\bigl[c(\rho_i^R)-c(\rho_{i+1}^R)\bigr] -
+\sum_i s_i^L
+\bigl[c(\rho_i^L)-c(\rho_{i+1}^L)\bigr].
+\]</div>
+<p>Here, <span class="arithmatex">\(s_i^L\)</span> and <span class="arithmatex">\(s_i^R\)</span> denote the propagation speeds of the individual
+wave fronts on the left and right of <span class="arithmatex">\(\xi(t)\)</span>, respectively, while
+<span class="arithmatex">\(\rho_i\)</span> and <span class="arithmatex">\(\rho_{i+1}\)</span> are the constant density states separated by
+that front. The index <span class="arithmatex">\(i\)</span> therefore runs over all fronts currently present
+on the corresponding side.</p>
+<p>This should not be confused with collision detection. Collision detection
+only compares neighbouring fronts to find which interaction occurs next.
+In contrast, <span class="arithmatex">\(\psi^\ast\)</span> uses the entire current wave configuration and
+describes how the motion of these fronts is changing the balance between
+the left and right travel costs.</p>
+<p>Choosing the state at the turning point.</p>
+<p>At a given interaction time, the position of the turning point <span class="arithmatex">\(\xi(t)\)</span>
+is already known from its previous propagation. What must now be updated
+is the local wave configuration around <span class="arithmatex">\(\xi(t)\)</span> and the speed with which
+the turning point will move during the next time interval. The solver starts from three quantities,</p>
+<div class="arithmatex">\[
+\rho_L,\qquad \rho_R,\qquad \psi^\ast,
+\]</div>
+<p>where</p>
+<div class="arithmatex">\[
+\rho_L=\rho(\xi(t)^-,t),
+\qquad
+\rho_R=\rho(\xi(t)^+,t)
+\]</div>
+<p>are the density states immediately to the left and right of the turning
+point. These are local quantities: they describe only the two states
+touching <span class="arithmatex">\(\xi(t)\)</span>. In contrast, <span class="arithmatex">\(\psi^\ast\)</span> is a global quantity obtained
+from all wave fronts currently present on both sides of the domain. It
+describes how the motion of the current fronts affects the left--right
+travel-cost balance.</p>
+<p>The purpose of the turning-point solver is therefore to find a new
+intermediate state, denoted by <span class="arithmatex">\(\rho_m\)</span>, and a new turning-point speed
+<span class="arithmatex">\(s_m\)</span> such that the cost balance remains satisfied during the next period
+of propagation. The first distinction is made according to the two neighbouring states,</p>
+<div class="arithmatex">\[
+\rho_L=\rho_R,\qquad
+\rho_L&gt;\rho_R,\qquad\text{or}\qquad
+\rho_L&lt;\rho_R.
+\]</div>
+<p>These three cases lead to different possible wave patterns around the
+turning point: a single connecting front, a discretized rarefaction fan,
+or a vacuum region with <span class="arithmatex">\(\rho_m=0\)</span>. The particular pattern depends on
+the relation between <span class="arithmatex">\(\rho_L\)</span> and <span class="arithmatex">\(\rho_R\)</span> and on the current
+cost-balance quantity <span class="arithmatex">\(\psi^\ast\)</span>. To determine which pattern is admissible, the value of
+<span class="arithmatex">\(\psi^\ast\)</span> is compared with threshold values obtained from four auxiliary
+functions,</p>
+<div class="arithmatex">\[
+\theta,\qquad \lambda,\qquad \xi_1,\qquad \xi_2.
+\]</div>
+<p>The functions <span class="arithmatex">\(\theta\)</span> and <span class="arithmatex">\(\lambda\)</span> correspond to the two possible
+single-front configurations around the turning point. For the <span class="arithmatex">\(\theta\)</span> configuration, the turning-point front separates
+<span class="arithmatex">\(\rho_L\)</span> and <span class="arithmatex">\(\rho_m\)</span>, while the additional connection
+<span class="arithmatex">\(\rho_m\to\rho_R\)</span> lies to the right of <span class="arithmatex">\(\xi(t)\)</span>. For the <span class="arithmatex">\(\lambda\)</span> configuration, the turning-point front separates
+<span class="arithmatex">\(\rho_m\)</span> and <span class="arithmatex">\(\rho_R\)</span>, while the additional connection
+<span class="arithmatex">\(\rho_L\to\rho_m\)</span> lies to the left of <span class="arithmatex">\(\xi(t)\)</span>. Thus, <span class="arithmatex">\(\theta\)</span> and <span class="arithmatex">\(\lambda\)</span> describe two different ways of inserting the
+intermediate state <span class="arithmatex">\(\rho_m\)</span> between the neighbouring states
+<span class="arithmatex">\(\rho_L\)</span> and <span class="arithmatex">\(\rho_R\)</span> while satisfying the cost-balance condition.</p>
+<p>For the <span class="arithmatex">\(\xi_1\)</span> configuration, the front located at the turning point
+separates <span class="arithmatex">\(\rho_L\)</span> and the intermediate state <span class="arithmatex">\(\rho_m\)</span>, while the
+connection from <span class="arithmatex">\(\rho_m\)</span> to <span class="arithmatex">\(\rho_R\)</span> is resolved as a rarefaction fan
+on the right of <span class="arithmatex">\(\xi(t)\)</span>. For the <span class="arithmatex">\(\xi_2\)</span> configuration, the arrangement is reversed: the
+turning-point front separates <span class="arithmatex">\(\rho_m\)</span> and <span class="arithmatex">\(\rho_R\)</span>, while the
+connection from <span class="arithmatex">\(\rho_L\)</span> to <span class="arithmatex">\(\rho_m\)</span> is resolved as a rarefaction fan
+on the left of <span class="arithmatex">\(\xi(t)\)</span>. Here, <span class="arithmatex">\(\xi_1\)</span> and <span class="arithmatex">\(\xi_2\)</span> are auxiliary scalar functions and should not
+be confused with the turning-point position <span class="arithmatex">\(\xi(t)\)</span>.</p>
+<p>Once the appropriate case is identified,  the
+corresponding equation</p>
+<div class="arithmatex">\[
+\theta(\rho_m)=\psi^\ast,\qquad
+\lambda(\rho_m)=\psi^\ast,\qquad
+\xi_1(\rho_m)=\psi^\ast,
+\quad\text{or}\quad
+\xi_2(\rho_m)=\psi^\ast
+\]</div>
+<p>is solved for <span class="arithmatex">\(\rho_m\)</span>. Only one of these equations is solved for a given
+configuration. </p>
+<h4 id="construction-of-the-outgoing-fronts">Construction of the outgoing fronts.</h4>
+<p>Once the appropriate case has been selected, the intermediate state
+<span class="arithmatex">\(\rho_m\)</span> is projected onto the <span class="arithmatex">\(\varepsilon\)</span>-grid. The front located
+exactly at the turning point connects <span class="arithmatex">\(\rho_m\)</span> to one of the neighbouring
+states, either <span class="arithmatex">\(\rho_L\)</span> or <span class="arithmatex">\(\rho_R\)</span>, and its propagation speed <span class="arithmatex">\(s_m\)</span> is
+computed from the corresponding Rankine--Hugoniot relation.</p>
+<p>The intermediate state <span class="arithmatex">\(\rho_m\)</span> must then also be connected to the state
+on the opposite side of the turning point. For example, if the
+turning-point front connects <span class="arithmatex">\(\rho_L\)</span> to <span class="arithmatex">\(\rho_m\)</span>, then the second
+connection must join <span class="arithmatex">\(\rho_m\)</span> to <span class="arithmatex">\(\rho_R\)</span>. Conversely, if the
+turning-point front connects <span class="arithmatex">\(\rho_m\)</span> to <span class="arithmatex">\(\rho_R\)</span>, then the second
+connection must join <span class="arithmatex">\(\rho_L\)</span> to <span class="arithmatex">\(\rho_m\)</span>. This second connection is constructed according to the selected wave
+pattern. If it is a shock, a single additional front is introduced. If
+it is a rarefaction, it is represented by an <span class="arithmatex">\(\varepsilon\)</span>-spaced fan of
+fronts, with each front assigned its own propagation speed. In the vacuum case,</p>
+<div class="arithmatex">\[
+\rho_m=0,
+\]</div>
+<p>and the turning-point speed is obtained directly from the cost-balance
+condition rather than from a Rankine--Hugoniot ratio.</p>
+<p>This completes the updated local configuration at <span class="arithmatex">\(\xi(t)\)</span>, which is then
+propagated together with the existing fronts until the next interaction.</p>
+<h4 id="inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion">Inconsistency in algorithm: unchecked front ordering after fan insertion.</h4>
+<p>When the <span class="arithmatex">\(\xi_1\)</span> or <span class="arithmatex">\(\xi_2\)</span> configuration is selected, an
+<span class="arithmatex">\(\varepsilon\)</span>-spaced rarefaction fan is introduced on one side of the
+turning point. The speed of each front in the fan is computed from the
+Rankine-Hugoniot relation using consecutive density states within that
+fan. After the complete local configuration is assembled, however, the
+speed of the front at the boundary of the fan is not checked against the
+speed of the front placed immediately next to it. This neighbouring front
+may be the turning-point front <span class="arithmatex">\(x_m\)</span>, or a separate front introduced by
+the same coupling resolution, such as a shock connecting <span class="arithmatex">\(\rho_m\)</span> to a
+vacuum state.</p>
+<p>During the turning-point resolution, both the rarefaction fan and any
+additional connecting front are initialized at the current position
+<span class="arithmatex">\(\xi(t)\)</span>. Therefore, the last front of the fan and the separately
+inserted neighbouring front initially satisfy</p>
+<div class="arithmatex">\[
+x_j=x_{j+1}=\xi(t).
+\]</div>
+<p>For these coincident fronts to separate in the correct left-to-right
+order, their speeds must satisfy</p>
+<div class="arithmatex">\[
+s_j\leq s_{j+1}.
+\]</div>
+<p>The issue is that the construction can instead produce</p>
+<div class="arithmatex">\[
+x_j=x_{j+1},
+\qquad
+s_j&gt;s_{j+1},
+\]</div>
+<p>so that the trailing front moves faster than the front immediately ahead
+of it. The two fronts should therefore interact as soon as they are
+created. Their computed collision time is</p>
+<div class="arithmatex">\[
+\tau_j =
+\frac{x_{j+1}-x_j}{s_j-s_{j+1}} =0.
+\]</div>
+<p>Because the collision search considers only strictly positive
+times, <span class="arithmatex">\(\tau_j&gt;0\)</span>, this immediate interaction is excluded and the
+incorrectly ordered pair remains undetected.</p>
+<p>The observed inconsistency is specific to the junction between a newly
+inserted rarefaction fan and the adjacent separately constructed front.
+The <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\lambda\)</span>, and vacuum configurations were checked
+independently and are not implicated in this ordering issue. A correction
+therefore requires an explicit speed-consistency rule at every junction
+created during the assembly of the turning-point configuration.</p>
+<h2 id="time-evolution">Time evolution</h2>
+<p>Once the fronts and their speeds are known, all wave fronts,
+including the turning point <span class="arithmatex">\(\xi(t)\)</span>, are propagated at constant speed
+until the next interaction occurs. At that time, the wave configuration
+is updated and new propagation speeds are determined.</p>
+<h3 id="front-propagation">Front Propagation</h3>
+<p>Between two consecutive interactions, each front moves linearly. If a
+front is located at <span class="arithmatex">\(x_j\)</span> with speed <span class="arithmatex">\(s_j\)</span> at time <span class="arithmatex">\(t\)</span>, then its position
+after a time increment <span class="arithmatex">\(\tau\)</span> is</p>
+<div class="arithmatex">\[
+x_j(t+\tau)=x_j(t)+s_j\,\tau.
+\]</div>
+<p>The turning point is propagated in the same way using its speed <span class="arithmatex">\(s_m\)</span>.
+Thus, all fronts keep constant speeds until a collision.</p>
+<h3 id="collision-detection">Collision Detection</h3>
+<p>For two neighbouring fronts at positions <span class="arithmatex">\(x_j&lt;x_{j+1}\)</span> with speeds
+<span class="arithmatex">\(s_j\)</span> and <span class="arithmatex">\(s_{j+1}\)</span>, their possible collision time is</p>
+<div class="arithmatex">\[
+\tau_j=
+\frac{x_{j+1}-x_j}{s_j-s_{j+1}}.
+\]</div>
+<p>Only positive values of <span class="arithmatex">\(\tau_j\)</span> correspond to future collisions. The
+next interaction time is therefore</p>
+<div class="arithmatex">\[
+\tau_c=\min_{\tau_j&gt;0}\tau_j.
+\]</div>
+<p>If no positive collision time exists, or if the next collision occurs
+after the final time <span class="arithmatex">\(T\)</span>, the current fronts are simply propagated to
+<span class="arithmatex">\(T\)</span>. Otherwise, all fronts are advanced by <span class="arithmatex">\(\tau_c\)</span>, the colliding
+fronts are merged, and the corresponding Riemann problem is solved again
+to determine the new states and front speeds. </p>
+<h3 id="front-interaction-and-re-solving">Front Interaction and Re-Solving</h3>
+<p>When two or more fronts collide, the corresponding discontinuities are
+merged and the local wave configuration is updated. The density states
+on both sides of the interaction are retained as the new Riemann data. The Riemann solver is then applied again to this updated configuration.
+Any new jump is resolved into either a shock front or a discretized
+rarefaction fan, and the turning-point problem is re-solved using the
+new neighbouring states.</p>
+<p>This produces a new set of front positions, density states, and
+propagation speeds, which are then used until the next collision occurs.
+The procedure is repeated until the final time <span class="arithmatex">\(T\)</span> is reached.</p>
+<h2 id="reconstruction-of-the-solution-to-a-grid">Reconstruction of the Solution to a grid</h2>
+<p>The WFT solution is stored through the front positions, their speeds, and
+the constant density states between consecutive interaction times. To
+obtain the solution on a fixed space--time grid, these fronts are
+reconstructed at the desired sampling points. We introduce the uniform grids</p>
+<div class="arithmatex">\[
+x_i=-1+i\Delta x,
+\qquad
+\Delta x=\frac{2}{N_x-1},
+\]</div>
+<p>and</p>
+<div class="arithmatex">\[
+t_n=n\Delta t,
+\qquad
+\Delta t=\frac{T}{N_t-1},
+\]</div>
+<p>where <span class="arithmatex">\(N_x\)</span> and <span class="arithmatex">\(N_t\)</span> are the numbers of spatial and temporal grid
+points. For each time <span class="arithmatex">\(t_n\)</span>, the corresponding interaction interval is first
+identified. The stored fronts are then propagated from the last
+interaction time to <span class="arithmatex">\(t_n\)</span> using their constant speeds,</p>
+<div class="arithmatex">\[
+x_j(t_n)=x_j(t_k)+s_j(t_n-t_k).
+\]</div>
+<p>At an interaction time, two or more fronts may occupy the same numerical
+position. In this case, only the last coincident front is retained, so
+that the outgoing density state after the collision is used in the
+reconstruction.</p>
+<p>The density is piecewise constant between these reconstructed front
+positions. Therefore, each spatial grid point <span class="arithmatex">\(x_i\)</span> is assigned the
+density of the interval containing it. Repeating this procedure for all
+<span class="arithmatex">\(t_n\)</span> produces the numerical solution</p>
+<div class="arithmatex">\[
+\rho_{n,i}\approx\rho(x_i,t_n).
+\]</div>
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p>P. Goatin and M. Mimault,
+The wave-front tracking algorithm for Hughes' model of pedestrian motion,
+SIAM Journal on Scientific Computing,
+vol. 35, no. 3, pp. B606--B622, 2013.</p>
+</li>
+<li>
+<p>P. Chauhan, S. E. Choutri, M. Ghattassi, N. Masmoudi, and S. E. Jabari,
+Neural operators struggle to learn complex PDEs in pedestrian mobility:
+Hughes model case study,
+Artificial Intelligence for Transportation,
+vol. 1, Art. no. 100005, 2025.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/mathjax-config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
