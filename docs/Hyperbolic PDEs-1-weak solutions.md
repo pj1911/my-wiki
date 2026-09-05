@@ -373,6 +373,18 @@ even the definition of a solution must be handled carefully, since shocks can fo
 classical derivatives can fail. This motivates weak formulations and, to select the physically
 relevant weak solution, entropy conditions.
 
+### Test functions in practice
+
+The weak identity is required to hold for every function in a chosen test-function space, usually
+
+$$
+C_c^\infty\big((0,T)\times\mathcal U\big).
+$$
+
+This is the infinite-dimensional set of functions that have continuous derivatives of every order and vanish outside a compact region contained in the domain.
+
+In an analytical proof, one takes an arbitrary test function \(\varphi\) from this space and proves that the identity holds without assuming anything else about \(\varphi\). This establishes the result for the entire class at once. In numerical computations, testing every function is impossible. Instead, one uses a finite collection, such as localized bump functions, finite-element basis functions, or Fourier modes. Passing these tests provides evidence that an approximation has a small weak residual, but it does not prove that the identity holds for every possible test function.
+
 ### Entropy solutions
 
 Weak solutions are often not unique for hyperbolic conservation laws. A standard example is
