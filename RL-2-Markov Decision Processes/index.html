@@ -8,6 +8,8 @@
       
       
       
+        <link rel="canonical" href="https://pj1911.github.io/my-wiki/RL-2-Markov%20Decision%20Processes/">
+      
       
         <link rel="prev" href="../RL-1-Introduction/">
       
@@ -18,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,7 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -41,12 +46,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../css/justify.css">
+    
+      <link rel="stylesheet" href="../css/theme.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -54,10 +61,27 @@
 
     
     
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prajwal&#39;s  Wiki">
+    <meta property="og:title" content="2 - Markov Decision Processes · Prajwal&#39;s Wiki">
+    <meta property="og:url" content="https://pj1911.github.io/my-wiki/RL-2-Markov%20Decision%20Processes/">
+    <meta property="og:image" content="https://pj1911.github.io/my-wiki/assets/profile.jpg">
+    <meta name="twitter:card" content="summary">
+
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -78,14 +102,11 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -108,6 +129,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -133,11 +190,18 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -164,6 +228,34 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -177,13 +269,14 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     Prajwal's  Wiki
@@ -227,6 +320,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -330,6 +428,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -561,6 +664,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -635,6 +743,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -803,6 +916,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -895,15 +1013,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -1510,6 +1636,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -1937,13 +2068,63 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../RL-1-Introduction/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Reinforcement Learning
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
+  
+    
                   
 
 
 
-<h1 id="introduction-to-markov-decision-processes">Introduction to Markov Decision Processes</h1>
+<h1 id="introduction-to-markov-decision-processes">Introduction to Markov Decision Processes<a class="headerlink" href="#introduction-to-markov-decision-processes" title="Permanent link">&para;</a></h1>
 <p>In reinforcement learning (RL), interaction with an environment is modeled as a random trajectory</p>
 <div class="arithmatex">\[  
 S_0, A_0, R_1, S_1, A_1, R_2, S_2, \dots  
@@ -1969,7 +2150,7 @@ the model assigns a well-defined probability to observing exactly that sequence.
 <p>This means the distribution of the next state depends only on the current state. Equivalently, the state is a sufficient statistic of the future.</p>
 <p><strong>Fully observable environment assumption.</strong>
 When the environment is fully observable and we have chosen a state variable <span class="arithmatex">\(S_t\)</span> that captures everything relevant, the Markov property is a reasonable modeling assumption. If our <span class="arithmatex">\(S_t\)</span> omits important information, the process may fail to be Markov (this motivates POMDPs and state augmentation, which will be discussed in a later chapter).</p>
-<h3 id="state-transition-matrix">State Transition Matrix</h3>
+<h3 id="state-transition-matrix">State Transition Matrix<a class="headerlink" href="#state-transition-matrix" title="Permanent link">&para;</a></h3>
 <p>In a Markov process, state changes are described using transition probabilities. Assume a finite state space <span class="arithmatex">\(\mathcal{S}=\{1,2,\dots,n\}\)</span> and (time-homogeneous) transitions. For a current state <span class="arithmatex">\(s\)</span> and a next state <span class="arithmatex">\(s'\)</span>, the state transition probability is given as</p>
 <div class="arithmatex">\[  
 P_{ss'} \;=\; \mathbb{P}(S_{t+1}=s' \mid S_t=s),
@@ -1994,7 +2175,7 @@ P_{n1} &amp; P_{n2} &amp; \cdots &amp; P_{nn}
 (P_{1s'}, P_{2s'}, \dots, P_{ns'})^\top,  
 \]</div>
 <p>so columns are not required to sum to <span class="arithmatex">\(1\)</span> in general. Instead, they indicate how likely it is to arrive at <span class="arithmatex">\(s'\)</span> from each origin, and in stationary analysis they help interpret how probability mass moves under repeated application of <span class="arithmatex">\(P\)</span>.</p>
-<h4 id="time-dependent-trasnsition-matrix">Time dependent trasnsition matrix</h4>
+<h4 id="time-dependent-trasnsition-matrix">Time dependent trasnsition matrix<a class="headerlink" href="#time-dependent-trasnsition-matrix" title="Permanent link">&para;</a></h4>
 <p>Note that the above formulation assumes that the transition probabilities are constant over time and is therefore called a time-homogeneous Markov Process. If the transition law depends on time, we have a time-inhomogeneous Markov process given by:</p>
 <div class="arithmatex">\[  
 \Pr(S_{t+1}=s' \mid S_t=s) = P_t(s' \mid s),  
@@ -2014,7 +2195,7 @@ If the change is systematic and depends on something observable (like time of da
 <p>because <span class="arithmatex">\(t\)</span> is now part of the state. More generally, if the environment has a hidden ``mode'' <span class="arithmatex">\(M_t\)</span> that drives changes, we can try to infer and include (an estimate of) <span class="arithmatex">\(M_t\)</span> in the state.</p>
 <p><strong>Key idea.</strong>
 Nonstationarity often signals that our current <span class="arithmatex">\(S_t\)</span> is not capturing all relevant variables. ``Fixing'' it is usually done by adding missing variables to the state representation.</p>
-<h2 id="markov-reward-process">Markov Reward Process</h2>
+<h2 id="markov-reward-process">Markov Reward Process<a class="headerlink" href="#markov-reward-process" title="Permanent link">&para;</a></h2>
 <p>A Markov chain models how states evolve. To reason about good and bad states, we add rewards. A Markov Reward Process (MRP) extends a Markov process by attaching a numerical reward and is defined by the tuple <span class="arithmatex">\((\mathcal{S}, P, R, \gamma)\)</span>, where:</p>
 <ul>
 <li><span class="arithmatex">\(\mathcal{S}\)</span> is a finite set of states (the state space).</li>
@@ -2040,7 +2221,7 @@ R(s,s') = \mathbb{E}[R_{t+1}\mid S_t=s,\, S_{t+1}=s'],
 <p>An MRP can be seen as a Markov chain with rewards attached to states (or, under the transition-based convention, attached to transitions).</p>
 <p><strong>Remark (model-based vs. model-free).</strong>
 In the definition of an MRP, the tuple <span class="arithmatex">\((\mathcal S,P,R,\gamma)\)</span> specifies the environment, so <span class="arithmatex">\(P\)</span> and the reward model <span class="arithmatex">\(R\)</span> are treated as given. In many RL settings, however, <span class="arithmatex">\(P\)</span> and the expected reward model (e.g. <span class="arithmatex">\(R_s=\mathbb{E}[R_{t+1}\mid S_t=s]\)</span>) are unknown. We only observe sampled transitions and realized rewards <span class="arithmatex">\((S_t,R_{t+1},S_{t+1})\)</span>. The discount factor <span class="arithmatex">\(\gamma\)</span> is typically chosen by the practitioner.</p>
-<h3 id="return-total-reward-over-time">Return: total reward over time</h3>
+<h3 id="return-total-reward-over-time">Return: total reward over time<a class="headerlink" href="#return-total-reward-over-time" title="Permanent link">&para;</a></h3>
 <p>In reinforcement learning we often consider an episode (also called a trajectory), which is a single sampled sequence of states, actions, and rewards generated by interacting with the environment:</p>
 <div class="arithmatex">\[  
 S_0, A_0, R_1, S_1, A_1, R_2, \dots  
@@ -2064,7 +2245,7 @@ G_t = \sum_{k=0}^{\infty} R_{t+1+k}.
 G_t^{(T)} = \sum_{k=0}^{T-t-1} \gamma^k R_{t+1+k}.  
 \]</div>
 <p>This is used when only rewards up to a deadline matter. For example, in problems with a fixed-length episode, limited budget of steps, or a task where performance is evaluated over the next <span class="arithmatex">\(T-t\)</span> time steps, rewards after time <span class="arithmatex">\(T\)</span> are not counted at all.</p>
-<h4 id="why-discounting">Why discounting?</h4>
+<h4 id="why-discounting">Why discounting?<a class="headerlink" href="#why-discounting" title="Permanent link">&para;</a></h4>
 <p>Discounting is often motivated by three (compatible) reasons:</p>
 <p><strong>1) Keep returns bounded in cyclic processes.</strong>
 In a Markov process with cycles, we can revisit rewarding states infinitely often.
@@ -2083,7 +2264,7 @@ A reward received later is worth less today. Discounting models this by down-wei
 <p><strong>3) Immediate vs delayed under uncertainty / imperfect models.</strong>
 When the world is uncertain (and our model isn't perfect), far-future predictions are less reliable.
 Discounting implicitly says: optimize what we can predict/control more confidently.</p>
-<h3 id="value-function-expected-return-from-a-state">Value function: expected return from a state</h3>
+<h3 id="value-function-expected-return-from-a-state">Value function: expected return from a state<a class="headerlink" href="#value-function-expected-return-from-a-state" title="Permanent link">&para;</a></h3>
 <p>The state-value function (or simply value function) of an MRP is the expected discounted return when starting in state <span class="arithmatex">\(s\)</span>:</p>
 <div class="arithmatex">\[  
 V(s) = \mathbb{E}\!\left[G_t \mid S_t=s\right],
@@ -2091,7 +2272,7 @@ V(s) = \mathbb{E}\!\left[G_t \mid S_t=s\right],
 G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+1+k}.  
 \]</div>
 <p>Equivalently, <span class="arithmatex">\(V(s)\)</span> is a function <span class="arithmatex">\(V:\mathcal S\to\mathbb R\)</span> that assigns to each state <span class="arithmatex">\(s\)</span> the long-term utility of being in <span class="arithmatex">\(s\)</span> under the MRP dynamics (no actions), with future rewards geometrically discounted by <span class="arithmatex">\(\gamma\)</span>. This expectation is over the randomness of future transitions (and rewards).</p>
-<h4 id="bellman-expectation-equation-mrp">Bellman expectation equation (MRP)</h4>
+<h4 id="bellman-expectation-equation-mrp">Bellman expectation equation (MRP)<a class="headerlink" href="#bellman-expectation-equation-mrp" title="Permanent link">&para;</a></h4>
 <p>We can split the return into the next reward plus the rest:</p>
 <div class="arithmatex">\[  
 G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+1+k}
@@ -2147,7 +2328,7 @@ v = \mathcal R + \gamma \mathcal P\,v
 v=(I-\gamma \mathcal P)^{-1}\mathcal R,  
 \]</div>
 <p>where <span class="arithmatex">\(I\)</span> is the <span class="arithmatex">\(n\times n\)</span> identity matrix. For <span class="arithmatex">\(\gamma\in[0,1)\)</span> and finite MRPs, <span class="arithmatex">\((I-\gamma\mathcal P)\)</span> is invertible.</p>
-<h4 id="bellman-equation-for-mrps-recursive-form">Bellman equation for MRPs (recursive form)</h4>
+<h4 id="bellman-equation-for-mrps-recursive-form">Bellman equation for MRPs (recursive form)<a class="headerlink" href="#bellman-equation-for-mrps-recursive-form" title="Permanent link">&para;</a></h4>
 <p>The Bellman equation expresses the value function as a recursion: the value of a state <span class="arithmatex">\(s\)</span> is written in terms of the values of its possible successor states. Starting from <span class="arithmatex">\(s\)</span>, the process transitions to a random next state <span class="arithmatex">\(s'\)</span>, yields an immediate reward, and then continues recursively from <span class="arithmatex">\(s'\)</span>. Taking expectations over all possible next states yields a recursive equation for <span class="arithmatex">\(V(s)\)</span>.</p>
 <p><strong>Recursive form (transition-based reward, most general)</strong>
 Starting from the definition</p>
@@ -2195,7 +2376,7 @@ V(s)
 +0.3\big(R(s,c)+\gamma V(c)\big).  
 \]</div>
 <p>Equivalently, this means compute the quantity <span class="arithmatex">\(R(s,s')+\gamma V(s')\)</span> for each successor <span class="arithmatex">\(s'\in\{a,b,c\}\)</span> and take their probability-weighted average.</p>
-<h4 id="complexity-of-solving-the-bellman-equation">Complexity of solving the Bellman equation</h4>
+<h4 id="complexity-of-solving-the-bellman-equation">Complexity of solving the Bellman equation<a class="headerlink" href="#complexity-of-solving-the-bellman-equation" title="Permanent link">&para;</a></h4>
 <p>For a finite MRP with <span class="arithmatex">\(n=|\mathcal S|\)</span> states, the Bellman equation in vector form is</p>
 <div class="arithmatex">\[  
 v=\mathcal R+\gamma \mathcal P v
@@ -2206,7 +2387,7 @@ v=\mathcal R+\gamma \mathcal P v
 If we treat <span class="arithmatex">\(\mathcal P\)</span> as a dense <span class="arithmatex">\(n\times n\)</span> matrix, solving the linear system <span class="arithmatex">\((I-\gamma \mathcal P)v=\mathcal R\)</span> with standard dense methods typically costs <span class="arithmatex">\(\mathcal O(n^3)\)</span> time and storing <span class="arithmatex">\(\mathcal P\)</span> costs <span class="arithmatex">\(\mathcal O(n^2)\)</span> memory. Thus direct solvers are practical mainly for small MRPs (or when <span class="arithmatex">\(\mathcal P\)</span> is very sparse and we can use sparse linear algebra).</p>
 <p><strong>Large MRPs: iterative and sample-based methods.</strong>
 When <span class="arithmatex">\(n\)</span> is large, we usually avoid forming and inverting matrices explicitly. Instead we use iterative methods that repeatedly apply the Bellman recursion (e.g. value iteration / iterative policy evaluation), or model-free methods that estimate <span class="arithmatex">\(v\)</span> from sampled trajectories (e.g. Monte Carlo and temporal-difference learning) without needing an explicit <span class="arithmatex">\(\mathcal P\)</span>.</p>
-<h4 id="evaluation-methods-for-large-mrps">Evaluation methods for large MRPs</h4>
+<h4 id="evaluation-methods-for-large-mrps">Evaluation methods for large MRPs<a class="headerlink" href="#evaluation-methods-for-large-mrps" title="Permanent link">&para;</a></h4>
 <p>When the state space is large, directly solving the Bellman equation is often impractical. Instead, value functions are computed approximately using iterative or sample-based methods. The three most common approaches for evaluating the value function of an MRP differ in what is assumed to be known and how the Bellman recursion is used (these will be discussed in detail in later chapters).</p>
 <p><strong>1) Dynamic Programming (DP) / iterative evaluation.</strong>
 Assume the MRP model <span class="arithmatex">\((\mathcal P,\mathcal R)\)</span> is known. Starting from an arbitrary initial estimate <span class="arithmatex">\(v^{(0)}\)</span>, repeatedly apply the Bellman recursion</p>
@@ -2244,7 +2425,7 @@ with reward <span class="arithmatex">\(R_{t+1}\)</span>, define the TD error</p>
 v(s)\leftarrow v(s)+\alpha\,\delta_t.  
 \]</div>
 <p>TD methods update values online, do not require full episodes, and do not assume knowledge of the transition model.</p>
-<h2 id="markov-decision-processes-mdps">Markov Decision Processes (MDPs)</h2>
+<h2 id="markov-decision-processes-mdps">Markov Decision Processes (MDPs)<a class="headerlink" href="#markov-decision-processes-mdps" title="Permanent link">&para;</a></h2>
 <p>So far we considered Markov Reward Processes (MRPs), where the dynamics are fixed and there is no control: the process moves according to <span class="arithmatex">\(\mathcal P\)</span> and generates rewards according to <span class="arithmatex">\(\mathcal R\)</span> (or <span class="arithmatex">\(R(s,s')\)</span>). A Markov Decision Process (MDP) generalizes an MRP by introducing actions, so that the transition and reward distributions can depend on the agent's choice. A (finite, discounted) MDP is a tuple</p>
 <div class="arithmatex">\[  
 (\mathcal S,\mathcal A, P, R, \gamma),  
@@ -2265,7 +2446,7 @@ P(s'\mid s,a) = \Pr(S_{t+1}=s'\mid S_t=s, A_t=a)
 \mathcal R(s,a,s')= \mathbb E[R_{t+1}\mid S_t=s, A_t=a, S_{t+1}=s'],  
 \]</div>
 <p>Thus, compared to an MRP, the new ingredient in an MDP is that both the transition dynamics and the reward distribution can change with the action <span class="arithmatex">\(a\)</span>.</p>
-<h3 id="policies-how-the-agent-behaves">Policies: how the agent behaves</h3>
+<h3 id="policies-how-the-agent-behaves">Policies: how the agent behaves<a class="headerlink" href="#policies-how-the-agent-behaves" title="Permanent link">&para;</a></h3>
 <p>In an MDP, the environment specifies what can happen given a state and an action via <span class="arithmatex">\(P(s'\mid s,a)\)</span> and how rewards are generated via <span class="arithmatex">\(R(\cdot)\)</span>. What remains is to specify the agent's behavior: how actions are selected in each state. This is captured by a policy.</p>
 <p><strong>Definition (deterministic policy).</strong>
 A deterministic policy chooses a single action in each state:</p>
@@ -2289,7 +2470,7 @@ A policy is stationary if it does not explicitly depend on time:</p>
 \pi_t(a\mid s)\neq \pi_{t'}(a\mid s)\ \text{for some }t\neq t'.  
 \]</div>
 <p>Non-stationary policies are most common in finite-horizon settings, while discounted infinite-horizon problems typically focus on stationary policies.</p>
-<h4 id="induced-markov-processes-under-a-policy">Induced Markov processes under a policy</h4>
+<h4 id="induced-markov-processes-under-a-policy">Induced Markov processes under a policy<a class="headerlink" href="#induced-markov-processes-under-a-policy" title="Permanent link">&para;</a></h4>
 <p>An MDP specifies how the environment responds to state--action pairs. Once a policy is fixed, the agent's behavior is fully determined, and the remaining randomness comes only from the environment. In this sense, a policy ``removes control'' from the MDP and induces a Markov process. In this section we formalize this idea and show that any fixed policy transforms an MDP into a Markov reward process (MRP).</p>
 <p><strong>State dynamics under a fixed policy.</strong>
 Fix an MDP <span class="arithmatex">\((\mathcal S,\mathcal A,\mathcal P,\mathcal R,\gamma)\)</span> and a (stationary) policy <span class="arithmatex">\(\pi\)</span>. The resulting state sequence <span class="arithmatex">\(\{S_t\}\)</span> is a Markov chain with transition probabilities</p>
@@ -2324,7 +2505,7 @@ Similarly, the expected one-step reward under policy <span class="arithmatex">\(
 (\mathcal S,\mathcal P^\pi,\mathcal R^\pi,\gamma).  
 \]</div>
 <p>This induced MRP allows us to evaluate the policy using the value-function machinery developed earlier.</p>
-<h3 id="value-functions-in-mdps-state-value-and-action-value">Value functions in MDPs: state-value and action-value</h3>
+<h3 id="value-functions-in-mdps-state-value-and-action-value">Value functions in MDPs: state-value and action-value<a class="headerlink" href="#value-functions-in-mdps-state-value-and-action-value" title="Permanent link">&para;</a></h3>
 <p>We keep the same notion of discounted return as in MRPs:</p>
 <div class="arithmatex">\[  
 G_t = \sum_{k=0}^{\infty}\gamma^k R_{t+1+k}.  
@@ -2340,7 +2521,7 @@ The action-value function under policy <span class="arithmatex">\(\pi\)</span> i
 <div class="arithmatex">\[  
 Q^\pi(s,a)= \mathbb{E}_\pi\!\left[G_t \mid S_t=s,\,A_t=a\right].  
 \]</div>
-<h3 id="bellman-expectation-equations-in-mdps">Bellman expectation equations in MDPs</h3>
+<h3 id="bellman-expectation-equations-in-mdps">Bellman expectation equations in MDPs<a class="headerlink" href="#bellman-expectation-equations-in-mdps" title="Permanent link">&para;</a></h3>
 <p>The derivations mirror the MRP case: the return satisfies the recursion <span class="arithmatex">\(G_t=R_{t+1}+\gamma G_{t+1}\)</span>, and we take conditional expectations. The difference is that in an MDP the next state and reward depend on the action, and actions are chosen according to the policy <span class="arithmatex">\(\pi\)</span>.</p>
 <p><strong>Bellman expectation equation for <span class="arithmatex">\(V^\pi\)</span>.</strong>
 Start from</p>
@@ -2411,7 +2592,7 @@ Probability-weighted sum of <span class="arithmatex">\(Q^\pi(s,a)\)</span> over 
 V^\pi(s)=\sum_{a\in\mathcal A}\pi(a\mid s)\,Q^\pi(s,a).  
 \]</div>
 <p>These equations reduce to the original MRP Bellman recursion when there is only one available action (no control).</p>
-<h4 id="matrix-form-of-vpi-and-qpi-finite-mdp">Matrix form of <span class="arithmatex">\(V^\pi\)</span> and <span class="arithmatex">\(Q^\pi\)</span> (finite MDP)</h4>
+<h4 id="matrix-form-of-vpi-and-qpi-finite-mdp">Matrix form of <span class="arithmatex">\(V^\pi\)</span> and <span class="arithmatex">\(Q^\pi\)</span> (finite MDP)<a class="headerlink" href="#matrix-form-of-vpi-and-qpi-finite-mdp" title="Permanent link">&para;</a></h4>
 <p>Assume <span class="arithmatex">\(|\mathcal S|=n\)</span> and <span class="arithmatex">\(|\mathcal A|=m\)</span>. Stack the state-values into a vector <span class="arithmatex">\(v^\pi\in\mathbb R^n\)</span> with entries <span class="arithmatex">\(v^\pi_s=V^\pi(s)\)</span>.</p>
 <p><strong>Induced MRP (state-value).</strong>
 Define the policy-induced transition matrix <span class="arithmatex">\(\mathcal P^\pi\in\mathbb R^{n\times n}\)</span> and reward vector <span class="arithmatex">\(\mathcal R^\pi\in\mathbb R^n\)</span> by</p>
@@ -2448,7 +2629,7 @@ q^\pi = r + \gamma\,\mathcal P\,v^\pi
 q^\pi=(I-\gamma \mathcal P\Pi)^{-1}r,  
 \]</div>
 <p>when the inverse exists.</p>
-<h3 id="policy-evaluation">Policy evaluation</h3>
+<h3 id="policy-evaluation">Policy evaluation<a class="headerlink" href="#policy-evaluation" title="Permanent link">&para;</a></h3>
 <p>In the previous section we derived the Bellman expectation equations for an MDP under a fixed policy
 <span class="arithmatex">\(\pi\)</span>, and we ended by writing them in matrix form. At this point, it helps to pause and make explicit
 what we are actually doing: we are no longer making decisions. The policy <span class="arithmatex">\(\pi\)</span> has already committed
@@ -2471,7 +2652,7 @@ step is the real control question: "Can we do better?" That means comparing poli
 pushing performance as high as possible. This is where optimal value functions and an
 optimal policy enter, and where the Bellman equations change from averaging over actions to
 taking a maximum.</p>
-<h3 id="optimality-in-mdps-from-evaluation-to-control">Optimality in MDPs: from evaluation to control</h3>
+<h3 id="optimality-in-mdps-from-evaluation-to-control">Optimality in MDPs: from evaluation to control<a class="headerlink" href="#optimality-in-mdps-from-evaluation-to-control" title="Permanent link">&para;</a></h3>
 <p>So far we have focused on policy evaluation: given a fixed policy <span class="arithmatex">\(\pi\)</span>, we quantify its long-term performance via</p>
 <div class="arithmatex">\[
 V^\pi(s)=\mathbb{E}_\pi[G_t\mid S_t=s],
@@ -2479,7 +2660,7 @@ V^\pi(s)=\mathbb{E}_\pi[G_t\mid S_t=s],
 Q^\pi(s,a)=\mathbb{E}_\pi[G_t\mid S_t=s,A_t=a].
 \]</div>
 <p>The control problem asks the complementary question: among all policies, which behavior is best?</p>
-<h4 id="optimal-value-functions-and-optimal-policies">Optimal value functions and optimal policies</h4>
+<h4 id="optimal-value-functions-and-optimal-policies">Optimal value functions and optimal policies<a class="headerlink" href="#optimal-value-functions-and-optimal-policies" title="Permanent link">&para;</a></h4>
 <p>Let <span class="arithmatex">\(\Pi\)</span> denote the set of all (possibly stochastic) policies. Define the optimal state-value function and optimal action-value function by</p>
 <div class="arithmatex">\[
 \begin{aligned}
@@ -2527,7 +2708,7 @@ a^*(s)\in\arg\max_{a\in\mathcal A} Q^*(s,a),
 0, &amp; \text{otherwise}.
 \end{cases}
 \]</div>
-<h4 id="bellman-optimality-equations">Bellman optimality equations</h4>
+<h4 id="bellman-optimality-equations">Bellman optimality equations<a class="headerlink" href="#bellman-optimality-equations" title="Permanent link">&para;</a></h4>
 <p>The derivation mirrors the Bellman expectation equations. Start from the return recursion</p>
 <div class="arithmatex">\[
 G_t = R_{t+1}+\gamma G_{t+1},
@@ -2572,14 +2753,14 @@ best achievable value from <span class="arithmatex">\(s\)</span> is obtained by 
 each state is optimal, because <span class="arithmatex">\(Q^*\)</span> already bakes in optimal behavior after the first step.
 The Bellman optimality equations therefore differ from the expectation equations in one key way: the
 expectation over actions is replaced by a maximization, reflecting the agent's ability to choose.</p>
-<h2 id="solving-bellman-optimality">Solving Bellman optimality</h2>
+<h2 id="solving-bellman-optimality">Solving Bellman optimality<a class="headerlink" href="#solving-bellman-optimality" title="Permanent link">&para;</a></h2>
 <p>The optimality equations include <span class="arithmatex">\(\max\)</span> operators, e.g.</p>
 <div class="arithmatex">\[
 V = \max_a \left(R^a + \gamma P^a V\right),
 \]</div>
 <p>where the max is applied component-wise across actions.<br />
 This makes the system not linear in <span class="arithmatex">\(V\)</span> (unlike the MRP case <span class="arithmatex">\((I-\gamma P)V=R\)</span>). So, in general, there is no single matrix inverse expression like <span class="arithmatex">\((I-\gamma P)^{-1}R\)</span>.</p>
-<h3 id="when-is-a-closed-form-possible">When is a closed form possible?</h3>
+<h3 id="when-is-a-closed-form-possible">When is a closed form possible?<a class="headerlink" href="#when-is-a-closed-form-possible" title="Permanent link">&para;</a></h3>
 <p>Closed form becomes possible once the <span class="arithmatex">\(\max\)</span> is removed, which effectively happens when:</p>
 <p><strong>(1) The optimal action is known in advance.</strong><br />
 If we already know which action <span class="arithmatex">\(a^*(s)\)</span> is optimal in each state, then the MDP reduces to the MRP induced by the deterministic policy <span class="arithmatex">\(\pi^*(s)=a^*(s)\)</span>:</p>
@@ -2596,7 +2777,7 @@ V^* = V^{\pi^*} = (I-\gamma P^{\pi^*})^{-1} R^{\pi^*}.
 For very small state spaces, we can solve piecewise: assume a maximizing action in each state, solve the corresponding linear system, then check whether the assumed actions are truly maximizing. This is feasible only for small problems because the number of action-combinations grows exponentially.</p>
 <p><strong>(3) Special cases / restricted classes.</strong><br />
 Some structured MDPs admit analytic solutions (certain deterministic shortest-path forms, special linear-quadratic control in continuous settings, etc.), but for general finite stochastic MDPs the standard approach is iterative computation.</p>
-<h3 id="iterative-solution-methods">Iterative solution methods</h3>
+<h3 id="iterative-solution-methods">Iterative solution methods<a class="headerlink" href="#iterative-solution-methods" title="Permanent link">&para;</a></h3>
 <p><strong>Model-based vs model-free</strong></p>
 <ul>
 <li>Model-based: uses <span class="arithmatex">\(P\)</span> and <span class="arithmatex">\(R\)</span> explicitly (value iteration, policy iteration, DP).</li>
@@ -2633,7 +2814,7 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a'
 Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q(S_t,A_t)\Big).
 \]</div>
 <p>Key difference: it uses the next action actually taken <span class="arithmatex">\((A_{t+1})\)</span>, rather than <span class="arithmatex">\(\max_{a'}\)</span>.</p>
-<h2 id="appendix">Appendix</h2>
+<h2 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">&para;</a></h2>
 <p><strong>Proof of Law of total expectation</strong></p>
 <p>We want to show that:</p>
 <div class="arithmatex">\[
@@ -2686,7 +2867,7 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q
 <div class="arithmatex">\[
 \mathbb{E}[X\mid Y]=\sum_{z}\Pr(Z=z\mid Y)\,\mathbb{E}[X\mid Z=z, Y].
 \]</div>
-<h1 id="references">References</h1>
+<h1 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h1>
 <ul>
 <li>https://github.com/zyxue/youtube_RL_course_by_David_Silver</li>
 </ul>
@@ -2697,12 +2878,35 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 27, 2025 10:23:53 UTC">December 27, 2025</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
 
 
                 
+  
+
               </article>
             </div>
           
@@ -2710,18 +2914,98 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
+  
+    
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../RL-1-Introduction/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 1 - Introduction">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                1 - Introduction
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../RL-3-Partially%20Observable%20MDP/" class="md-footer__link md-footer__link--next" aria-label="Next: 3 - Partially Observable MDP">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                3 - Partially Observable MDP
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://scholar.google.com/citations?user=In39Q2MAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M390.9 298.5s0 .1.1.1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64 1.7-3.6 3.6-7.2 5.6-10.7q6.6-11.4 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3 33.6 0 64.6 11.1 89.6 29.9 9.1 6.9 17.4 14.7 24.8 23.5 5.6 6.6 10.6 13.8 15 21.3 2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0l256 202.7-94.7 77.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/pj1911" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/prajwal-chauhan-81b86b204" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pc3377@nyu.edu" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"/></svg>
     </a>
   
 </div>
@@ -2730,25 +3014,29 @@ Q(S_t,A_t)\leftarrow Q(S_t,A_t) + \alpha\Big(R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q
   </div>
 </footer>
       
+  
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../js/mathjax-config.js"></script>
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../js/ui.js"></script>
       
     
   </body>

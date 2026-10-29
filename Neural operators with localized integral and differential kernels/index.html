@@ -8,6 +8,8 @@
       
       
       
+        <link rel="canonical" href="https://pj1911.github.io/my-wiki/Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/">
+      
       
         <link rel="prev" href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
       
@@ -18,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,7 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -41,12 +46,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../css/justify.css">
+    
+      <link rel="stylesheet" href="../css/theme.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -54,10 +61,27 @@
 
     
     
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prajwal&#39;s  Wiki">
+    <meta property="og:title" content="4 - Neural Operators with localized integral and differential kernels · Prajwal&#39;s Wiki">
+    <meta property="og:url" content="https://pj1911.github.io/my-wiki/Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/">
+    <meta property="og:image" content="https://pj1911.github.io/my-wiki/assets/profile.jpg">
+    <meta name="twitter:card" content="summary">
+
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -78,14 +102,11 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -108,6 +129,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -133,11 +190,18 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -164,6 +228,34 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -177,13 +269,14 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     Prajwal's  Wiki
@@ -227,6 +320,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -330,6 +428,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -563,15 +666,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -640,15 +751,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1111,15 +1230,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1200,6 +1327,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1450,6 +1582,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1819,15 +1956,83 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../Fuzzy%20Inference%20Systems/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Mathematics
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../Hamilton-Jacobi%20equations/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Neural network methods for partial differential equations
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
+  
+    
                   
 
 
 
   <h1>4 - Neural Operators with localized integral and differential kernels</h1>
 
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>A neural operator learns a map between functions, not just between arrays. Formally, if the input is a function</p>
 <div class="arithmatex">\[
 a : D \to \mathbb{R}^{c_{\mathrm{in}}},
@@ -1848,7 +2053,7 @@ Meanwhile, ordinary CNNs have strong locality bias, which is very useful for PDE
 <li>a differential branch, which behaves like a learned finite-difference stencil in the continuous limit,</li>
 <li>a local integral branch, which keeps a fixed physical receptive field as the mesh is refined.</li>
 </ol>
-<h3 id="working-mechanism-for-fno">Working Mechanism for FNO</h3>
+<h3 id="working-mechanism-for-fno">Working Mechanism for FNO<a class="headerlink" href="#working-mechanism-for-fno" title="Permanent link">&para;</a></h3>
 <p>Suppose the hidden feature field at layer <span class="arithmatex">\(\ell\)</span> is</p>
 <div class="arithmatex">\[
 v_\ell : D \to \mathbb{R}^m.
@@ -1859,7 +2064,7 @@ v_{\ell+1}(x) = \sigma\!\left( \underbrace{W_\ell v_\ell(x)}_{\text{pointwise br
 \]</div>
 <p>Here, <span class="arithmatex">\(\mathcal{F}\)</span> denotes the Fourier transform, or the Fourier series transform on a periodic domain, <span class="arithmatex">\(R_\ell(k)\)</span> is a trainable matrix for each retained Fourier mode <span class="arithmatex">\(k\)</span>, <span class="arithmatex">\(W_\ell\)</span> is a pointwise linear map acting independently at each spatial location, and <span class="arithmatex">\(\sigma\)</span> is a nonlinearity such as GELU. Starting from <span class="arithmatex">\(v_\ell\)</span>, the FNO block transforms the feature field into Fourier space, applies the learned mode-wise matrices <span class="arithmatex">\(R_\ell(k)\)</span> to the retained coefficients, maps the result back to physical space via <span class="arithmatex">\(\mathcal{F}^{-1}\)</span>, combines it with the pointwise term <span class="arithmatex">\(W_\ell v_\ell\)</span>, and then applies <span class="arithmatex">\(\sigma\)</span>. Because the Fourier branch is global, the resulting representation at any location <span class="arithmatex">\(x\)</span> depends on information from across the entire domain, which makes FNOs particularly effective for modeling long-range interactions and learning operators that transfer across resolutions.</p>
 <p>But FNO can still miss important details, since a global spectral representation is often not the most natural way to capture strongly local effects such as derivatives and stencil-based interactions, sharp local fronts, localized kernels, or fine-scale neighborhood structure on irregular meshes. Standard discrete convolutions, on the other hand, are naturally local and therefore effective at capturing neighborhood-level interactions and fine-scale patterns. Yet they cannot be added with the FNO architecture directly without sacrificing key aspects of its operator-learning formulation. The next section makes this precise by showing why an ordinary discrete convolution is not a sufficient remedy.</p>
-<h2 id="why-an-ordinary-discrete-convolution-is-not-enough">Why an ordinary discrete convolution is not enough</h2>
+<h2 id="why-an-ordinary-discrete-convolution-is-not-enough">Why an ordinary discrete convolution is not enough<a class="headerlink" href="#why-an-ordinary-discrete-convolution-is-not-enough" title="Permanent link">&para;</a></h2>
 <p>This is the most important mathematical observation in the paper. Consider a one-dimensional uniform grid, with uniform distance <span class="arithmatex">\(h\)</span> between grid points. In other words, if the grid points are denoted by <span class="arithmatex">\(x_j\)</span>, then</p>
 <div class="arithmatex">\[
 x_{j+1}-x_j = h
@@ -1909,9 +2114,9 @@ v(y+z_i) \to v(y).
 <p>This is only a pointwise linear map. The physical receptive field has collapsed to a point. For example, a <span class="arithmatex">\(3\times 3\)</span> kernel is local in pixels, but not necessarily local in physical space. On a finer grid, those same 3 pixels cover a much smaller physical neighborhood. So a standard CNN kernel does not represent one fixed local physical operator across resolutions.</p>
 <p>This is why an ordinary discrete convolution is not consistent as a neural operator in function space.</p>
 <p><strong>Suggestions.</strong> To obtain a meaningful local operator in the continuum limit, the construction should act directly in physical space rather than in pixel or grid space, while remaining well behaved under mesh refinement. Motivated by this, the paper proposes two related directions: a local integral-operator viewpoint, which describes nearby interactions through spatially localized kernels, and a differential-operator viewpoint, which connects these local interactions to derivatives in the continuum limit. These ideas are developed in the next section.</p>
-<h2 id="local-integral-kernels-keeping-the-receptive-field-physically-fixed">Local integral kernels: keeping the receptive field physically fixed</h2>
+<h2 id="local-integral-kernels-keeping-the-receptive-field-physically-fixed">Local integral kernels: keeping the receptive field physically fixed<a class="headerlink" href="#local-integral-kernels-keeping-the-receptive-field-physically-fixed" title="Permanent link">&para;</a></h2>
 <p>To incorporate locality into operator learning, we need a notion of interaction that is tied to physical space rather than to a particular discretization. This motivates a continuum formulation in which locality is described directly through kernels acting over neighborhoods in the underlying domain. That viewpoint leads naturally to local integral operators.</p>
-<h3 id="a-continuous-local-averaging-operator">A continuous local averaging operator</h3>
+<h3 id="a-continuous-local-averaging-operator">A continuous local averaging operator<a class="headerlink" href="#a-continuous-local-averaging-operator" title="Permanent link">&para;</a></h3>
 <p>We now want to describe a local operator: an operation that updates the value at a point <span class="arithmatex">\(y\)</span> by looking only at the input function in a neighborhood around <span class="arithmatex">\(y\)</span>. A very general way to write such an operator is</p>
 <div class="arithmatex">\[
 (\mathcal{G}_k v)(y) = \int_{U(y)} k(x,y)\,v(x)\,dx,
@@ -1927,7 +2132,7 @@ v(y+z_i) \to v(y).
 (\mathcal{G}_k v)(y) \approx \sum_{x_j \in D_h \cap U(y)} k(x_j,y)\,v(x_j)\,q_j,
 \]</div>
 <p>where <span class="arithmatex">\(D_h\)</span> is the discrete mesh of the domain <span class="arithmatex">\(D\)</span> with mesh width <span class="arithmatex">\(h\)</span>, <span class="arithmatex">\(x_j\in D_h\)</span> are the mesh points, <span class="arithmatex">\(U(y)\)</span> is the local neighborhood around the output point <span class="arithmatex">\(y\)</span>, and <span class="arithmatex">\(q_j\)</span> are quadrature weights that account for the local cell size or area around each point.</p>
-<h3 id="translation-invariance">Translation invariance</h3>
+<h3 id="translation-invariance">Translation invariance<a class="headerlink" href="#translation-invariance" title="Permanent link">&para;</a></h3>
 <p>We now specialize the general local integral operator to the case where the same local rule should be applied at every point in the domain. On a flat domain, this means that the interaction between two points should depend only on their relative displacement, not on their absolute locations.</p>
 <p>For this reason, we choose the kernel in the form</p>
 <div class="arithmatex">\[
@@ -1947,7 +2152,7 @@ k(x,y)=\kappa(x-y).
 \]</div>
 <p>means that <span class="arithmatex">\(\kappa\)</span> is zero outside the ball of radius <span class="arithmatex">\(r\)</span>. Therefore, only points within distance <span class="arithmatex">\(r\)</span> of the center are used, so the operator keeps the same physical neighborhood even as the grid is refined. This is exactly what distinguishes it from an ordinary CNN kernel.</p>
 <p>Therefore, as the grid becomes finer, this construction converges to a genuine local integral operator rather than collapsing to a pointwise map.</p>
-<h3 id="how-the-kernel-is-parameterized">How the kernel is parameterized</h3>
+<h3 id="how-the-kernel-is-parameterized">How the kernel is parameterized<a class="headerlink" href="#how-the-kernel-is-parameterized" title="Permanent link">&para;</a></h3>
 <p>It remains to specify how the continuous kernel <span class="arithmatex">\(\kappa\)</span> is represented with finitely many trainable parameters. The paper uses a DISCO (discrete continuous convolution) parameterization, where <span class="arithmatex">\(\kappa\)</span> is written as a linear combination of fixed basis functions:</p>
 <div class="arithmatex">\[
 \kappa(\delta) = \sum_{\ell=1}^L \theta^{(\ell)}\kappa^{(\ell)}(\delta).
@@ -2001,14 +2206,14 @@ K_{ij}^{(\ell)} = \kappa^{(\ell)}(x_j - y_i).
 (\mathcal{I} v)(y_i) \approx \sum_{\ell=1}^L \sum_{j=1}^m \theta^{(\ell)} K_{ij}^{(\ell)} v(x_j)q_j.
 \]</div>
 <p>The matrices <span class="arithmatex">\(K^{(\ell)}\)</span> are not learned directly; they are obtained by evaluating the fixed hat functions at the offsets <span class="arithmatex">\(x_j-y_i\)</span>. Training only updates the coefficients <span class="arithmatex">\(\theta^{(\ell)}\)</span>. If the mesh resolution changes, the matrices <span class="arithmatex">\(K^{(\ell)}\)</span> are recomputed from the new offsets, while the same learned coefficients <span class="arithmatex">\(\theta^{(\ell)}\)</span> define the continuous kernel <span class="arithmatex">\(\kappa\)</span>.</p>
-<h2 id="differential-kernels-from-convolution-to-derivatives">Differential kernels: from convolution to derivatives</h2>
+<h2 id="differential-kernels-from-convolution-to-derivatives">Differential kernels: from convolution to derivatives<a class="headerlink" href="#differential-kernels-from-convolution-to-derivatives" title="Permanent link">&para;</a></h2>
 <p>Local integral kernels describe interactions over a fixed physical neighborhood, but many PDEs involve a more specific class of local operators: derivatives. Gradients, divergences, and Laplacians measure how a field changes in space, so a useful local neural-operator layer should be able to recover derivative-like behavior in the continuum limit. The goal of this section is to make that connection precise.</p>
 <p>A basic example is the centered finite difference</p>
 <div class="arithmatex">\[
 \frac{v(y+h)-v(y-h)}{2h} \approx v'(y),
 \]</div>
 <p>which may be viewed as a local stencil with weights <span class="arithmatex">\([-1,0,1]\)</span> scaled by <span class="arithmatex">\(1/(2h)\)</span>, that cancel constant functions and isolate first-order variation. The main idea in the paper is to extend this principle from hand-designed finite-difference formulas to learned local operators: instead of fixing the stencil coefficients in advance, one learns them from data while enforcing the structural constraints required for a meaningful differential limit as the mesh is refined.</p>
-<h3 id="the-key-construction">The key construction</h3>
+<h3 id="the-key-construction">The key construction<a class="headerlink" href="#the-key-construction" title="Permanent link">&para;</a></h3>
 <p>To obtain a local operator that behaves like a derivative rather than an averaging rule, we start from a centered stencil and impose a zero-sum condition on its weights. Let</p>
 <div class="arithmatex">\[
 \sum_{i=1}^S a_i = 0,
@@ -2023,7 +2228,7 @@ K_{ij}^{(\ell)} = \kappa^{(\ell)}(x_j - y_i).
 \]</div>
 <p>removes the zeroth-order contribution. In particular, if <span class="arithmatex">\(v\)</span> is constant, then <span class="arithmatex">\((\mathcal{D}_h v)(y)=0\)</span>, so the operator does not act like local averaging.</p>
 <p>This cancellation is the essential mechanism that makes the stencil sensitive to variation in <span class="arithmatex">\(v\)</span>. As the mesh is refined, the operator therefore captures local changes of the field and can converge to a spatial derivative in the continuum limit.</p>
-<h3 id="why-the-derivative-appears-scalar-1d-derivation">Why the derivative appears: scalar 1D derivation</h3>
+<h3 id="why-the-derivative-appears-scalar-1d-derivation">Why the derivative appears: scalar 1D derivation<a class="headerlink" href="#why-the-derivative-appears-scalar-1d-derivation" title="Permanent link">&para;</a></h3>
 <p>To see why <span class="arithmatex">\(\mathcal{D}_h\)</span> converges to a derivative, assume that <span class="arithmatex">\(v\)</span> is smooth and expand <span class="arithmatex">\(v(y+z_i)\)</span> around <span class="arithmatex">\(y\)</span>. By Taylor's theorem,</p>
 <div class="arithmatex">\[
 v(y+z_i) = v(y)+z_i v'(y)+\frac12 z_i^2 v''(\xi_i),
@@ -2096,7 +2301,7 @@ Therefore, in the continuum limit,</p>
 learned, but they are centered and scaled so that the layer represents a
 local derivative-like operation. This is useful for PDE problems because many
 operators involve gradients, divergences, or other derivatives.</p>
-<h3 id="input-and-trainable-parameters">Input and trainable parameters</h3>
+<h3 id="input-and-trainable-parameters">Input and trainable parameters<a class="headerlink" href="#input-and-trainable-parameters" title="Permanent link">&para;</a></h3>
 <p>The input to the differential layer is a collection of sampled field values on the mesh. In the scalar one-dimensional case, this input can be written as</p>
 <div class="arithmatex">\[
 v_h=\{v(x_j):x_j\in D_h\}.
@@ -2132,7 +2337,7 @@ a_i = \theta_i-\frac{1}{S}\sum_{\ell=1}^S \theta_\ell.
 (\mathcal D_{\theta,h}v)(y) = \frac{1}{h}\sum_{i=1}^S \left( \theta_i-\frac{1}{S}\sum_{\ell=1}^S\theta_\ell \right) v(y+z_i).
 \]</div>
 <p>During training, the parameters <span class="arithmatex">\(\theta_i\)</span> are updated by backpropagation from the loss of the full neural operator. After each update, the forward pass again centers them to produce the constrained stencil weights <span class="arithmatex">\(a_i\)</span>. Therefore, the model learns which local linear combination of neighboring values best matches the training data, while the centering step ensures that this local rule has differential, rather than averaging, behavior.</p>
-<h3 id="extension-to-multiple-dimensions-and-channels">Extension to multiple dimensions and channels</h3>
+<h3 id="extension-to-multiple-dimensions-and-channels">Extension to multiple dimensions and channels<a class="headerlink" href="#extension-to-multiple-dimensions-and-channels" title="Permanent link">&para;</a></h3>
 <p>The same idea extends directly to vector-valued fields on <span class="arithmatex">\(\mathbb{R}^d\)</span>. Let</p>
 <div class="arithmatex">\[
 v=(v_1,\dots,v_m):D\to\mathbb{R}^m.
@@ -2143,7 +2348,7 @@ v=(v_1,\dots,v_m):D\to\mathbb{R}^m.
 \]</div>
 <p>where each <span class="arithmatex">\(b_j\in\mathbb{R}^d\)</span> is determined by the learned stencil coefficients and encodes a direction in physical space.</p>
 <p>Thus, in several spatial dimensions and across multiple channels, the learned local kernel still converges to a first-order differential operator. The scalar one-dimensional derivation above is therefore the simplest instance of a more general phenomenon: learned centered stencils recover directional derivative structure in the continuum limit.</p>
-<h3 id="the-moment-matching-viewpoint">The moment-matching viewpoint</h3>
+<h3 id="the-moment-matching-viewpoint">The moment-matching viewpoint<a class="headerlink" href="#the-moment-matching-viewpoint" title="Permanent link">&para;</a></h3>
 <p>The appendix gives a more general expansion for local kernels. For a sufficiently smooth function <span class="arithmatex">\(v\)</span>,</p>
 <div class="arithmatex">\[
 \sum_{x\in B_h(y)\cap D_h} k(x,y)\,v(x) = v(y)\sum_x k(x,y) + \nabla v(y)\cdot \sum_x k(x,y)(x-y) + O(h).
@@ -2171,15 +2376,15 @@ c\,v(y)+\nabla v(y)\cdot b,
 c=0,
 \]</div>
 <p>so that the zeroth-order contribution vanishes and only the first-order term remains. This is the abstract reason the centered differential kernel works: it cancels local averaging while retaining the leading derivative term.</p>
-<h3 id="practical-interpretation">Practical interpretation</h3>
+<h3 id="practical-interpretation">Practical interpretation<a class="headerlink" href="#practical-interpretation" title="Permanent link">&para;</a></h3>
 <p>This branch is especially useful when the target operator is itself differential, or when the relevant interactions are strongly local in physical space. In such settings, the differential kernel provides an inductive bias that is better aligned with the underlying PDE structure than a purely global spectral representation.</p>
-<h2 id="model-architecture">Model Architecture</h2>
+<h2 id="model-architecture">Model Architecture<a class="headerlink" href="#model-architecture" title="Permanent link">&para;</a></h2>
 <p>The paper extends each FNO block by adding local operator branches to the usual global spectral update. A convenient summary of one layer is</p>
 <div class="arithmatex">\[
 v_{\ell+1}(x) = \sigma\!\left( \underbrace{\mathcal{W}_\ell v_\ell(x)}_{\text{pointwise branch}} + \underbrace{\mathcal{K}^{\mathrm{Fourier}}_\ell v_\ell(x)}_{\text{global Fourier branch}} + \underbrace{\mathcal{I}_\ell v_\ell(x)}_{\text{local integral branch}} + \underbrace{\mathcal{D}_\ell v_\ell(x)}_{\text{local differential branch}} \right).
 \]</div>
 <p>Thus, each block combines four complementary mechanisms: pointwise channel mixing, global information exchange through Fourier modes, local averaging over a fixed physical neighborhood, and local derivative-like interactions. Depending on the experiment, some of these branches may be omitted by setting the corresponding term to zero.</p>
-<h3 id="what-each-branch-contributes">What each branch contributes</h3>
+<h3 id="what-each-branch-contributes">What each branch contributes<a class="headerlink" href="#what-each-branch-contributes" title="Permanent link">&para;</a></h3>
 <p>Each term in the block plays a distinct role:</p>
 <table>
 <thead>
@@ -2207,7 +2412,7 @@ v_{\ell+1}(x) = \sigma\!\left( \underbrace{\mathcal{W}_\ell v_\ell(x)}_{\text{po
 </tr>
 </tbody>
 </table>
-<h2 id="how-information-flows-through-the-architecture">How information flows through the architecture</h2>
+<h2 id="how-information-flows-through-the-architecture">How information flows through the architecture<a class="headerlink" href="#how-information-flows-through-the-architecture" title="Permanent link">&para;</a></h2>
 <p>Suppose the input is a PDE state, such as vorticity, pressure, geopotential height, or velocity, represented as a function</p>
 <div class="arithmatex">\[
 a:D\to\mathbb{R}^{c_{\mathrm{in}}}.
@@ -2234,20 +2439,20 @@ u(x)=\mathcal{Q}\bigl(v_L(x)\bigr),
 a\mapsto u
 \]</div>
 <p>by repeatedly combining global and local mechanisms at every layer.</p>
-<h3 id="interpretation-at-a-single-spatial-point">Interpretation at a single spatial point</h3>
+<h3 id="interpretation-at-a-single-spatial-point">Interpretation at a single spatial point<a class="headerlink" href="#interpretation-at-a-single-spatial-point" title="Permanent link">&para;</a></h3>
 <p>It is useful to interpret one update at a fixed point <span class="arithmatex">\(y\)</span>. At that point, the Fourier branch brings in information from the entire domain, the local integral branch aggregates values from a neighborhood around <span class="arithmatex">\(y\)</span>, the differential branch measures how the feature field changes near <span class="arithmatex">\(y\)</span>, and the pointwise branch simply remixes the channels already present at <span class="arithmatex">\(y\)</span>. Thus, each update combines four different kinds of information:</p>
 <div class="arithmatex">\[
 \text{global context} \;+\; \text{local neighborhood information} \;+\; \text{local derivative structure} \;+\; \text{pointwise channel mixing}
 \]</div>
 <p>This is the main architectural idea of the paper: retain the global operator-learning strength of FNO while enriching each layer with local mechanisms that remain meaningful in the continuum limit.</p>
-<h2 id="why-this-helps">Why this helps</h2>
+<h2 id="why-this-helps">Why this helps<a class="headerlink" href="#why-this-helps" title="Permanent link">&para;</a></h2>
 <p>The benefit of this architecture is that many PDEs involve both global and local structure, so a hybrid model is often a better match than a purely global one. The Fourier branch captures long-range interactions across the domain, while the local branches preserve nearby structure that is often crucial in PDEs. In particular, the differential branch provides a natural inductive bias for operators involving derivatives, since learned centered stencils are closely aligned with how classical numerical methods approximate gradients, divergences, and Laplacians. The local integral branch, meanwhile, preserves a fixed physical receptive field as the mesh changes, so it retains locality without losing the resolution-transfer property of neural operators. Because these local kernels depend on relative position, they also inherit the parameter sharing and translation-equivariant bias associated with convolution. Finally, the same framework extends beyond regular Cartesian grids to spheres and irregular meshes, which is essential for many scientific applications where the underlying geometry is non-Euclidean.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p><strong>Main idea.</strong> The central insight of the paper is that a local operation should remain local in physical space when the discretization changes. A standard discrete convolution does not satisfy this requirement. The paper resolves this in two principled ways. First, by centering and scaling a local stencil, it constructs a learned differential operator whose limit is derivative-like. Second, by defining the kernel as a continuous function of physical offset, it obtains a learned local integral operator whose receptive field remains fixed in physical space across resolutions.</p>
 <p><strong>Architectural contribution.</strong> These local constructions are then combined with the usual FNO/Spherical FNO global branch. The resulting architecture brings together four complementary ingredients: global communication through Fourier layers, local neighborhood aggregation through integral kernels, local derivative modeling through differential kernels, and pointwise channel mixing. This makes the model a better match for many PDEs, which often involve both long-range structure and strongly local interactions. In particular, the differential branch provides an inductive bias well aligned with operators containing gradients, divergences, or Laplacians, while the local integral branch preserves locality without sacrificing the cross-resolution viewpoint of neural operators.</p>
 <p><strong>Important caveats.</strong> The paper also makes clear that these advantages do not remove all numerical difficulties. Although the construction is discretization-agnostic in principle, performance can still depend strongly on the training resolution if the data does not adequately resolve the relevant local physics. Differential layers can accumulate discretization error when stacked repeatedly, especially at insufficient resolution, in the Darcy super-resolution experiments in the paper, the strongest variant used a differential layer only in the first block. Boundary effects also do not disappear automatically, particularly in non-periodic settings where FFT-based processing is less natural. Finally, the cost of the local integral branch depends on the size of its physical support: as that support covers more neighbors on finer grids, computation increases, even if it remains more efficient than generic graph-based operator layers.</p>
 <p><strong>Final takeaway.</strong> Overall, the contribution of the paper is to enrich the neural-operator framework with local mechanisms that remain meaningful in the continuum limit. The resulting model is not simply FNO with extra local layers. It is a mathematically motivated way to make locality compatible with operator learning. That is why it can improve on both purely global spectral models and standard grid-tied convolutions: it matches the structure of many PDE operators more faithfully.</p>
-<h2 id="references">References</h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Liu-Schiaffini, M., Berner, J., Bonev, B., Kurth, T., Azizzadenesheli, K., &amp; Anandkumar, A. (2024). Neural operators with localized integral and differential kernels. arXiv preprint arXiv:2402.16845.</li>
 </ul>
@@ -2258,12 +2463,35 @@ a\mapsto u
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 08:42:49 UTC">May 5, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
 
 
                 
+  
+
               </article>
             </div>
           
@@ -2271,18 +2499,98 @@ a\mapsto u
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
+  
+    
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3 - Entropy Stable and Hyperbolic Solutions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3 - Entropy Stable and Hyperbolic Solutions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Wavefront%20Tracking%20Algorithm/" class="md-footer__link md-footer__link--next" aria-label="Next: 1 - Wavefront Tracking Algorithm">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                1 - Wavefront Tracking Algorithm
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://scholar.google.com/citations?user=In39Q2MAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M390.9 298.5s0 .1.1.1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64 1.7-3.6 3.6-7.2 5.6-10.7q6.6-11.4 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3 33.6 0 64.6 11.1 89.6 29.9 9.1 6.9 17.4 14.7 24.8 23.5 5.6 6.6 10.6 13.8 15 21.3 2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0l256 202.7-94.7 77.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/pj1911" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/prajwal-chauhan-81b86b204" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pc3377@nyu.edu" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"/></svg>
     </a>
   
 </div>
@@ -2291,25 +2599,29 @@ a\mapsto u
   </div>
 </footer>
       
+  
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../js/mathjax-config.js"></script>
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../js/ui.js"></script>
       
     
   </body>

@@ -8,6 +8,8 @@
       
       
       
+        <link rel="canonical" href="https://pj1911.github.io/my-wiki/Wavefront%20Tracking%20Algorithm/">
+      
       
         <link rel="prev" href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/">
       
@@ -18,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,7 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -41,12 +46,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../css/justify.css">
+    
+      <link rel="stylesheet" href="../css/theme.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -54,10 +61,27 @@
 
     
     
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prajwal&#39;s  Wiki">
+    <meta property="og:title" content="1 - Wavefront Tracking Algorithm · Prajwal&#39;s Wiki">
+    <meta property="og:url" content="https://pj1911.github.io/my-wiki/Wavefront%20Tracking%20Algorithm/">
+    <meta property="og:image" content="https://pj1911.github.io/my-wiki/assets/profile.jpg">
+    <meta name="twitter:card" content="summary">
+
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -78,14 +102,11 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -108,6 +129,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -133,11 +190,18 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -164,6 +228,34 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -177,13 +269,14 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     Prajwal's  Wiki
@@ -227,6 +320,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -330,6 +428,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -563,15 +666,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -638,15 +749,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -807,15 +926,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1173,6 +1300,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -1422,6 +1554,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1763,18 +1900,86 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../Fuzzy%20Inference%20Systems/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Mathematics
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Numerical methods for hyperbolic conservation laws
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
+  
+    
                   
 
 
 
   <h1>1 - Wavefront Tracking Algorithm</h1>
 
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>The Hughes model describes pedestrian motion by coupling density evolution with a dynamically determined walking direction. In one spatial dimension, the direction changes at a turning point that balances the travel cost toward the two exits. We consider a wave-front tracking approximation of this model, where the density is represented by piecewise-constant states separated by moving fronts. The method evolves these fronts through successive Riemann problems and interactions, providing a constructive approximation of the solution.</p>
-<h2 id="the-one-dimensional-hughes-model">The One-Dimensional Hughes Model</h2>
-<h3 id="governing-equations">Governing Equations</h3>
+<h2 id="the-one-dimensional-hughes-model">The One-Dimensional Hughes Model<a class="headerlink" href="#the-one-dimensional-hughes-model" title="Permanent link">&para;</a></h2>
+<h3 id="governing-equations">Governing Equations<a class="headerlink" href="#governing-equations" title="Permanent link">&para;</a></h3>
 <p>We consider pedestrians moving along the one-dimensional corridor <span class="arithmatex">\(\Omega=[-1,1]\)</span>, with exits located at the two endpoints <span class="arithmatex">\(x=-1\)</span> and <span class="arithmatex">\(x=1\)</span>. The function <span class="arithmatex">\(\rho=\rho(x,t)\)</span> denotes the pedestrian density at position <span class="arithmatex">\(x\in[-1,1]\)</span> and time <span class="arithmatex">\(t\geq0\)</span>.</p>
 <p>The one-dimensional Hughes model can be written as</p>
 <div class="arithmatex">\[
@@ -1821,7 +2026,7 @@ the form</p>
 \qquad \xi(t)\lt x\lt 1,
 \]</div>
 <p>on the right.</p>
-<h3 id="initial-and-boundary-data">Initial and Boundary Data</h3>
+<h3 id="initial-and-boundary-data">Initial and Boundary Data<a class="headerlink" href="#initial-and-boundary-data" title="Permanent link">&para;</a></h3>
 <p>Here the initial condition is assumed to be piecewise constant,</p>
 <div class="arithmatex">\[
 \rho(x,0)=\rho_0(x),
@@ -1840,7 +2045,7 @@ c(\rho)=\frac{1}{1-\rho}
 <p>becomes singular at <span class="arithmatex">\(\rho=1\)</span>. At both exits we assume vacuum outside the corridor. Numerically, this is
 implemented by adding zero-density states at <span class="arithmatex">\(x=-1\)</span> and <span class="arithmatex">\(x=1\)</span>. These
 states allow pedestrians to leave the domain through either exit.</p>
-<h2 id="wave-front-tracking-approximation">Wave-Front Tracking Approximation</h2>
+<h2 id="wave-front-tracking-approximation">Wave-Front Tracking Approximation<a class="headerlink" href="#wave-front-tracking-approximation" title="Permanent link">&para;</a></h2>
 <p>We approximate the solution of the one-dimensional Hughes model using a
 wave-front tracking (WFT) scheme. Given an initial pedestrian density
 <span class="arithmatex">\(\rho_0(x)\)</span> on the domain <span class="arithmatex">\([-1,1]\)</span>, the objective is to determine the
@@ -1852,7 +2057,7 @@ density field</p>
 separated by moving discontinuities, called wave fronts. These fronts are
 generated from local Riemann problems and evolved in time until the final
 time <span class="arithmatex">\(T\)</span>.</p>
-<h3 id="discretization-of-the-initial-density">Discretization of the Initial Density</h3>
+<h3 id="discretization-of-the-initial-density">Discretization of the Initial Density<a class="headerlink" href="#discretization-of-the-initial-density" title="Permanent link">&para;</a></h3>
 <p>Let <span class="arithmatex">\(\varepsilon&gt;0\)</span> denote the discretization parameter of the WFT scheme, with <span class="arithmatex">\(\varepsilon=1/N\)</span> for some integer <span class="arithmatex">\(N\)</span>. To construct the wave-front tracking approximation of the initial density, we use the finite set:</p>
 <div class="arithmatex">\[
 \mathcal{G}_{\varepsilon} =
@@ -1860,7 +2065,7 @@ time <span class="arithmatex">\(T\)</span>.</p>
 \]</div>
 <p>Each value taken by the initial density <span class="arithmatex">\(\rho_0\)</span> at any <span class="arithmatex">\(x\)</span>, is then replaced by
 the closest value in <span class="arithmatex">\(\mathcal{G}_{\varepsilon}\)</span>. Thus, the discretized initial density, denoted by <span class="arithmatex">\(\rho_0^\varepsilon\)</span>, remains piecewise constant and has the same jump locations as <span class="arithmatex">\(\rho_0\)</span>, while its values belong to <span class="arithmatex">\(\mathcal{G}_{\varepsilon}\)</span>. </p>
-<h3 id="initial-turning-point">Initial Turning Point</h3>
+<h3 id="initial-turning-point">Initial Turning Point<a class="headerlink" href="#initial-turning-point" title="Permanent link">&para;</a></h3>
 <p>Once the initial density has been discretized, the initial turning point
 <span class="arithmatex">\(\xi(0)\)</span> is determined from the discrete cost balance. Let</p>
 <div class="arithmatex">\[
@@ -1893,13 +2098,13 @@ linearly with distance. Therefore, <span class="arithmatex">\(\xi(0)\)</span> is
 <span class="arithmatex">\(x_{k-1}\)</span> just far enough for the accumulated cost to become exactly
 <span class="arithmatex">\(A_{\mathrm{tot}}/2\)</span>. If the half-cost value is reached exactly at
 <span class="arithmatex">\(x_k\)</span>, then <span class="arithmatex">\(\xi(0)=x_k\)</span>.</p>
-<h3 id="summary-of-the-initial-setup">Summary of the Initial Setup</h3>
+<h3 id="summary-of-the-initial-setup">Summary of the Initial Setup<a class="headerlink" href="#summary-of-the-initial-setup" title="Permanent link">&para;</a></h3>
 <p>At this point, the initial density <span class="arithmatex">\(\rho_0^\varepsilon\)</span> has been
 discretized according to <span class="arithmatex">\(\rho_i^\varepsilon\)</span>, and the initial turning point <span class="arithmatex">\(\xi(0)\)</span> has been determined
 from the cost balance. The turning point separates the left-moving and right-moving
 regions. These quantities provide the complete initial data needed to
 construct the Riemann problems and generate the wave fronts.</p>
-<h3 id="riemann-problems">Riemann Problems</h3>
+<h3 id="riemann-problems">Riemann Problems<a class="headerlink" href="#riemann-problems" title="Permanent link">&para;</a></h3>
 <p>A Riemann problem is a local conservation-law problem with two constant
 states separated by a single discontinuity. For example, at a jump
 location <span class="arithmatex">\(x=x_j\)</span>,</p>
@@ -1919,7 +2124,7 @@ their corresponding Rankine-Hugoniot speed. Together, these fronts form
 a discrete approximation of the rarefaction wave. Note that, <span class="arithmatex">\(\xi(t)\)</span> is treated as
 a moving front with its own propagation speed as well, the cost calculation is used to determine the turning-point
 position only at <span class="arithmatex">\(t=0\)</span></p>
-<h4 id="riemann-problems-away-from-the-turning-point">Riemann Problems Away from the Turning Point</h4>
+<h4 id="riemann-problems-away-from-the-turning-point">Riemann Problems Away from the Turning Point<a class="headerlink" href="#riemann-problems-away-from-the-turning-point" title="Permanent link">&para;</a></h4>
 <p>For each initial jump away from the turning point, a Riemann problem is
 solved independently. On the left of <span class="arithmatex">\(\xi\)</span>, where the flux is <span class="arithmatex">\(-f(\rho)\)</span>,
 a jump is kept as a shock when <span class="arithmatex">\(\rho_L&gt;\rho_R\)</span>, otherwise it is replaced
@@ -1931,7 +2136,7 @@ Rankine--Hugoniot relation. Thus, this step converts every initial density
 jump into a finite set of moving wave fronts. At the exits, any front located at <span class="arithmatex">\(x=-1\)</span> and moving out of the domain is
 removed, similarly, any front at <span class="arithmatex">\(x=1\)</span> moving outward is discarded. A
 stationary boundary front is then retained at each exit.</p>
-<h4 id="riemann-problem-at-the-turning-point">Riemann Problem at the Turning Point</h4>
+<h4 id="riemann-problem-at-the-turning-point">Riemann Problem at the Turning Point<a class="headerlink" href="#riemann-problem-at-the-turning-point" title="Permanent link">&para;</a></h4>
 <p>The Riemann problem at <span class="arithmatex">\(\xi(t)\)</span> is different from the problems considered
 away from the turning point. On the left, pedestrians satisfy the
 conservation law with flux <span class="arithmatex">\(-f(\rho)\)</span>, while on the right they satisfy
@@ -2045,7 +2250,7 @@ corresponding equation</p>
 \]</div>
 <p>is solved for <span class="arithmatex">\(\rho_m\)</span>. Only one of these equations is solved for a given
 configuration. </p>
-<h4 id="construction-of-the-outgoing-fronts">Construction of the outgoing fronts.</h4>
+<h4 id="construction-of-the-outgoing-fronts">Construction of the outgoing fronts.<a class="headerlink" href="#construction-of-the-outgoing-fronts" title="Permanent link">&para;</a></h4>
 <p>Once the appropriate case has been selected, the intermediate state
 <span class="arithmatex">\(\rho_m\)</span> is projected onto the <span class="arithmatex">\(\varepsilon\)</span>-grid. The front located
 exactly at the turning point connects <span class="arithmatex">\(\rho_m\)</span> to one of the neighbouring
@@ -2067,7 +2272,7 @@ fronts, with each front assigned its own propagation speed. In the vacuum case,<
 condition rather than from a Rankine--Hugoniot ratio.</p>
 <p>This completes the updated local configuration at <span class="arithmatex">\(\xi(t)\)</span>, which is then
 propagated together with the existing fronts until the next interaction.</p>
-<h4 id="inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion">Inconsistency in algorithm: unchecked front ordering after fan insertion.</h4>
+<h4 id="inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion">Inconsistency in algorithm: unchecked front ordering after fan insertion.<a class="headerlink" href="#inconsistency-in-algorithm-unchecked-front-ordering-after-fan-insertion" title="Permanent link">&para;</a></h4>
 <p>When the <span class="arithmatex">\(\xi_1\)</span> or <span class="arithmatex">\(\xi_2\)</span> configuration is selected, an
 <span class="arithmatex">\(\varepsilon\)</span>-spaced rarefaction fan is introduced on one side of the
 turning point. The speed of each front in the fan is computed from the
@@ -2112,12 +2317,12 @@ The <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\lamb
 independently and are not implicated in this ordering issue. A correction
 therefore requires an explicit speed-consistency rule at every junction
 created during the assembly of the turning-point configuration.</p>
-<h2 id="time-evolution">Time evolution</h2>
+<h2 id="time-evolution">Time evolution<a class="headerlink" href="#time-evolution" title="Permanent link">&para;</a></h2>
 <p>Once the fronts and their speeds are known, all wave fronts,
 including the turning point <span class="arithmatex">\(\xi(t)\)</span>, are propagated at constant speed
 until the next interaction occurs. At that time, the wave configuration
 is updated and new propagation speeds are determined.</p>
-<h3 id="front-propagation">Front Propagation</h3>
+<h3 id="front-propagation">Front Propagation<a class="headerlink" href="#front-propagation" title="Permanent link">&para;</a></h3>
 <p>Between two consecutive interactions, each front moves linearly. If a
 front is located at <span class="arithmatex">\(x_j\)</span> with speed <span class="arithmatex">\(s_j\)</span> at time <span class="arithmatex">\(t\)</span>, then its position
 after a time increment <span class="arithmatex">\(\tau\)</span> is</p>
@@ -2126,7 +2331,7 @@ x_j(t+\tau)=x_j(t)+s_j\,\tau.
 \]</div>
 <p>The turning point is propagated in the same way using its speed <span class="arithmatex">\(s_m\)</span>.
 Thus, all fronts keep constant speeds until a collision.</p>
-<h3 id="collision-detection">Collision Detection</h3>
+<h3 id="collision-detection">Collision Detection<a class="headerlink" href="#collision-detection" title="Permanent link">&para;</a></h3>
 <p>For two neighbouring fronts at positions <span class="arithmatex">\(x_j&lt;x_{j+1}\)</span> with speeds
 <span class="arithmatex">\(s_j\)</span> and <span class="arithmatex">\(s_{j+1}\)</span>, their possible collision time is</p>
 <div class="arithmatex">\[
@@ -2143,7 +2348,7 @@ after the final time <span class="arithmatex">\(T\)</span>, the current fronts a
 <span class="arithmatex">\(T\)</span>. Otherwise, all fronts are advanced by <span class="arithmatex">\(\tau_c\)</span>, the colliding
 fronts are merged, and the corresponding Riemann problem is solved again
 to determine the new states and front speeds. </p>
-<h3 id="front-interaction-and-re-solving">Front Interaction and Re-Solving</h3>
+<h3 id="front-interaction-and-re-solving">Front Interaction and Re-Solving<a class="headerlink" href="#front-interaction-and-re-solving" title="Permanent link">&para;</a></h3>
 <p>When two or more fronts collide, the corresponding discontinuities are
 merged and the local wave configuration is updated. The density states
 on both sides of the interaction are retained as the new Riemann data. The Riemann solver is then applied again to this updated configuration.
@@ -2153,7 +2358,7 @@ new neighbouring states.</p>
 <p>This produces a new set of front positions, density states, and
 propagation speeds, which are then used until the next collision occurs.
 The procedure is repeated until the final time <span class="arithmatex">\(T\)</span> is reached.</p>
-<h2 id="reconstruction-of-the-solution-to-a-grid">Reconstruction of the Solution to a grid</h2>
+<h2 id="reconstruction-of-the-solution-to-a-grid">Reconstruction of the Solution to a grid<a class="headerlink" href="#reconstruction-of-the-solution-to-a-grid" title="Permanent link">&para;</a></h2>
 <p>The WFT solution is stored through the front positions, their speeds, and
 the constant density states between consecutive interaction times. To
 obtain the solution on a fixed space--time grid, these fronts are
@@ -2187,7 +2392,7 @@ density of the interval containing it. Repeating this procedure for all
 <div class="arithmatex">\[
 \rho_{n,i}\approx\rho(x_i,t_n).
 \]</div>
-<h2 id="references">References</h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p>P. Goatin and M. Mimault,
@@ -2210,12 +2415,35 @@ vol. 1, Art. no. 100005, 2025.</p>
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 18, 2026 17:41:05 UTC">August 18, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
 
 
                 
+  
+
               </article>
             </div>
           
@@ -2223,18 +2451,98 @@ vol. 1, Art. no. 100005, 2025.</p>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
+  
+    
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4 - Neural Operators with localized integral and differential kernels">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4 - Neural Operators with localized integral and differential kernels
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../RL-1-Introduction/" class="md-footer__link md-footer__link--next" aria-label="Next: 1 - Introduction">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                1 - Introduction
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://scholar.google.com/citations?user=In39Q2MAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M390.9 298.5s0 .1.1.1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64 1.7-3.6 3.6-7.2 5.6-10.7q6.6-11.4 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3 33.6 0 64.6 11.1 89.6 29.9 9.1 6.9 17.4 14.7 24.8 23.5 5.6 6.6 10.6 13.8 15 21.3 2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0l256 202.7-94.7 77.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/pj1911" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/prajwal-chauhan-81b86b204" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pc3377@nyu.edu" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"/></svg>
     </a>
   
 </div>
@@ -2243,25 +2551,29 @@ vol. 1, Art. no. 100005, 2025.</p>
   </div>
 </footer>
       
+  
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../js/mathjax-config.js"></script>
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../js/ui.js"></script>
       
     
   </body>

@@ -8,6 +8,8 @@
       
       
       
+        <link rel="canonical" href="https://pj1911.github.io/my-wiki/Retrieval-Augmented%20Generation/">
+      
       
         <link rel="prev" href="../Transformers-5-KSA/">
       
@@ -18,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,7 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -41,12 +46,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../css/justify.css">
+    
+      <link rel="stylesheet" href="../css/theme.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -54,10 +61,27 @@
 
     
     
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prajwal&#39;s  Wiki">
+    <meta property="og:title" content="Retrieval-Augmented Generation (RAG) · Prajwal&#39;s Wiki">
+    <meta property="og:url" content="https://pj1911.github.io/my-wiki/Retrieval-Augmented%20Generation/">
+    <meta property="og:image" content="https://pj1911.github.io/my-wiki/assets/profile.jpg">
+    <meta name="twitter:card" content="summary">
+
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -78,14 +102,11 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -108,6 +129,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -133,11 +190,18 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -164,6 +228,34 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -177,13 +269,14 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     Prajwal's  Wiki
@@ -230,15 +323,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -333,15 +434,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
-          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
             
   
   
@@ -882,6 +991,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -956,6 +1070,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1124,6 +1243,11 @@
     
     
     
+      
+      
+        
+      
+    
     
     <li class="md-nav__item md-nav__item--nested">
       
@@ -1213,6 +1337,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1463,6 +1592,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1847,15 +1981,65 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../linearRegression/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Machine Learning
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
+  
+    
                   
 
 
 
   <h1>Retrieval-Augmented Generation (RAG)</h1>
 
-<h2 id="introduction-to-rag">Introduction to RAG</h2>
+<h2 id="introduction-to-rag">Introduction to RAG<a class="headerlink" href="#introduction-to-rag" title="Permanent link">&para;</a></h2>
 <p>RAG stands for Retrieval-Augmented Generation. The name tells us almost everything important:</p>
 <ul>
 <li>Retrieval: before answering, the system searches for relevant external information.</li>
@@ -1906,7 +2090,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="rag-glossary">RAG glossary</h2>
+<h2 id="rag-glossary">RAG glossary<a class="headerlink" href="#rag-glossary" title="Permanent link">&para;</a></h2>
 <p>Before going deeper, it helps to define the words that appear over and over in the scientific literature related to RAG.</p>
 <table>
 <thead>
@@ -1979,7 +2163,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="how-a-basic-rag-system-works">How a basic RAG system works</h2>
+<h2 id="how-a-basic-rag-system-works">How a basic RAG system works<a class="headerlink" href="#how-a-basic-rag-system-works" title="Permanent link">&para;</a></h2>
 <p>A basic RAG system is usually a pipeline. That means it is not just one model. It is several connected steps.</p>
 <p>Knowledge sources → Cleaning and chunking → Indexing <span class="arithmatex">\(BM25 / vectors\)</span> → Retrieve top-<span class="arithmatex">\(k\)</span> chunks → Rerank / filter → Build prompt with evidence → Generate answer → Citations, checks, logs, feedback</p>
 <p>A minimal mathematical picture is:</p>
@@ -1997,7 +2181,7 @@ D = \text{Retrieve}(q), \qquad y = \text{Generate}(q, D).
 <p><strong>7. Build the final prompt.</strong> The user question and the retrieved evidence are put together into the prompt for the LLM. The prompt may also instruct the model to cite sources, avoid unsupported claims, or say I do not know if evidence is weak.</p>
 <p><strong>8. Generate the answer.</strong> The LLM reads the retrieved material and writes a response. This is the generation part of RAG.</p>
 <p><strong>9. Check, cite, and log.</strong> Stronger systems may verify the answer, attach citations, log which documents were used, or send the output to human review in high-stakes settings.</p>
-<h2 id="example-case">Example Case</h2>
+<h2 id="example-case">Example Case<a class="headerlink" href="#example-case" title="Permanent link">&para;</a></h2>
 <p>User question: According to the 2025 travel policy, can interns book business-class flights?</p>
 <p><strong>What a plain LLM might do:</strong> It may guess from general patterns about company travel policy, but it has no guarantee that its answer matches the organization's actual rules.</p>
 <p><strong>What a RAG system does:</strong></p>
@@ -2017,13 +2201,13 @@ D = \text{Retrieve}(q), \qquad y = \text{Generate}(q, D).
 No. Under the 2025 travel policy, interns must book economy class. Business class is restricted to directors and above on long flights, unless a separate medical accommodation applies. [Policy 4.2, 4.7]</p>
 <p>This example shows the main value of RAG: it answers from the actual source instead of guessing from generic prior knowledge.</p>
 <p>Note that, RAG reduces the risk of hallucination, but it does not guarantee truth. The system can still fail if it retrieves the wrong chunk, chooses an outdated version, or generates claims not fully supported by the evidence [<a href="#ref-1">1</a>, <a href="#ref-10">10</a>, <a href="#ref-3">3</a>].</p>
-<h2 id="important-design-choices-in-real-rag-systems">Important design choices in real RAG systems</h2>
-<h3 id="source-quality-and-document-preparation">Source quality and document preparation</h3>
+<h2 id="important-design-choices-in-real-rag-systems">Important design choices in real RAG systems<a class="headerlink" href="#important-design-choices-in-real-rag-systems" title="Permanent link">&para;</a></h2>
+<h3 id="source-quality-and-document-preparation">Source quality and document preparation<a class="headerlink" href="#source-quality-and-document-preparation" title="Permanent link">&para;</a></h3>
 <p>A RAG system inherits both the strengths and the weaknesses of its knowledge source. If the underlying documents are duplicated, outdated, badly parsed, missing metadata, or mixed across versions, retrieval becomes unreliable. In practice, many RAG failures are actually failures of document preparation. For this reason, good practice includes removing duplicates, preserving section titles and document boundaries, keeping version and date metadata, separating trusted from untrusted sources, and ensuring that tables, lists, and headings are not destroyed during parsing.</p>
-<h3 id="chunking">Chunking</h3>
+<h3 id="chunking">Chunking<a class="headerlink" href="#chunking" title="Permanent link">&para;</a></h3>
 <p>Chunking may seem simple, but it is one of the most important design choices in RAG: if chunks are too small, relevant information may be split across multiple pieces, while if they are too large, retrieval may include unnecessary text and dilute the most useful evidence.</p>
 <p>This is one reason recent work such as RAPTOR explores more structured retrieval for long documents, using recursive summaries and multiple levels of abstraction rather than relying only on flat, fixed-size chunks <a href="#ref-7">[7]</a>. Recent work also suggests that metadata, that is, descriptive information about a document, such as its title, section, date, author, or source, can substantially improve retrieval, especially in repetitive corpora where semantic similarity alone may not be enough to distinguish the most relevant passage <a href="#ref-8">[8]</a>.</p>
-<h3 id="retriever-choice">Retriever choice</h3>
+<h3 id="retriever-choice">Retriever choice<a class="headerlink" href="#retriever-choice" title="Permanent link">&para;</a></h3>
 <p>Retrievers are often grouped into three broad families:</p>
 <ul>
 <li>Sparse retrievers: rely on exact terms, rare words, or token overlap. They are often strong for identifiers, acronyms, codes, and exact names.</li>
@@ -2031,10 +2215,10 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 <li>Hybrid retrievers: combine sparse and dense signals.</li>
 </ul>
 <p>Hybrid retrieval remains popular because it captures both exact lexical clues and semantic similarity. In many practical systems, especially those involving technical vocabulary, product names, or regulations, hybrid retrieval is a strong starting point <a href="#ref-3">[3]</a>.</p>
-<h3 id="reranking-and-context-filtering">Reranking and context filtering</h3>
+<h3 id="reranking-and-context-filtering">Reranking and context filtering<a class="headerlink" href="#reranking-and-context-filtering" title="Permanent link">&para;</a></h3>
 <p>First-stage retrieval is often fast but noisy. A reranker can reorder candidates based on a deeper relevance judgment. Some systems also compress context by keeping only the most relevant sentences or passages.</p>
 <p>Corrective RAG (CRAG) goes a step further: it explicitly evaluates retrieval quality and can decide to change the retrieval behavior if the initial evidence looks weak <a href="#ref-6">[6]</a>. This is important because bad retrieval should not always be treated as good enough.</p>
-<h3 id="prompting-and-answer-policy">Prompting and answer policy</h3>
+<h3 id="prompting-and-answer-policy">Prompting and answer policy<a class="headerlink" href="#prompting-and-answer-policy" title="Permanent link">&para;</a></h3>
 <p>The way evidence is presented to the model matters. Strong prompts often do some combination of the following:</p>
 <ul>
 <li>tell the model to answer only from retrieved evidence,</li>
@@ -2044,7 +2228,7 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 <li>discourage unsupported speculation.</li>
 </ul>
 <p>Self-RAG pushed this idea further by training a model to decide when retrieval is needed and to critique its own generations with special reflection signals <a href="#ref-9">[9]</a>.</p>
-<h3 id="evaluation">Evaluation</h3>
+<h3 id="evaluation">Evaluation<a class="headerlink" href="#evaluation" title="Permanent link">&para;</a></h3>
 <p>Evaluating a RAG system is harder than evaluating a plain generator because RAG has multiple moving parts. we may want to measure:</p>
 <ul>
 <li>retrieval quality: did the system fetch the right evidence?</li>
@@ -2095,7 +2279,7 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 </tr>
 </tbody>
 </table>
-<h3 id="common-failure-modes">Common failure modes</h3>
+<h3 id="common-failure-modes">Common failure modes<a class="headerlink" href="#common-failure-modes" title="Permanent link">&para;</a></h3>
 <p>Many RAG failures can be grouped into a small number of categories:</p>
 <ol>
 <li>The relevant information was never indexed.</li>
@@ -2105,7 +2289,7 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 <li>The evidence itself was outdated, low quality, or contradictory.</li>
 </ol>
 <p>This shows that RAG is not just a "prompting trick", its a full system design problem.</p>
-<h2 id="a-short-timeline-of-rag-research">A short timeline of RAG research</h2>
+<h2 id="a-short-timeline-of-rag-research">A short timeline of RAG research<a class="headerlink" href="#a-short-timeline-of-rag-research" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -2142,42 +2326,42 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 </tr>
 </tbody>
 </table>
-<h2 id="new-research-directions-in-rag">New research directions in RAG</h2>
+<h2 id="new-research-directions-in-rag">New research directions in RAG<a class="headerlink" href="#new-research-directions-in-rag" title="Permanent link">&para;</a></h2>
 <p>This section answers the question about active research area in RAG. A useful high-level summary is that RAG research has moved from a simple pattern:</p>
 <p><em>"retrieve a few chunks once, then answer"</em></p>
 <p>toward a much richer family of systems that ask:</p>
 <p><em>"should we retrieve, what should we retrieve, how should we organize it, how do we know it helped, and how do we keep the whole system reliable?"</em></p>
-<h3 id="adaptive-self-reflective-and-agentic-rag">Adaptive, self-reflective, and agentic RAG</h3>
+<h3 id="adaptive-self-reflective-and-agentic-rag">Adaptive, self-reflective, and agentic RAG<a class="headerlink" href="#adaptive-self-reflective-and-agentic-rag" title="Permanent link">&para;</a></h3>
 <p>One major research direction is making RAG adaptive rather than fixed. Self-RAG is important here because it teaches the model to decide when retrieval is needed and to reflect on the quality of its own response <a href="#ref-9">[9]</a>. This matters because not every question needs retrieval, and blind retrieval can sometimes hurt more than help.</p>
 <p>Corrective Retrieval-Augmented Generation (CRAG) is another step in this direction. Instead of assuming the retrieved documents are good, CRAG evaluates the quality of retrieval and can change what it does next, including extending retrieval behavior when the initial evidence is weak <a href="#ref-6">[6]</a>.</p>
 <p>The broader idea has grown into Agentic RAG (A-RAG): the model behaves more like an agent that plans, decides, searches, reads, and sometimes iterates <a href="#ref-20">[20]</a>. Very recent work such as A-RAG gives the model multiple retrieval tools like keyword search, semantic search, and chunk reading, and lets it adaptively use them <a href="#ref-17">[17]</a>. At the same time, early 2026 comparison work warns that agentic RAG adds cost and complexity, so the right question is not "is agentic better?" but "when is the extra autonomy worth it?" <a href="#ref-21">[21]</a>.</p>
-<h3 id="long-document-retrieval-and-better-retrieval-units">Long-document retrieval and better retrieval units</h3>
+<h3 id="long-document-retrieval-and-better-retrieval-units">Long-document retrieval and better retrieval units<a class="headerlink" href="#long-document-retrieval-and-better-retrieval-units" title="Permanent link">&para;</a></h3>
 <p>A second major direction is improving the unit of retrieval. Traditional RAG often retrieves flat, fixed-size chunks. But long documents do not naturally come pre-divided into ideal retrieval units.</p>
 <p>RAPTOR addresses this by building a tree of summaries over the document so retrieval can happen at different levels of abstraction <a href="#ref-7">[7]</a>. This is especially useful for long documents, multi-step reasoning, and questions that require both broad understanding and specific details.</p>
 <p>Recent work also argues that metadata matters. In some domains, multiple documents share similar language, so semantics alone may not distinguish them well. Metadata-aware retrieval studies show that section labels, dates, structural cues, and document identifiers can significantly improve disambiguation <a href="#ref-8">[8]</a>.</p>
 <p>Another new line of work asks a subtle but important question: will retrieval actually help on this question? Predicting retrieval utility and final answer quality has become its own research topic, because a strong system should ideally know when extra retrieval is useful and when it is unnecessary <a href="#ref-18">[18]</a>.</p>
-<h3 id="graph-based-and-multi-hop-rag">Graph-based and multi-hop RAG</h3>
+<h3 id="graph-based-and-multi-hop-rag">Graph-based and multi-hop RAG<a class="headerlink" href="#graph-based-and-multi-hop-rag" title="Permanent link">&para;</a></h3>
 <p>Many real questions require connecting facts rather than reading one paragraph. This motivates GraphRAG, where evidence is organized using graph structure, such as entities and relations.</p>
 <p>The promise of GraphRAG is intuitive: if a problem involves relationships, a graph may provide cleaner paths for multi-hop reasoning. But recent work has become more skeptical and disciplined. A major 2025 analysis asks when graphs are truly worth using and notes that GraphRAG can underperform vanilla RAG on many real tasks <a href="#ref-15">[15]</a>.</p>
 <p>This is an important sign of scientific maturity. Instead of assuming graphs are automatically better, the field is now trying to identify the exact conditions under which graph structure helps. A very recent 2026 paper, A2RAG, pushes this further with adaptive and agentic graph retrieval aimed at reducing cost while remaining reliable in multi-hop settings <a href="#ref-19">[19]</a>.</p>
-<h3 id="multimodal-rag">Multimodal RAG</h3>
+<h3 id="multimodal-rag">Multimodal RAG<a class="headerlink" href="#multimodal-rag" title="Permanent link">&para;</a></h3>
 <p>Much of the world is not plain text. Real documents often contain images, tables, charts, formulas, scanned layouts, and other forms of mixed text-and-visual evidence.</p>
 <p>Traditional text-only RAG ignores much of that signal. This is why multimodal RAG is a major research direction.</p>
 <p>A good example is RAG-Anything, which treats multimodal content as interconnected knowledge entities and performs cross-modal hybrid retrieval over text, visual elements, tables, and other structure <a href="#ref-16">[16]</a>. This direction matters because many enterprise and scientific workflows rely on evidence that cannot be faithfully reduced to plain text alone.</p>
-<h3 id="evaluation-benchmarking-and-trust">Evaluation, benchmarking, and trust</h3>
+<h3 id="evaluation-benchmarking-and-trust">Evaluation, benchmarking, and trust<a class="headerlink" href="#evaluation-benchmarking-and-trust" title="Permanent link">&para;</a></h3>
 <p>As RAG matured, researchers realized that benchmark quality matters enormously.</p>
 <p>CRAG (Comprehensive RAG) Benchmark was designed to better reflect dynamic and realistic question answering, including web and knowledge-graph style retrieval. Its authors explicitly show that straightforward RAG leaves a large gap to fully trustworthy QA <a href="#ref-12">[12]</a>.</p>
 <p>RAGBench provides a large-scale, explainable benchmark tied to industry-style corpora and varied RAG task types <a href="#ref-11">[11]</a>. Evaluation surveys also make an important conceptual point: a RAG system has at least two major subsystems: retrieval and generation, and both need evaluation. A strong answer metric alone is not enough <a href="#ref-10">[10]</a>.</p>
-<h3 id="security-and-robustness">Security and robustness</h3>
+<h3 id="security-and-robustness">Security and robustness<a class="headerlink" href="#security-and-robustness" title="Permanent link">&para;</a></h3>
 <p>A plain beginner intuition is often: if RAG uses external evidence, it should be safer. The reality is more complicated.</p>
 <p>External evidence can also become an attack surface. Malicious or manipulated documents may influence retrieval, conflict with legitimate sources, or degrade service quality. SafeRAG formalizes this concern with a security benchmark for RAG systems and shows that external knowledge can make systems vulnerable in new ways <a href="#ref-14">[14]</a>.</p>
 <p>So the research frontier is not only about helping models know more. It is also about helping them know safely.</p>
-<h3 id="rag-versus-long-context-llms">RAG versus long-context LLMs</h3>
+<h3 id="rag-versus-long-context-llms">RAG versus long-context LLMs<a class="headerlink" href="#rag-versus-long-context-llms" title="Permanent link">&para;</a></h3>
 <p>As context windows get larger, an important question keeps coming up:</p>
 <p>Do we still need RAG if a model can read a very long context directly?</p>
 <p>A 2024 study comparing RAG with long-context LLMs found that long-context models can outperform RAG when resourced sufficiently, but RAG still has a strong cost advantage <a href="#ref-13">[13]</a>. This has pushed the field toward hybrid routing: send some questions to long-context reading, others to retrieval, and choose based on the task.</p>
 <p>This is a good example of how research has matured. The question is no longer RAG or not? It is increasingly which combination of retrieval, long context, and tool use is optimal for this specific query?</p>
-<h2 id="current-limitations-of-rag">Current Limitations of RAG</h2>
+<h2 id="current-limitations-of-rag">Current Limitations of RAG<a class="headerlink" href="#current-limitations-of-rag" title="Permanent link">&para;</a></h2>
 <p>This section turns from the promise of RAG to its limitations, highlighting the main problems that remain unresolved.</p>
 <p><strong>Retrieval quality is still the central bottleneck.</strong> If the wrong evidence is retrieved, the generator may never recover. This sounds obvious, but it remains one of the hardest practical problems because relevance depends on wording, document structure, metadata, domain vocabulary, and user intent. Recent work on corrective retrieval, metadata-aware retrieval, and retrieval-utility prediction all exist because this bottleneck remains unsolved [<a href="#ref-6">6</a>, <a href="#ref-8">8</a>, <a href="#ref-18">18</a>].</p>
 <p><strong>Correct retrieval does not guarantee faithful generation.</strong> Even when the system retrieves a relevant passage, the LLM may still misread it, overgeneralize from it, combine it incorrectly with prior knowledge, or add unsupported details.</p>
@@ -2192,10 +2376,10 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 <p><strong>We still do not know perfectly when retrieval is needed.</strong> Some questions need external evidence, others do not. Some need a little retrieval. Others need iterative search or multi-hop evidence. One of the most active modern ideas is that a good RAG system should decide when, how, and how much to retrieve. Self-RAG, A-RAG, and utility prediction papers all point toward this gap [<a href="#ref-9">9</a>, <a href="#ref-17">17</a>, <a href="#ref-18">18</a>].</p>
 <p><strong>Freshness, provenance, and source conflict are still messy.</strong> Real document collections are rarely neat. They contain outdated versions, contradictory passages, and uncertain authority levels. A useful RAG system should not only find relevant text; it should know which source is authoritative, which version is current, and how to answer when sources disagree. This remains a difficult systems problem [<a href="#ref-6">6</a>, <a href="#ref-3">3</a>].</p>
 <p><strong>Privacy-preserving and personalized RAG is still immature.</strong> Many attractive use cases involve personal or organizational memory. But that raises privacy and compliance issues. How do we personalize retrieval without leaking sensitive information? How do we maintain auditability when the retrieved memory is user-specific? Recent surveys explicitly point to privacy-preserving retrieval and personalized memory as open directions rather than solved components <a href="#ref-3">[3]</a>.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>RAG is one of the most important ideas in modern LLM systems because it addresses a basic weakness of parametric models: they are powerful reasoners and generators, but their stored knowledge is static, opaque, and not always tied to a source. RAG improves this by letting the model retrieve external evidence at inference time [<a href="#ref-1">1</a>, <a href="#ref-2">2</a>].</p>
 <p>The research frontier, however, is much richer than that simple definition. Current work is moving toward adaptive retrieval, self-reflection, agentic workflows, better long-document handling, graph-structured retrieval, multimodal evidence, stronger evaluation, and security-aware design [<a href="#ref-9">9</a>, <a href="#ref-6">6</a>, <a href="#ref-7">7</a>, <a href="#ref-14">14</a>, <a href="#ref-16">16</a>, <a href="#ref-17">17</a>, <a href="#ref-3">3</a>]. At the same time, the main gaps remain very real: retrieval quality, faithfulness, evaluation, multi-hop reasoning, multimodality, security, and cost-efficient routing are still open problems [<a href="#ref-10">10</a>, <a href="#ref-15">15</a>, <a href="#ref-18">18</a>].</p>
-<h2 id="references">References</h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p><a id="ref-1"></a> Patrick Lewis and others. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. 2020. arXiv:2005.11401.</p>
@@ -2268,12 +2452,35 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 25, 2026 14:12:01 UTC">March 25, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
 
 
                 
+  
+
               </article>
             </div>
           
@@ -2281,18 +2488,98 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
+  
+    
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Transformers-5-KSA/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 5 – Kronecker-Structured Attention">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                5 – Kronecker-Structured Attention
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Fuzzy%20Inference%20Systems/" class="md-footer__link md-footer__link--next" aria-label="Next: Fuzzy Inference Systems">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Fuzzy Inference Systems
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://scholar.google.com/citations?user=In39Q2MAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M390.9 298.5s0 .1.1.1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64 1.7-3.6 3.6-7.2 5.6-10.7q6.6-11.4 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3 33.6 0 64.6 11.1 89.6 29.9 9.1 6.9 17.4 14.7 24.8 23.5 5.6 6.6 10.6 13.8 15 21.3 2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0l256 202.7-94.7 77.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/pj1911" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/prajwal-chauhan-81b86b204" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pc3377@nyu.edu" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"/></svg>
     </a>
   
 </div>
@@ -2301,25 +2588,29 @@ No. Under the 2025 travel policy, interns must book economy class. Business clas
   </div>
 </footer>
       
+  
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../js/mathjax-config.js"></script>
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../js/ui.js"></script>
       
     
   </body>

@@ -8,6 +8,8 @@
       
       
       
+        <link rel="canonical" href="https://pj1911.github.io/my-wiki/Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
+      
       
         <link rel="prev" href="../Hyperbolic%20PDEs-1-weak%20solutions/">
       
@@ -18,8 +20,8 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -27,7 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -41,12 +46,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../css/justify.css">
+    
+      <link rel="stylesheet" href="../css/theme.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -54,10 +61,27 @@
 
     
     
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prajwal&#39;s  Wiki">
+    <meta property="og:title" content="3 - Entropy Stable and Hyperbolic Solutions · Prajwal&#39;s Wiki">
+    <meta property="og:url" content="https://pj1911.github.io/my-wiki/Hyperbolic%20PDEs-2-Conservation%20laws%20and%20entropy%20form/">
+    <meta property="og:image" content="https://pj1911.github.io/my-wiki/assets/profile.jpg">
+    <meta name="twitter:card" content="summary">
+
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -78,14 +102,11 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-header__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -108,6 +129,42 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -133,11 +190,18 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -164,6 +228,34 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -177,13 +269,14 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Prajwal&#39;s  Wiki" class="md-nav__button md-logo" aria-label="Prajwal's  Wiki" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/profile-face.jpg" alt="logo">
 
     </a>
     Prajwal's  Wiki
@@ -227,6 +320,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -330,6 +428,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -563,15 +666,23 @@
     
     
     
+      
+        
+        
+      
+      
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -640,15 +751,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1083,15 +1202,23 @@
     
     
     
+      
+      
+        
+          
+          
+        
+      
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1172,6 +1299,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1422,6 +1554,11 @@
     
     
     
+    
+      
+      
+        
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1763,15 +1900,83 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../Fuzzy%20Inference%20Systems/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Mathematics
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../Hamilton-Jacobi%20equations/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Neural network methods for partial differential equations
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
+  
+    
                   
 
 
 
   <h1>3 - Entropy Stable and Hyperbolic Solutions</h1>
 
-<h2 id="introduction-to-conservation-law">Introduction to conservation law</h2>
+<h2 id="introduction-to-conservation-law">Introduction to conservation law<a class="headerlink" href="#introduction-to-conservation-law" title="Permanent link">&para;</a></h2>
 <p>A conservation law is a mathematical statement that something is neither created nor destroyed inside a region, except by flowing across the region's boundary or by external sources. The key idea is change = stuff in - stuff out + sources. Suppose, <span class="arithmatex">\(u(x,t)\)</span> represent the density of that conserved quantity at position <span class="arithmatex">\(x\)</span> and time <span class="arithmatex">\(t\)</span>. Then the conservation principle in 1D says:</p>
 <div class="arithmatex">\[
 \frac{d}{dt} \Big(\text{amount of $u$ in an interval}\Big) =
@@ -1782,7 +1987,7 @@
 <li><span class="arithmatex">\(f(u(a,t))\)</span> is the rate at which <span class="arithmatex">\(u\)</span> flows from left to right across <span class="arithmatex">\(x=a\)</span>,</li>
 <li><span class="arithmatex">\(f(u(b,t))\)</span> is the rate at which <span class="arithmatex">\(u\)</span> flows from left to right across <span class="arithmatex">\(x=b\)</span>.</li>
 </ul>
-<h3 id="conservation-law-in-integral-and-differential-form">Conservation law in integral and differential form</h3>
+<h3 id="conservation-law-in-integral-and-differential-form">Conservation law in integral and differential form<a class="headerlink" href="#conservation-law-in-integral-and-differential-form" title="Permanent link">&para;</a></h3>
 <p>The amount of density <span class="arithmatex">\((u)\)</span> in the interval <span class="arithmatex">\([a,b]\)</span> is given by:</p>
 <div class="arithmatex">\[
 \int_a^b u(x,t)dx.
@@ -1792,7 +1997,7 @@
 \frac{d}{dt}\int_a^b u(x,t)dx = f(u(a,t)) - f(u(b,t)) + 0.
 \]</div>
 <p>This is the conservation law in integral form. It is extremely important because it remains meaningful even when <span class="arithmatex">\(u\)</span> is not smooth (for example, if there is a shock).</p>
-<h3 id="from-integral-form-to-differential-form">From integral form to differential form</h3>
+<h3 id="from-integral-form-to-differential-form">From integral form to differential form<a class="headerlink" href="#from-integral-form-to-differential-form" title="Permanent link">&para;</a></h3>
 <p>Assume <span class="arithmatex">\(u\)</span> is smooth enough that we can move derivatives inside integrals and use the fundamental theorem of calculus. We can rewrite the above as:</p>
 <div class="arithmatex">\[
 \frac{d}{dt}\int_a^b udx + \big(f(u(b,t)) - f(u(a,t))\big) = 0.
@@ -1815,7 +2020,7 @@ f(u(b,t)) - f(u(a,t)) = \int_a^b \frac{\partial}{\partial x}f(u(x,t))dx.
 \frac{\partial u}{\partial t}(x,t) + \frac{\partial}{\partial x}f(u(x,t)) = u_t + \big(f(u)\big)_x = 0.
 \]</div>
 <p>This is the differential form of a 1D conservation law.</p>
-<h3 id="adding-sources">Adding sources</h3>
+<h3 id="adding-sources">Adding sources<a class="headerlink" href="#adding-sources" title="Permanent link">&para;</a></h3>
 <p>If there is creation or removal inside the region, represented by a source term <span class="arithmatex">\(s(x,t)\)</span>, then:</p>
 <div class="arithmatex">\[
 \frac{d}{dt}\int_a^b udx = f(u(a,t)) - f(u(b,t)) + \int_a^b s(x,t)dx,
@@ -1824,7 +2029,7 @@ f(u(b,t)) - f(u(a,t)) = \int_a^b \frac{\partial}{\partial x}f(u(x,t))dx.
 <div class="arithmatex">\[
 u_t + (f(u))_x = s(x,t).
 \]</div>
-<h2 id="finite-volume-method-fvm">Finite Volume Method (FVM)</h2>
+<h2 id="finite-volume-method-fvm">Finite Volume Method (FVM)<a class="headerlink" href="#finite-volume-method-fvm" title="Permanent link">&para;</a></h2>
 <p>The finite volume method is built directly from the integral conservation law, so it automatically respects conservation. It works by integrating the PDE over small control volumes (cells) and approximating the fluxes crossing the cell boundaries. Information is exchanged between cells only through these fluxes, so a conservative flux approximation immediately yields a globally conservative scheme.</p>
 <p>Step 1: break space into cells:</p>
 <p>For any given cell <span class="arithmatex">\(i\)</span>, with center <span class="arithmatex">\(x_i\)</span>. Divide the 1D space into cells:</p>
@@ -1862,7 +2067,7 @@ u_t + (f(u))_x = 0.
 <div class="arithmatex">\[
 \frac{d\bar{u}_i}{dt} = -\frac{1}{\Delta x}\left(f_{i+\tfrac12}-f_{i-\tfrac12}\right).
 \]</div>
-<h3 id="key-numerical-problem">Key numerical problem</h3>
+<h3 id="key-numerical-problem">Key numerical problem<a class="headerlink" href="#key-numerical-problem" title="Permanent link">&para;</a></h3>
 <p>The above equation shows that the evolution of <span class="arithmatex">\(\bar{u}_i\)</span> is determined by the boundary or face fluxes <span class="arithmatex">\(f_{i\pm \tfrac12}\)</span>, but these are not directly known from the stored data. We do not know the true face fluxes <span class="arithmatex">\(f_{i\pm \tfrac12}\)</span> because we only store
 cell averages. Instead, we introduce a numerical flux at each interface:</p>
 <div class="arithmatex">\[
@@ -1882,7 +2087,7 @@ the neighboring cells. For example:</p>
 \frac{d\bar{u}_i}{dt}
   = -\frac{1}{\Delta x}\left(\hat{f}_{i+\tfrac12}-\hat{f}_{i-\tfrac12}\right).
 \]</div>
-<h3 id="time-stepping-turning-dbarudt-into-updates">Time stepping (turning <span class="arithmatex">\(d\bar{u}/dt\)</span> into updates)</h3>
+<h3 id="time-stepping-turning-dbarudt-into-updates">Time stepping (turning <span class="arithmatex">\(d\bar{u}/dt\)</span> into updates)<a class="headerlink" href="#time-stepping-turning-dbarudt-into-updates" title="Permanent link">&para;</a></h3>
 <p>The semi-discrete scheme given above gives, for each cell, an ODE in time for the averages <span class="arithmatex">\(\bar{u}_i(t)\)</span>,
 where the right-hand side depends on the cell averages at the current time but not explicitly on <span class="arithmatex">\(x\)</span>. Thus, the spatial dependence has been replaced by cell indices, leaving a system of ODEs in the single variable <span class="arithmatex">\(t\)</span>. To obtain an implementable method, we now discretize time by choosing a time-stepping scheme for this system. A common simplest method is Forward Euler in time:</p>
 <div class="arithmatex">\[
@@ -1892,7 +2097,7 @@ where the right-hand side depends on the cell averages at the current time but n
 \bar{u}_i^{n+1} = \bar{u}_i^n - \frac{\Delta t}{\Delta x}\left(\hat{f}^{\,n}\big(u_{i+\tfrac12}^L,u_{i+\tfrac12}^R\big)- \hat{f}^{\,n}\big(u_{i-\tfrac12}^L,u_{i-\tfrac12}^R\big)\right),
 \]</div>
 <p>where <span class="arithmatex">\(n\)</span> represents the <span class="arithmatex">\(n^{th}\)</span> time step for any cell <span class="arithmatex">\(i\)</span>. Higher accuracy in time uses methods like Runge--Kutta (RK2, RK3), but the flux idea stays the same.</p>
-<h3 id="cfl-condition">CFL condition</h3>
+<h3 id="cfl-condition">CFL condition<a class="headerlink" href="#cfl-condition" title="Permanent link">&para;</a></h3>
 <p>Information in hyperbolic conservation laws travels at finite speeds (wave speeds).
 Numerically, we do not want a wave to travel farther than one cell in a single
 time step: the fastest signal should not skip over cells, so that each update depends only on information from neighboring cells. If <span class="arithmatex">\(|\lambda|\)</span> is a
@@ -1910,7 +2115,7 @@ require</p>
 \]</div>
 <p>so we typically use <span class="arithmatex">\(\max |\lambda| = \max |f'(u)|\)</span> over the grid when computing
 the time step.</p>
-<h2 id="from-interface-states-to-numerical-fluxes">From interface states to numerical fluxes</h2>
+<h2 id="from-interface-states-to-numerical-fluxes">From interface states to numerical fluxes<a class="headerlink" href="#from-interface-states-to-numerical-fluxes" title="Permanent link">&para;</a></h2>
 <p>At each cell interface the solution is, in general, discontinuous, so the left and
 right traces differ:</p>
 <div class="arithmatex">\[
@@ -1921,7 +2126,7 @@ u(x_{i+\tfrac12}^+,t) \approx u_R.
 initial data having a single jump at <span class="arithmatex">\(x_{i+\tfrac12}\)</span>. A good numerical flux
 <span class="arithmatex">\(\hat{f}(u_L,u_R)\)</span> aims to approximate the physical flux at the interface
 generated by the solution of this local Riemann problem. As an example, Godunov's method can be used to approximate this flux.</p>
-<h3 id="godunovs-idea">Godunov's idea</h3>
+<h3 id="godunovs-idea">Godunov's idea<a class="headerlink" href="#godunovs-idea" title="Permanent link">&para;</a></h3>
 <ol>
 <li>Approximate the solution in each cell by a constant (piecewise constant reconstruction).</li>
 <li>At every interface, pose and solve the corresponding Riemann problem exactly.</li>
@@ -1956,7 +2161,7 @@ q_{i-\frac12}^n=\min\bigl(D(\bar u_{i-1}^n),\,S(\bar u_i^n)\bigr),
 q_{i+\frac12}^n=\min\bigl(D(\bar u_i^n),\,S(\bar u_{i+1}^n)\bigr),
 \]</div>
 <p>where the demand <span class="arithmatex">\(D(\cdot)\)</span> equals <span class="arithmatex">\(f(\cdot)\)</span> in free flow <span class="arithmatex">\((\bar u\le u_{\mathrm{cr}})\)</span> and saturates at capacity <span class="arithmatex">\(q_{\max}\)</span> in congestion, while the supply <span class="arithmatex">\(S(\cdot)\)</span> equals <span class="arithmatex">\(q_{\max}\)</span> in free flow and equals <span class="arithmatex">\(f(\cdot)\)</span> in congestion <span class="arithmatex">\((\bar u&gt;u_{\mathrm{cr}})\)</span>. Then the physics loss is the normalized <span class="arithmatex">\(\ell^p\)</span> norm of this residual (<span class="arithmatex">\(R\)</span>) over all interior cells and time steps, divided by the <span class="arithmatex">\(\ell^p\)</span> norm of the corresponding state <span class="arithmatex">\(\bar u_i^{n+1}\)</span>, which is to be minimized.</p>
-<h3 id="higher-order-reconstruction">Higher order reconstruction</h3>
+<h3 id="higher-order-reconstruction">Higher order reconstruction<a class="headerlink" href="#higher-order-reconstruction" title="Permanent link">&para;</a></h3>
 <p>To reduce this numerical diffusion, we can move to a higher-order (piecewise linear)
 reconstruction. In each cell we reconstruct a slope <span class="arithmatex">\(\sigma_i\)</span> and define</p>
 <div class="arithmatex">\[
@@ -1977,7 +2182,7 @@ purely first-order method. In summary, a high-resolution finite volume scheme
 consists of a reconstruction procedure plus a suitable numerical flux
 <span class="arithmatex">\(\hat{f}(u_L,u_R)\)</span>. There are several popular numerical fluxes for scalar conservation laws. Each
 offers a different trade-off between accuracy, robustness, and computational cost. A few example of those are upwind flux, Lax-Friedrichs (Rusanov) flux, Godunov flux, HLL-type flux and many more.</p>
-<h2 id="entropy-conservative-and-entropy-stable-fluxes">Entropy-conservative and entropy-stable fluxes</h2>
+<h2 id="entropy-conservative-and-entropy-stable-fluxes">Entropy-conservative and entropy-stable fluxes<a class="headerlink" href="#entropy-conservative-and-entropy-stable-fluxes" title="Permanent link">&para;</a></h2>
 <p>For many conservation laws it is useful to control, in addition to the
 conserved variables <span class="arithmatex">\(u\)</span>, a convex entropy <span class="arithmatex">\(\eta(u)\)</span>.
 For the scalar conservation law</p>
@@ -2028,7 +2233,7 @@ conservation law for <span class="arithmatex">\(\eta\)</span>, i.e.</p>
 <p>The equation above expresses exactly the condition that
 <span class="arithmatex">\(\eta,\{g_i\}\)</span> form an entropy / entropy–flux pair compatible
 with the fluxes <span class="arithmatex">\(\{f_i\}\)</span>.</p>
-<h3 id="entropy-variables-and-flux-potential">Entropy variables and flux potential</h3>
+<h3 id="entropy-variables-and-flux-potential">Entropy variables and flux potential<a class="headerlink" href="#entropy-variables-and-flux-potential" title="Permanent link">&para;</a></h3>
 <p>We have our conservation law for smooth solutions in entropy terms as</p>
 <div class="arithmatex">\[
 \eta(u)_t + q(u)_x = 0
@@ -2112,7 +2317,7 @@ right state.  For example,
 <span class="arithmatex">\(u_{i+\frac12}^-\)</span> and <span class="arithmatex">\(u_{i+\frac12}^+\)</span> are the left and right limits
 of <span class="arithmatex">\(u(x)\)</span> at <span class="arithmatex">\(x_{i+\frac12}\)</span>, and the corresponding entropy variables
 are <span class="arithmatex">\(v_{i+\frac12}^\pm := \eta'(u_{i+\frac12}^\pm)\)</span>.</p>
-<h3 id="entropy-conservative-numerical-flux">Entropy-conservative numerical flux</h3>
+<h3 id="entropy-conservative-numerical-flux">Entropy-conservative numerical flux<a class="headerlink" href="#entropy-conservative-numerical-flux" title="Permanent link">&para;</a></h3>
 <p>In a finite-volume method, the only information available at the interface
 <span class="arithmatex">\(x_{i+\frac12}\)</span> is the left and right cell states
 <span class="arithmatex">\(u_{i+\frac12}^-\)</span> and <span class="arithmatex">\(u_{i+\frac12}^+\)</span>.<br />
@@ -2211,7 +2416,7 @@ zero at the physical boundaries), these remaining boundary terms also cancel
 <div class="arithmatex">\[
 \frac{d}{dt}\sum_i \eta(\bar u_i)\Delta x = 0.
 \]</div>
-<h3 id="adding-dissipation-entropy-stable-fluxes">Adding dissipation: entropy-stable fluxes</h3>
+<h3 id="adding-dissipation-entropy-stable-fluxes">Adding dissipation: entropy-stable fluxes<a class="headerlink" href="#adding-dissipation-entropy-stable-fluxes" title="Permanent link">&para;</a></h3>
 <p>Exact entropy conservation is too weak in the presence of shocks: the
 physically relevant (entropy) solution satisfies
 <span class="arithmatex">\(\eta(u)_t + q(u)_x \le 0\)</span>, i.e. entropy should decrease, not be
@@ -2284,7 +2489,7 @@ boundary conditions.  Thus</p>
 <span class="arithmatex">\([v]_{i+\frac12}^\top D_{i+\frac12}[v]_{i+\frac12}\)</span> is nonnegative.
 Hence the total discrete entropy is nonincreasing in time, and the scheme
 is called entropy-stable.</p>
-<h3 id="entropy-stable-flux-formulation">Entropy stable flux formulation</h3>
+<h3 id="entropy-stable-flux-formulation">Entropy stable flux formulation<a class="headerlink" href="#entropy-stable-flux-formulation" title="Permanent link">&para;</a></h3>
 <p>In the previous subsection, we obtained an entropy-stable numerical
 flux by starting from an entropy-conservative flux
 <span class="arithmatex">\(f^{\mathrm{ec}}_{i+\frac12}\)</span> and adding a symmetric dissipation term
@@ -2345,7 +2550,7 @@ construction, i.e. it satisfies
 <span class="arithmatex">\([v]_{i+\frac12}^\top f^{\mathrm{ec}}_{i+\frac12}=[\phi(v)]_{i+\frac12}\)</span>.
 This is precisely the baseline flux needed in the discrete entropy condition, adding
 the symmetric dissipation term then yields an entropy-stable flux.</p>
-<h3 id="rusanov-type-entropy-stable-flux">Rusanov-type entropy-stable flux</h3>
+<h3 id="rusanov-type-entropy-stable-flux">Rusanov-type entropy-stable flux<a class="headerlink" href="#rusanov-type-entropy-stable-flux" title="Permanent link">&para;</a></h3>
 <p>Consider a hyperbolic system</p>
 <div class="arithmatex">\[
 u_t + f(u)_x = 0.
@@ -2388,7 +2593,7 @@ Since <span class="arithmatex">\(B^{1/2} A B^{1/2}\)</span> is symmetric, its ei
 [[\nabla_u\eta_\theta(u)]]_{i+1/2}
 \]</div>
 <p>needed to enforce the discrete entropy inequality.</p>
-<h2 id="guarantee-entropy-stablility-and-hyperbolicity-in-solution-in-d-dimensional-case">Guarantee entropy stablility and hyperbolicity in solution in d-dimensional case</h2>
+<h2 id="guarantee-entropy-stablility-and-hyperbolicity-in-solution-in-d-dimensional-case">Guarantee entropy stablility and hyperbolicity in solution in d-dimensional case<a class="headerlink" href="#guarantee-entropy-stablility-and-hyperbolicity-in-solution-in-d-dimensional-case" title="Permanent link">&para;</a></h2>
 <p>To guarantee entropy stable solution and hyperbolicity, the requirement that the flux Jacobian has real eigenvalues and
 a complete set of eigenvectors, is a property essential for well-posedness and wavepropagation dynamics. We can restrict the entropy to be convex by certain parameterization (for example parameterizing it as a input convex neural network)</p>
 <div class="arithmatex">\[
@@ -2467,7 +2672,7 @@ The product <span class="arithmatex">\(A_i B\)</span> is similar to the symmetri
 <span class="arithmatex">\(B^{1/2} A_i B^{1/2}\)</span>, hence has real eigenvalues and a complete set
 of eigenvectors. Therefore the system is hyperbolic, with
 <span class="arithmatex">\(\eta_\theta\)</span> serving as a strictly convex entropy.</p>
-<h2 id="references">References</h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Liu, L., Zhang, L., &amp; Gelb, A. (2026). Parametric Hyperbolic Conservation Laws: A Unified Framework for Conservation, Entropy Stability, and Hyperbolicity. arXiv preprint arXiv:2601.21080.</li>
 </ul>
@@ -2478,12 +2683,35 @@ of eigenvectors. Therefore the system is hyperbolic, with
 
 
 
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 12, 2026 10:06:05 UTC">March 12, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
 
 
 
 
 
                 
+  
+
               </article>
             </div>
           
@@ -2491,18 +2719,98 @@ of eigenvectors. Therefore the system is hyperbolic, with
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
+  
+    
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../Hyperbolic%20PDEs-1-weak%20solutions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2 - Weak solutions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2 - Weak solutions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Neural%20operators%20with%20localized%20integral%20and%20differential%20kernels/" class="md-footer__link md-footer__link--next" aria-label="Next: 4 - Neural Operators with localized integral and differential kernels">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                4 - Neural Operators with localized integral and differential kernels
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
   
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://scholar.google.com/citations?user=In39Q2MAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M390.9 298.5s0 .1.1.1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64 1.7-3.6 3.6-7.2 5.6-10.7q6.6-11.4 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3 33.6 0 64.6 11.1 89.6 29.9 9.1 6.9 17.4 14.7 24.8 23.5 5.6 6.6 10.6 13.8 15 21.3 2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0l256 202.7-94.7 77.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/pj1911" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/prajwal-chauhan-81b86b204" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:pc3377@nyu.edu" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"/></svg>
     </a>
   
 </div>
@@ -2511,25 +2819,29 @@ of eigenvectors. Therefore the system is hyperbolic, with
   </div>
 </footer>
       
+  
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.tooltips"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../js/mathjax-config.js"></script>
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../js/ui.js"></script>
       
     
   </body>
