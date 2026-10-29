@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{#-
+  Theme-only additions: display font, link-preview tags, and the home page
+  hero. All page text still comes from the Markdown files in docs/.
+-#}
+
+{% block extrahead %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&display=swap">
+  {%- if page %}
+    {%- set preview_title = config.site_name if page.is_homepage else page.title ~ " · " ~ config.site_name %}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ config.site_name | e }}">
+    <meta property="og:title" content="{{ preview_title | striptags | e }}">
+    {%- if page.canonical_url %}
+    <meta property="og:url" content="{{ page.canonical_url | e }}">
+    {%- endif %}
+    <meta property="og:image" content="{{ (config.site_url ~ config.extra.home.avatar) | e }}">
+    <meta name="twitter:card" content="summary">
+  {%- endif %}
+{% endblock %}
+
+{% block content %}
+  {% if page and page.is_homepage %}
+    {% include "partials/home-hero.html" %}
+    {#- Topic cards go right before the page's second top-level heading
+        (Publications), i.e. after the About section. -#}
+    {%- set parts = page.content.split("<h1", 2) %}
+    <div class="wk-home">{{ parts[0] }}{% if parts | length > 1 %}<h1{{ parts[1] }}{% endif %}</div>
+    {% include "partials/home-topics.html" %}
+    {% if parts | length > 2 %}<div class="wk-home"><h1{{ parts[2] }}</div>{% endif %}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
+{#- No previous/next links on the home page; notes keep them. -#}
+{% block footer %}
+  {% if page and page.is_homepage %}
+    {%- set features = features | reject("equalto", "navigation.footer") | list %}
+    {% include "partials/footer.html" %}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}

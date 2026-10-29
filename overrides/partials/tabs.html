@@ -1,0 +1,14 @@
+{#-
+  Top tab bar: only top-level pages (Home). Sections are reached through the
+  topic cards on the home page and the sidebar, so they don't get tabs.
+-#}
+{% import "partials/tabs-item.html" as item with context %}
+<nav class="md-tabs" aria-label="{{ lang.t('tabs') }}" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      {% for nav_item in nav.items if nav_item.is_page %}
+        {{ item.render(nav_item) }}
+      {% endfor %}
+    </ul>
+  </div>
+</nav>

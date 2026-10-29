@@ -1,0 +1,33 @@
+{#-
+  Home page hero. Name, photo and links come from `extra.home` /
+  `extra.social` in mkdocs.yml.
+-#}
+{%- set home = config.extra.home -%}
+
+<section class="wk-hero">
+  <div class="wk-hero__glyphs" aria-hidden="true">
+    <span>∂</span><span>∇</span><span>∫</span><span>Σ</span>
+  </div>
+  <div class="wk-hero__text">
+    <p class="wk-hero__eyebrow">
+      {% include ".icons/material/school-outline.svg" %}
+      <span>{{ home.role }}</span>
+    </p>
+    <p class="wk-hero__name">{{ home.name }}</p>
+    <div class="wk-hero__actions">
+      <a class="wk-btn wk-btn--primary" href="{{ home.cv.link | url }}" target="_blank" rel="noopener">
+        {% include ".icons/material/file-account-outline.svg" %}
+        <span>{{ home.cv.name }}</span>
+      </a>
+      {%- for social in config.extra.social %}
+      <a class="wk-btn" href="{{ social.link }}" {% if not social.link.startswith("mailto:") %}target="_blank" rel="noopener"{% endif %}>
+        {% include ".icons/" ~ social.icon ~ ".svg" %}
+        <span>{{ social.name }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+  <div class="wk-hero__portrait">
+    <img src="{{ home.avatar | url }}" alt="{{ home.name }}" width="400" height="400" decoding="async">
+  </div>
+</section>

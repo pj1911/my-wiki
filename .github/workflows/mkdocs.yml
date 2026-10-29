@@ -10,16 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so each page can show its last-updated date
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      # Install MkDocs + Material (safe even if you don't use Material)
+      # Install MkDocs + Material + the last-updated plugin, pinned to the
+      # versions the theme was built against (MkDocs 2.x drops Material support)
       - name: Install MkDocs
         run: |
           pip install --upgrade pip
-          pip install mkdocs mkdocs-material
+          pip install "mkdocs==1.6.1" "mkdocs-material==9.8.0" "mkdocs-git-revision-date-localized-plugin==1.6.2"
 
       # Configure git identity for gh-deploy pushes
       - name: Configure git

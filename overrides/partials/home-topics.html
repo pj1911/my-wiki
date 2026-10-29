@@ -1,0 +1,39 @@
+{#-
+  Home page topic cards, built from `nav` so new notes show up automatically.
+  Icons per section come from `extra.home.topic_icons` in mkdocs.yml.
+-#}
+{%- set home = config.extra.home -%}
+
+{%- macro count_pages(item, tally) -%}
+  {%- if item.children -%}
+    {%- for child in item.children -%}{{ count_pages(child, tally) }}{%- endfor -%}
+  {%- elif item.is_page -%}
+    {%- set tally.pages = tally.pages + 1 -%}
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro first_url(item) -%}
+  {%- if item.children -%}
+    {{- first_url(item.children | first) -}}
+  {%- else -%}
+    {{- item.url | url -}}
+  {%- endif -%}
+{%- endmacro -%}
+
+<nav class="wk-topics" aria-label="Topics">
+  {%- for item in nav if item.is_section %}
+    {%- set tally = namespace(pages=0) %}{{ count_pages(item, tally) }}
+    {%- set icon = home.topic_icons[item.title] | d("material/book-open-page-variant-outline") %}
+  <a class="wk-topic" href="{{ first_url(item) }}" style="--wk-i: {{ loop.index0 }}">
+    <span class="wk-topic__icon">{% include ".icons/" ~ icon ~ ".svg" %}</span>
+    <span class="wk-topic__count">{% include ".icons/material/file-document-multiple-outline.svg" %}{{ tally.pages }}</span>
+    <span class="wk-topic__title">{{ item.title }}</span>
+    <span class="wk-topic__peek">
+      {%- for child in item.children %}
+      <span class="wk-topic__item">{{ child.title }}</span>
+      {%- endfor %}
+    </span>
+    <span class="wk-topic__arrow">{% include ".icons/material/arrow-right.svg" %}</span>
+  </a>
+  {%- endfor %}
+</nav>
