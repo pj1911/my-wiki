@@ -1,6 +1,6 @@
 #About Me
 
-Hey all, I am Prajwal Chauhan, a PhD student at NYU Tandon School of Engineering. Welcome to my personal wiki page. If you are interested in understanding the math behind machine learning and artificial intelligence or if you are just looking for a quick refresher on certain topics in them, stay tuned. I am uploading very simple explanations of these topics along with some new models that I come across. This page will be updated with content according to my reading habits, so sometimes it'll be something that I recently read or came across; other times it'll be something basic that I just did a refresher on. I hope you enjoy reading, 'cause it's going to be goooood. Here is a little bit more about myself:
+Hi everyone, I’m Prajwal Chauhan, a PhD student at the NYU Tandon School of Engineering. Welcome to my personal wiki, where you can find info about me, my background, and the things I'm currently interested in. Feel free to check out my writing on various topics, particularly the math behind machine learning and artificial intelligence. I essentially use this space to write about things I'm exploring and concepts I happen to be reading about. Take a look around, and I hope you find something interesting!
 
 ---
 
