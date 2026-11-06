@@ -850,6 +850,14 @@ body {
   margin: 1.8rem 0 2.6rem;
 }
 
+.md-typeset .wk-topics__heading {
+  margin-top: 2.6rem;
+}
+
+.wk-topics__heading + .wk-topics {
+  margin-top: 0;
+}
+
 .md-typeset .wk-topic {
   --wk-tc: var(--wk-topic-1);
   position: relative;
