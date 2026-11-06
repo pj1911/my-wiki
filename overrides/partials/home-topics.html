@@ -20,6 +20,9 @@
   {%- endif -%}
 {%- endmacro -%}
 
+{%- if home.topics_heading %}
+<h1 class="wk-topics__heading">{{ home.topics_heading }}</h1>
+{%- endif %}
 <nav class="wk-topics" aria-label="Topics">
   {%- for item in nav if item.is_section %}
     {%- set tally = namespace(pages=0) %}{{ count_pages(item, tally) }}
